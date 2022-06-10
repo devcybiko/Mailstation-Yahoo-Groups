@@ -1,0 +1,127 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailstation memory map (Nov 13, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Nov 13, 2006</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Nov 14, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: Mailstation memory map</h3>
+<p class="from">From: "bradfayette" &lt;bfayette@...></p>
+<p class="date">Nov 13, 2006</p>
+<p class="formattedBody">Am I correct in assuming that I have 16K of ram available to use<br>
+starting a=<br>
+t 0x4000? I would like to expand on the scancode program and<br>
+maybe try to g=<br>
+et forth running.<br>
+<br>
+Regards,<br>
+<br>
+Brad<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Mailstation memory map</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Nov 13, 2006</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+<br>
+It appears there is at least one page of memory available.<br>
+<br>
+Neil<br>
+<br>
+Original Message -----<br>
+From: bradfayette<br>
+<br>
+Am I correct in assuming t=<br>
+hat I have 16K of ram available to use<br>
+starting at 0x4000? I would like t=<br>
+o expand on the scancode program and<br>
+maybe try to get forth running.<br>
+<br>
+R=<br>
+egards,<br>
+<br>
+Brad<br>
+.<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+w3c.org/TR/1999/REC-html401-19991224/loose.dtd"><br>
+content --><br>
+<br>
+ze=3D2>&lt;/FONT>&nbsp;&lt;/DIV><br>
+one page of memory<br>
+available.&lt;/FONT>&lt;/DIV><br>
+sp;&lt;/DIV><br>
+&nbsp;&lt;/DIV><br>
+style=3D"PADDING-RIGHT: 0px; PADDING-LEFT: 5px; M=<br>
+ARGIN-LEFT: 5px; BORDER-LEFT: #000000 2px solid; MARGIN-RIGHT: 0px"><br>
+style=3D"FONT: 10pt arial">----- Original Message ----- &lt;/DIV><br>
+s=<br>
+tyle=3D"BACKGROUND: #e4e4e4; FONT: 10pt arial; font-color: black">&lt;B>From:&lt;=<br>
+/B><br>
+dfayette&lt;/A><br>
+orrect in assuming that I have 16K of ram available to<br>
+use&lt;BR>starting a=<br>
+t 0x4000? I would like to expand on the scancode program<br>
+and&lt;BR>maybe tr=<br>
+y to get forth running.&lt;BR>&lt;BR>Regards,&lt;BR>&lt;BR>Brad&lt;!-- |**|end egp html ba=<br>
+nner|**| -->&lt;/P>&lt;/DIV>&lt;/DIV>&lt;!-- ygrp-msg -->&lt;!-- Sponsor --><br>
+=3D"CLEAR: both; FONT-SIZE: 1px; COLOR: #fff">.&lt;/DIV>&lt;/DIV>&lt;IMG<br>
+height=<br>
+=3D1<br>
+src=3D"<a target="_blank" href="http://geo.yahoo.com/serv?s=3D97359714/grpId=3D12006537/grps=">(URL)</a><br>
+pId=3D1705868591/msgId=3D608/stime=3D1163473421/nc1=3D3848640/nc2=3D4025321=<br>
+/nc3=3D3"<br>
+width=3D1> &lt;BR>&lt;SPAN style=3D"COLOR: white">&lt;/SPAN> &lt;!--End gr=<br>
+oup email -->&lt;/BLOCKQUOTE>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Mailstation memory map</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Nov 14, 2006</p>
+<p class="formattedBody">have 16K of ram available to use<br>
+and on the scancode program and<br>
+<br>
+Yes.  Wh=<br>
+en mbug starts, it banks page #01 of RAM<br>
+into slot4000, so unless you chang=<br>
+e it, it should<br>
+still be there.<br>
+<br>
+Mbug does not use this for anything itse=<br>
+lf, it just<br>
+puts it there as a convenience.<br>
+<br>
+The mailstation divides the =<br>
+64 kByte z80 address space<br>
+into four 16 KByte regions, which I have been c=<br>
+alling<br>
+slot0000, slot4000, slot8000, and slotC000.<br>
+<br>
+The pages of ram, code=<br>
+flash, and dataflash are also<br>
+16 KBytes.  The mailstation has 128 KBytes of=<br>
+ram,<br>
+ram pg #00 thru ram pg #07.<br>
+<br>
+Slot0000 is always codeflash pg #00, and=<br>
+slotC000 is<br>
+always ram pg #00<br>
+<br>
+Mailbug command "6" will display the curren=<br>
+t inhabitants<br>
+of slot4000 and slot8000, the two "bankable slots".<br>
+<br>
+CJ<br>
+=<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

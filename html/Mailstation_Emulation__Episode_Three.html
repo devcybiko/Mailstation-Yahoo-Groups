@@ -1,0 +1,2352 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailstation Emulation - Episode Three (Dec 30, 2009)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "cyranojones_lalp" <cyranojones_lalp@...> Dec 31, 2009</a></li>
+<li><a class="link" href="#2">From: "FyberOptic" <fyberoptic@...> Dec 31, 2009</a></li>
+<li><a class="link" href="#3">From: "FyberOptic" <fyberoptic@...> Jan 2, 2010</a></li>
+<li><a class="link" href="#4">From: "FyberOptic" <fyberoptic@...> Jan 3, 2010</a></li>
+<li><a class="link" href="#5">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 5, 2010</a></li>
+<li><a class="link" href="#6">From: "FyberOptic" <fyberoptic@...> Jan 5, 2010</a></li>
+<li><a class="link" href="#7">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 7, 2010</a></li>
+<li><a class="link" href="#8">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 7, 2010</a></li>
+<li><a class="link" href="#9">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 7, 2010</a></li>
+<li><a class="link" href="#10">From: "FyberOptic" <fyberoptic@...> Jan 7, 2010</a></li>
+<li><a class="link" href="#11">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 9, 2010</a></li>
+<li><a class="link" href="#12">From: "FyberOptic" <fyberoptic@...> Jan 10, 2010</a></li>
+<li><a class="link" href="#13">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 12, 2010</a></li>
+</ol><hr>
+<hr><h3>Subject: Re: Mailstation Emulation - Episode Three</h3>
+<p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Dec 30, 2009</p>
+<p class="formattedBody"><br>
+A little more progress.<br>
+<br>
+Turns out, the Mailstation halting after showing t=<br>
+he logo was simply<br>
+standard routine.  The firmware runs through the message=<br>
+loop checking<br>
+for things to do, and when there are no more, it HALTs the C=<br>
+PU.  The<br>
+rest of the hardware stays running, while the CPU waits for an int=<br>
+errupt<br>
+to wake it up.  When that happens, the interrupt routine is triggere=<br>
+d,<br>
+new events are possibly added to the message queue based on what the<br>
+int=<br>
+errupt was, and then it returns into the message loop to do it all<br>
+over aga=<br>
+in.<br>
+<br>
+Originally, I was resetting the Mailstation emulation after getting<br>
+st=<br>
+uck at the logo, and then managing to get to the settings reset menu.<br>
+Turn=<br>
+s out, when I manually pumped a bunch of keyboard interrupts while<br>
+at that =<br>
+logo screen (repeatedly running the message loop again), it kept<br>
+doing thin=<br>
+gs.  It eventually popped a dialog box up:<br>
+<br>
+Yet again, there's no text, j=<br>
+ust like in that low battery warning I got<br>
+originally.  I don't know what's=<br>
+wrong with that aspect.  Maybe there's<br>
+still a bug in the Z80 emulation?? =<br>
+Anyway, eventually I deduced that<br>
+this must be a configuration error dialo=<br>
+g (since I'm using dataflash<br>
+from a different firmware version).  But, I ha=<br>
+d no way to push the<br>
+button to continue.<br>
+<br>
+Meanwhile, I came up with a crude=<br>
+way to emulate hardware timing, by<br>
+incrementing a counter every time a byt=<br>
+e is read or written from address<br>
+space (this happens when reading in instr=<br>
+uctions as well as data).  So<br>
+from there, I was able to implement a time16 =<br>
+and a keyboard interrupt to<br>
+happen automatically, intertwined with port 3's=<br>
+interrupt mask to know<br>
+whether they should be triggered (and handle when a=<br>
+n interrupt gets<br>
+"reset" during the interrupt routine).  So now the error d=<br>
+ialog<br>
+eventually popped up automatically whenever I started up the emulator=<br>
+.<br>
+But I still couldn't press enter to bypass it.  Resetting the<br>
+Mailstatio=<br>
+n still took me to that "Reset Settings" menu, mind you, but I<br>
+couldn't do =<br>
+anything there either.<br>
+<br>
+So, I put together a way to emulate the keyboard ma=<br>
+trix hardware<br>
+(required ORing and ANDing of values to respond to how the Ma=<br>
+ilstation<br>
+checks the whole grid at a time to see if it even needs to proces=<br>
+s<br>
+individual keys), and then quickly tacked in support for the enter key<br>
+ba=<br>
+sed on my actual keyboard's input.  Due to the slowness of emulation<br>
+at the=<br>
+moment, I had to hold the key in just slightly longer than on the<br>
+real har=<br>
+dware, but it totally worked.  It closed the error dialog, and<br>
+moved along:=<br>
+<br>
+I really need to figure out why the text isn't printing.  But yeah, it'=<br>
+s<br>
+obviously the configuration screen.  I just can't type in any settings<br>
+ye=<br>
+t since the enter key is all that's tied to my actual keyboard.  When<br>
+you k=<br>
+eep pressing it, the cursor jumps to each setting's area on the<br>
+screen, and=<br>
+eventually jumps to the top again.  I've gotta come up with<br>
+a way to trans=<br>
+late PC scancodes to the memory array I'm using to<br>
+replicate the keyboard m=<br>
+atrix, then I should be all set on input.<br>
+<br>
+Well, then I had a thought.  If=<br>
+v2.53's firmware didn't like my<br>
+dataflash and wanted me to reset everythin=<br>
+g, then what would happen with<br>
+the v3.03 firmware which actually goes with =<br>
+that dataflash image?  Turns<br>
+out, it must like it just fine, because I'm ge=<br>
+tting no errors.  But I'm<br>
+not getting anything else, either.  While sitting=<br>
+at the logo screen, it<br>
+waits for keyboard interrupts to happen for a littl=<br>
+e while, and then<br>
+eventually changes the interrupt mask to 0x39 (00111001).=<br>
+That means<br>
+it's no longer listening for the keyboard (which normally trig=<br>
+gers 64<br>
+times a second I think).  From what we know (or what I know based o=<br>
+n<br>
+stuff from here), these interrupts on now are "null", "null", "time16",<br>
+a=<br>
+nd "maybe rtc".  My time16 interrupt keeps going off approximately once<br>
+a s=<br>
+econd (since I believe that was the proper rate), at least.  I tried<br>
+manual=<br>
+ly triggering rtc interrupts, but haven't gotten anything to<br>
+happen.  So I =<br>
+don't know what's going on at this point without more<br>
+disassembling.<br>
+<br>
+Here'=<br>
+s the v3.03 firmware logo if anyone's interested:<br>
+<br>
+It might be worth noti=<br>
+ng that if I use garbage for dataflash with v3.03<br>
+instead of the image file=<br>
+I have of it, then I get identical behavior to<br>
+v2.53 so far: an error dial=<br>
+og after the logo, and then proceeding to the<br>
+configuration window upon pre=<br>
+ssing enter.  So I'm left to assume that<br>
+even when v2.53's configuration is=<br>
+set (once I get more keyboard<br>
+support), then I'll get stuck at the startup=<br>
+somewhere too.<br>
+<br>
+Anyway, I guess that's all I got for now.  I just really w=<br>
+ant to fix<br>
+that text rendering problem!<br>
+<br>
+<br>
+A little more progress.&lt;br>&lt;br>Turns out, the Mailstation halting after sh=<br>
+owing the logo was simply standard routine.  The firmware runs through the =<br>
+message loop checking for things to do, and when there are no more, it HALT=<br>
+s the CPU.  The rest of the hardware stays running, while the CPU waits for=<br>
+an interrupt to wake it up.  When that happens, the interrupt routine is t=<br>
+riggered, new events are possibly added to the message queue based on what =<br>
+the interrupt was, and then it returns into the message loop to do it all o=<br>
+ver again.&lt;br>&lt;br>Originally, I was resetting the Mailstation emulation aft=<br>
+er getting stuck at the logo, and then managing to get to the settings rese=<br>
+t menu.  Turns out, when I manually pumped a bunch of keyboard interrupts w=<br>
+hile at that logo screen (repeatedly running the message loop again), it ke=<br>
+pt doing things.  It eventually popped a dialog box up:&lt;br>&lt;br>&lt;img src=3D"=<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/img/msemu_logo253.png">&nbsp;<img ">(URL)</a>src=<br>
+=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/msemu_badsettings.png"><br><br=">(URL)</a><br>
+iginally.  I don't know what's wrong with that aspect.  Maybe there's still=<br>
+a bug in the Z80 emulation??  Anyway, eventually I deduced that this must =<br>
+be a configuration error dialog (since I'm using dataflash from a different=<br>
+firmware version).  But, I had no way to push the button to continue.&lt;br>&lt;=<br>
+br>Meanwhile, I came up with a crude way to emulate hardware timing, by inc=<br>
+rementing a counter every time a byte is read or written from address space=<br>
+(this happens when reading in instructions as well as data).  So from ther=<br>
+e, I was able to implement a time16 and a keyboard interrupt to happen auto=<br>
+matically, intertwined with port 3's interrupt mask to know whether they sh=<br>
+ould be triggered (and handle when an interrupt gets "reset" during the int=<br>
+errupt routine).  So now the error dialog eventually popped up automaticall=<br>
+y whenever I started up the emulator.  But I still couldn't press enter to =<br>
+bypass it.  Resetting the Mailstation still took me to that "Reset Settings=<br>
+" menu, mind you, but I couldn't do anything there either.&lt;br>&lt;br>So, I put=<br>
+together a way to emulate the keyboard matrix hardware (required ORing and=<br>
+ANDing of values to respond to how the Mailstation checks the whole grid a=<br>
+t a time to see if it even needs to process individual keys), and then quic=<br>
+kly tacked in support for the enter key based on my actual keyboard's input=<br>
+.  Due to the slowness of emulation at the moment, I had to hold the key in=<br>
+just slightly longer than on the real hardware, but it totally worked.  It=<br>
+closed the error dialog, and moved along:<br><br><img src=3D"<a target="_blank" href="http://www.fy=">(URL)</a><br>
+bertech.net/mailstation/img/msemu_setsettings.png">&lt;br>&lt;br>I really need to=<br>
+figure out why the text isn't printing.  But yeah, it's obviously the conf=<br>
+iguration screen.  I just can't type in any settings yet since the enter ke=<br>
+y is all that's tied to my actual keyboard.  When you keep pressing it, the=<br>
+cursor jumps to each setting's area on the screen, and eventually jumps to=<br>
+the top again.  I've gotta come up with a way to translate PC scancodes to=<br>
+the memory array I'm using to replicate the keyboard matrix, then I should=<br>
+be all set on input.&lt;br>&lt;br>&lt;br>Well, then I had a thought.  If v2.53's fi=<br>
+rmware didn't like my dataflash and wanted me to reset everything, then wha=<br>
+t would happen with the v3.03 firmware which actually goes with that datafl=<br>
+ash image?  Turns out, it must like it just fine, because I'm getting no er=<br>
+rors.  But I'm not getting anything else, either.  While sitting at the log=<br>
+o screen, it waits for keyboard interrupts to happen for a little while, an=<br>
+d then eventually changes the interrupt mask to 0x39 (00111001).  That mean=<br>
+s it's no longer listening for the keyboard (which normally triggers 64 tim=<br>
+es a second I think).  From what we know (or what I know based on stuff fro=<br>
+m here), these interrupts on now are "null", "null", "time16", and "maybe r=<br>
+tc".  My time16 interrupt keeps going off approximately once a second (sinc=<br>
+e I believe that was the proper rate), at least.  I tried manually triggeri=<br>
+ng rtc interrupts, but haven't gotten anything to happen.  So I don't know =<br>
+what's going on at this point without more disassembling.&lt;br>&lt;br>Here's the=<br>
+v3.03 firmware logo if anyone's interested:<br><br><img src=3D"<a target="_blank" href="http://www.=">(URL)</a><br>
+fybertech.net/mailstation/img/msemu_logo303.png">&lt;br>&lt;br>It might be worth =<br>
+noting that if I use garbage for dataflash with v3.03 instead of the image =<br>
+file I have of it, then I get identical behavior to v2.53 so far: an error =<br>
+dialog after the logo, and then proceeding to the configuration window upon=<br>
+pressing enter.  So I'm left to assume that even when v2.53's configuratio=<br>
+n is set (once I get more keyboard support), then I'll get stuck at the sta=<br>
+rtup somewhere too.&lt;br>&lt;br>Anyway, I guess that's all I got for now.  I jus=<br>
+t really want to fix that text rendering problem!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Mailstation Emulation - Episode Three</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Dec 31, 2009</p>
+<p class="formattedBody"><br>
+the logo was simply<br>
+sage loop checking<br>
+the CPU.  The<br>
+r an interrupt<br>
+s triggered,<br>
+what the<br>
+t all<br>
+<br>
+I saw your message the other night, and was stuck tryi=<br>
+ng to think<br>
+of why the dialog box popped up.<br>
+And then I fell asleep before=<br>
+finishing the post I was working on...<br>
+<br>
+Yeah, that's why it halts.<br>
+<br>
+It n=<br>
+ever occured to me that it had emptied the event queue, and<br>
+was supposed t=<br>
+o halt.  I have no guess why the text is not printing.<br>
+<br>
+I was going to ment=<br>
+ion that you will not get past the splash screen<br>
+until you emulate the 60 H=<br>
+z interrupt.  In addition to scanning<br>
+the keyboard, it also increments a se=<br>
+t of ten timers, and these<br>
+timers are used whenever they put something on t=<br>
+he screen that<br>
+needs to change after some delay.  Such as the splash being<br>
+=<br>
+erased, and moving on to the main menu (or user select sometimes).<br>
+<br>
+They se=<br>
+t a timer, and return to the os.  (As Mr. Popeil says,<br>
+"you just set it...=<br>
+and forget it!!!)  They never just spin in<br>
+a delay loop.  And when the os=<br>
+has another event for that app,<br>
+the os calls the app, passing the event a=<br>
+s param.<br>
+<br>
+Any app that uses timers also implements a response for timer<br>
+eve=<br>
+nts.  The splash is a simple  app that just displays<br>
+the splash image, sets=<br>
+timer, and then when it gets the timer<br>
+event, it makes a call that change=<br>
+s the current app to<br>
+either the main menu, or if there is more than one use=<br>
+r,<br>
+the select user app (or when no user accts are set up yet,<br>
+the create =<br>
+user app).<br>
+<br>
+taflash<br>
+<br>
+I think you can wipe the da=<br>
+taflash, and it will init it.  IIRC, the<br>
+flag that holds the dataflash stat=<br>
+e is in 2nd to last sector of dataflash (about 10 bytes at start of sector,=<br>
+and nothing else in<br>
+rest of sector (or not much else????).  Preserve the l=<br>
+ast sector,<br>
+that is where your serial number is stored.  IIRC, the "flash<br>
+t=<br>
+est" that you can run from test mode walks on all but that<br>
+last sector wit=<br>
+h the "test data".  Everything but the serial number<br>
+will be re-intiialized=<br>
+after the test.  If you have any apps in<br>
+the loadable-app space, you can s=<br>
+kip wiping them, and I think<br>
+they will survive the re-init (I could be wron=<br>
+g.  The flash test<br>
+does wipe that area of dataflash).  It is very possible =<br>
+that<br>
+zeroing out the first 2 bytes in 2nd to last dataflash sector is<br>
+all y=<br>
+ou need to do to cause it to be re-init'ed (not sure tho).<br>
+<br>
+was able to implement a time16 and a<br>
+<br>
+I don't rec=<br>
+all ever finding anything that used "time16".  It<br>
+just increments a 16 bit =<br>
+counter every time that int is received,<br>
+but I never found anything that us=<br>
+ed that count value.<br>
+<br>
+"Time32" (named simply 'coz it was 32 bits, v/s 16 bi=<br>
+ts) is used<br>
+for a lot of stuff.  It gets incremented by 16 by the same<br>
+int =<br>
+as keyscan.  The keyscan int is roughly 60 Hz, or about<br>
+a 16 millisecond pe=<br>
+riod, so "time32" is roughly in milliseconds.<br>
+<br>
+That 60 Hz interrupt does 3 =<br>
+things:<br>
+1) the keyscan.<br>
+2) increments time32 by 16.<br>
+3) increments each of =<br>
+ten timers......<br>
+Wait... I'll go out and come in again...<br>
+<br>
+That 60 Hz inter=<br>
+rupt does 12 things:<br>
+1) the keyscan.<br>
+2) increments time32 by 16.<br>
+3 thru 12=<br>
+) increments each of ten timers by 1.<br>
+<br>
+with port 3's interrupt mask<br>
+nd handle when an<br>
+<br>
+It's not clear to me if the P3-out is a "mask", or if it is just<br>
+used to =<br>
+reset the corresponding bit of the register that feeds<br>
+P3-in (where P3 in b=<br>
+its are set by the various int inputs).<br>
+<br>
+to translate PC scancodes to the memory array I'm using to<br>
+keyboard matrix, then I should be all set on input.<br>
+<br>
+You could just=<br>
+disable the keyscan, and replace it with code<br>
+that reads an unused port, a=<br>
+nd calls the put_key_in_buffer<br>
+routine with that value.  The emulation for =<br>
+that new port<br>
+could just feed the keycodes for any keys pressed on pc kbd.<br>
+=<br>
+I don't remember for sure what is stored in that keybuffer,<br>
+though.  It mi=<br>
+ght be the row/col data, along with up/down/shift<br>
+info.<br>
+That would make it =<br>
+a bit harder, possibly even worse than actually<br>
+scanning an emulated keybo=<br>
+ard.  Or maybe skip the keybuffer,<br>
+and just feed keyevents into the event q=<br>
+ueue?  Pretty sure<br>
+those are ascii codes.<br>
+(I'm just thinkin' out loud, not =<br>
+sure any of this is a good idea.)<br>
+<br>
+ng off approximately once<br>
+ate), at least.<br>
+<br>
+I think=<br>
+the only one that is important at this point is the<br>
+60 Hz keyscan-etc.  T=<br>
+he rtc might be important as far as<br>
+waking up the cpu at the set mail-down=<br>
+load time, and for the<br>
+date and time to be set right when you power up, bu=<br>
+t as far as emulating, prolly not too important.<br>
+<br>
+g that if I use garbage for dataflash<br>
+le I have of it, then I get<br>
+dialog after the<br>
+pon<br>
+<br>
+This is probably what it is supposed to do.  The =<br>
+user acct data<br>
+is in the dataflash, so if the dataflash is trashed, after i=<br>
+t is<br>
+re-initialized you need to enter the user account info.<br>
+<br>
+to assume that<br>
+eyboard<br>
+<br>
+When=<br>
+you get the timers working right, I bet it won't get stuck!<br>
+<br>
+uess that's all I got for now.  I just really want<br>
+ering problem!<br>
+<br>
+You need to set some breakpoints, or at least "flagpoints".=<br>
+<br>
+I would prolly just compile some in to the code, but you<br>
+could also make =<br>
+commandline switches, or a config file.<br>
+<br>
+The idea being to whittle down you=<br>
+r log to a comprehensible<br>
+size.  So, you set some addresses that you are in=<br>
+terested to<br>
+know if it is getting to.  You can have it just log the<br>
+addres=<br>
+ses on your "watch list", in the order it gets to them.<br>
+<br>
+Maybe a different =<br>
+switch to stop at certain addresses.  Then<br>
+you can box in the code where t=<br>
+he text is supposed to be copied,<br>
+and even dump the addresses involved (thi=<br>
+rd switch).<br>
+<br>
+I bet it is gonna turn out to be some kind of banking error.<br>
+T=<br>
+here are many places where a codeflash page needs to be banked<br>
+in, just to =<br>
+copy a string from that page to a local ram var.<br>
+<br>
+(OK, at the top, where I =<br>
+said "the other night", add another<br>
+night to that, coz it's now "tommorow"=<br>
+and I still have not<br>
+hit "send")<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Mailstation Emulation - Episode Three</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Dec 31, 2009</p>
+<p class="formattedBody"><br>
+@...> wrote:<br>
+mer<br>
+image, sets timer, and then when it gets the timer<br>
+that changes the current app to<br>
+e than one user,<br>
+t,<br>
+<br>
+I hadn't realized that the splash was an app to=<br>
+o.  That's good to know.<br>
+<br>
+ill init it.  IIRC, the<br>
+last sector of<br>
+dataflash<br>
+else in<br>
+<br>
+at you can run from test mode walks on all but that<br>
+"test data".  Everything but the serial number<br>
+er the test.  If you have any apps in<br>
+p wiping them, and I think<br>
+g.  The flash test<br>
+e that<br>
+all you need to do to cause it to be re-init'ed (not sure tho).<br>
+<br>
+I suppo=<br>
+se the serial number isn't really important, since you still have<br>
+to have a=<br>
+username/password to log into the email account, and I doubt<br>
+they cared wh=<br>
+at Mailstation unit you logged into the official<br>
+Mailstation email server w=<br>
+ith.  I wonder if the serial is even sent to<br>
+the server when fetching/sendi=<br>
+ng mails.<br>
+<br>
+Something like Tivo on the other hand has the serial on an eprom=<br>
+, since<br>
+that's tied directly to your account.  Even if you replace the hard=<br>
+<br>
+drive, it's still going to work with your account afterward.  Though<br>
+peopl=<br>
+e have managed to clone those in order to transfer their account to<br>
+another=<br>
+one when the system board dies.<br>
+<br>
+32 bits, v/s 16 bits) is used<br>
+16 by the same<br>
+ut<br>
+<br>
+Ho=<br>
+w did you deduce that the keyboard interrupt was 60hz?  I'm curious,<br>
+since =<br>
+I've seen you mention that before, but I have some evidence that<br>
+might prov=<br>
+e otherwise.  Some of it I came to realize just yesterday,<br>
+even.<br>
+<br>
+Before, w=<br>
+hen I was doing all that work on the Mailstation and hooking<br>
+the ISR for te=<br>
+sting things, I placed a counter variable inside the<br>
+keyboard loop.  All it=<br>
+did was count up.  I called it kbdtest.  In the<br>
+time16 interrupt, I would =<br>
+copy the value of kbdtest into kbdmax, then<br>
+reset kbdtest to 0.  kbdmax wou=<br>
+ld be displayed on the screen in separate<br>
+code outside the ISR.  Since time=<br>
+16 apparently hit at exactly 1 second<br>
+intervals (because I believe I timed =<br>
+it by hand as such), then kbdmax<br>
+would be a semi-accurate way of determinin=<br>
+g the speed of the keyboard<br>
+interrupt.<br>
+<br>
+As it turned out, kbdmax was result=<br>
+ing in a constant value of 64.  So<br>
+the keyboard interrupt appeared to be ha=<br>
+ppening 64 times a second, 64hz,<br>
+etc.<br>
+<br>
+And now recently, when searching for=<br>
+possible info on the RTC of the<br>
+Mailstation (or one similar), I came upon =<br>
+something rather interesting.<br>
+It appears that many RTC chips have a progra=<br>
+mmable square wave<br>
+generator, in hz.  With values like 16, 32, 64, 128, 256=<br>
+, etc.  This<br>
+made me think that maybe the keyboard interrupt is being gener=<br>
+ated by<br>
+programmable RTC.<br>
+<br>
+More possible proof of this is when I was tinker=<br>
+ing with port 0x2F a<br>
+long time ago.  This is what I learned back then:<br>
+<br>
+- S=<br>
+etting bits 4,6 makes time16 interrupt 2x slower (kbdmax =3D 128)<br>
+- Setting=<br>
+bits 5,6 makes time16 interrupt 4x slower (kbdmax =3D 256)<br>
+- Setting bits =<br>
+4,5,6 makes time16 interrupt 8x slower (kbdmax =3D 512)<br>
+- When bit 6 is cle=<br>
+ar, but 4, 5, or both are set, time16 interrupt<br>
+doesn't seem to ever occur.=<br>
+<br>
+Well, back then, I naturally assumed that changing 0x2F was affecting<br>
+the=<br>
+time16 interval.  But now, after learning of these programmable<br>
+square wav=<br>
+es, maybe 0x2F is changing the speed of the keyboard<br>
+interrupt, not the tim=<br>
+e16 one.  It would make sense if so.  Let me<br>
+clarify:<br>
+<br>
+Now remember, kbdtes=<br>
+t was incrementing in the keyboard interrupt, and<br>
+kbdmax was saving this va=<br>
+lue in the time16 interrupt.  Original<br>
+assumption was 0x2F was slowing time=<br>
+16, hence more opportunity for<br>
+kbdtest to reach a higher value before time1=<br>
+6 hit and saved the value.<br>
+Well, what if you turn that around, and assume =<br>
+that it's affecting the<br>
+keyboard interrupt instead of time16, making it hap=<br>
+pen FASTER, thereby<br>
+causing kbdtest to count faster, which is then recorded=<br>
+to kbdmax at<br>
+what is likely still the normal 1 second interval of time16.<br>
+=<br>
+<br>
+If so, that would mean:<br>
+- Setting bits 4,6 makes keyboard interrupt happen=<br>
+128hz<br>
+- Setting bits 5,6 makes keyboard interrupt happen at 256hz<br>
+- Settin=<br>
+g bits 4,5,6 makes keyboard interrupt happen at 512hz<br>
+<br>
+These values corresp=<br>
+ond to what many RTC square waves are capable of<br>
+emitting (along with the 6=<br>
+4hz I've assumed Mailstation normally runs the<br>
+keyboard at).  I looked at s=<br>
+everal RTC chips, and many had this<br>
+programmability, but I couldn't ever fi=<br>
+nd one with similar registers as<br>
+what the Mailstation's uses.  Particularly=<br>
+, they store the two BCD<br>
+values for secs/mins/hours/etc in a single byte at=<br>
+a particular I/O<br>
+port, where as the Mailstation seems to store each indivi=<br>
+dual BCD digit<br>
+in two separate ports, based on what's been documented so fa=<br>
+r.<br>
+<br>
+Anyway, I guess the only way to prove any of this is true would be for<br>
+=<br>
+me to display the value of time16 on the screen constantly, while<br>
+changing =<br>
+0x2F.  If 0x2F is in fact affecting the speed of the keyboard<br>
+interrupt, th=<br>
+en printing time16 on the screen constantly would still<br>
+show its value upda=<br>
+ting in 1 second increments no matter what.  If my<br>
+new assumption is wrong,=<br>
+meaning it's affecting time16 instead like I<br>
+originally assumed, then the =<br>
+counter on the screen would happen slower.<br>
+I'll try this sooner or later t=<br>
+o see how it goes.<br>
+<br>
+Either way, I just wanted to point out why I think norm=<br>
+ally the keyboard<br>
+interrupt happens at 64hz instead of 60, but I'm still cu=<br>
+rious of your<br>
+reasoning in case I'm still missing something.<br>
+<br>
+en automatically, intertwined with port 3's interrupt mask<br>
+her they should be triggered (and handle when an<br>
+during the interrupt routine).<br>
+"mask", or if it is just<br>
+ster that feeds<br>
+).<br>
+<br>
+I think I may have tested this before, but I don't remember.  Either<br>
+wa=<br>
+y, all a person needs to do is hook the ISR, and make a value<br>
+increment in,=<br>
+say, the keyboard interrupt.  Then change the interrupt<br>
+mask to disable ke=<br>
+yboard interrupts.  If the value stops counting, then<br>
+you know the mask is =<br>
+in fact disabling that interrupt.  Whenever I get<br>
+around to writing the cod=<br>
+e again to check the time16 rate when changing<br>
+0x2F, I'll check this too.<br>
+<br>
+=<br>
+<br>
+de<br>
+ith that value.  The emulation for that new port<br>
+odes for any keys pressed on pc kbd.<br>
+ored in that keybuffer,<br>
+up/down/shift<br>
+se than actually<br>
+fer,<br>
+re ascii codes.<br>
+od idea.)<br>
+<br>
+It's funny you even mention that, because honestly th=<br>
+at was my first<br>
+thought: to just dump keys straight into the buffer.  But t=<br>
+his would<br>
+only work for emulating the Mailstation OS, and I eventually want=<br>
+all of<br>
+my custom code to work with it as closely to the real hardware as<br>
+p=<br>
+ossible.  So I did end up creating a translation table, which wasn't as<br>
+bad=<br>
+as I thought, actually.  I used an array of 10 rows/8 columns, which<br>
+store=<br>
+s the PC scancode for each associated key of the Mailstation key<br>
+matrix.  I=<br>
+have to scan through the array's rows and columns every time<br>
+a key is pres=<br>
+sed/released to match it with a scancode in the array (so<br>
+80 iterations, to=<br>
+ps).  But once it's found, I can then easily take the<br>
+row/column values fro=<br>
+m the loop to update the actual bitwise matrix<br>
+array (which is just 10 byte=<br>
+s representing the rows, since each column<br>
+is an individal bit), which is w=<br>
+hat I use to then actually emulate the<br>
+output of port 1 (based on the input=<br>
+of port 1, 2.0, and 2.1).<br>
+<br>
+Not every MS key is emulated yet, and some have=<br>
+been put elsewhere<br>
+("Home" is the Home key, though "Back" is the End key).=<br>
+I'm going to<br>
+emulate "Function" as the Control key eventually too, but fo=<br>
+r now<br>
+control combos are how I send special commands to my emulator, so I'l=<br>
+l<br>
+have to change that.<br>
+<br>
+point is the<br>
+waking up the cpu at the set mail-download time, and for the<br>
+e to be set right when you power up, but as far as<br>
+emulating, prolly not to=<br>
+o important.<br>
+<br>
+As I mentioned earlier, I was looking into a lot of different=<br>
+RTC chips,<br>
+and most of them did have an alarm feature.  So that might be t=<br>
+ied to<br>
+that interrupt strictly to wake it up to check for mail, as you<br>
+ment=<br>
+ioned.  Makes a lot of sense.<br>
+<br>
+hen v2.53's configuration is set (once I get more keyboard<br>
+en I'll get stuck at the startup somewhere too.<br>
+working right, I bet it won't get stuck!<br>
+<br>
+Well that's the thing, I do have=<br>
+timers working.<br>
+<br>
+But, now that the keyboard is emulated, at a cold boot I =<br>
+can enter<br>
+configuration info (even though I can't see it as I type it, unle=<br>
+ss I<br>
+type so much that it scrolls off to the right; but I can see password<br>
+=<br>
+asterisks fine).  I save, and get to the user selection screen:<br>
+<br>
+and then=<br>
+to the main menu:<br>
+<br>
+I can even use most of the items in the menu withou=<br>
+t issue (aside from<br>
+some missing text at times, and the create new mail app=<br>
+crashing).  This<br>
+is on v2.53 firmware btw.<br>
+<br>
+But, when I soft-reset after c=<br>
+onfiguring it, my original assumption was<br>
+correct: v2.53 sticks at the spla=<br>
+sh screen, just like v3.03 did with the<br>
+proper dataflash configuration alre=<br>
+ady there.  I even tried changing the<br>
+emulator to always fire keyboard/time=<br>
+16 interrupts regardless of the<br>
+interrupt mask, and it makes no difference.=<br>
+<br>
+I discovered something shortly ago, however.  I was originally assuming<br>
+t=<br>
+hat the Mailstation was changing the interrupt mask from 0x22 to 0x39.<br>
+But=<br>
+I added in a feature to the emulator to dump ram with a keypress.<br>
+So, I d=<br>
+ump ram while the interrupt mask is still 0x22, and then again<br>
+when the mas=<br>
+k changes to 0x39.  Turns out, it's not changing the mask.<br>
+It's changing E=<br>
+VERYTHING to 0x39.  Ram page 1 is totally full of it, and<br>
+page 0 is almost =<br>
+entirely, aside from values which I assume are getting<br>
+set during the messa=<br>
+ge queue loop and such when the interrupt hits.<br>
+<br>
+And you know what?  I bet =<br>
+I just figured out what it is, because there's<br>
+a few 0x39s even in my first=<br>
+ram dump.  Right before they start, there's<br>
+"Jan ".  I bet it's reading th=<br>
+e RTC and I'm returning invalid value(s)!<br>
+<br>
+YEP!  I just now tried it, retur=<br>
+ning 0x01 for ports 0x10 through 0x1C,<br>
+and now it warm boots just fine!  Ev=<br>
+en the create new mail app works now<br>
+(since it was prolly reading the date/=<br>
+time to know what to put in the<br>
+email).<br>
+<br>
+All unhandled IO ports are actuall=<br>
+y just handled like RAM: stored in and<br>
+returned with an array, which I zero=<br>
+out at startup.  So it was<br>
+returning 0 for all RTC values originally, whic=<br>
+h obviously was breaking<br>
+something.  I think I'm actually going to tie the =<br>
+Mailstation RTC to my<br>
+PC's clock so that it's always correct, once I figure=<br>
+out how to<br>
+represent all the values (and converted to BCD).<br>
+<br>
+So now, aside=<br>
+from things like the modem, printer port, etc, it seems<br>
+everything is work=<br>
+ing enough for the Mailstation to not complain, aside<br>
+from the missing text=<br>
+in places.<br>
+<br>
+n<br>
+even dump the addresses involved (third switch).<br>
+<br>
+Yesterday, I changed the =<br>
+emulator back to return low battery status, so<br>
+that I could get that "The b=<br>
+attery power is running low, the system will<br>
+power off automatically." erro=<br>
+r.  I figured using this for debugging<br>
+would be best because it happens dur=<br>
+ing the startup, before lots of<br>
+other junk clutters my debug log.  Anyhow, =<br>
+I created a ram dump right<br>
+after the "low battery" message box appeared.  T=<br>
+urns out, it's really<br>
+getting the text string it needs to print, because it=<br>
+'s in two different<br>
+memory locations, which I've traced back to the code wr=<br>
+iting them there.<br>
+All I can figure for the moment is that maybe some math e=<br>
+rror is<br>
+happening when it's calculating the width/height of the text?  I'll=<br>
+have<br>
+to decypher that function maybe and step through all of it, I dunno. =<br>
+<br>
+Such a pain.<br>
+<br>
+I did have a thought as I was typing this, that maybe the Ma=<br>
+ilstation<br>
+was reading the values of the LCD and ORing the text onto what's =<br>
+already<br>
+there.  But I'm not seeing any LCD read notices, not to mention I a=<br>
+lso<br>
+remember that it uses an LCD buffer in ram, which is where it likely<br>
+wo=<br>
+uld do such comparisons anyway.<br>
+<br>
+r now.  I just really want<br>
+need to set some breakpoints, or at least "flagpoints".<br>
+st compile some in to the code, but you<br>
+hes, or a config file.<br>
+prehensible<br>
+=<br>
+ur "watch list", in the order it gets to them.<br>
+<br>
+Breakpoints are a good id=<br>
+ea, and I plan to add something like that in.<br>
+But having a full log of eve=<br>
+rything has actually been infintely helpful<br>
+in tracing down problems, parti=<br>
+cularly with how buggy this Z80 emulation<br>
+library was when I first got it. =<br>
+=A0It was returning the opposite of<br>
+certain CPU flags, doing push/pop wron=<br>
+g (SP was handled incorrectly), on<br>
+top of several normal opcodes having emu=<br>
+lation problems, etc.  It took a<br>
+while to fix all of that, and being able t=<br>
+o search for every instance of<br>
+a particular opcode executing after I suspec=<br>
+ted a problem with it was<br>
+useful in order to see the results.<br>
+<br>
+To the libz8=<br>
+0 author's credit though, he said this was a rewrite of a<br>
+previous Windows-=<br>
+only version, and I guess he just never had reason to<br>
+thoroughly put it thr=<br>
+ough its paces like the previous one.  I wouldn't<br>
+still be using it if I di=<br>
+dn't think it was well-written, bugs aside.  He<br>
+uses a regex solution to ge=<br>
+nerate the opcode functions before compiling,<br>
+which lets you modify multipl=<br>
+e similar opcodes in one swoop.  Otherwise<br>
+you'd be changing hundreds by ha=<br>
+nd.<br>
+<br>
+I'm not sure if speed will ever be an issue once I get rid of a lot of=<br>
+<br>
+debugging stuff, but I've been pondering ways I might write my own from<br>
+sc=<br>
+ratch if the need arises.  I don't think it'll be that hard, actually.<br>
+Just=<br>
+time-consuming.<br>
+<br>
+<br>
+anojones_lalp@...> wrote:&lt;BR>>&lt;BR>> Any app that uses timers also =<br>
+implements a response for timer&lt;BR>> events.  The splash is a simple  ap=<br>
+p that just displays&lt;BR>> the splash image, sets timer, and then when it=<br>
+gets the timer &lt;BR>> event, it makes a call that changes the current ap=<br>
+p to&lt;BR>> either the main menu, or if there is more than one user, &lt;BR>&=<br>
+gt; the select user app (or when no user accts are set up yet, &lt;BR>> the=<br>
+create user app).&lt;BR>&lt;BR>I hadn't realized that the splash was an app too.=<br>
+That's good to know.&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> I think you can wipe the da=<br>
+taflash, and it will init it.  IIRC, the&lt;BR>> flag that holds the datafl=<br>
+ash state is in 2nd to last sector of dataflash &lt;BR>> (about 10 bytes at=<br>
+start of sector, and nothing else in&lt;BR>> rest of sector (or not much e=<br>
+lse????).  Preserve the last sector,&lt;BR>> that is where your serial numb=<br>
+er is stored.  IIRC, the "flash&lt;BR>> test" that you can run from test mo=<br>
+de walks on all but that &lt;BR>> last sector with the "test data".  Everyt=<br>
+hing but the serial number&lt;BR>> will be re-intiialized after the test.  =<br>
+If you have any apps in&lt;BR>> the loadable-app space, you can skip wiping=<br>
+them, and I think&lt;BR>> they will survive the re-init (I could be wrong.=<br>
+The flash test&lt;BR>> does wipe that area of dataflash).  It is very pos=<br>
+sible that&lt;BR>> zeroing out the first 2 bytes in 2nd to last dataflash s=<br>
+ector is&lt;BR>> all you need to do to cause it to be re-init'ed (not sure =<br>
+tho).&lt;BR>> &lt;BR>&lt;BR>I suppose the serial number isn't really important, s=<br>
+ince you still have to have a username/password to log into the email accou=<br>
+nt, and I doubt they cared what Mailstation unit you logged into the offici=<br>
+al Mailstation email server with.  I wonder if the serial is even sent to t=<br>
+he server when fetching/sending mails.&lt;BR>&lt;BR>Something like Tivo on the ot=<br>
+her hand has the serial on an eprom, since that's tied directly to your acc=<br>
+ount.  Even if you replace the hard drive, it's still going to work with yo=<br>
+ur account afterward.  Though people have managed to clone those in order t=<br>
+o transfer their account to another one when the system board dies.&lt;BR>&lt;BR>=<br>
+ts) is used&lt;BR>> for a lot of stuff.  It gets incremented by 16 by the s=<br>
+ame&lt;BR>> int as keyscan.  The keyscan int is roughly 60 Hz, or about&lt;BR>=<br>
+t; &lt;BR>&lt;BR>How did you deduce that the keyboard interrupt was 60hz?  I'm cu=<br>
+rious, since I've seen you mention that before, but I have some evidence th=<br>
+at might prove otherwise.  Some of it I came to realize just yesterday, eve=<br>
+n.&lt;BR>&lt;BR>Before, when I was doing all that work on the Mailstation and hoo=<br>
+king the ISR for testing things, I placed a counter variable inside the key=<br>
+board loop.  All it did was count up.  I called it kbdtest.  In the time16 =<br>
+interrupt, I would copy the value of kbdtest into kbdmax, then reset kbdtes=<br>
+t to 0.  kbdmax would be displayed on the screen in separate code outside t=<br>
+he ISR.  Since time16 apparently hit at exactly 1 second intervals (because=<br>
+I believe I timed it by hand as such), then kbdmax would be a semi-accurat=<br>
+e way of determining the speed of the keyboard interrupt.  &lt;BR>&lt;BR>As it tu=<br>
+rned out, kbdmax was resulting in a constant value of 64.  So the keyboard =<br>
+interrupt appeared to be happening 64 times a second, 64hz, etc.&lt;BR>&lt;BR>And=<br>
+now recently, when searching for possible info on the RTC of the Mailstati=<br>
+on (or one similar), I came upon something rather interesting.  It appears =<br>
+that many RTC chips have a programmable square wave generator, in hz.  With=<br>
+values like 16, 32, 64, 128, 256, etc.  This made me think that maybe the =<br>
+keyboard interrupt is being generated by programmable RTC.&lt;BR>&lt;BR>More poss=<br>
+ible proof of this is when I was tinkering with port 0x2F a long time ago. =<br>
+This is what I learned back then:&lt;BR>&lt;BR> - Setting bits 4,6 makes time16 =<br>
+interrupt 2x slower (kbdmax =3D 128)&lt;BR> - Setting bits 5,6 makes time16 in=<br>
+terrupt 4x slower (kbdmax =3D 256)&lt;BR> - Setting bits 4,5,6 makes time16 in=<br>
+terrupt 8x slower (kbdmax =3D 512)&lt;BR> - When bit 6 is clear, but 4, 5, or =<br>
+both are set, time16 interrupt doesn't seem to ever occur.&lt;BR>&lt;BR>Well, bac=<br>
+k then, I naturally assumed that changing 0x2F was affecting the time16 int=<br>
+erval.  But now, after learning of these programmable square waves, maybe 0=<br>
+x2F is changing the speed of the keyboard interrupt, not the time16 one.  I=<br>
+t would make sense if so.  Let me clarify:&lt;BR>&lt;BR>Now remember, kbdtest was=<br>
+incrementing in the keyboard interrupt, and kbdmax was saving this value i=<br>
+n the time16 interrupt.  Original assumption was 0x2F was slowing time16, h=<br>
+ence more opportunity for kbdtest to reach a higher value before time16 hit=<br>
+and saved the value.  Well, what if you turn that around, and assume that =<br>
+it's affecting the keyboard interrupt instead of time16, making it happen F=<br>
+ASTER, thereby causing kbdtest to count faster, which is then recorded to k=<br>
+bdmax at what is likely still the normal 1 second interval of time16.&lt;BR>&lt;B=<br>
+R>If so, that would mean:&lt;BR> - Setting bits 4,6 makes keyboard interrupt h=<br>
+appen 128hz&lt;BR> - Setting bits 5,6 makes keyboard interrupt happen at 256hz=<br>
+These values correspond to what many RTC square waves are capable of emitti=<br>
+ng (along with the 64hz I've assumed Mailstation normally runs the keyboard=<br>
+at).  I looked at several RTC chips, and many had this programmability, bu=<br>
+t I couldn't ever find one with similar registers as what the Mailstation's=<br>
+uses.  Particularly, they store the two BCD values for secs/mins/hours/etc=<br>
+in a single byte at a particular I/O port, where as the Mailstation seems =<br>
+to store each individual BCD digit in two separate ports, based on what's b=<br>
+een documented so far.&lt;BR>&lt;BR>Anyway, I guess the only way to prove any of =<br>
+this is true would be for me to display the value of time16 on the screen c=<br>
+onstantly, while changing 0x2F.  If 0x2F is in fact affecting the speed of =<br>
+the keyboard interrupt, then printing time16 on the screen constantly would=<br>
+still show its value updating in 1 second increments no matter what.  If m=<br>
+y new assumption is wrong, meaning it's affecting time16 instead like I ori=<br>
+ginally assumed, then the counter on the screen would happen slower.  I'll =<br>
+try this sooner or later to see how it goes.  &lt;BR>&lt;BR>Either way, I just wa=<br>
+nted to point out why I think normally the keyboard interrupt happens at 64=<br>
+hz instead of 60, but I'm still curious of your reasoning in case I'm still=<br>
+missing something.&lt;BR>&lt;BR>&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> > happen automatica=<br>
+lly, intertwined with port 3's interrupt mask &lt;BR>> > to know whether=<br>
+they should be triggered (and handle when an&lt;BR>> > interrupt gets "=<br>
+reset" during the interrupt routine).  &lt;BR>> &lt;BR>> It's not clear to =<br>
+me if the P3-out is a "mask", or if it is just&lt;BR>> used to reset the co=<br>
+rresponding bit of the register that feeds&lt;BR>> P3-in (where P3 in bits =<br>
+are set by the various int inputs).&lt;BR>&lt;BR>I think I may have tested this b=<br>
+efore, but I don't remember.  Either way, all a person needs to do is hook =<br>
+the ISR, and make a value increment in, say, the keyboard interrupt.  Then =<br>
+change the interrupt mask to disable keyboard interrupts.  If the value sto=<br>
+ps counting, then you know the mask is in fact disabling that interrupt.  W=<br>
+henever I get around to writing the code again to check the time16 rate whe=<br>
+n changing 0x2F, I'll check this too.&lt;BR>&lt;BR>&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> &lt;=<br>
+kluge>&lt;BR>> You could just disable the keyscan, and replace it with c=<br>
+ode&lt;BR>> that reads an unused port, and calls the put_key_in_buffer&lt;BR>&=<br>
+gt; routine with that value.  The emulation for that new port&lt;BR>> could=<br>
+just feed the keycodes for any keys pressed on pc kbd.&lt;BR>> I don't rem=<br>
+ember for sure what is stored in that keybuffer, &lt;BR>> though.  It might=<br>
+be the row/col data, along with up/down/shift&lt;BR>> info.&lt;BR>> That w=<br>
+ould make it a bit harder, possibly even worse than actually &lt;BR>> scann=<br>
+ing an emulated keyboard.  Or maybe skip the keybuffer,&lt;BR>> and just fe=<br>
+ed keyevents into the event queue?  Pretty sure&lt;BR>> those are ascii cod=<br>
+es.&lt;BR>> (I'm just thinkin' out loud, not sure any of this is a good ide=<br>
+a.)&lt;BR>> &lt;/kluge>&lt;BR>&lt;BR>It's funny you even mention that, because=<br>
+honestly that was my first thought: to just dump keys straight into the bu=<br>
+ffer.  But this would only work for emulating the Mailstation OS, and I eve=<br>
+ntually want all of my custom code to work with it as closely to the real h=<br>
+ardware as possible.  So I did end up creating a translation table, which w=<br>
+asn't as bad as I thought, actually.  I used an array of 10 rows/8 columns,=<br>
+which stores the PC scancode for each associated key of the Mailstation ke=<br>
+y matrix.  I have to scan through the array's rows and columns every time a=<br>
+key is pressed/released to match it with a scancode in the array (so 80 it=<br>
+erations, tops).  But once it's found, I can then easily take the row/colum=<br>
+n values from the loop to update the actual bitwise matrix array (which is =<br>
+just 10 bytes representing the rows, since each column is an individal bit)=<br>
+, which is what I use to then actually emulate the output of port 1 (based =<br>
+on the input of port 1, 2.0, and 2.1).&lt;BR>&lt;BR>Not every MS key is emulated =<br>
+yet, and some have been put elsewhere ("Home" is the Home key, though "Back=<br>
+" is the End key).  I'm going to emulate "Function" as the Control key even=<br>
+tually too, but for now control combos are how I send special commands to m=<br>
+y emulator, so I'll have to change that.&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> I think t=<br>
+he only one that is important at this point is the &lt;BR>> 60 Hz keyscan-e=<br>
+tc.  The rtc might be important as far as &lt;BR>> waking up the cpu at the=<br>
+set mail-download time, and for the &lt;BR>> date and time to be set right=<br>
+when you power up, but as far as emulating, prolly not too important.&lt;BR>&lt;=<br>
+BR>As I mentioned earlier, I was looking into a lot of different RTC chips,=<br>
+and most of them did have an alarm feature.  So that might be tied to that=<br>
+interrupt strictly to wake it up to check for mail, as you mentioned.  Mak=<br>
+es a lot of sense.&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> > So I'm left to assume that=<br>
+ard&lt;BR>> > support), then I'll get stuck at the startup somewhere too=<br>
+.&lt;BR>> &lt;BR>> When you get the timers working right, I bet it won't ge=<br>
+t stuck!&lt;BR>&lt;BR>Well that's the thing, I do have timers working.  &lt;BR>&lt;BR>B=<br>
+ut, now that the keyboard is emulated, at a cold boot I can enter configura=<br>
+tion info (even though I can't see it as I type it, unless I type so much t=<br>
+hat it scrolls off to the right; but I can see password asterisks fine).  I=<br>
+save, and get to the user selection screen:<BR><BR><IMG src=3D"<a target="_blank" href="http://www.=">(URL)</a><br>
+fybertech.net/mailstation/img/msemu_userselect.png">&lt;BR>&lt;BR>and then to the=<br>
+main menu:<BR><BR><IMG src=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/mse=">(URL)</a><br>
+mu_mainmenu.png">&lt;BR>&lt;BR>&lt;BR>&lt;BR>I can even use most of the items in the me=<br>
+nu without issue (aside from some missing text at times, and the create new=<br>
+mail app crashing).  This is on v2.53 firmware btw.  &lt;BR>&lt;BR>But, when I s=<br>
+oft-reset after configuring it, my original assumption was correct: v2.53 s=<br>
+ticks at the splash screen, just like v3.03 did with the proper dataflash c=<br>
+onfiguration already there.  I even tried changing the emulator to always f=<br>
+ire keyboard/time16 interrupts regardless of the interrupt mask, and it mak=<br>
+es no difference.&lt;BR>&lt;BR>I discovered something shortly ago, however.  I wa=<br>
+s originally assuming that the Mailstation was changing the interrupt mask =<br>
+from 0x22 to 0x39.  But I added in a feature to the emulator to dump ram wi=<br>
+th a keypress.  So, I dump ram while the interrupt mask is still 0x22, and =<br>
+then again when the mask changes to 0x39.  Turns out, it's not changing the=<br>
+mask.  It's changing EVERYTHING to 0x39.  Ram page 1 is totally full of it=<br>
+, and page 0 is almost entirely, aside from values which I assume are getti=<br>
+ng set during the message queue loop and such when the interrupt hits.&lt;BR>&lt;=<br>
+BR>And you know what?  I bet I just figured out what it is, because there's=<br>
+a few 0x39s even in my first ram dump.  Right before they start, there's "=<br>
+Jan ".  I bet it's reading the RTC and I'm returning invalid value(s)!&lt;BR>&lt;=<br>
+BR>YEP!  I just now tried it, returning 0x01 for ports 0x10 through 0x1C, a=<br>
+nd now it warm boots just fine!  Even the create new mail app works now (si=<br>
+nce it was prolly reading the date/time to know what to put in the email).&lt;=<br>
+BR>&lt;BR>All unhandled IO ports are actually just handled like RAM: stored in=<br>
+and returned with an array, which I zero out at startup.  So it was return=<br>
+ing 0 for all RTC values originally, which obviously was breaking something=<br>
+.  I think I'm actually going to tie the Mailstation RTC to my PC's clock s=<br>
+o that it's always correct, once I figure out how to represent all the valu=<br>
+es (and converted to BCD).&lt;BR>&lt;BR>So now, aside from things like the modem,=<br>
+printer port, etc, it seems everything is working enough for the Mailstati=<br>
+on to not complain, aside from the missing text in places.&lt;BR>&lt;BR>&lt;BR>> =<br>
+Maybe a different switch to stop at certain addresses.  Then &lt;BR>> you c=<br>
+an box in the code where the text is supposed to be copied,&lt;BR>> and eve=<br>
+n dump the addresses involved (third switch).&lt;BR>&lt;BR>Yesterday, I changed t=<br>
+he emulator back to return low battery status, so that I could get that "Th=<br>
+e battery power is running low, the system will power off automatically." e=<br>
+rror.  I figured using this for debugging would be best because it happens =<br>
+during the startup, before lots of other junk clutters my debug log.  Anyho=<br>
+w, I created a ram dump right after the "low battery" message box appeared.=<br>
+Turns out, it's really getting the text string it needs to print, because=<br>
+it's in two different memory locations, which I've traced back to the code=<br>
+writing them there.  All I can figure for the moment is that maybe some ma=<br>
+th error is happening when it's calculating the width/height of the text?  =<br>
+I'll have to decypher that function maybe and step through all of it, I dun=<br>
+no.  Such a pain.&lt;BR>&lt;BR>I did have a thought as I was typing this, that ma=<br>
+ybe the Mailstation was reading the values of the LCD and ORing the text on=<br>
+to what's already there.  But I'm not seeing any LCD read notices, not to m=<br>
+ention I also remember that it uses an LCD buffer in ram, which is where it=<br>
+likely would do such comparisons anyway.&lt;BR>&lt;BR>&lt;BR>> &lt;BR>> > Any=<br>
+way, I guess that's all I got for now.  I just really want &lt;BR>> > to=<br>
+fix that text rendering problem!&lt;BR>> &lt;BR>> You need to set some bre=<br>
+akpoints, or at least "flagpoints".&lt;BR>> I would prolly just compile som=<br>
+e in to the code, but you &lt;BR>> could also make commandline switches, or=<br>
+a config file.&lt;BR>> &lt;BR>> The idea being to whittle down your log to=<br>
+a comprehensible&lt;BR>> size.  So, you set some addresses that you are in=<br>
+terested to&lt;BR>> know if it is getting to.  You can have it just log the=<br>
+that in.  But having a full log of everything has actually been infintely h=<br>
+elpful in tracing down problems, particularly with how buggy this Z80 emula=<br>
+tion library was when I first got it.  =A0It was returning the opposite of =<br>
+certain CPU flags, doing push/pop wrong (SP was handled incorrectly), on to=<br>
+p of several normal opcodes having emulation problems, etc.  It took a whil=<br>
+e to fix all of that, and being able to search for every instance of a part=<br>
+icular opcode executing after I suspected a problem with it was useful in o=<br>
+rder to see the results.&lt;BR>&lt;BR>To the libz80 author's credit though, he sa=<br>
+id this was a rewrite of a previous Windows-only version, and I guess he ju=<br>
+st never had reason to thoroughly put it through its paces like the previou=<br>
+s one.  I wouldn't still be using it if I didn't think it was well-written,=<br>
+bugs aside.  He uses a regex solution to generate the opcode functions bef=<br>
+ore compiling, which lets you modify multiple similar opcodes in one swoop.=<br>
+Otherwise you'd be changing hundreds by hand.&lt;BR>&lt;BR>I'm not sure if spee=<br>
+d will ever be an issue once I get rid of a lot of debugging stuff, but I'v=<br>
+e been pondering ways I might write my own from scratch if the need arises.=<br>
+I don't think it'll be that hard, actually.  Just time-consuming.&lt;BR>&lt;BR>=<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Mailstation Emulation - Episode Four</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 2, 2010</p>
+<p class="formattedBody"><br>
+Shew it's late, but I wanted to post a progress report at least.<br>
+<br>
+=<br>
+=A0<br>
+<br>
+As you can see, the text is fine now! =A0And ironically, I still ha=<br>
+ve<br>
+no idea what the problem was. =A0What I did was actually swap out the<br>
+Z8=<br>
+0 emulation with another library. =A0Took some reintegrating to make<br>
+it wor=<br>
+k with how this other one was designed to operate, but not too<br>
+much work. =<br>
+=A0And as soon as I got it to start properly, I immediately<br>
+realized it was=<br>
+way faster (probably since I compiled it with its<br>
+assembly optimizations e=<br>
+nabled). =A0And when I got interrupts working,<br>
+and I got to the first warni=<br>
+ng dialog about creating a new account, I<br>
+realized it was fix. =A0It was sh=<br>
+owing text. =A0And then the<br>
+configuration window was too. =A0Great! =A0<br>
+<br>
+So=<br>
+that means there's still opcode(s) which are being handled wrong in<br>
+libz80=<br>
+, despite all the work I did on it to fix it. And not only was it<br>
+not showi=<br>
+ng text, btw, but in the Extras menu, the arrow keys were<br>
+behaving all wron=<br>
+g as well. =A0I don't think I ever mentioned that.<br>
+=A0 But oh well. =A0I wa=<br>
+s so tired of staring at page after page of<br>
+disassembled code and debug out=<br>
+put trying to find the error that I<br>
+decided trying another library was the =<br>
+best way to test where the<br>
+problem really was.<br>
+<br>
+On an even brighter side, t=<br>
+his new library, z80em, emulates CPU timing.<br>
+=A0In fact, it does this so we=<br>
+ll, combined with a software interrupt<br>
+related to this feature which is tri=<br>
+ggered after so many CPU cycles<br>
+(which you can specify), that I was able to=<br>
+turn this into my main<br>
+Mailstation interrupt generator. =A0And with a bit =<br>
+more timing code in<br>
+place, I now have it emulating a 12mhz Z80, with 1 seco=<br>
+nd time16<br>
+interrupts, and 64hz keyboard interrupts. =A0The cursor even blin=<br>
+ks on<br>
+the screen at the same rate as on the real hardware. =A0Awesome!<br>
+<br>
+Aft=<br>
+er that, I tied the RTC into my PC's clock, so every time you start<br>
+the emu=<br>
+lator you get the right time. =A0This means you can't actually<br>
+set the RTC =<br>
+time via the Mailstation at the moment, though.<br>
+<br>
+Trying to do something wit=<br>
+h the modem just freezes it up, as expected.<br>
+=A0I want to figure out how be=<br>
+tter to emulate that, which I'm sure is<br>
+in the datasheet if I still have it=<br>
+. =A0Wouldn't it be neat to emulate<br>
+a PPP connection with that? =A0But asid=<br>
+e from the modem, I haven't had<br>
+any problems at all. =A0I've messed with al=<br>
+l the apps, saved messages<br>
+to my outbox, etc etc. =A0All good.<br>
+<br>
+Anyway, I'v=<br>
+e done a ton of work today cleaning up the code. =A0I've<br>
+also added in the =<br>
+ability to scale the screen 2x, and to even go<br>
+full-screen. =A0Seeing the M=<br>
+ailstation OS fill my monitor is both odd<br>
+and neat!<br>
+<br>
+But yeah, I hope to up=<br>
+load a version good enough for you guys to try out<br>
+tomorrow sometime. =A0Th=<br>
+ere's just still some things I want to add<br>
+before I do (like figure out why=<br>
+I have to push the power button twice<br>
+to turn it off). =A0For now it'll pr=<br>
+olly stay locked at 12mhz, and the<br>
+interrupt speeds won't be changeable or =<br>
+anything, since there's some<br>
+experimenting I want to do on the real hardwar=<br>
+e first to see if I can<br>
+better understand things. =A0And considering how we=<br>
+ll the emulation is<br>
+going right now, I can prolly test out some code on my =<br>
+PC now before<br>
+sending my test apps to the Mailstation. =A0Which is what I w=<br>
+rote this<br>
+for to begin with!<br>
+<br>
+<br>
+/P><P><BR></P><P><IMG src=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/msemu=">(URL)</a><br>
+_settings_fixed.png"> =A0 <IMG src=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/=">(URL)</a><br>
+img/msemu_mainmenu_fixed.png">&lt;/P>&lt;P>&lt;BR>&lt;/P>&lt;P>As you can see, the text is=<br>
+fine now! =A0And ironically, I still have no idea what the problem was. =<br>
+=A0What I did was actually swap out the Z80 emulation with another library.=<br>
+=A0Took some reintegrating to make it work with how this other one was des=<br>
+igned to operate, but not too much work. =A0And as soon as I got it to star=<br>
+t properly, I immediately realized it was way faster (probably since I comp=<br>
+iled it with its assembly optimizations enabled). =A0And when I got interru=<br>
+pts working, and I got to the first warning dialog about creating a new acc=<br>
+ount, I realized it was fix. =A0It was showing text. =A0And then the config=<br>
+uration window was too. =A0Great! =A0&lt;/P>&lt;P>So that means there's still opc=<br>
+ode(s) which are being handled wrong in libz80, despite all the work I did =<br>
+on it to fix it. And not only was it not showing text, btw, but in the Extr=<br>
+as menu, the arrow keys were behaving all wrong as well. =A0I don't think I=<br>
+ever mentioned that. =A0 But oh well. =A0I was so tired of staring at page=<br>
+after page of disassembled code and debug output trying to find the error =<br>
+that I decided trying another library was the best way to test where the pr=<br>
+oblem really was.&lt;/P>&lt;P>On an even brighter side, this new library, z80em, =<br>
+emulates CPU timing. =A0In fact, it does this so well, combined with a soft=<br>
+ware interrupt related to this feature which is triggered after so many CPU=<br>
+cycles (which you can specify), that I was able to turn this into my main =<br>
+Mailstation interrupt generator. =A0And with a bit more timing code in plac=<br>
+e, I now have it emulating a 12mhz Z80, with 1 second time16 interrupts, an=<br>
+d 64hz keyboard interrupts. =A0The cursor even blinks on the screen at the =<br>
+same rate as on the real hardware. =A0Awesome!&lt;/P>&lt;P>After that, I tied the=<br>
+RTC into my PC's clock, so every time you start the emulator you get the r=<br>
+ight time. =A0This means you can't actually set the RTC time via the Mailst=<br>
+ation at the moment, though.&lt;/P>&lt;P>Trying to do something with the modem ju=<br>
+st freezes it up, as expected. =A0I want to figure out how better to emulat=<br>
+e that, which I'm sure is in the datasheet if I still have it. =A0Wouldn't =<br>
+it be neat to emulate a PPP connection with that? =A0But aside from the mod=<br>
+em, I haven't had any problems at all. =A0I've messed with all the apps, sa=<br>
+ved messages to my outbox, etc etc. =A0All good.&lt;/P>&lt;P>Anyway, I've done a =<br>
+ton of work today cleaning up the code. =A0I've also added in the ability t=<br>
+o scale the screen 2x, and to even go full-screen. =A0Seeing the Mailstatio=<br>
+n OS fill my monitor is both odd and neat!&lt;/P>&lt;P>But yeah, I hope to upload=<br>
+a version good enough for you guys to try out tomorrow sometime. =A0There'=<br>
+s just still some things I want to add before I do (like figure out why I h=<br>
+ave to push the power button twice to turn it off). =A0For now it'll prolly=<br>
+stay locked at 12mhz, and the interrupt speeds won't be changeable or anyt=<br>
+hing, since there's some experimenting I want to do on the real hardware fi=<br>
+rst to see if I can better understand things. =A0And considering how well t=<br>
+he emulation is going right now, I can prolly test out some code on my PC n=<br>
+ow before sending my test apps to the Mailstation. =A0Which is what I wrote=<br>
+this for to begin with!&lt;/P>&lt;P>&lt;BR>&lt;/P><br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 3, 2010</p>
+<p class="formattedBody">I think I've finally prettied up a version of the emulator well enough to=<br>
+release.  But until I get a better page for it, here's the directory index=<br>
+:<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/emulator/">(URL)</a><br>
+<br>
+The quick start instruc=<br>
+tions are: download msemu_v01.zip and codeflash.bin, extract the ZIP, and d=<br>
+rop the .BIN into the folder with it.  Then run msemu.exe.<br>
+<br>
+Make sure to =<br>
+look at the readme.txt for info on the keys!  You can switch between 2X siz=<br>
+e and even go fullscreen.<br>
+<br>
+In that directory index above, codeflash.bin is =<br>
+the same as ms253.bin, which is v2.53 of the Mailstation firmware.  ms303a.=<br>
+bin is v3.03a, which is slightly different.  I didn't include any of these =<br>
+in the ZIP because it's probably against copyrights for me to even have the=<br>
+m on the website.<br>
+<br>
+The emulator looks for a "codeflash.bin" by default to w=<br>
+ork, so you can either rename other firmwares to this, or you can specify a=<br>
+n alternate filename on the command line (or just drag the .BIN onto the EX=<br>
+E to launch with it).  This lets you try out different versions, or even yo=<br>
+ur own replacement.<br>
+<br>
+I've included a "dataflash.bin" with some generic sett=<br>
+ings, just so that you can go straight to the main menu when you start it. =<br>
+If you like, you can delete that file, and it'll generate a fresh one the =<br>
+next time you start it.<br>
+<br>
+Note that the intro screen's text colors should be=<br>
+yellow, and the default LCD color should be green (check the readme on how=<br>
+to change).  If they're not for you, let me know!<br>
+<br>
+I'd appreciate feedback=<br>
+, particularly on any problems you might find.  There's obviously a lot sti=<br>
+ll not emulated, but apparently there's plenty to make the OS itself run.  =<br>
+Just keep in mind that it'll probably freeze up if you try to use the modem=<br>
+!<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 5, 2010</p>
+<p class="formattedBody"><br>
+Hmmmmm...  What the heck am I gonna do =<br>
+with an exe...<br>
+<br>
+The most recent windows I have is 98, and I have not booted=<br>
+that<br>
+box up in like a year.  I promised myself the next time I boot<br>
+it, I=<br>
+will back it up.  Sooooooooo, I have just been avoiding<br>
+booting it.  And I=<br>
+don't even know if your prog will run<br>
+on it.<br>
+<br>
+Then I thought about this th=<br>
+in client I have here, with<br>
+win XPe on it, running my magicjack.  But it do=<br>
+es not<br>
+have enough space.  I guess I could copy the files to a<br>
+thumb drive=<br>
+.....<br>
+<br>
+Then I wondered if it would run with wine, under Ubuntu.<br>
+<br>
+It does!  =<br>
+Pretty neat!!!<br>
+<br>
+<br>
+=<br>
+Seems they are reversed with respect to keys in readme.<br>
+<br>
+ks for a "codeflash.bin"<br>
+<br>
+I made a copy of (what I believe is) the 253yr f=<br>
+rom yahoo group,<br>
+renamed it codeflash.bin.<br>
+<br>
+Seems to work fine, but I get a=<br>
+different checksum in emulator<br>
+than on an actual 253yr unit I have here.  =<br>
+Funny thing is, I am<br>
+pretty sure I verified Don's dump with an actual 253yr=<br>
+several<br>
+years ago, and it matched.  But it prolly was not this exact<br>
+same =<br>
+unit.  Maybe I changed something in the image I am<br>
+working with, and forgot=<br>
+??????<br>
+<br>
+I get 91ff on my actual unit, and 9254 with my image file.<br>
+What che=<br>
+cksum do you get emulating your 253yr image?<br>
+<br>
+'s text colors should be yellow,<br>
+en (check the readme<br>
+know!<br>
+<br>
+Colors are ok, and can change with the ctrl keys.  Took me<br>
+a bit of =<br>
+head scratching to figure out I needed the right-side<br>
+ctrl key.  You need t=<br>
+o make black chars on light-green-tinted<br>
+background one of the options!  ;=<br>
+-)<br>
+<br>
+nd.  There's obviously a lot still not emulated,<br>
+plenty to make the OS itself run.<br>
+<br>
+Calculator works.  Typed a new message=<br>
+, saved it in outbox,<br>
+and opened it up again.  Even goes into test mode, an=<br>
+d passes<br>
+several tests.  The modem test failed, but did not lock it up.<br>
+(D=<br>
+id not try to send email, though.)<br>
+<br>
+Noticed that it remembered it was in te=<br>
+st mode (not sure<br>
+if I quit emu, or just "power cycled it).<br>
+<br>
+Could not fini=<br>
+sh keyboard test, is there an "@ key", size, or<br>
+spell check.  Or "get mail"=<br>
+button?<br>
+<br>
+I would prefer that "back" was mapped to "esc", I closed<br>
+emulato=<br>
+r by accident more times than I can count.  Esc just<br>
+seems more intuitive f=<br>
+or back.  Maybe just make "power" quit<br>
+emu???  Or only quit when in "off" m=<br>
+ode???<br>
+<br>
+As for why it needs 2 presses, maybe it has something to do<br>
+the fac=<br>
+t that the "power" does not really go away after the<br>
+first press?  There is=<br>
+a flip-flop chip on the ms board that<br>
+actually kills power.<br>
+<br>
+It would be=<br>
+a lot more fun if I could tweak emu code.<br>
+For instance, I notice that when=<br>
+ever I press a key in<br>
+calculator app, emu prints message on text console<br>
+"=<br>
+dataflash write".  It would be fun if it said what<br>
+address was written.<br>
+=<br>
+<br>
+I also think it would be fun to compile a Linux version.<br>
+<br>
+I don't know if =<br>
+it is emulator, or wine, but the combo<br>
+is sucking up over 50% of dual 2.5 G=<br>
+Hz AMD cpu.<br>
+OK, top sez emu itself is taking over 40% of one cpu,<br>
+and Xor=<br>
+g is taking over 35%, and wine about 20%.<br>
+<br>
+Also, I don't know just which pr=<br>
+ogram crashed, but it<br>
+seems like it was when I was trying to switch out of<br>
+=<br>
+"full screen" mode.  Took out the X server, and any<br>
+program that was runnin=<br>
+g under X.  Linux text consoles<br>
+were still there, along with a great deal o=<br>
+f programs<br>
+just listed with "2009" as the start time in process list.<br>
+<br>
+Fir=<br>
+st time this box ever crashed in the ~1 year since I<br>
+put it together.  I re=<br>
+booted the whole thing, but maybe<br>
+I could have restarted X.  Seemed like a=<br>
+good time for a<br>
+reboot, though!  (I don't think I have rebooted more that<br>
+=<br>
+5 times since built, and it is up 24-7).  Took over half<br>
+hour to check the =<br>
+disk, I don't really want to do a lot<br>
+of testing as to just what makes it c=<br>
+rash.  I think I<br>
+will avoid the full screen mode, and see if that helps.<br>
+<br>
+C=<br>
+J<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 5, 2010</p>
+<p class="formattedBody">alp@...> wrote:<br>
+u.<br>
+<br>
+Yeah I had it working fine in Wine on Deb=<br>
+ian when I tried it, and figured any Linux folks could just do that to try =<br>
+it out.<br>
+<br>
+<br>
+<br>
+As soon as you =<br>
+said that, I remembered that I forgot to update the readme when I decided t=<br>
+o swap those keys around.<br>
+<br>
+checksum in emulator<br>
+ng is, I am<br>
+l<br>
+t.  Maybe I changed something in the image I am<br>
+?????<br>
+t checksum do you get emulating your 253yr image?<br>
+<br>
+I only have one Mailstat=<br>
+ion, the demo unit which runs v3.03a (mail servers can even be set in the c=<br>
+onfiguration).  For that version, the hardware gives me a checksum of 0x53d=<br>
+4, but the emulator is showing 0x53e5 when I run the same firmware.<br>
+<br>
+I al=<br>
+so noticed that my hardware seems to freeze up after getting to that point,=<br>
+where as the emulator continues on to a battery test.<br>
+<br>
+No idea what's goin=<br>
+g on with either of these things yet.  I even tried removing my bounds-limi=<br>
+ting for the codeflash (it forces an address wrap at 1MB like I'm assuming =<br>
+the real hardware does on pages 64 and up), just in case, and it gave the s=<br>
+ame results.<br>
+<br>
+I'd have to dig through the ROM Test code to see if the codef=<br>
+lash is the only thing it's testing, or if there's something else being add=<br>
+ed into the result somehow.<br>
+<br>
+an "@ key", size, or<br>
+<br>
+None of those =<br>
+buttons are assigned yet, since I wasn't sure what to assign them to.  I di=<br>
+dn't need'em for the testing I was doing at the time, either.  But you shou=<br>
+ld be able to assign these to other things now, which I'll get into in a bi=<br>
+t.<br>
+<br>
+I'll probably want to assign "Get Mail" soon though, since I've been wo=<br>
+rking on trying to emulate the modem chip, and at the moment I have to keep=<br>
+going into the outbox to trigger the modem.<br>
+<br>
+ck" was mapped to "esc", I closed<br>
+can count.  Esc just<br>
+wer" quit<br>
+<br>
+I did consider chan=<br>
+ging it to escape a few times, but as I was testing, I found hitting escape=<br>
+right quick to get back out of it was easier for the time being.  I'll cha=<br>
+nge exit to right-control + Q or X or something eventually I guess.<br>
+<br>
+The re=<br>
+ason "power" doesn't exit is because I want to be able to simulate powering=<br>
+on and off.<br>
+<br>
+o do<br>
+press?  There is a flip-flop chip on the ms board that<br>
+er.<br>
+<br>
+Na, it's taking the two presses to finally acknowledge it, which the=<br>
+n runs the shutdown function in the firmware, which toggles the bit in port=<br>
+0x28 for that flip-flop.  I'm actually emulating this bit, and "powering o=<br>
+ff" when it's changed.<br>
+<br>
+It seems that the Mailstation waits for the state o=<br>
+f the power button to change somehow before acknowledging it again as being=<br>
+pressed.  Sometimes, for example, if you hold F12 while the system is boot=<br>
+ing, then let it go once you're at the menu, then you only have to press it=<br>
+once to power off.  I tried various ways to replicate this behavior automa=<br>
+tically, but I didn't have much luck yet.  I'm thinking it might have somet=<br>
+hing to do with the signal bouncing of the real hardware, since the power b=<br>
+utton isn't handled for bouncing like the rest of the keyboard keys are in =<br>
+the keyboard routine.<br>
+<br>
+Hitting the button twice is a minor inconvenience =<br>
+though so I've worked on other stuff for the time being instead.<br>
+<br>
+Somethin=<br>
+g interesting of note is that when you power off and power back on, normall=<br>
+y the hardware would retain the RAM contents to my knowledge.  Well when I =<br>
+was retaining their contents, the MS would check some ports during startup,=<br>
+before anything was even on the screen (or even before the screen was on?)=<br>
+, and then shut itself back down again.  Every time you'd try to power it b=<br>
+ack on this would happen.  The only solution for the time being is clearing=<br>
+the ram contents at any power-off until I figure out what the Mailstation =<br>
+is doing.<br>
+<br>
+r instance, I notice that whenever I press a key in<br>
+rints message on text console<br>
+said what<br>
+<br>
+The text you see in the console is jus=<br>
+t very basic output.  The "dataflash write" message was actually indicating=<br>
+that the emulator was writing the dataflash contents out to the file, not =<br>
+that the Mailstation was currently modifying the contents at that exact mom=<br>
+ent (though pretty close to it).  It doesn't write out the file for every i=<br>
+ndividual modification, for performance reasons.<br>
+<br>
+However, there are debug =<br>
+messages for that, which will not only tell you the current PC when the wri=<br>
+te is occuring, but also the dataflash address and value being written.  Sa=<br>
+me for sector erases.  The debug messages won't work in the version you're =<br>
+using since I removed the ability when cleaning up code before.  But in v0.=<br>
+1a, you can put /console and/or /debug on the command line.  The former spi=<br>
+ts all IO and other activity to the console, the latter spits it out to a "=<br>
+debug.out" file.<br>
+<br>
+Ever since I changed CPU emulation libraries, the debug o=<br>
+utput has dramatically reduced, since I'm no longer dumping constant disass=<br>
+embly as well.  But the tons of IO port requests are still a mess!  Eventua=<br>
+lly I'll let one limit which ports they're interested in.<br>
+<br>
+nk it would be fun to compile a Linux version.<br>
+<br>
+As it just so happens, v0.1=<br>
+a not only includes the source, but will compile under Linux.<br>
+<br>
+As for chang=<br>
+ing the Mailstation keys as I mentioned earlier, there's an array which hol=<br>
+ds all the mappings, but you'll probably need that "mailstation_keyboard.ht=<br>
+ml" file I got somewhere before to know which key is what.  I'm betting you=<br>
+have it though!<br>
+<br>
+it<br>
+ode.  Took out the X server, and any<br>
+inux text consoles<br>
+<br>
+<br>
+I didn't =<br>
+have any crashes under Debian when using it with Wine.  Full-screen mode se=<br>
+mi-worked, but didn't actually go full screen.  It just kind of replaced mo=<br>
+st of the desktop (but stayed crammed underneath the menu bar).  That's abo=<br>
+ut what I expected, even though that sucks.<br>
+<br>
+Ironically, it wasn't until I =<br>
+compiled a native Linux binary that I had the full-screen mode crash the ap=<br>
+plication when switching back and forth several times.  Even full-screen un=<br>
+der a native binary still didn't work right, though.<br>
+<br>
+But to be blunt, this=<br>
+is Linux after all, and it's notorious for being problematic at running th=<br>
+ings full-screen.  I've had a lot of trouble with other applications runnin=<br>
+g that way in the past.  So your advice of "only in a window" seems the bes=<br>
+t route, since there's really nothing I can do about it.  Going full-screen=<br>
+is all handled through SDL calls.<br>
+<br>
+That said, console output is faster und=<br>
+er Linux than in Windows!  I found that a little surprising.<br>
+<br>
+Anyway, you=<br>
+can grab the newer version here:<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/emu=">(URL)</a><br>
+lator/msemu_v01a.zip<br>
+<br>
+If you have any trouble building it, you can check th=<br>
+e build.txt, or give me a holler and I'll try to help.<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 7, 2010</p>
+<p class="formattedBody">of the power<br>
+being<br>
+m is<br>
+ave to press it once to power off.  I tried various ways to<br>
+s behavior automatically, but I didn't have much<br>
+it might have something to do with<br>
+ware, since the power<br>
+the<br>
+n twice is a minor inconvenience though so<br>
+r the time being instead.<br>
+<br>
+Try inverting the sense of power-button input bi=<br>
+t.<br>
+<br>
+Instead of:<br>
+case 0x09:<br>
+return (byte)0xE0 | ((power_button & 1) &lt;&lt;  );=<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 7, 2010</p>
+<p class="formattedBody">he state of the power<br>
+again as being<br>
+hile the system is<br>
+en you only<br>
+to<br>
+uck yet.  I'm thinking it might have something to do with<br>
+ouncing of the real hardware, since the power<br>
+bouncing like the rest of the<br>
+ne.<br>
+<br>
+ing the sense of power-button input bit.<br>
+return (byte)0xE0 | ((power_button & 1) &lt;&lt;  );<br>
+<br>
+try:<br>
+case 0x09:<br>
+return (=<br>
+byte)0xE0 | ((~power_button & 1) &lt;&lt;  );<br>
+<br>
+(I was trying to enter a tab in pr=<br>
+evious post, and all of a<br>
+sudden it said "message sent" or something to tha=<br>
+t effect.<br>
+I think the tab moved the focus from the message box over to<br>
+the =<br>
+"send" button.)<br>
+<br>
+I have not tried to compile it myself just yet, been looki=<br>
+ng<br>
+over docs for sdl.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 7, 2010</p>
+<p class="formattedBody">) &lt;&lt;  );<br>
+1) &lt;&lt;  );<br>
+<br>
+I'm sure fyberoptic knows what I meant, but if (by any stretch)<br>
+=<br>
+there is anyone else reading this, the "4" got clipped.<br>
+It wrapped to next =<br>
+line, and when I edited to fit on one line,<br>
+I musta deleted it.<br>
+<br>
+So, this=<br>
+is what I should have typed:<br>
+case 0x09:<br>
+return (byte)0xE0 | ((~power_bu=<br>
+tton & 1) &lt;&lt; 4);<br>
+<br>
+I think it is too early for my brain.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 7, 2010</p>
+<p class="formattedBody">...> wrote:<br>
+stead of:<br>
+<br>
+Doh, I inverted the main keyboard keys, but never thought to do it for th=<br>
+e power button.  Goes off with one tap now!  Nice find!<br>
+<br>
+d to compile it myself just yet, been looking<br>
+over docs for sdl.<br>
+<br>
+If you're=<br>
+using any Debian-based distro (you said you're in Ubuntu, so you are), the=<br>
+n you should be able to grab the development packages of SDL and SDL_gfx th=<br>
+rough APT.  I'm not for sure what repository it came from (hopefully one wh=<br>
+ich is enabled by default), but just search for the package "libsdl-gfx1.2-=<br>
+dev".  When you install it, it should automatically pull "libsdl1.2-dev" to=<br>
+o.  It did for me under Debian.  Saved me the trouble of fetching/compiling=<br>
+them manually.  Only thing you'll still have to compile separately is Z80e=<br>
+m, which is a simple "make" job, pretty much.<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 9, 2010</p>
+<p class="formattedBody">er thought<br>
+=<br>
+<br>
+OK, I got all the pieces installed the other day, and got it =<br>
+compiling<br>
+and running here, too!  :-)  :-)  :-)  :-)  :-)  :-)  :-)  :-)<br>
+<br>
+I=<br>
+had to change one line in Makefile to get it to fly with 64 bit cpu:<br>
+<br>
+I ch=<br>
+anged<br>
+"objcopy -I binary -O elf32-i386  --binary-architecture i386 rawcga.b=<br>
+in rawcga.o"<br>
+<br>
+to<br>
+"objcopy -I binary -O elf64-x86-64 --binary-architecture i=<br>
+386 rawcga.bin rawcga.o"<br>
+<br>
+because the linker refused to link the 32 bit fon=<br>
+t file with the 64 bit<br>
+emulator object file.  It was pretty easy to figure =<br>
+out the "-O elf64-x86-64",<br>
+but it took a lot of reading to find out that yo=<br>
+u needed to use<br>
+"--binary-architecture i386" for either 32 or 64 bit.  Go =<br>
+figger.<br>
+<br>
+ntu, so you are),<br>
+es of SDL and SDL_gfx through<br>
+came from (hopefully one which is<br>
+or the package "libsdl-gfx1.2-dev".<br>
+matically pull "libsdl1.2-dev" too.<br>
+me the trouble of fetching/compiling<br>
+till have to compile separately is Z80em,<br>
+pretty much.<br>
+<br>
+Well, that was really good to know!  I didn't even think to c=<br>
+heck if it<br>
+was in repo.  Turns out libsdl1.2 was already installed, possibl=<br>
+y 'coz xmame<br>
+required it.  I just checked off the boxes (in synaptic) for t=<br>
+he dev files,<br>
+and the libsdl-gfx1.2-dev, and "applied" it.<br>
+<br>
+I made the cha=<br>
+nge to cflags you suggested for z80em, and did "make all".  I<br>
+got a boatloa=<br>
+d of "type mismatch" warnings, but it still works.<br>
+<br>
+I mentioned that the wi=<br>
+ndows version was sucking up close to 100% of cpu,<br>
+spread across 3 processe=<br>
+s (msemu, wine, and I think xorg).  This native<br>
+Linux build is still suckin=<br>
+g up 100%, but just in the one msemu process!<br>
+<br>
+I don't think it would stop =<br>
+anything else from running, it's prolly just<br>
+using it 'coz it is available.=<br>
+But it sure is making the cpu hotter than<br>
+normal!!!  It usually reads  b=<br>
+elow 90 degrees F, but with cpu at 100% it<br>
+was running over 110 F!!!!!  I e=<br>
+ven think I could smell the difference,<br>
+but that may just have been my imag=<br>
+ination.  :-)<br>
+<br>
+So, I looked at source, to see if I could see anything to op=<br>
+timize.<br>
+The first thing I tried was moving the call to system time, so it o=<br>
+nly<br>
+happens when one of the time ports is read.  Didn't make a noticable<br>
+di=<br>
+fference, though.<br>
+<br>
+Next, I looked at the main loop.  Seems that's the sourc=<br>
+e of the<br>
+infinite appetite for cpu cycles.  The cpu just keeps running that=<br>
+loop,<br>
+as fast as it's little pins can carry it.  :-)  :-)<br>
+<br>
+I made an asump=<br>
+tion that the main loop was cyling much faster than<br>
+necessary, so I added a=<br>
+"sleep(1)" to the loop.  Well, turns out<br>
+sleep's units are "seconds", so =<br>
+I guess you know that did not come<br>
+out too good.  So I tried sleeps little =<br>
+brother, "usleep", which<br>
+sleeps microseconds.  Works like a charm!!!<br>
+<br>
+I tri=<br>
+ed usleep(1) through usleep(1000), with only barely perceptible<br>
+lag noticab=<br>
+le with 1000 usec.  I don't know if perhaps it is getting<br>
+woke up before th=<br>
+e 1000 usec, by some other event/interrupt.  But<br>
+I am currently settled in =<br>
+on 100 usec, because there is a "diminishing<br>
+return" effect on the cpu load=<br>
+reduction.<br>
+<br>
+With usleep(100), it idles at about 4 or 5 percent, and spik=<br>
+es<br>
+higher when mailstation code is actually doing something.  If<br>
+I lean on=<br>
+the right-arrow key while in main menu, the ms icon<br>
+highlighting cycles re=<br>
+peatedly across the screen, and cpu<br>
+usage goes to about 10 to 15 percent.<br>
+<br>
+=<br>
+If I am understanding how the code works, it seems that the z80<br>
+emulation i=<br>
+s being called every 16 milliseconds.  Is that right?<br>
+(deleted rambling)<br>
+At=<br>
+this point, I did a "sleep(30000)" on the wetware processor.<br>
+<br>
+Oh, I think =<br>
+I get it, z80_Execute() runs Z80_IPeriod =3D 187500<br>
+T states each call.  Th=<br>
+at makes more sense now... I was<br>
+wondering why it still worked with such la=<br>
+rge sleep times!<br>
+(Amazing how a little sleep can make things clearer!)<br>
+<br>
+=<br>
+On another front, I did quite a bit of fiddling with the screen<br>
+color.  Fir=<br>
+st, I "inverted" the colors, making the background<br>
+the bright pixels, and t=<br>
+ext the darker.  Then I made the<br>
+green (now a green background) a very ligh=<br>
+t green tint, a<br>
+quite passable imitation of the actual LCD.<br>
+That took a few=<br>
+minutes.<br>
+<br>
+Then I spent a few more hours tweaking the colors! :-)<br>
+<br>
+I made =<br>
+all 5 of your color modes into various off-white tinted<br>
+backgrounds with b=<br>
+lack foreground,<br>
+and added a sixth choice, with bluish<br>
+foreground, and sam=<br>
+e green tinted background (ala earthlink<br>
+version of 120 & 150).<br>
+<br>
+It's reall=<br>
+y kind of interesting how fast your eyes normalize<br>
+any of the tints to seem=<br>
+"plain white".<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 10, 2010</p>
+<p class="formattedBody">...> wrote:<br>
+64 bit cpu:<br>
+hitecture i386 rawcga.bin rawcga.o"<br>
+86-64 --binary-architecture i386 rawcga.bin rawcga.o"<br>
+<br>
+Ah okay, never ev=<br>
+en thought of that being a possible problem.  I don't have a 64-bit CPU, my=<br>
+self.  I figure the simplest solution for future versions, now that I know =<br>
+that I converted the font data properly, is to just encode it into a C head=<br>
+er file and let it compile with the source.<br>
+<br>
+The reason I included my own f=<br>
+ont to begin with is so that it would look the same regardless of platform.=<br>
+And for the record, this is the same font style that I use in my FyOS sof=<br>
+tware on the Mailstation.  It's the classic 8x8 font that CGA video cards u=<br>
+sed to use.  I'm partial to it both for nostalgia's sake as well as the fac=<br>
+t that it's very divisible into most screen sizes.  The Mailstation gets a =<br>
+40x16 text display out of it, similar to many old computers.<br>
+<br>
+the change to cflags you suggested for z80em, and did "make all".  I<br>
+a boatload of "type mismatch" warnings, but it still works.<br>
+<br>
+Yeah I got th=<br>
+ose too, but it's no problem.  The source was likely written under an earli=<br>
+er version of GCC.<br>
+<br>
+up close to 100% of cpu,<br>
+hink xorg).  This native<br>
+n the one msemu process!<br>
+*snip*<br>
+4 or 5 percent, and spikes<br>
+ng something.  If<br>
+s icon<br>
+goes to about 10 to 15 percent.<br>
+<br>
+I never noticed it hindering my machine as=<br>
+I worked so I never even thought to check.  Yet I've had to use usleep in =<br>
+daemons before so you'd think I would remember how important some CPU idle =<br>
+time in there can be!<br>
+<br>
+The easiest cross-platform fix is:<br>
+<br>
+#ifdef WIN32<br>
+S=<br>
+leep(1);<br>
+#else<br>
+usleep(1000);<br>
+#endif<br>
+<br>
+Windows doesn't have less than 1 mil=<br>
+lisecond sleep unless you get into high-definition timers, and that's a bit=<br>
+overkill.  From my momentary tinkering I didn't notice any real difference=<br>
+in performance by having a whole millisecond delay.<br>
+<br>
+et it, z80_Execute() runs Z80_IPeriod =3D 187500<br>
+t makes more sense now... I was<br>
+arge sleep times!<br>
+<br>
+I just did some quick math for the number.  The Mailstation OS always ru=<br>
+ns at 12mhz, so 12000000 / 64 =3D 187500.  64 being the frequency of the ke=<br>
+yboard interrupt I determined before.  When all the specified CPU cycles ar=<br>
+e used, the Z80_Interrupt() function is called.  This function automaticall=<br>
+y fires the Mailstation keyboard interrupt (if it's enabled) 64 times a sec=<br>
+ond.  Also, after 64 counts of this function executing, the Mailstation tim=<br>
+e16 interrupt gets fired.<br>
+<br>
+Whenever I get around to implementing support fo=<br>
+r various CPU and (presumably) RTC timer speeds, these values will be dynam=<br>
+ic rather than hard-coded like they are now.  I'd rather know more about th=<br>
+e I/O port functionality for setting these speeds beforehand, but I haven't=<br>
+gotten around to tinkering on the hardware again yet either.<br>
+<br>
+e all 5 of your color modes into various off-white tinted<br>
+th black foreground,<br>
+and same green tinted background (ala earthlink<br>
+<br>
+I'd be curious to see your color schemes, if you want to take screencaps=<br>
+or whatever.  I've never even seen the screen to any other model than the =<br>
+one I have.<br>
+<br>
+One of the next features I want to implement is a configurati=<br>
+on file, where people can just setup the keyboard/colors/etc from there ins=<br>
+tead of needing to recompile it.<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: Mailstation Emulation v0.1 Release</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 12, 2010</p>
+<p class="formattedBody"><br>
+(Reply is below the screenshots)<br>
+<br>
+The pix are 1024 x 768, click for full si=<br>
+ze, or "view image" if clicking<br>
+doesn't work.<br>
+<br>
+This is the green tinted ba=<br>
+ckground.<br>
+The ide shows some of the code mods.<br>
+(By the way, the ide is "Gea=<br>
+ny" and it is in Ubuntu repo.)<br>
+<br>
+ation/files/Screenshot-39.png><br>
+<br>
+This is white background, with black text.=<br>
+<br>
+I don't really like the greenish-tint, even though the mailstation<br>
+actuall=<br>
+y is greenish.   I re-arranged the sdl-event handling with nested<br>
+switches.=<br>
+<br>
+<br>
+All 6 colors running at same time!<br>
+The backgrounds are much brighter tha=<br>
+n the actual mailstation LCD, but I<br>
+don't think I<br>
+would want to make them m=<br>
+uch darker.  I don't really care for the red or<br>
+green tints, but<br>
+yellow and=<br>
+bluish are ok.  The "new" 120/150 LCD is the greenish one<br>
+below the white.=<br>
+<br>
+<br>
+One other code change not shown above, to writeLCD function:<br>
+<br>
+lcd_data8=<br>
+[n + (x * 8) + (lcdaddr * 320)] =3D ((val >> n) & 1 ?<br>
+LCD_fg_color : LCD_bg=<br>
+_color);<br>
+<br>
+When I was figuring out how it worked, I changed some of<br>
+the para=<br>
+m names in that function to these:<br>
+<br>
+writeLCD(ushort lcdaddr, byte val, int =<br>
+lcdhalf)<br>
+<br>
+But the only change to logic was to split the color var into two =<br>
+(fg &<br>
+bg)<br>
+<br>
+<br>
+never even thought of that being a possible problem.<br>
+it CPU, myself.  I figure the simplest solution<br>
+that I know that I converted the font data<br>
+into a C header file and let it compile<br>
+<br>
+Oh, yeah, that=<br>
+would be better than fiddling with makefile.  I was<br>
+thinking of adding opt=<br>
+ion to makefile, but that would still need<br>
+to be edited to pick version.  J=<br>
+ust compiling it in would avoid the<br>
+config hassle.  I actually did somethin=<br>
+g similar with your cga<br>
+font, I edited it into "cgafont.s" (the db's from y=<br>
+our cgafont.inc,<br>
+with a label at the head) to allow sdcc code to link with =<br>
+it:<br>
+<br>
+.module cgafont<br>
+<br>
+.area _CODE<br>
+<br>
+_cgafont_data::<br>
+.db #0x00=<br>
+, #0x7e, #0x7e, #0x36, #0x08, #0x1c, #0x08, #0x00<br>
+etc. etc.<br>
+<br>
+for the record, this is the same<br>
+re on the Mailstation.<br>
+<br>
+I already guessed that.  :-)<br>
+<br>
+it idles at about 4 or 5 percent,<br>
+<br>
+ne as I worked so I never even<br>
+<br>
+I didn't notice any slu=<br>
+ggish behavior, but I have the "system monitor"<br>
+added to gnome desktop's to=<br>
+olbar, so whenever that drops down, it's<br>
+right there.  CPU temps and system=<br>
+temps, too.  (see screenshot<br>
+with 6 mailstation emulators running.)<br>
+<br>
+I've had to use usleep in daemons before so<br>
+how important some CPU idle time in<br>
+platform fix is:<br>
+eep(1000);<br>
+<br>
+Looks good!  (So sleep is in ms on win32?  I think it =<br>
+is in sec on<br>
+Linux.)<br>
+<br>
+unless you get into<br>
+rom my momentary<br>
+ance by having<br>
+<br>
+1 ms seems fine to me.  It's n=<br>
+ot till you get up over 20 ms that it<br>
+really<br>
+starts to get bad.  Actually, =<br>
+right before 16 ms, the delay goes back<br>
+to un-noticable.  Seems the emulati=<br>
+on of the "slice" is happening in<br>
+less than a millisecond, so most of the 1=<br>
+6 ms is just waiting.<br>
+<br>
+The delay peaks around usleep(15300) or so, and at 1=<br>
+5400, it drops<br>
+back to un-noticable.  (This is on dual 2.5 GHz AMD processo=<br>
+r).<br>
+For a default, 1 ms seems good for just about any cpu speed.<br>
+Maybe you =<br>
+can make it a runtime config option?<br>
+<br>
+I used the highly scientific procedur=<br>
+e of counting "thousands",<br>
+from power-on to splash, and I don't quite get t=<br>
+o the "s" in "one<br>
+thousand two"<br>
+with 1-500 us range.  Seems I can get to "t=<br>
+hous" at 1000 us, and<br>
+"thousan"<br>
+at 5000 us.  At 10,000 us I can just about =<br>
+get the whole "one thousand<br>
+two"<br>
+out.  On a real mailstation I get the same=<br>
+as the 500us and lower,<br>
+<br>
+IPeriod =3D 187500<br>
+was<br>
+zing how a little sleep can make things clearer!)<br>
+math for the number.  The Mailstation OS always<br>
+00 / 64 =3D 187500.  64 being the frequency of<br>
+the<br>
+etermined before.  When all the specified CPU<br>
+cycles<br>
+terrupt() function is called.  This function<br>
+automatically<br>
+station keyboard interrupt (if it's enabled) 64 times a<br>
+second.<br>
+er 64 counts of this function executing, the Mailstation<br>
+time16<br>
+gets fired.<br>
+<br>
+Are we in agreement that the emulator runs at "12 MHz" only b=<br>
+ecause<br>
+you call it every 16 ms, and it runs Z80_IPeriod =3D 187500 T-states=<br>
+<br>
+every time it is called?<br>
+<br>
+Just for kicks, I just now changed it to call z8=<br>
+0_execute every time<br>
+thru the main loop, with no usleep,  Now the mailstati=<br>
+on code is<br>
+running at warp 11!!!  I'm not sure, but I think it is better th=<br>
+an<br>
+16 x 12MHz =3D 192 MHz!!!  And that would be if it was taking a full<br>
+mil=<br>
+lisec each call, and I think it is closer to half millisec,<br>
+which would mea=<br>
+n close to 400 MHz.  Wheeeeeeeeeeeeee!!!!!!<br>
+<br>
+lementing support for various CPU and<br>
+e values will be dynamic rather<br>
+<br>
+Not s=<br>
+ure what you mean here???  You mean the PC's cpu, right???<br>
+But what RTC????=<br>
+?  Oh, you mean setting the mailstation to diff<br>
+cpu speeds, right?  And lik=<br>
+ewise with mailstation rtc.  You<br>
+want it to adjust emulatin speed based on =<br>
+port 0d & 2f.<br>
+<br>
+r setting these speeds beforehand, but I<br>
+ng on the hardware again yet either.<br>
+<br>
+All I know are the 8/10/12 MHz speeds=<br>
+.  There might be more.<br>
+<br>
+I was wondering if you ever tested the various int=<br>
+errupts, to<br>
+figure out if they were INT's or NMI's?<br>
+<br>
+ur color modes into various off-white tinted<br>
+eground,<br>
+green tinted background (ala earthlink<br>
+I'd be curious to see your color schemes, if you want to take<br>
+screencaps<br>
+or whatever.  I've never even seen the screen to any other model than<br>
+the<br>
+one I have.<br>
+<br>
+I uploaded some screenshots to the root level of group site. =<br>
+I<br>
+am gonna try to embed them at top of this post, but if it<br>
+doesn't work, =<br>
+you can see them there.<br>
+<br>
+a configuration file,<br>
+from there instead<br>
+<br>
+Config file would be gre=<br>
+at!<br>
+<br>
+I was thinking that rather than having several canned colors,<br>
+it would=<br>
+be easier to tweak if you could adjust the rgb values<br>
+of current color.  U=<br>
+se ctrl-1, ctrl-2, & ctrl-3 for inc red,<br>
+inc green, & inc blue.  Use ctrl-s=<br>
+h-1 (2, & 3) for decrement.<br>
+And then save the one you like in the config fi=<br>
+le.  Or better,<br>
+ctrl 1, 2, 3 for inc, and ctrl q, w, e for dec.<br>
+<br>
+CJ<br>
+<br>
+<br>
+(Reply is below the screenshots)&lt;br>&lt;br>The pix are 1024 x 768, click fo=<br>
+r full size, or "view image" if clicking doesn't work.&lt;br>&lt;br>&lt;br>&lt;center>T=<br>
+his is the green tinted background.&nbsp; &lt;br>The ide shows some of the cod=<br>
+e mods.&lt;br>(By the way, the ide is "Geany" and it is in Ubuntu repo.)&lt;br>&lt;a=<br>
+href=3D"<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/Screenshot-39=">(URL)</a><br>
+.png"><img src=3D"<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/Scre=">(URL)</a><br>
+enshot-39.png" height=3D"384" width=3D"512">&lt;/a>&lt;br>&lt;br>&lt;br>This is white b=<br>
+ackground, with black text.&lt;br>I don't really like the greenish-tint, even =<br>
+though the mailstation&lt;br>actually is greenish. &nbsp; I re-arranged the sd=<br>
+l-event handling with nested switches.<br><a href=3D"<a target="_blank" href="http://tech.groups.yah=">(URL)</a><br>
+oo.com/group/mailstation/files/Screenshot-40.png"><img src=3D"<a target="_blank" href="http://tech.g=">(URL)</a><br>
+roups.yahoo.com/group/mailstation/files/Screenshot-40.png" height=3D"384" w=<br>
+idth=3D"512">&lt;/a>&lt;br>&lt;br>&lt;br>All 6 colors running at same time!&nbsp; &lt;br>T=<br>
+he backgrounds are much brighter than the actual mailstation LCD, but I don=<br>
+'t think I &lt;br>would want to make them much darker.&nbsp; I don't really ca=<br>
+re for the red or green tints, but &lt;br>yellow and bluish are ok.&nbsp; The =<br>
+"new" 120/150 LCD is the greenish one below the white.&lt;br>&lt;a href=3D"http:/=<br>
+/tech.groups.yahoo.com/group/mailstation/files/Screenshot-41.png">&lt;img src=<br>
+=3D"<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/Screenshot-41.png"=">(URL)</a><br>
+height=3D"384" width=3D"512">&lt;/a>&lt;br>&lt;br>&lt;br>&lt;/center>&lt;br>One other code c=<br>
+hange not shown above, to writeLCD function:&lt;br>&lt;br>lcd_data8[n + (x * 8) +=<br>
+(lcdaddr * 320)] =3D ((val >> n) & 1 ? LCD_fg_color : LCD_bg_col=<br>
+or);&lt;br>&lt;br>When I was figuring out how it worked, I changed some of &lt;br>th=<br>
+e param names in that function to these:&lt;br>&lt;br>writeLCD(ushort lcdaddr, by=<br>
+te val, int lcdhalf)&lt;br>&lt;br>But the only change to logic was to split the c=<br>
+olor var into two (fg & bg)&lt;br>&lt;br>&lt;more comments inline below>&lt;b=<br>
+r>&lt;br>--- FyberOptic wrote:&lt;br>>&lt;br>> Ah okay, never even thought of =<br>
+that being a possible problem.&nbsp; &lt;br>> I don't have a 64-bit CPU, my=<br>
+self.&nbsp; I figure the simplest solution &lt;br>> for future versions, no=<br>
+w that I know that I converted the font data &lt;br>> properly, is to just =<br>
+encode it into a C header file and let it compile &lt;br>> with the source.=<br>
+was&lt;br>thinking of adding option to makefile, but that would still need&lt;br=<br>
+r>config hassle.&nbsp; I actually did something similar with your cga&lt;br>fo=<br>
+nt, I edited it into "cgafont.s" (the db's from your cgafont.inc, &lt;br>with =<br>
+a label at the head) to allow sdcc code to link with it:&lt;br>&lt;br>&nbsp;&nbsp=<br>
+;&nbsp; .module cgafont<br>
+bsp;&lt;br>_cgafont_data::<br>
+36, #0x08, #0x1c, #0x08, #0x00<br>
+p; etc. etc.&lt;br>&nbsp;&lt;br>> And for the record, this is the same &lt;br>&gt=<br>
+; font style that I use in my FyOS software on the Mailstation.&nbsp; &lt;br>&lt;=<br>
+br>I already guessed that.&nbsp; :-)&lt;br>&lt;br>> > With usleep(100), it =<br>
+idles at about 4 or 5 percent, &lt;br>&lt;br>> I never noticed it hindering my=<br>
+machine as I worked so I never even &lt;br>> thought to check.&nbsp; &lt;br>&lt;=<br>
+br>I didn't notice any sluggish behavior, but I have the "system monitor"&lt;b=<br>
+r>added to gnome desktop's toolbar, so whenever that drops down, it's&lt;br>ri=<br>
+ght there.&nbsp; CPU temps and system temps, too.&nbsp; (see screenshot&lt;br>=<br>
+with 6 mailstation emulators running.)&lt;br>&lt;br>> Yet I've had to use usle=<br>
+ep in daemons before so &lt;br>> you'd think I would remember how important=<br>
+some CPU idle time in &lt;br>> there can be!&lt;br>> &lt;br>> The easiest =<br>
+cross-platform fix is:&lt;br>> &lt;br>> #ifdef WIN32&lt;br>> &nbsp;&nbsp;&n=<br>
+bsp; &nbsp;&nbsp;&nbsp; Sleep(1);&lt;br>> #else&lt;br>> &nbsp;&nbsp;&nbsp; =<br>
+&nbsp;&nbsp;&nbsp; usleep(1000);&lt;br>> #endif&lt;br>&lt;br>Looks good!&nbsp; (S=<br>
+o sleep is in ms on win32?&nbsp; I think it is in sec on Linux.)&lt;br>&nbsp;&lt;=<br>
+br>> Windows doesn't have less than 1 millisecond sleep unless you get i=<br>
+nto &lt;br>> high-definition timers, and that's a bit overkill.&nbsp; From =<br>
+my momentary &lt;br>> tinkering I didn't notice any real difference in perf=<br>
+ormance by having &lt;br>> a whole millisecond delay.&lt;br>&lt;br>1 ms seems fin=<br>
+e to me.&nbsp; It's not till you get up over 20 ms that it really&lt;br>starts=<br>
+to get bad.&nbsp; Actually, right before 16 ms, the delay goes back&lt;br>to =<br>
+un-noticable.&nbsp; Seems the emulation of the "slice" is happening in&lt;br>l=<br>
+ess than a millisecond, so most of the 16 ms is just waiting.&lt;br>&lt;br>The de=<br>
+lay peaks around usleep(15300) or so, and at 15400, it drops&lt;br>back to un-=<br>
+noticable.&nbsp; (This is on dual 2.5 GHz AMD processor).&lt;br>For a default,=<br>
+1 ms seems good for just about any cpu speed.&lt;br>Maybe you can make it a r=<br>
+untime config option?&lt;br>&lt;br>I used the highly scientific procedure of coun=<br>
+ting "thousands",&lt;br>from power-on to splash, and I don't quite get to the =<br>
+"s" in "one thousand two" &lt;br>with 1-500 us range.&nbsp; Seems I can get to=<br>
+"thous" at 1000 us, and "thousan" &lt;br>at 5000 us.&nbsp; At 10,000 us I can=<br>
+just about get the whole "one thousand two"&lt;br>out.&nbsp; On a real mailst=<br>
+ation I get the same as the 500us and lower,&lt;br>&lt;br>> > Oh, I think I=<br>
+get it, z80_Execute() runs Z80_IPeriod =3D 187500&lt;br>> > T states ea=<br>
+ch call.&nbsp; That makes more sense now... I was&lt;br>> > wondering wh=<br>
+y it still worked with such large sleep times!&lt;br>> > (Amazing how a =<br>
+little sleep can make things clearer!)&nbsp;&nbsp; &lt;br>> &lt;br>> I just=<br>
+did some quick math for the number.&nbsp; The Mailstation OS always &lt;br>&g=<br>
+t; runs at 12mhz, so 12000000 / 64 =3D 187500.&nbsp; 64 being the frequency=<br>
+of the &lt;br>> keyboard interrupt I determined before.&nbsp; When all the=<br>
+specified CPU cycles &lt;br>> are used, the Z80_Interrupt() function is ca=<br>
+lled.&nbsp; This function automatically &lt;br>> fires the Mailstation keyb=<br>
+oard interrupt (if it's enabled) 64 times a second.&nbsp; &lt;br>> Also, af=<br>
+ter 64 counts of this function executing, the Mailstation time16 &lt;br>> i=<br>
+nterrupt gets fired.&lt;br>&lt;br>Are we in agreement that the emulator runs at "=<br>
+12 MHz" only because&lt;br>you call it every 16 ms, and it runs Z80_IPeriod =<br>
+=3D 187500 T-states&lt;br>every time it is called?&lt;br>&lt;br>Just for kicks, I ju=<br>
+st now changed it to call z80_execute every time&lt;br>thru the main loop, wit=<br>
+h no usleep,&nbsp; Now the mailstation code is&lt;br>running at warp 11!!!&nbs=<br>
+p; I'm not sure, but I think it is better than&lt;br>16 x 12MHz =3D 192 MHz!!!=<br>
+&nbsp; And that would be if it was taking a full&lt;br>millisec each call, and=<br>
+I think it is closer to half millisec,&lt;br>which would mean close to 400 MH=<br>
+z.&nbsp; Wheeeeeeeeeeeeee!!!!!!&lt;br>&lt;br>> Whenever I get around to implem=<br>
+enting support for various CPU and &lt;br>> (presumably) RTC timer speeds, =<br>
+these values will be dynamic rather &lt;br>> than hard-coded like they are =<br>
+now.&nbsp; &lt;br>&lt;br>Not sure what you mean here???&nbsp; You mean the PC's c=<br>
+pu, right???&lt;br>But what RTC?????&nbsp; Oh, you mean setting the mailstatio=<br>
+n to diff&lt;br>cpu speeds, right?&nbsp; And likewise with mailstation rtc.&nb=<br>
+sp; You&lt;br>want it to adjust emulatin speed based on port 0d & 2f.&lt;br>&lt;=<br>
+br>> I'd rather know more about the &lt;br>> I/O port functionality for =<br>
+setting these speeds beforehand, but I &lt;br>> haven't gotten around to ti=<br>
+nkering on the hardware again yet either.&lt;br>&lt;br>All I know are the 8/10/12=<br>
+MHz speeds.&nbsp; There might be more.&lt;br>&lt;br>I was wondering if you ever =<br>
+tested the various interrupts, to&lt;br>figure out if they were INT's or NMI's=<br>
+?&lt;br>&nbsp;&lt;br>> > I made all 5 of your color modes into various off-=<br>
+white tinted &lt;br>> > backgrounds with black foreground, &lt;br>> >=<br>
+and added a sixth choice, with bluish&lt;br>> > foreground, and same gr=<br>
+een tinted background (ala earthlink&lt;br>> > version of 120 & 150)=<br>
+.&lt;br>> > &lt;br>> &lt;br>> I'd be curious to see your color schemes, =<br>
+if you want to take screencaps &lt;br>> or whatever.&nbsp; I've never even =<br>
+seen the screen to any other model than the &lt;br>> one I have.&lt;br>&lt;br>I u=<br>
+ploaded some screenshots to the root level of group site.&nbsp; I&lt;br>am gon=<br>
+na try to embed them at top of this post, but if it&lt;br>doesn't work, you ca=<br>
+n see them there.&nbsp; &lt;br>&lt;br>> One of the next features I want to imp=<br>
+lement is a configuration file, &lt;br>> where people can just setup the ke=<br>
+yboard/colors/etc from there instead &lt;br>> of needing to recompile it.&lt;b=<br>
+r>&lt;br>Config file would be great!&lt;br>&lt;br>I was thinking that rather than ha=<br>
+ving several canned colors,&lt;br>it would be easier to tweak if you could adj=<br>
+ust the rgb values&lt;br>of current color.&nbsp; Use ctrl-1, ctrl-2, & ctr=<br>
+l-3 for inc red, &lt;br>inc green, & inc blue.&nbsp; Use ctrl-sh-1 (2, &am=<br>
+p; 3) for decrement.&lt;br>And then save the one you like in the config file.&=<br>
+nbsp; Or better,&lt;br>ctrl 1, 2, 3 for inc, and ctrl q, w, e for dec.&lt;br>&lt;br>=<br>
+CJ&lt;br>&lt;br>&lt;br>&lt;br>&lt;br><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">LCD Pinout (Apr 2, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 3, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: LCD Pinout</h3>
+<p class="from">From: "texasmason1984" &lt;stonemason@...></p>
+<p class="date">Apr 2, 2004</p>
+<p class="formattedBody">Does any one have a pinout for the LCD board?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: LCD Pinout</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 3, 2004</p>
+<p class="formattedBody"><br>
+This info is for the LCD in the white mailstation,<br>
+I think it is the same in all models except 300 & 350.<br>
+<br>
+The display is 320 x 128 x 1, but it is really two 160 x 128<br>
+displays side by side.  Pins 7 & 10 select which half.<br>
+<br>
+Each half has 20 columns, each column is 8 pix wide, and 128 pix high.<br>
+<br>
+Data is written as if the lcd was a ram.  First the column address is<br>
+written to address #38 while the column reg is selected (pin 8 low).<br>
+Then the pixel data for the 128 rows is written, one byte per row, to<br>
+addresses #38 thru #B7 (while pin 8 is held high).<br>
+<br>
+My guess as to why the rows are numbered #38 thru #B7 is that<br>
+the controller IC inside the LCD can address more than 128<br>
+rows, and these were just the most convenient pins to use.<br>
+<br>
+IIRC, the first half is on the left, col 0 is on the right of<br>
+each half, row #38 at the top, and d0 at the left of each byte,<br>
+but you might want to check that.<br>
+<br>
+Contrast is controlled with a variable resistor (10k pot with<br>
+wiper shorted to one end) from pin2 to GND.<br>
+<br>
+PINOUT<br>
+1	GND<br>
+2	contrast<br>
+3	+5.2v<br>
+4	+5v<br>
+5	+5v<br>
+6	display enable (or /disable if you prefer)<br>
+7	/first half select<br>
+8	/column register select<br>
+9	/write<br>
+10	/second half select<br>
+11	A0<br>
+12	A1<br>
+13	A2<br>
+14	A3<br>
+15	A4<br>
+16	A5<br>
+17	A6<br>
+18	A7<br>
+19	D0<br>
+20	D1<br>
+21	D2<br>
+22	D3<br>
+23	D4<br>
+24	D5<br>
+25	D6<br>
+26	D7<br>
+27	GND<br>
+28	GND<br>
+<br>
+It might not be obvious, but the connector on the main board is a zif.<br>
+While it is not difficult to pull the cable out without opening,<br>
+it is rather difficult to get it back in!   :^)<br>
+<br>
+Just use two thumbnails on the ears at either end to pop it open.<br>
+<br>
+Disclaimer:  I don't have data sheets, I used a meter, and looked at<br>
+the code.  Some of this is from memory, and any of it may be wrong.<br>
+No animals were harmed in compiling this data.<br>
+(But a few mailstations were.)<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

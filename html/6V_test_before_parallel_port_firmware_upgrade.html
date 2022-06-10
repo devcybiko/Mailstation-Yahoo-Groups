@@ -1,0 +1,188 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">+6V test before parallel port firmware upgrade (Apr 30, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Apr 30, 2004</a></li>
+<li><a class="link" href="#2">From: "Neil Morrison" <neilsmorr@...> Apr 30, 2004</a></li>
+<li><a class="link" href="#3">From: "John R. Hogerhuis" <jhoger@...> Apr 30, 2004</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> Apr 30, 2004</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> May 1, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: +6V test before parallel port firmware upgrade</h3>
+<p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2004</p>
+<p class="formattedBody">Took a few steps back from 1bc0... we're getting closer I think...<br>
+<br>
+It looks like this is the last real branch point to decide if code at<br>
+8581 will be called.<br>
+But it is a test for good +6V. Could be trigger, but maybe just checking<br>
+if system is in top shape before trying to burn new firmware?<br>
+<br>
+Anyway if someone has time they should take another step back to see how<br>
+we get to 85b6.<br>
+<br>
+Almost there!<br>
+<br>
+Hope this is not too convoluted:<br>
+<br>
+It is in the page00 hex dump file.<br>
+<br>
+; (there is a vector to here at 0A74)<br>
+1b92  db09      in      a,(#09)         ; read printer control/power<br>
+detect/status port<br>
+1b94  cb7f      bit     7,a             ; check for good +6V<br>
+1b96  2006      jr      nz,#1b9e        ; jump to non-zero return<br>
+1b98  210000    ld      hl,#0000<br>
+1b9b  7c        ld      a,h<br>
+1b9c  b5        or      l               ; set zero flag<br>
+1b9d  c9        ret                     ; return zero.<br>
+1b9e  210100    ld      hl,#0001<br>
+1ba1  7c        ld      a,h<br>
+1ba2  b5        or      l<br>
+1ba3  c9        ret                     ; return with flag non-zero flag<br>
+set.<br>
+<br>
+If this returns non-zero, then the firmware update process will begin,<br>
+as you can see here:<br>
+<br>
+This subroutine is called by<br>
+<br>
+85a1  210800    ld      hl,#0008<br>
+85a4  39        add     hl,sp<br>
+85a5  7e        ld      a,(hl)<br>
+85a6  fe10      cp      #10<br>
+85a8  2008      jr      nz,#85b2        ; (8)<br>
+85aa  cdf745    call    #45f7<br>
+85ad  cd1345    call    #4513<br>
+85b0  181a      jr      #85cc           ; (26)<br>
+85b2  fe0a      cp      #0a<br>
+85b4  2016      jr      nz,#85cc        ; (22)<br>
+85b6  cd740a    call    #0a74 ; ***Perform +6V power check***<br>
+85b9  200e      jr      nz,#85c9        ; (14) If non-zero, attempt to<br>
+load firmare<br>
+85bb  210001    ld      hl,#0100<br>
+85be  e5        push    hl<br>
+85bf  2e24      ld      l,#24<br>
+85c1  e5        push    hl<br>
+85c2  cdf107    call    #07f1<br>
+85c5  d1        pop     de<br>
+85c6  d1        pop     de ;<br>
+85c7  1803      jr      #85cc           ; (3) skip load firmware<br>
+85c9  cdc01b    call    #1bc0     ; attempt to load firmware<br>
+85cc  3e00      ld      a,#00<br>
+85ce  3253da    ld      (#da53),a<br>
+85d1  c9        ret<br>
+<br>
+This code calls the firmware load routine:<br>
+<br>
+1bc0  f3        di     ; disable interrupts<br>
+1bc1  3aa1db    ld      a,(#dba1) ; fetch flags<br>
+1bc4  cbff      set     7,a ; set LCD-ON flag<br>
+1bc6  32a1db    ld      (#dba1),a ; store flags<br>
+1bc9  d302      out     (#02),a ; turn on LCD<br>
+1bcb  cd850a    call    #0a85 ; Call "0a85"<br>
+1bce  3aa1db    ld      a,(#dba1) ; read cached copy of flags<br>
+1bd1  cbe7      set     4,a ; set you got mail<br>
+1bd3  32a1db    ld      (#dba1),a ; save cached flags<br>
+1bd6  d302      out     (#02),a ; turn on you got mail<br>
+1bd8  3e01      ld      a,#01 ; RAM bank dance<br>
+1bda  d308      out     (#08),a<br>
+1bdc  3e05      ld      a,#05<br>
+1bde  d307      out     (#07),a<br>
+1be0  3e00      ld      a,#00<br>
+1be2  d306      out     (#06),a<br>
+1be4  3e01      ld      a,#01 ; a &lt;- 1<br>
+1be6  d305      out     (#05),a ; Send 1 out IO port 5<br>
+1be8  21434f    ld      hl,#4f43 ; hl &lt;- 0x4f43<br>
+1beb  010040    ld      bc,#4000 ; bc &lt;- 0x4000<br>
+1bee  b7        or      a ; set flags based on 'a' ??? a = 1?<br>
+1bef  ed42      sbc     hl,bc ; ???<br>
+1bf1  4d        ld      c,l ;<br>
+1bf2  44        ld      b,h<br>
+1bf3  210040    ld      hl,#4000<br>
+1bf6  110080    ld      de,#8000<br>
+1bf9  edb0      ldir<br>
+1bfb  c30080    jp      #8000   ; call firmware load jump vector<br>
+(routine actually at 8581)<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] +6V test before parallel port firmware upgrade</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2004</p>
+<p class="formattedBody">Actually, I just realized what the +6V check is for: it is probably just<br>
+verifying that it is currently powered from the wall cube and not the<br>
+battery. This would make sense, since it reduces that chance of<br>
+interruption during programming due to battery dying in the middle of<br>
+the burn, and leaving the unit permanently hosed.<br>
+<br>
+Well it's good to know anyhow. The unit won't permit firmware to be<br>
+updated via parallel port unless powered from the wall.<br>
+<br>
+<br>
+On Fri, 2004-04-30 at 04:30, John R. Hogerhuis wrote:<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] +6V test before parallel port firmware upgrade</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 30, 2004</p>
+<p class="formattedBody">Makes sense. Have you found the test to see if the programmer is attached?<br>
+<br>
+Neil<br>
+<br>
+From: "John R. Hogerhuis" &lt;jhoger@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] +6V test before parallel port firmware upgrade</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2004</p>
+<p class="formattedBody">No I haven't found the "trigger" yet. I had a few minutes last night so<br>
+I made the notes I mentioned in prior mail. My guess is it will turn out<br>
+to be holding some key combination. That or a jumper somewhere. Or maybe<br>
+there is a window during power up that it listens to the port. Who<br>
+knows. I would think though they would want it to be fairly "hands free"<br>
+but anything is possible.<br>
+<br>
+I was just looking again, and I'm actually not certain what the 6V are<br>
+for. If they wanted to check for wall cube I guess they would have<br>
+checked for 9.5V. So there's still room for speculation here.<br>
+<br>
+<br>
+On Fri, 2004-04-30 at 16:50, Neil Morrison wrote:<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] +6V test before parallel port firmware upgrade</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 30, 2004</p>
+<p class="formattedBody">There's a test in there for FN+Shift+T or FN+Shift+Size during power up<br>
+which sets the machine into diagnostic mode. I suspect it's allied with<br>
+that.<br>
+<br>
+Neil<br>
+<br>
+From: "John R. Hogerhuis" &lt;jhoger@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] +6V test before parallel port firmware upgrade</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">May 1, 2004</p>
+<p class="formattedBody">Okay, I'm out of time on this for the moment, but there's good eatin'<br>
+around here somewhere...<br>
+<br>
+More parallel I/O!<br>
+<br>
+842d, 8459, and 848f, which actually run at 442d, 4459, 448f.<br>
+<br>
+Trigger should be near by. Who has time to pull it?<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

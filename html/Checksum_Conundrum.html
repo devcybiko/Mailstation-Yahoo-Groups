@@ -1,0 +1,1045 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Checksum Conundrum (Jan 15, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 15, 2010</a></li>
+<li><a class="link" href="#2">From: "FyberOptic" <fyberoptic@...> Jan 16, 2010</a></li>
+<li><a class="link" href="#3">From: "randy129" <randy129@...> Jan 19, 2010</a></li>
+<li><a class="link" href="#4">From: "FyberOptic" <fyberoptic@...> Jan 21, 2010</a></li>
+<li><a class="link" href="#5">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#6">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#7">From: "FyberOptic" <fyberoptic@...> Jan 22, 2010</a></li>
+</ol><hr>
+<hr><h3>Subject: Checksum Conundrum</h3>
+<p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 15, 2010</p>
+<p class="formattedBody">As recently discovered, the Mailstation emulator seems to be returning a di=<br>
+fferent checksum value for the firmware than what you get on the real hardw=<br>
+are.  I've been digging through the disassembled code, trying to figure out=<br>
+why.<br>
+<br>
+From what I can tell, the firmware does a checksum of each 16K page =<br>
+of the codeflash (just adding all the bytes together), then adds it to an o=<br>
+verall total as it goes through each page.  I made a simple C util to mimic=<br>
+this, printing out the current and total checksums for each iteration of t=<br>
+he loop.  I then also set a trace (via the emulator) on the address in the =<br>
+v2.53 firmware where the addition takes place, so that I could see both the=<br>
+current checksum and total checksum in its CPU registers.  Each loop itera=<br>
+tion's values match in both the firmware and my util.  Final checksum value=<br>
+s also match.<br>
+<br>
+So, unless I've missed something, which is seeming less like=<br>
+ly the more I dig into the overall checksum function, then it's looking lik=<br>
+e it might not be an emulator issue.  If this is the case, then what could =<br>
+possibly be the cause of two different people dumping two different firmwar=<br>
+e versions with incorrect checksums?<br>
+<br>
+If anyone has a way to debug this in =<br>
+the actual hardware, that'd be even more helpful.  In v2.53, the checksum f=<br>
+unction starts in page 2 (if you start at 0), at 0x5e2c.  This all calls on=<br>
+0x2731 in page 0 to do the checksum of each page.  The addition of each pa=<br>
+ge checksum into the total happens at 0x5e79 (I was tracing at 0x5e7a after=<br>
+the addition took place).<br>
+<br>
+Dunno if there's anyone still here who can do=<br>
+hardware debugging, but it's worth a shot!<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 15, 2010</p>
+<p class="formattedBody">=<br>
+a different checksum value for the firmware than what you get on the real h=<br>
+ardware.  I've been digging through the disassembled code, trying to figure=<br>
+out why.<br>
+6K page of the codeflash (just adding all the bytes together), then adds it=<br>
+to an overall total as it goes through each page.<br>
+<br>
+That sounds like what=<br>
+I remember, but what I don't get is,<br>
+64 pages x 255 max value an 8 bit byt=<br>
+e can hold =3D 0x3fc0 max<br>
+value the checksum could be.  Seems like both the=<br>
+hardware<br>
+and emulator are getting higher values!!!  I guess I<br>
+need to take=<br>
+a look at that calc.<br>
+<br>
+From the values both you and I got last week, the<br>
+=<br>
+diff between hardware and emulated was 0x0011 & 0x0055,<br>
+IIRC.  I find it cu=<br>
+rious that the differences are<br>
+so low, and one is exactly 5x the other.<br>
+<br>
+I made a simple C util to mimic this, printing out the current and total ch=<br>
+ecksums for each iteration of the loop.  I then also set a trace (via the e=<br>
+mulator) on the address in the v2.53 firmware where the addition takes plac=<br>
+e, so that I could see both the current checksum and total checksum in its =<br>
+CPU registers.  Each loop iteration's values match in both the firmware and=<br>
+my util.  Final checksum values also match.<br>
+<br>
+I assume you mean you ran  th=<br>
+e test on PC (without emulator).<br>
+Can you run it on the mailstation hardware=<br>
+?<br>
+<br>
+re I dig into the overall checksum function, then it's looking like it migh=<br>
+t not be an emulator issue.  If this is the case, then what could possibly =<br>
+be the cause of two different people dumping two different firmware version=<br>
+s with incorrect checksums?<br>
+<br>
+If the code in hardware mailstation matches th=<br>
+e code emulator<br>
+is running, and gives different results, it seems it has to=<br>
+be<br>
+a problem in emulator, or maybe the z80 emulation.<br>
+<br>
+For what it is wort=<br>
+h, last few days I have been messing with<br>
+trying to run an app on emulator,=<br>
+without much success.<br>
+<br>
+One problem I found is the mailstation apparently o=<br>
+nly<br>
+uses the low 4 bits of the "device" byte, and when<br>
+accessing "apps" fro=<br>
+m dataflash, it uses one of the high<br>
+4 bits of device as a flag.  I added a=<br>
+printf to emulator,<br>
+and the device is sometimes "0x13" when accessing apps=<br>
+.<br>
+I added "& 0x0f" to the address calc in emulator, but I<br>
+still was not abl=<br>
+e to run an app.  Without the "& 0x0f"<br>
+it the emulation locked up, and with=<br>
+it, it reboots.<br>
+<br>
+I decided I wanted to step thru the code, and since the<br>
+"=<br>
+docs" for z80em (and I use the term "doc" very loosely<br>
+here) mentioned a b=<br>
+uilt in debugger, I set out to try<br>
+to enable it.  Unless I am missing somet=<br>
+hing here,<br>
+there is not really a debugger, rather just a "trace",<br>
+and you c=<br>
+an set the address you want to start tracing<br>
+at.  The trace is not very hel=<br>
+pful, unless you can<br>
+actually see it, and it flys by faster than the retrac=<br>
+e<br>
+on my monitor can keep up with.<br>
+<br>
+Have you tried to use it???  Maybe I mis=<br>
+sed something?<br>
+I did not see any way to single-step.<br>
+<br>
+I imagine I could red=<br>
+irect trace to a file, but I did not<br>
+do that yet.  I have been wondering if=<br>
+it would be<br>
+worth the trouble to add some real debug capability,<br>
+or if it =<br>
+would be easier to use a different emulator<br>
+that already had one.  (MAME/ME=<br>
+SS comes to mind, but I<br>
+have zero experience with it.)<br>
+<br>
+ay to debug this in the actual hardware, that'd be even more helpful.  In v=<br>
+2.53, the checksum function starts in page 2 (if you start at 0), at 0x5e2c=<br>
+.  This all calls on 0x2731 in page 0 to do the checksum of each page.  The=<br>
+addition of each page checksum into the total happens at 0x5e79 (I was tra=<br>
+cing at 0x5e7a after the addition took place).<br>
+ne still here who can do hardware debugging, but it's worth a shot!<br>
+<br>
+It's b=<br>
+een quite a few years now since I had that stuff set up.<br>
+I still have the m=<br>
+odded mailstation, but I am sure a wire or<br>
+two has come loose.  I would lik=<br>
+e to be able to set it<br>
+up, but I have a severe lack of empty horizontalness=<br>
+here.<br>
+And, prolly the main holdup, I don't use the computer it<br>
+ran with an=<br>
+ymore.  I had started to do a new version of<br>
+the "mailbug" stuff, that ran =<br>
+on XP, but I never finished<br>
+it.  I would like to resurrect it, and get it r=<br>
+unning on<br>
+Linux now, just have not had time.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 16, 2010</p>
+<p class="formattedBody">p@...> wrote:<br>
+s,<br>
+the checksum could be.  Seems like both the hardware<br>
+tting higher values!!!  I guess I<br>
+<br>
+We=<br>
+ll see, for each page it's just adding each individual byte together to a 1=<br>
+6-bit value.  For example, if every byte was 0xFF, you'd end up with a page=<br>
+total of 4,177,920 (16384 bytes in page * 255).  But since it's 16-bit it =<br>
+wraps around several times (you'd get a value of like 49,152 instead).  Tha=<br>
+t resulting page value is then added to the overall checksum value each tim=<br>
+e through the loop, so the total checksum also wraps many times.  So the ch=<br>
+ecksum could be any 16-bit value.<br>
+<br>
+this, printing out the current and total checksums for each iteration of th=<br>
+e loop.  I then also set a trace (via the emulator) on the address in the v=<br>
+2.53 firmware where the addition takes place, so that I could see both the =<br>
+current checksum and total checksum in its CPU registers.  Each loop iterat=<br>
+ion's values match in both the firmware and my util.  Final checksum values=<br>
+also match.<br>
+or).<br>
+<br>
+Yeah the test app w=<br>
+as a standalone program on the PC, which did a checksum of whatever firmwar=<br>
+e file I specified on the command line.  On the Mailstation side, I was let=<br>
+ting it do its normal checksum routine from the test menu, but had a trace =<br>
+set on a particular address in that function so I could witness each additi=<br>
+on operation during the checksum calculation.<br>
+<br>
+e mailstation matches the code emulator<br>
+esults, it seems it has to be<br>
+lation.<br>
+<br>
+My assumption was that the code quite possibly didn't match betwee=<br>
+n the emulator and hardware.  I especially started thinking this when my st=<br>
+andalone utility was giving me the same checksum as the emulator.<br>
+<br>
+or what it is worth, last few days I have been messing with<br>
+an app on emulator, without much success.<br>
+mailstation apparently only<br>
+when<br>
+f device as a flag.  I added a printf to emulator,<br>
+times "0x13" when accessing apps.<br>
+emulator, but I<br>
+=<br>
+<br>
+I'd be curious to t=<br>
+ry that app out myself to see if I can figure out what the problem is.<br>
+<br>
+<br>
+0em (and I use the term "doc" very loosely<br>
+bugger, I set out to try<br>
+e,<br>
+et the address you want to start tracing<br>
+ul, unless you can<br>
+e<br>
+I missed something?<br>
+<br>
+What I did=<br>
+was recompile z80em with debug enabled.  I then added a command-line switc=<br>
+h to specify a breakpoint address, which I set into the Z80_Trace variable.=<br>
+When the emulator hits the address, my debug function prints the page/dev=<br>
+ice, prints the registers and some stack, dumps the ram to a file, and give=<br>
+s me a basic prompt on the console window.  I can hit enter to progress lin=<br>
+e by line, or hit C to continue with emulation (until it hits the breakpoin=<br>
+t again).  Unfortunately it doesn't display the assembly code instruction w=<br>
+hen stopped, which I don't think is even possible using this emulation core=<br>
+(though libz80 could!).  But it was fine for my purposes.  I knew what lin=<br>
+es were what based on the disassembled source in my text editor.  I just ne=<br>
+eded to see register values and ram.<br>
+<br>
+Still can't peek/poke memory or I/O o=<br>
+r anything like that, but it shouldn't be hard to add at this point.  This =<br>
+will all be in the next version I release I guess, whenever it gets cleaned=<br>
+up.  I've been poking a bunch of junk in for my own purposes as of late.<br>
+<br>
+=<br>
+I may modify the z80em core to be capable of multiple breakpoints too, whic=<br>
+h would be useful.  And I can probably do memory and I/O breakpoints in the=<br>
+normal handler functions for those.<br>
+<br>
+to a file, but I did not<br>
+be<br>
+be easier to use a different emulator<br>
+omes to mind, but I<br>
+<br>
+Z80em should be fine =<br>
+with maybe some minor updates.  I can write in a function to decypher the n=<br>
+ext opcode to text myself if I want a more advanced debugger, it'll just ta=<br>
+ke a little work.<br>
+<br>
+So, now to what I've done since my last post.  After=<br>
+digging for ages trying to find my laplink/interlink cable again just to s=<br>
+end code to the Mailstation (I put things where I'll remember them later, t=<br>
+hen forget where I put them), I wrote a Mailstation test program to work ve=<br>
+ry similar to the one I wrote on my PC.  It does the checksum of a codeflas=<br>
+h page, displays the value of that, along with the current total checksum v=<br>
+alue, looping through all 64 pages (with a pause between each one).  I'm st=<br>
+ill using a checksum function from the firmware to do this, which is 0x2731=<br>
+in v2.53, and 0x2724 in v3.03a.  No need to rewrite something so small whe=<br>
+n it's easy to see exactly what it does in the disassembly.  It's called fr=<br>
+om the larger function which calculates the total firmware checksum.<br>
+<br>
+Any=<br>
+how, with this, I was able to match up page checksums displayed on the Mail=<br>
+station screen to the ones from my PC equivalent of the program (not in the=<br>
+emulator, mind you).  From a glance, it seemed like the page checksums all=<br>
+matched, until it got to the end.  I then saw the same alternate total che=<br>
+cksum value that I get in the maintenance tests on the hardware.<br>
+<br>
+So I incr=<br>
+eased the delay between outputs so that I could confirm each individual pag=<br>
+e checksum.  It started out good, until it got to page 17.  Instead of 0x7c=<br>
+6e which I get on the PC, I got 0x7c5D.  But then, oddly, all the rest of t=<br>
+he pages matched up perfectly.  So only page 17 had the problem.  That's th=<br>
+e 0x11 byte difference in the overall checksum I was getting between hardwa=<br>
+re and emulator.<br>
+<br>
+This shows that it's apparently not the emulator after =<br>
+all, and is something different between the firmware and my dump of it.<br>
+<br>
+Ne=<br>
+xt step is to redump just page 17 to my computer and see if transfers wrong=<br>
+again, but that'll take more assembly code, and I'm off to bed for now.  Y=<br>
+et I have a feeling I'm going to get the same alternate version of the page=<br>
+, in which case I'm going to have to break that page down into pieces to se=<br>
+e what's going on.  We'll see.<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "randy129" &lt;randy129@...></p>
+<p class="date">Jan 19, 2010</p>
+<p class="formattedBody">s like what I remember, but what I don't get is,<br>
+ue an 8 bit byte can hold =3D 0x3fc0 max<br>
+<br>
+st adding each individual byte together<br>
+<br>
+Yeah.  I jumped to conclusion tha=<br>
+t "checksum8" was returning 8 bit checksums.<br>
+<br>
+st few days I have been messing with<br>
+without much success.<br>
+ently only<br>
+sing "apps" from dataflash, it uses one of the high<br>
+a flag.  I added a printf to emulator,<br>
+13" when accessing apps.<br>
+or, but I<br>
+t the emulation locked up, and with it, it reboots.<br>
+try that app out myself to see if I can figure out what the<br>
+=<br>
+<br>
+I got it working.  :-)<br>
+<br>
+I'll post some stuff soon, but helloapp.rom is in =<br>
+file area.<br>
+Just paste it into your dataflash image with a hex editor,<br>
+and t=<br>
+weak the "app directory" in page 8.<br>
+<br>
+The app I was having trouble with is a=<br>
+sort of frankenstein<br>
+app, with a bunch of tests of various widgets from<br>
+th=<br>
+e mailstation firmware.<br>
+<br>
+Turns out it was a problem with sdcc linking the w=<br>
+rong putchar.<br>
+I don't remember doing it, but it probably happened a few mon=<br>
+ths ago<br>
+when I was switching between various snapshots of sdcc.  I had<br>
+comm=<br>
+ented out the custom putchar in my makefile!!!<br>
+<br>
+I have not actually used =<br>
+sdcc for anything since feb 2008, but<br>
+I joined their mail list back in '07.=<br>
+Since then, there have<br>
+been a few problems others were having<br>
+(with the =<br>
+z80 port of sdcc), that I remembered having myself.<br>
+<br>
+One in particular wa=<br>
+s that -o just did not work<br>
+with the z80 linker.  I had learned to work aro=<br>
+und it myself,<br>
+and I even looked into fixing it, but never got to the botto=<br>
+m of it.<br>
+<br>
+So, though I was not presently using sdcc, when yet another<br>
+was l=<br>
+earning of this bug the hard way (~ Sept 2009), I took another<br>
+look at it. =<br>
+This time I saw what the problem was,<br>
+and patched it.<br>
+<br>
+In the process of t=<br>
+esting, I was recompiling a mailstation app,<br>
+and I guess I got tired of del=<br>
+eting the "putchar" from sdcc's<br>
+z80 lib in various sdcc snapshot versions. =<br>
+I knew at the time<br>
+that the standard putchar would not work on the mailst=<br>
+ation,<br>
+but since I was not actually gonna try to run the code (or so I<br>
+tho=<br>
+ught!) it did not matter.  When I got done with the<br>
+patch, I forgot to put=<br>
+the putchar back in my lib.<br>
+<br>
+I don't really have a lot of experience with =<br>
+c libs, but I<br>
+seem to recall that the sdcc manual states that it will use<br>
+t=<br>
+he version of a lib from the first place it finds it on the<br>
+lib search list=<br>
+.  IIRC, I had to remove the standard putchar,<br>
+but not getchar, to get my c=<br>
+ode to link.  Likewise with crt0.<br>
+<br>
+Anyone care to comment on what the stand=<br>
+ard behaviour is in this<br>
+regard?  And by standard, I guess I mean "what doe=<br>
+s gcc do?".<br>
+<br>
+oned a built in debugger, I set out to try<br>
+issing something here,<br>
+race",<br>
+he trace is not very helpful, unless you can<br>
+ys by faster than the retrace<br>
+Have you tried to use it???  Maybe I missed something?<br>
+y way to single-step.<br>
+d.  I then added a<br>
+which I set into<br>
+<br>
+That is essentialy what I di=<br>
+d, too.<br>
+<br>
+the page/device, prints the registers and some stack,<br>
+file, and gives me a basic prompt on the console window.<br>
+er to progress line by line, or hit C to continue with<br>
+it hits the breakpoint again).<br>
+<br>
+Sounds like you replaced the built in "Z80=<br>
+_Debug(Z80_Regs *R)" with<br>
+your own, 'coz the built-in one does *not* stop.<br>
+=<br>
+<br>
+topped,<br>
+<br>
+Sounds like you replaced the built in "Z80_Debug(Z80_Regs *R)" wi=<br>
+th<br>
+your own, 'coz the built-in one *does* display the disassemled inst.<br>
+<br>
+which I don't think is<br>
+ibz80 could!).<br>
+<br>
+See one comment above.  ;-)<br>
+<br>
+purposes.  I knew what lines were what based on the<br>
+in my text editor.  I just needed to see register<br>
+till can't peek/poke memory or I/O or anything like that, but it shouldn't =<br>
+<br>
+<br>
+Nothing is "hard" about it, except mayb=<br>
+e finding the time to do it.<br>
+<br>
+ase<br>
+unk in<br>
+to be capable of multiple breakpoints too,<br>
+can probably do memory and I/O breakpoints<br>
+ons for those.<br>
+<br>
+Yeah, I made some changes to it myself, but I wonder if it =<br>
+might be<br>
+better to keep it "as is", and extend it on the msemu side.<br>
+One id=<br>
+ea I had was to change how you call it, so it only executes<br>
+a single inst o=<br>
+n every call (and of course mod the interrupt emulation<br>
+to compensate).<br>
+<br>
+As=<br>
+far as the number of breakpoints, in my experience, the only<br>
+time I ever r=<br>
+eally needed more than one was when single stepping<br>
+over conditional branch=<br>
+es, where you drop a breakpoint for both<br>
+possible "next" cases.  And that i=<br>
+s only when debugging on hardware,<br>
+where you need to modify the code at the=<br>
+"breakpoints".  With an<br>
+emulated cpu, you don't need to do this, you can j=<br>
+ust execute a<br>
+single instruction, and it will stop whichever way it branch=<br>
+ed.<br>
+<br>
+<br>
+if transfers<br>
+ff to bed for now.<br>
+nate version of the page,<br>
+page down into pieces to see<br>
+<br>
+Can't you just dump the=<br>
+whole rom again (with existing code)?<br>
+<br>
+When you say 17, do you mean decima=<br>
+l 17, or 0x17?<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 21, 2010</p>
+<p class="formattedBody"><br>
+guess I got tired of deleting the "putchar" from sdcc's<br>
+s sdcc snapshot versions.  I knew at the time<br>
+would not work on the mailstation,<br>
+to run the code (or so I<br>
+with the<br>
+really have a lot of experience with c libs, but I<br>
+he sdcc manual states that it will use<br>
+t place it finds it on the<br>
+andard putchar,<br>
+rt0.<br>
+=<br>
+<br>
+I recently=<br>
+updated my SDCC as well and ran into this problem again.  All I do though =<br>
+is delete their version of putchar.o from the LIB then include my own versi=<br>
+on on the command line when I link a program (along with my custom crt0).  =<br>
+I could add it to their system library and all, but I like to keep my code =<br>
+separate from theirs.  If one regularly updates their SDCC from the snapsho=<br>
+t, then it should be easy enough to make a script to take care of deleting =<br>
+putchar.o from their LIB automatically.<br>
+<br>
+They don't use the SDCCLIB utility=<br>
+anymore for the system libraries, which threw me off a bit at first till I=<br>
+read the updated manual.  They use the standard binutils "ar" command now.=<br>
+Though to create the index the normal "ranlib" doesn't work, so you have =<br>
+to use "asranlib" that comes with SDCC.<br>
+<br>
+e address, my debug<br>
+ers and some stack,<br>
+pt on the console window.<br>
+r hit C to continue with<br>
+).<br>
+h<br>
+<br>
+Yeah Z80_Debug in =<br>
+the z80em header is just a placeholder, you have to create your own functio=<br>
+n to handle it.<br>
+<br>
+der if it might be<br>
+side.<br>
+a single inst on every call (and of course mod the interrupt emulation<br>
+o compensate).<br>
+<br>
+Well, if you only want to execute one instruction at a time=<br>
+without modifying the z80em source, you could enable Z80_Trace, and then i=<br>
+t calls your debug function regularly.  That just slows you down in the end=<br>
+, though, unless you're only using it during debugging.<br>
+<br>
+ust dump the whole rom again (with existing code)?<br>
+you mean decimal 17, or 0x17?<br>
+<br>
+I meant decimal 17.<br>
+<br>
+I finally g=<br>
+ot around to redumping my codeflash.  As it turns out, I must have just had=<br>
+a bad dump all along.  On this one, my checksum utility now returns the sa=<br>
+me value as the emulator which also returns the same value as the hardware.=<br>
+As for what's in page 17 where I was getting the checksum difference, I h=<br>
+aven't looked.  I never had any problems out of my previous dump aside from=<br>
+that checksum, so maybe it was either code I was never executing or some g=<br>
+raphical data or something.<br>
+<br>
+I just never assumed it was a dump issue, beca=<br>
+use usually whenever those happened it threw the whole dump off (and then u=<br>
+sually stopped just short of 100% of the total data).  I guess if I ever im=<br>
+plement anything involving parallel port transfer (which I started writing =<br>
+into FyOS before), I'll definitely be including some kind of checksum on th=<br>
+e data packets.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">recall that the sdcc manual states that it will use<br>
+b from the first place it finds it on the<br>
+to remove the standard putchar,<br>
+k.  Likewise with crt0.<br>
+d behaviour is in this<br>
+oes gcc do?".<br>
+blem again.<br>
+he LIB<br>
+<br>
+In the older versions of SDCC, the libs were not archives, they ju=<br>
+st<br>
+had all the .o's in the lib directory.  I really did not want to get<br>
+sid=<br>
+etracked learning how to remove the putchar from the z80.lib<br>
+archive file. =<br>
+So, I just commented mine out in the makefile for<br>
+my library!<br>
+<br>
+lude my own version on the command line when I link a program<br>
+<br>
+I did take =<br>
+the time to learn how to make a library, and I can't find<br>
+where the instruc=<br>
+tions are now, but (~fall 2007, whatever version of<br>
+sdcc might have been cu=<br>
+rrent then) the info I found then suggested<br>
+just leaving the .o's in your l=<br>
+ib's dir, and creating a .lib file<br>
+in same dir,<br>
+where this .lib was just =<br>
+a list of the .o filenames that make up your<br>
+library.<br>
+<br>
+So, I created a libr=<br>
+ary for mailstation apps, with putchar & getchar<br>
+(which I only use for debu=<br>
+gging), and also a custom crt0 for<br>
+mailstation apps.  Also the header and =<br>
+.s wrappers for the firmware<br>
+calls.  And a few other functions, like "tribl=<br>
+ink", etc.<br>
+<br>
+The main thing different about crt0 for apps is I left the call=<br>
+<br>
+to gsinit out, because the app is not a standalone program, it<br>
+is just a s=<br>
+ingle "eventhandler" function.  I let that eventhandler<br>
+call the gsinit for=<br>
+the app when it receives the "init" event<br>
+from the mailstation.  That way =<br>
+my globals don't get re-init<br>
+for every event, just once when app is "inited=<br>
+".<br>
+<br>
+This is similar to a standard program calling gsinit as the<br>
+very first =<br>
+thing.  Just I don't want to call it every time code runs.<br>
+<br>
+y custom crt0).  I could add it to their system library and all,<br>
+ike to keep my code separate from theirs.<br>
+<br>
+Right, I like to keep mine sep=<br>
+arate, too.<br>
+<br>
+I really think they should remove the putchar, getchar,<br>
+and=<br>
+crt0 from the z80 lib, because they are not<br>
+appropriate for all z80 syste=<br>
+ms.  In fact they are only<br>
+appropriate for whatever system the default cod=<br>
+e works on.<br>
+(And just what system is it, anyways?????????)<br>
+<br>
+Those 3 funct=<br>
+ions belong in a lib specific to a particular<br>
+system.  They should separate=<br>
+them out into z80.lib and<br>
+generic system_demo.lib.  Then it would be a lot=<br>
+clearer<br>
+what parts you needed to customise for your particular hardware.<br>
+<br>
+=<br>
+I imagine *everyone* who uses sdcc needs to remove those<br>
+from the system l=<br>
+ibrary.<br>
+<br>
+I suppose most people are more familiar with programming<br>
+on a PC, =<br>
+where the people who create the lib can make<br>
+assumption that you are compil=<br>
+ing for same type of system<br>
+the compiler is running on, and those function=<br>
+s can be<br>
+part of the lib that comes with compiler.<br>
+<br>
+I know I am used to tak=<br>
+ing that kind of stuff for granted.<br>
+I don't think I realized there was even=<br>
+any "startup"<br>
+code linked when on PC, but I guess it is standard (with<br>
+c a=<br>
+t least???)  I suppose I always thought that whatever<br>
+it needed to set up, =<br>
+it did at the start of "main", before<br>
+my code.<br>
+<br>
+After playing with sdcc, I =<br>
+took a look at avr-gcc, and<br>
+it has startup code, too!  A different startup=<br>
+for each<br>
+type of AVR chip.<br>
+<br>
+the snapshot, then it should be easy enough<br>
+re of deleting putchar.o from their LIB automatically.<br>
+<br>
+I think that when I=<br>
+get farther up the sdcc learning curve<br>
+I will figure out how others are do=<br>
+ing this.  I suspect that<br>
+you are supposed to "install" even the snapshots=<br>
+, but I still<br>
+don't know exactly how to tell it where.  And more important=<br>
+,<br>
+where it puts the library.  I don't want it to install in<br>
+the default loc=<br>
+ation, because I want to have more than one<br>
+version available at same time,=<br>
+so I can just change<br>
+SDCCPATH in my projects makefile, to pick which to u=<br>
+se.<br>
+<br>
+I thought I knew how to do this.  I was running the snap<br>
+from exactly =<br>
+where "make" put the bin's.  And I thought it<br>
+was using the right library, =<br>
+too.  But the snaps after<br>
+2.9.0 seem to not find the lib.  Actually, it see=<br>
+ms it<br>
+is using the lib installed in usr/local/whatever, iow<br>
+the lib that in=<br>
+stalled with 2.9.0.<br>
+<br>
+I'm *sure* the older versions were finding lib relativ=<br>
+e to<br>
+the executable.  I wish they would quit changing this stuff!  :-)<br>
+<br>
+hey don't use the SDCCLIB utility anymore for the system libraries, which t=<br>
+hrew me off a bit at first till I read the updated manual.  They use the st=<br>
+andard binutils "ar" command now.  Though to create the index the normal "r=<br>
+anlib" doesn't work, so you have to use "asranlib" that comes with SDCC.<br>
+<br>
+I=<br>
+t seems the old way still works, too, coz my lib is still working.<br>
+<br>
+CJ<br>
+<br>
+(I=<br>
+think Yahoo has a bug, where it grows blank lines at top<br>
+of your post ever=<br>
+y time you "preview".  I just deleted 3 or 4<br>
+lines, so this should be ramme=<br>
+d right to top.  We'll see...)<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">he page/device, prints the registers and some stack,<br>
+o a file, and gives me a basic prompt on the console window.<br>
+hit enter to progress line by line, or hit C to continue with<br>
+ion (until it hits the breakpoint again).<br>
+d the built in "Z80_Debug(Z80_Regs *R)" with<br>
+n one does *not* stop.<br>
+aceholder, you have to<br>
+<br>
+No, I did=<br>
+n't create one, I used the one in Z80Debug.c.<br>
+<br>
+Did you find documentation t=<br>
+hat said you need your own?<br>
+<br>
+From the comments in Z80Debug.c:<br>
+<br>
+/*** This fi=<br>
+le contains a simple single step debugger which is called     ***/<br>
+/*** whe=<br>
+n DEBUG is #defined and Z80_Trace is true                         ***/<br>
+<br>
+And=<br>
+it implements the function<br>
+<br>
+void Z80_Debug(Z80_Regs *R);<br>
+<br>
+that is prototy=<br>
+ped in Z80.h.<br>
+<br>
+But I agree 110 percent that you need to create your own, co=<br>
+z this<br>
+one does not do what the comment says it does!!!<br>
+<br>
+But It DOES disass=<br>
+emble the instructions.  It just does not stop,<br>
+it keeps going, pouring out=<br>
+the disassembly from the point that you set<br>
+with the trap var.  I tried r=<br>
+edirecting to a file, and you don't know<br>
+what fun IS until you have tried t=<br>
+o open a 1.5 gigabyte text file!<br>
+<br>
+And that was only running a second or so =<br>
+past the trap point.  I<br>
+knew it would be a large file, but this is ridiculo=<br>
+us!<br>
+<br>
+But I did find where my code went haywire and started executing<br>
+from t=<br>
+he low address of 0000:0008.  There was a "rst 8" right<br>
+before that, and I =<br>
+checked the address of the function with<br>
+the rst 8 in in it, with the .map =<br>
+file, and it was putchar.<br>
+<br>
+That rst 8 looked mighty familiar at that poin=<br>
+t, just like<br>
+the "standard" putchar!!!!  It all came back to me soon<br>
+afte=<br>
+r that...<br>
+<br>
+ight be<br>
+One idea I had was to change how you call it, so it only executes<br>
+ngle inst on every call (and of course mod the interrupt emulation<br>
+ompensate).<br>
+e without modifying the z80em source, you could enable Z80_Trace, and then =<br>
+it calls your debug function regularly.  That just slows you down in the en=<br>
+d, though, unless you're only using it during debugging.<br>
+<br>
+Yeah, you could d=<br>
+o it that way too, but then you need to leave out<br>
+Z80Debug.c that comes wit=<br>
+h z80em.<br>
+<br>
+But if you just set the "Z80_IPeriod" to 0, then I think it will<br>
+=<br>
+single step, and you can handle it in msemu.  I don't know if<br>
+it is better,=<br>
+just how I think I would do it.  of course you<br>
+would need to mod the inter=<br>
+rupt emulation, too. (iow, you<br>
+need to time them yourself, if z80em is now =<br>
+checking for<br>
+int after every instruction.)<br>
+<br>
+The way it is now, you *can't*=<br>
+get an interrupt except<br>
+once every millisec.<br>
+<br>
+That is probably good enoug=<br>
+h, though.  Particularly for the<br>
+1 ms interrupt.  But when is the 1 sec in=<br>
+t happening????<br>
+Is it stealing one of the 1 ms ints on those cases????<br>
+<br>
+W=<br>
+hat about other interrupts, like the ones you found for kbd &<br>
+power button?=<br>
+???  I imagine 1 ms period is ok there too, but<br>
+it is not really an interru=<br>
+pt if it can only happen at a particular<br>
+time.  Not that it really matters=<br>
+.<br>
+<br>
+Perhaps it will do all the pending interrupts on each 1 ms beat???<br>
+I'm=<br>
+not sure just how it is working now.<br>
+<br>
+imal 17, or 0x17?<br>
+<br>
+ping my codeflash.  As it turns out, I must have just had a bad dump all al=<br>
+ong.  On this one, my checksum utility now returns the same value as the em=<br>
+ulator which also returns the same value as the hardware.  As for what's in=<br>
+page 17 where I was getting the checksum difference, I haven't looked.  I =<br>
+never had any problems out of my previous dump aside from that checksum, so=<br>
+maybe it was either code I was never executing or some graphical data or s=<br>
+omething.<br>
+<br>
+If you start at 0, and mean page 0x11, then it looks like it<br>
+is =<br>
+all related to address book functions, either the address<br>
+book app itself, =<br>
+or the address book functions in "inbox", "outbox",<br>
+"create new", or "sent=<br>
+" apps.<br>
+<br>
+er those happened it threw the whole dump off (and then usually stopped jus=<br>
+t short of 100% of the total data).<br>
+<br>
+So, you are saying it happens often?=<br>
+;^)<br>
+<br>
+I still need to get to the bottom of my checksum "anomally".<br>
+I an us=<br>
+ing the data from the 253yr dump in file area, not my<br>
+actual 2.53yr mailsta=<br>
+tion.  I probably should get around to<br>
+making room to set up old pc, and du=<br>
+mp actual code.  Or maybe<br>
+I need to figure out how to run it on Linux???  I=<br>
+can run<br>
+it under a dos emulator (for what it's worth, that pegs cpu<br>
+at 10=<br>
+0% too).  But I don't know how hard it is to get access<br>
+to par port???  Ma=<br>
+ybe if I run as root?  heh heh heh!<br>
+<br>
+Everywhere I look, more learning cur=<br>
+ves.  And only one lifetime.  sniff.<br>
+<br>
+g involving parallel port transfer (which I started writing into FyOS befor=<br>
+e), I'll definitely be including some kind of checksum on the data packets.=<br>
+<br>
+I know it makes some cringe, but I did not put any checksum<br>
+in the tribb=<br>
+lelink code, and I never noticed a hiccup.<br>
+Doesn't mean it didn't, but I =<br>
+never noticed any, and I<br>
+was using it A LOT.  I was loading the ms firmwar=<br>
+e into RAM,<br>
+and verifying whenever I thought I should, and NEVER<br>
+was there =<br>
+a problem.  And all the commands to mbug<br>
+went over it.  Heck, even mbug got=<br>
+loaded over it!!!<br>
+[ouch, I think I dislocated my shoulder...]<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Checksum Conundrum</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">...> wrote:<br>
+ins a simple single step debugger which is called     ***/<br>
+G is #defined and Z80_Trace is true                         ***/<br>
+t implements the function<br>
+rototyped in Z80.h.<br>
+ur own, coz this<br>
+t It DOES disassemble the instructions.  It just does not stop,<br>
+going, pouring out the disassembly from the point that you set<br>
+trap var.<br>
+<br>
+Aha, you found out something I didn't even realize.  I didn't =<br>
+know it was capable of displaying the instruction in ascii.  I'll have to a=<br>
+dd this into my own debug function.<br>
+<br>
+The reason I never noticed this is bec=<br>
+ause I never included z80debug.o when building msemu.  Going by the makefil=<br>
+e, it's not built into z80.o automatically.  I'm sure if I included this ob=<br>
+ject file in mine and commented out my debug function, I'd get the same res=<br>
+ult as you.<br>
+<br>
+So the solution is to just dump including z80debug.o and write=<br>
+your own version of the function.  Or wait forever until I get around to r=<br>
+eleasing another version, I suppose!<br>
+<br>
+d you don't know<br>
+text file!<br>
+<br>
+When I was using libz80 and capturing all its disassembly ou=<br>
+tput (along with my custom debug stuff too) to a file, I had me some fun ti=<br>
+mes as well.  Eventually I changed it to start outputting to a separate fil=<br>
+e after hitting a certain keypress (this was before I had breakpoints or an=<br>
+ything), which helped somewhat.  But UltraEdit can handle big files relativ=<br>
+ely well without keeling over, fortunately.<br>
+<br>
+I lost my ability to print o=<br>
+ut disassembled code when switching to z80em, but now that you brought that=<br>
+capability to my attention, I'll have to see about adding that in.  I don'=<br>
+t really need disassembled output at the moment, particularly after getting=<br>
+a CPU library that's not full of bugs, but it could be handy to have later=<br>
+.<br>
+<br>
+ms interrupt.  But when is the 1 sec int happening????<br>
+one of the 1 ms ints on those cases????<br>
+<br>
+The Z80_Interrupt function is b=<br>
+eing called 64 times a second (when z80em runs out of t-states to execute e=<br>
+ach time).  This function triggers the "keyboard" interrupt to the Mailstat=<br>
+ion every time, as long as it's enabled in the interrupt mask (P3).  Also i=<br>
+nside the Z80_Interrupt function is a counter up to 64, at which point it t=<br>
+riggers the 1-second "time16" interrupt (again, if enabled in the interrupt=<br>
+mask).<br>
+<br>
+The "interrupts_active" variable acts as the value that the Mailst=<br>
+ation gets when it reads P3.  So at the end of the Z80_Interrupt function, =<br>
+it checks if any of these device interrupts are currently active, and if so=<br>
+, it causes the emulator to execute an actual cpu interrupt (which runs the=<br>
+Mailstation's handler).<br>
+<br>
+I assume in the actual hardware that P3 is some=<br>
+how also connected (OR'd) to the Mailstation's interrupt pin, so that's wha=<br>
+t this simulates.  If any bits of P3 aren't toggled during the interrupt, t=<br>
+hen they will just cause an interrupt to happen again next time.  Though it=<br>
+won't happen immediately, as would happen on the hardware, I just realized=<br>
+.  But they'll happen at the next execution of Z80_Interrupt.<br>
+<br>
+I know tha=<br>
+t they definitely happen in quick succession on the hardware, because I had=<br>
+it happen in my interrupt hook before when I didn't toggle the bits in P3.=<br>
+The interrupt just kept happening over and over.<br>
+<br>
+terrupts, like the ones you found for kbd &<br>
+ms period is ok there too, but<br>
+nly happen at a particular<br>
+haps it will do all the pending interrupts on each 1 ms beat???<br>
+ure just how it is working now.<br>
+<br>
+Only two of the hardware interrupts are=<br>
+being emulated right now, as mentioned above.  I didn't bother implementin=<br>
+g the physical power button and keypress interrupts I found before, since t=<br>
+he Mailstation software doesn't use them.  I will at some point though, in =<br>
+order to stay hardware-accurate.  I was mostly concerned about getting the =<br>
+firmware running properly first and foremost.<br>
+<br>
+In my current version though=<br>
+I've been emulating the modem interrupt, because I actually have emulated =<br>
+enough of the modem chip that the Mailstation starts sending ascii characte=<br>
+rs to it.  I've managed to get the initialization string to come through so=<br>
+far.  I now need to emulate the chip sending data back, to do an "OK" and =<br>
+"CONNECT" and all when appropriate.<br>
+<br>
+I'd just like to get the modem emulate=<br>
+d so that eventually my own Mailstation software can communicate with the P=<br>
+C over that connection, freeing up the much more useful parallel port for o=<br>
+ther capabilities.  Like an SD card reader or something.<br>
+<br>
+ver assumed it was a dump issue, because usually whenever those happened it=<br>
+threw the whole dump off (and then usually stopped just short of 100% of t=<br>
+he total data).<br>
+<br>
+Not often=<br>
+I suppose, but my cable does run past various wires, including electrical,=<br>
+so the potential for problems always exists in my case.<br>
+<br>
+ed to get to the bottom of my checksum "anomally".<br>
+om the 253yr dump in file area, not my<br>
+ably should get around to<br>
+ode.  Or maybe<br>
+=<br>
+o).  But I don't know how hard it is to get access<br>
+if I run as root?  heh heh heh!<br>
+<br>
+I've never done it personally under Lin=<br>
+ux, but it does seem somewhat straightforward (permissions aside).  I'm tem=<br>
+pted to try it sometime just for curiosity's sake.<br>
+<br>
+Here's you a potentiall=<br>
+y helpful resource which I've looked over before:<br>
+<br>
+<a target="_blank" href="http://www.faqs.org/docs=">(URL)</a><br>
+/Linux-mini/IO-Port-Programming.html<br>
+<br>
+I'd say if Linux is your OS of choice=<br>
+these days then it's worth learning.  Lots of things you can do with it ou=<br>
+tside of just Mailstation-related, after all.<br>
+<br>
+I don't know if your origi=<br>
+nal code is in C or not though, so that might make porting it over a little=<br>
+more complicated.  But the maildump utility I wrote is in C, if you ever w=<br>
+ant it.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

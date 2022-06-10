@@ -1,0 +1,262 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Email to application idea (Jul 14, 2011)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "CyranoJ" <cyranojones_lalp@...> Jul 16, 2011</a></li>
+<li><a class="link" href="#2">From: "Neil Morrison" <neilsmorr@...> Jul 16, 2011</a></li>
+<li><a class="link" href="#3">From: "CyranoJ" <cyranojones_lalp@...> Jul 17, 2011</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> Jul 17, 2011</a></li>
+<li><a class="link" href="#5">From: "CyranoJ" <cyranojones_lalp@...> Jul 15, 2011</a></li>
+</ol><hr>
+<hr><h3>Subject: Email to application idea</h3>
+<p class="from">From: "wizardofhaas1024" &lt;sean@...></p>
+<p class="date">Jul 14, 2011</p>
+<p class="formattedBody">When you get an email on your mailstation it is stored around 0x024d00, I w=<br>
+as messing with some mail using the hex editor and thought of something, co=<br>
+uld you send an email that contained the hex code for a program to the mail=<br>
+station and then use another program to relocate the email code to a locati=<br>
+on where you could access and run it?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Email to application idea</h3>
+<a href="#0">(top)</a><p class="from">From: "CyranoJ" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 16, 2011</p>
+<p class="formattedBody">=<br>
+, I was messing with some mail using the<br>
+hing, could you send an<br>
+to the<br>
+code to a location where you could access and run it?<br>
+<br>
+I don't see why not=<br>
+.<br>
+<br>
+You might even be able to email a binary image, but I am<br>
+not sure it w=<br>
+ould make it through the email process undamaged.<br>
+<br>
+What I was doing to get =<br>
+code loaded on a stock mailstation<br>
+was loading it to the splash screen imag=<br>
+e with mailbug.<br>
+Then, with mailstations hex editor, I entered a "jump"<br>
+to t=<br>
+hat image as a very short app (9 bytes).  When executed<br>
+from the "extras" o=<br>
+r "yahoo" menu, it would then copy itself<br>
+to one of the "app" pages.<br>
+<br>
+I onl=<br>
+y used that process to load a "bootapp", which acted<br>
+as the remote end of m=<br>
+ailbug, my remote debugger.<br>
+<br>
+After the bootapp was installed, I would load =<br>
+subsequent<br>
+apps to ram using mailbug, and then run them.  The technique<br>
+of =<br>
+having the app copy itself to the app space worked so good<br>
+I just kept usin=<br>
+g it to copy these ram images to the dataflash,<br>
+and never did add (to mailb=<br>
+ug) a function to write directly to<br>
+dataflash.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Email to application idea</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 16, 2011</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+<br>
+The ones with the Yahoo function could get small images it seems.<br>
+<br>
+Neil<br>
+<br>
+F=<br>
+rom: CyranoJ<br>
+<br>
+You might even be able to email a binary image, but I am<br>
+no=<br>
+t sure it would make it through the email process undamaged.<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+<br>
+=<br>
+st=<br>
+yle=3D"BACKGROUND-COLOR: #fff; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PAD=<br>
+DING-TOP: 15px"<br>
+id=3DMailContainerBody leftMargin=3D0 topMargin=3D0 Canvas=<br>
+TabStop=3D"true"<br>
+name=3D"Compose message area"><br>
+=3DArial>The ones with the Yahoo function could get small<br>
+images it seems.=<br>
+NT size=3D2 face=3DArial>Neil&lt;/FONT>&lt;/DIV><br>
+f5"><br>
+alp@...<br>
+href=3D"mailto:cyranojones_lalp@...">CyranoJ&lt;/A> &lt;/DIV=<br>
+=3D"POSITION: relative" id=3Dygrp-mlmsg><br>
+p-msg><br>
+ge, but I am&lt;BR>not sure it would<br>
+make it through the email process<br>
+undam=<br>
+aged.&lt;BR>&lt;/P>&lt;/DIV>&lt;/DIV>&lt;/DIV>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Email to application idea</h3>
+<a href="#0">(top)</a><p class="from">From: "CyranoJ" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 17, 2011</p>
+<p class="formattedBody">nction could get small images it seems.<br>
+<br>
+If you mean the "TV listings" e=<br>
+tc., they were just one big<br>
+graphic image.  But I imagine they were sent as=<br>
+mime attachments<br>
+of some sort.  I was wondering if you could send executab=<br>
+le<br>
+binary code as the body of an email, and then just jump to the<br>
+saved ema=<br>
+il to run it.  But the more I think about it, I am<br>
+not sure just what you c=<br>
+ould send an email like that with.<br>
+Certainly not any standard email client.=<br>
+<br>
+Usually even attached files are encoded as text, aren't they?<br>
+<br>
+It's proba=<br>
+bly a better idea to send intel hex format, and have<br>
+a loader on the mailst=<br>
+ation decode it to binary.  And then<br>
+it could write the binary to a free ap=<br>
+p page!<br>
+<br>
+Or load it into ram and execute it.  That might require<br>
+the mailst=<br>
+ation reboot when done executing, unless you<br>
+could find enough ram that is =<br>
+unused (or rarely used???).<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Email to application idea</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 17, 2011</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+<br>
+ISTR they could get 'special' emails which set them to a particular ISP or =<br>
+whatever.<br>
+<br>
+Not sure what the format of those was.<br>
+<br>
+The Yahoo thing also did=<br>
+weather and a couple more things I think.<br>
+<br>
+Neil<br>
+<br>
+From: CyranoJ<br>
+<br>
+wondering if you could send executable<br>
+binary code as the body of an email=<br>
+, and then just jump to the<br>
+saved email to run it. But the more I think abo=<br>
+ut it, I am<br>
+not sure just what you could send an email like that with.<br>
+Cert=<br>
+ainly not any standard email client.<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+<br>
+=<br>
+st=<br>
+yle=3D"BACKGROUND-COLOR: #fff; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; PAD=<br>
+DING-TOP: 15px"<br>
+id=3DMailContainerBody leftMargin=3D0 topMargin=3D0 Canvas=<br>
+TabStop=3D"true"<br>
+name=3D"Compose message area"><br>
+=3DArial>ISTR they could get 'special' emails which set them<br>
+to a particul=<br>
+ar ISP or whatever.&lt;/FONT>&lt;/DIV><br>
+bsp;&lt;/DIV><br>
+se was.&lt;/FONT>&lt;/DIV><br>
+DIV>&lt;FONT size=3D2 face=3DArial>The Yahoo thing also did weather and a coup=<br>
+le more<br>
+things I think.&lt;/FONT>&lt;/DIV><br>
+NT>&nbsp;&lt;/DIV><br>
+le=3D"FONT: 10pt Tahoma"><br>
+olor: black">&lt;B>From:&lt;/B> &lt;A title=3Dcyranojones_lalp@...<br>
+href=3D"ma=<br>
+ilto:cyranojones_lalp@...">CyranoJ&lt;/A> &lt;/DIV>&lt;/DIV>&lt;/DIV><br>
+size=3D2 face=3DArial>&lt;/FONT>&lt;FONT size=3D2 face=3DArial>&lt;/FONT>&lt;FONT size=<br>
+=3D2<br>
+face=3DArial>&lt;/FONT>&lt;FONT size=3D2 face=3DArial>&lt;/FONT>&lt;BR>&lt;/DIV><br>
+V style=3D"POSITION: relative" id=3Dygrp-mlmsg><br>
+d=3Dygrp-msg><br>
+d executable&lt;BR>binary code as the body<br>
+of an email, and then just jump to=<br>
+the&lt;BR>saved email to run it. But the more I<br>
+think about it, I am&lt;BR>not =<br>
+sure just what you could send an email like that<br>
+with.&lt;BR>Certainly not an=<br>
+y standard email<br>
+client.&lt;BR>&lt;/P>&lt;/DIV>&lt;/DIV>&lt;/DIV>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Email to application idea</h3>
+<a href="#0">(top)</a><p class="from">From: "CyranoJ" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 15, 2011</p>
+<p class="formattedBody">=<br>
+, I was messing with some mail using the<br>
+hing, could you send an<br>
+to the<br>
+code to a location where you could access and run it?<br>
+<br>
+I don't see why not=<br>
+.<br>
+<br>
+You might even be able to email a binary image, but I am<br>
+not sure it w=<br>
+ould make it through the email process unmolested.<br>
+<br>
+What I was doing to get=<br>
+code loaded on a stock mailstation<br>
+was loading it to the splash screen ima=<br>
+ge with mailbug.<br>
+Then, with mailstations hex editor, I entered a "jump"<br>
+to =<br>
+that image as a very short app (9 bytes).  When executed<br>
+from the "extras" =<br>
+or "yahoo" menu, it would then copy itself<br>
+to one of the "app" pages.<br>
+<br>
+I on=<br>
+ly used that process to load a "bootapp", which acted<br>
+as the remote end of =<br>
+mailbug, my remote debugger.<br>
+<br>
+After the bootapp was installed, I would load=<br>
+subsequent<br>
+apps to ram using mailbug, and then run them.  The technique<br>
+of=<br>
+having the app copy itself to the app space worked so good<br>
+I just kept usi=<br>
+ng it to copy these ram images to the dataflash,<br>
+and never did add (to mail=<br>
+bug) a function to write directly to<br>
+dataflash .<br>
+<br>
+CJ<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

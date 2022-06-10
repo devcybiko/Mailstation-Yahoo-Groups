@@ -1,0 +1,203 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">3Com Audrey (Jul 18, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#6">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 25, 2004</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 25, 2004</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 25, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: 3Com Audrey</h3>
+<p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 18, 2004</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+Content-Transfer-Encoding: 7bit<br>
+<br>
+<a target="_blank" href="http://www.audreymadness.com/Audrey.aspx">(URL)</a><br>
+<br>
+name="3Com Audrey Newsletter.url"<br>
+Content-Disposition: attachment;<br>
+filename="3Com Audrey Newsletter.url"<br>
+<br>
+[ Attachment content not displayed ]<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">One of a few hacking sites: <a target="_blank" href="http://www.audreyhacking.com/">(URL)</a><br>
+<br>
+NM<br>
+<br>
+wrote:<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">Hey man don't clutter up the list with OT stuff!<br>
+<br>
+Just kidding. It's a welcome change the only other thing from this list<br>
+in months is a spam mail.<br>
+<br>
+One of these days I'll get back to the mailstation. Cyrano Jones, if<br>
+you're out there, are you happily loading firmware over the parallel<br>
+port yet?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">I made a version of my remote debugger, and flashed it<br>
+into an unmodified mailstation.  Breakpoints do not work (yet)<br>
+with this version.  I have been hammering on the PC half of<br>
+the software, trying to get it into a presentable form.<br>
+<br>
+The reflashing protocol that I posted a while ago seems to<br>
+work!  As far as any "new" code, all I have done is poke a<br>
+short routine into ram via debugger (hex edit), and<br>
+execute it.  It reads a key from keyboard, stores the<br>
+scan code in ram, and turns on the mail LED.  :-)<br>
+<br>
+I have not found any way (yet) to save the existing code<br>
+to disk before reflashing.  That means that you have to<br>
+wipe out most of the mailstation code when you flash<br>
+the remote debug code.  You even have to wipe out the<br>
+font data, so I haven't done any output to LCD yet.<br>
+No "Hello world" yet.   :-(<br>
+<br>
+It is probably gonna be "easy" to use the LCD code from<br>
+the reflash routines, I just have not got 'round to it yet.<br>
+I have not been able to play with this project as much as I<br>
+would like to lately.<br>
+<br>
+If I post pascal code (compiles with Freepascal), is anyone<br>
+here gonna be able to use it?  Or should I post binary???<br>
+And does anyone know where the summer went????<br>
+<br>
+CJ<br>
+<br>
+wrote:<br>
+list<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">Is it possible to load/flash a dump routine into 'ram' and use that to<br>
+download the code?<br>
+<br>
+Neil<br>
+<br>
+From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">On Fri, 2004-09-24 at 13:47, Cyrano Jones wrote:<br>
+<br>
+What target debugger are you using?<br>
+<br>
+<br>
+So you're saying you haven't found any "read block" command? That's a<br>
+bummer. Certainly manageable given we're replacing it anyway and someone<br>
+already has provided an image, but it would be nice to be able to get an<br>
+backup of any given mailstation.<br>
+<br>
+<br>
+I know that feels...<br>
+<br>
+<br>
+My Pascal knowledge is rusty but certainly workable. If you want to put<br>
+the code under open source license I could get us a SourceForge project<br>
+set up.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 25, 2004</p>
+<p class="formattedBody">If you use the native reflash function, it will erase the<br>
+old code before you can flash any new "download" code into<br>
+the code rom.<br>
+<br>
+I don't know how to get any code into ram, let alone how<br>
+to make the mailstation execute it if you did.<br>
+<br>
+There is the possibility of loading code into the dataflash,<br>
+but so far the only way I can think of to get it to execute<br>
+it would require minor surgery on the pc board.<br>
+<br>
+The existence of the 2.53yr rom dump makes dumping the code<br>
+an academic exercise, for the brown mailstations at least.<br>
+<br>
+The ergonomic case models have a different keyboard layout,<br>
+so I would guess that you would not want to flash the 2.53yr<br>
+code into one of those (assuming that the key matrix is<br>
+different, too).<br>
+<br>
+Until someone rewrites all the functionality that is in the<br>
+original rom (keyboard scanning, LCD display, flash filesystems,<br>
+modem driver, etc., etc.), reusing the original code seems<br>
+like a real good idea.<br>
+<br>
+I had hoped that it would be possible to reuse that code,<br>
+WITHOUT the need to download it from some BBS somewhere.<br>
+But I have noticed that the word "copyright" does not seem<br>
+to be found anywhere in the code, so perhaps it is not as<br>
+important as I thought???<br>
+<br>
+One of the things on my "To Do List" is to make a version<br>
+of the debug code that can be overlaid on the 2.53yr dump,<br>
+and then reflashed, but it would probably only work on the<br>
+brown (version 2.somethin) models.<br>
+<br>
+<br>
+wrote:<br>
+to<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 25, 2004</p>
+<p class="formattedBody">...<br>
+<br>
+It's all home-grown stuff.  And kinda ugly in some respects.<br>
+I never really set out to create what I have now, it just<br>
+kind of grew.  And it shows!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: 3Com Audrey</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 25, 2004</p>
+<p class="formattedBody">...<br>
+<br>
+I do plan to put it up here, under some sort of open licence.<br>
+I think I would prefer to post it as source, so I don't have<br>
+to worry about virus issues.  And maybe someone will want to<br>
+port it to another language?  I'm not big on c, but I have<br>
+thought about re-doing it in perl myself.<br>
+<br>
+The reason it is in Pascal is that it grew out of a program<br>
+I wrote a long time ago, to poke around inside of the arcade<br>
+Pacman code.  It seemed easier at the time (when I started<br>
+messing with the mailstation) to just extend the old code.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

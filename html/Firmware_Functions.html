@@ -1,0 +1,444 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Firmware Functions (Dec 14, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Dec 21, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Firmware Functions</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Dec 14, 2007</p>
+<p class="formattedBody"><br>
+// mailstation.h<br>
+//<br>
+// Function prototypes and other declarations needed<br>
+//=<br>
+for interfacing with the mailstation firmware.<br>
+<br>
+#define sig_init       0x0=<br>
+1<br>
+#define sig_suspend    0x02<br>
+#define sig_goprev     0x03<br>
+#define sig_gomai=<br>
+n     0x04<br>
+#define sig_timer      0x05<br>
+#define sig_buttondown 0x06<br>
+#define =<br>
+sig_buttonup   0x07<br>
+#define sig_keydown    0x08<br>
+#define sig_keyup      0x09=<br>
+<br>
+#define sig_menu       0x0a<br>
+<br>
+#define sig_draw       0x0d<br>
+#define sig_exit =<br>
+0x14<br>
+<br>
+#define SEEK_SET 0<br>
+#define SEEK_CUR 1<br>
+#define SEEK_END 2<br>
+<br>
+typ=<br>
+edef uint8_t byte;<br>
+typedef uint16_t word;<br>
+<br>
+typedef struct {<br>
+word string_=<br>
+id;<br>
+word menu_id;<br>
+byte scancode;<br>
+} FKEY_ITEM;<br>
+<br>
+int get_ramdisk(uint1=<br>
+6_t dummy, uint16_t code, uint16_t size);<br>
+int resize_ramdisk(int fh, uint16=<br>
+_t newsize);<br>
+int   read_ramdisk(int fh, uint8_t * dest, uint16_t n);<br>
+int  w=<br>
+rite_ramdisk(int fh, uint8_t * source, uint16_t n);<br>
+int   seek_ramdisk(int =<br>
+fh, int32_t offset, int origin);<br>
+int delete_ramdisk(int fh);<br>
+<br>
+int  set_f_k=<br>
+ey_menu(int who, FKEY_ITEM * dataptr, int n);<br>
+void putevent_goprev(void);<br>
+i=<br>
+nt  new_timer(int who, uint16_t msec, int persist);<br>
+int  kill_timer(int tim=<br>
+er);<br>
+<br>
+int  draw_app_foldertab(char * title);<br>
+<br>
+// These functions operate on=<br>
+dataflash files<br>
+int     add_record(uint16_t file, uint16_t n, uint8_t * so=<br>
+urce);<br>
+int  delete_record(uint16_t file, uint16_t rec);<br>
+int  modify_record(=<br>
+uint16_t file, uint16_t rec, uint16_t recoffset,<br>
+uint16_t n, uint8_t * sour=<br>
+ce);<br>
+int   write_record(uint16_t file, uint16_t rec, uint16_t n, uint8_t *<br>
+=<br>
+source);<br>
+int    read_record(uint16_t file, uint16_t rec, uint16_t n, uint8_=<br>
+t *<br>
+dest);<br>
+int    delete_file(uint16_t file);<br>
+int    rename_file(uint16_t f=<br>
+ile1, uint16_t file2);<br>
+int  number_of_records(WORD filenum);<br>
+<br>
+void enable_i=<br>
+nterrupts(void);<br>
+void disable_interrupts(void);<br>
+<br>
+void delay(WORD msec);<br>
+voi=<br>
+d setled(WORD newstate);<br>
+int  low_battery_detect(void);<br>
+void cpuhalt(void);=<br>
+<br>
+void clearLCD(void);<br>
+void test_mode(WORD);<br>
+<br>
+<br>
+; mailstation.s<br>
+<br>
+; In most cases the only thi=<br>
+ng needed here is to define the address of<br>
+; the firmware function.  SDCC w=<br>
+ill save most of it's registers when<br>
+; it calls another function, but for s=<br>
+ome reason it leaves the ix<br>
+register<br>
+; for the called function to save.  So=<br>
+if the mailstation function<br>
+happens<br>
+; to use ix without saving it first, w=<br>
+e need a small wrapper here.<br>
+<br>
+r_get_ramdisk         =3D 0x05DB<br>
+_resize_ram=<br>
+disk     =3D=3D 0x05DE<br>
+r_read_ramdisk        =3D 0x05E1<br>
+r_write_ramdisk    =<br>
+=3D 0x05E4<br>
+r_seek_ramdisk        =3D 0x05E7<br>
+_delete_ramdisk         =3D=3D=<br>
+0x05EA<br>
+<br>
+_set_f_key_menu     =3D=3D 0x0638<br>
+_putevent_goprev     =3D=3D 0x06=<br>
+6E<br>
+_new_timer             =3D=3D 0x070D<br>
+_kill_timer         =3D=3D 0x0713<br>
+<br>
+=<br>
+_draw_app_foldertab =3D=3D 0x0827<br>
+<br>
+_add_record         =3D=3D 0x0887<br>
+_delet=<br>
+e_record         =3D=3D 0x088D<br>
+_modify_record        =3D=3D 0x0893<br>
+_write_r=<br>
+ecord         =3D=3D 0x0899<br>
+_read_record         =3D=3D 0x089F<br>
+_delete_file=<br>
+=3D=3D 0x08A5<br>
+_rename_file        =3D=3D 0x08AB<br>
+<br>
+_number_of_record=<br>
+s    =3D=3D 0x08CF<br>
+_write_app             =3D=3D 0x090B<br>
+<br>
+_enable_interrupts=<br>
+=3D=3D 0x0A19<br>
+_disable_interrupts =3D=3D 0x0A1B<br>
+<br>
+_delay               =<br>
+=3D=3D 0x0A5C<br>
+_setled                =3D=3D 0x0A77<br>
+_low_battery_detect =<br>
+=3D=3D 0x0A7A<br>
+_cpuhalt             =3D=3D 0x0A7D<br>
+<br>
+_test_mode             =<br>
+=3D=3D 0x0AAC<br>
+<br>
+.area _CODE<br>
+_get_ramdisk::<br>
+ld (ixsave),ix<br>
+p=<br>
+op ix<br>
+ld (retsave),ix<br>
+call r_get_ramdisk<br>
+ld ix,(retsave)<br>
+=<br>
+push ix<br>
+ld ix,(ixsave)<br>
+ret<br>
+<br>
+_read_ramdisk::<br>
+ld (ixsave),i=<br>
+x<br>
+pop ix<br>
+ld (retsave),ix<br>
+call r_read_ramdisk<br>
+ld ix,(ret=<br>
+save)<br>
+push ix<br>
+ld ix,(ixsave)<br>
+ret<br>
+<br>
+_write_ramdisk::<br>
+ld =<br>
+(ixsave),ix<br>
+pop ix<br>
+ld (retsave),ix<br>
+call r_write_ramdisk<br>
+=<br>
+ld ix,(retsave)<br>
+push ix<br>
+ld ix,(ixsave)<br>
+ret<br>
+<br>
+_seek_ramdisk:=<br>
+:<br>
+ld (ixsave),ix<br>
+pop ix<br>
+ld (retsave),ix<br>
+call r_seek_ram=<br>
+disk<br>
+ld ix,(retsave)<br>
+push ix<br>
+ld ix,(ixsave)<br>
+ret<br>
+<br>
+.=<br>
+area _BSS<br>
+ixsave:  .ds 2<br>
+retsave: .ds 2<br>
+<br>
+;; possibly a more compact way to =<br>
+wrap???  untested!!!<br>
+;<br>
+; Each wrapped function has it's own wrapper on the =<br>
+way in...<br>
+;_xxxxxxx::<br>
+;    ld   (ixsave),ix<br>
+;    ld   hl,#commonret<br>
+;   ex =<br>
+(sp),hl<br>
+;    ld   (retsave),hl<br>
+;    ld   hl,#r_xxxxxxx<br>
+;    jp   (hl)<br>
+<br>
+; =<br>
+...but all wrapped functions use this single instance of ret code on<br>
+the wa=<br>
+y out.<br>
+;commonret:<br>
+;    ld   ix,(ixsave)<br>
+;    ld   de,(retsave)<br>
+;    jp   (=<br>
+de)<br>
+<br>
+<br>
+and other declarations needed&lt;br>// for interfacing with the mailstation f=<br>
+irmware.&lt;br>&lt;br>#define sig_init&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x01&lt;b=<br>
+r>#define sig_suspend&nbsp;&nbsp;&nbsp; 0x02&lt;br>#define sig_goprev&nbsp;&nb=<br>
+sp;&nbsp;&nbsp; 0x03&lt;br>#define sig_gomain&nbsp;&nbsp;&nbsp;&nbsp; 0x04&lt;br>=<br>
+#define sig_timer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x05&lt;br>#define sig_buttond=<br>
+own 0x06&lt;br>#define sig_buttonup&nbsp;&nbsp; 0x07&lt;br>#define sig_keydown&nb=<br>
+sp;&nbsp;&nbsp; 0x08&lt;br>#define sig_keyup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x0=<br>
+9&lt;br>#define sig_menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x0a&lt;br>&lt;br>#defi=<br>
+ne sig_draw&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x0d&lt;br>#define sig_exit&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x14&lt;br>&lt;br>&lt;br>#define SEEK_SET 0&lt;br>#de=<br>
+fine SEEK_CUR 1&lt;br>#define SEEK_END 2&lt;br>&lt;br>&lt;br>typedef uint8_t byte;&lt;br>t=<br>
+ypedef uint16_t word;&lt;br>&lt;br>typedef struct {&lt;br>&nbsp; word string_id;&lt;br>=<br>
+&nbsp; word menu_id;&lt;br>&nbsp; byte scancode;&lt;br>} FKEY_ITEM;&lt;br>&lt;br>&lt;br>in=<br>
+t get_ramdisk(uint16_t dummy, uint16_t code, uint16_t size);&lt;br>int resize_=<br>
+ramdisk(int fh, uint16_t newsize);&lt;br>int&nbsp;&nbsp; read_ramdisk(int fh, =<br>
+uint8_t * dest, uint16_t n);&lt;br>int&nbsp; write_ramdisk(int fh, uint8_t * s=<br>
+ource, uint16_t n);&lt;br>int&nbsp;&nbsp; seek_ramdisk(int fh, int32_t offset,=<br>
+int origin);&lt;br>int delete_ramdisk(int fh);&lt;br>&lt;br>&lt;br>int&nbsp; set_f_key=<br>
+_menu(int who, FKEY_ITEM * dataptr, int n);&lt;br>void putevent_goprev(void);&lt;=<br>
+br>int&nbsp; new_timer(int who, uint16_t msec, int persist);&lt;br>int&nbsp; k=<br>
+ill_timer(int timer);&lt;br>&lt;br>int&nbsp; draw_app_foldertab(char * title);&lt;br=<br>
+&nbsp; add_record(uint16_t file, uint16_t n, uint8_t * source);&nbsp;&nbsp;=<br>
+&nbsp;&lt;br>int&nbsp; delete_record(uint16_t file, uint16_t rec);&nbsp;&nbsp=<br>
+; &nbsp;&lt;br>int&nbsp; modify_record(uint16_t file, uint16_t rec, uint16_t r=<br>
+ecoffset, uint16_t n, uint8_t * source);&nbsp;&nbsp; &nbsp;&lt;br>int&nbsp;&nb=<br>
+sp; write_record(uint16_t file, uint16_t rec, uint16_t n, uint8_t * source)=<br>
+; &nbsp;&lt;br>int&nbsp;&nbsp;&nbsp; read_record(uint16_t file, uint16_t rec, =<br>
+uint16_t n, uint8_t * dest); &lt;br>int&nbsp;&nbsp;&nbsp; delete_file(uint16_t=<br>
+file);&lt;br>int&nbsp;&nbsp;&nbsp; rename_file(uint16_t file1, uint16_t file2=<br>
+);&lt;br>int&nbsp; number_of_records(WORD filenum);&lt;br>&nbsp;&lt;br>void enable_i=<br>
+nterrupts(void);&lt;br>void disable_interrupts(void);&lt;br>&lt;br>void delay(WORD m=<br>
+sec);&lt;br>void setled(WORD newstate);&lt;br>int&nbsp; low_battery_detect(void);=<br>
+ation.s&lt;br>&lt;br>; In most cases the only thing needed here is to define the =<br>
+address of&lt;br>; the firmware function.&nbsp; SDCC will save most of it's re=<br>
+gisters when&lt;br>; it calls another function, but for some reason it leaves =<br>
+the ix register&lt;br>; for the called function to save.&nbsp; So if the mails=<br>
+tation function happens&lt;br>; to use ix without saving it first, we need a s=<br>
+mall wrapper here.&lt;br>&lt;br>&lt;br>r_get_ramdisk &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=<br>
+&nbsp; =3D 0x05DB&nbsp;&nbsp; &lt;br>_resize_ramdisk &nbsp;&nbsp;&nbsp; =3D=3D=<br>
+0x05DE&nbsp;&nbsp; &lt;br>r_read_ramdisk&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;=<br>
+=3D 0x05E1&nbsp;&nbsp; &lt;br>r_write_ramdisk &nbsp;&nbsp;&nbsp; =3D 0x05E4&n=<br>
+bsp;&nbsp;&nbsp; &lt;br>r_seek_ramdisk&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =<br>
+=3D 0x05E7&nbsp;&nbsp;&nbsp;&nbsp; &lt;br>_delete_ramdisk&nbsp;&nbsp;&nbsp; &n=<br>
+bsp;&nbsp;&nbsp;&nbsp; =3D=3D 0x05EA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;br>&lt;br>_set_f_key_menu&nbsp;&nbsp;&nb=<br>
+sp;&nbsp; =3D=3D 0x0638 &lt;br>_putevent_goprev &nbsp;&nbsp;&nbsp; =3D=3D 0x06=<br>
+6E&nbsp; &lt;br>_new_timer &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&=<br>
+nbsp; =3D=3D 0x070D &lt;br>_kill_timer &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =<br>
+=3D=3D 0x0713 &lt;br>&lt;br>_draw_app_foldertab =3D=3D 0x0827 &lt;br>&lt;br>_add_record=<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x0887&nbsp;&nbsp; &lt;br>_delet=<br>
+e_record&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; =3D=3D 0x088D&nbsp; &lt;br=<br>
+sp; &lt;br>_write_record &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x0899&n=<br>
+bsp; &lt;br>_read_record &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x089F&n=<br>
+bsp; &lt;br>_delete_file &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x08A5 &lt;=<br>
+br>_rename_file&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x08AB &lt;br>&nbs=<br>
+p;&lt;br>_number_of_records&nbsp;&nbsp;&nbsp; =3D=3D 0x08CF &lt;br>_write_app&nbs=<br>
+p;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x090B&nb=<br>
+sp; &lt;br>&lt;br>_enable_interrupts &nbsp;&nbsp;&nbsp; =3D=3D 0x0A19&nbsp;&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;br>_disable_interrupts =<br>
+=3D=3D 0x0A1B&nbsp; &lt;br>&lt;br>_delay&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=<br>
+p; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=3D 0x0A5C &lt;br>_setled&nbsp;&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =3D=<br>
+=3D 0x0A77&lt;br>_low_battery_detect =3D=3D 0x0A7A&nbsp;&nbsp;&nbsp;&nbsp; &lt;br=<br>
+x0A7D&lt;br>&lt;br>_test_mode &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&=<br>
+nbsp; =3D=3D 0x0AAC&nbsp; &lt;br>&lt;br>&lt;br>&lt;br>&nbsp;&nbsp;&nbsp; .area _CODE&lt;br=<br>
+pop ix&lt;br>&nbsp;&nbsp;&nbsp; ld (retsave),ix&lt;br>&nbsp;&nbsp;&nbsp; call r_g=<br>
+et_ramdisk&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(retsave)&lt;br>&nbsp;&nbsp;&nbsp; push=<br>
+ix&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(ixsave)&lt;br>&nbsp;&nbsp;&nbsp; ret&lt;br>&lt;br>&lt;=<br>
+br>_read_ramdisk::&lt;br>&nbsp;&nbsp;&nbsp; ld (ixsave),ix&lt;br>&nbsp;&nbsp;&nbs=<br>
+p; pop ix&lt;br>&nbsp;&nbsp;&nbsp; ld (retsave),ix&lt;br>&nbsp;&nbsp;&nbsp; call =<br>
+r_read_ramdisk&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(retsave)&lt;br>&nbsp;&nbsp;&nbsp; =<br>
+push ix&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(ixsave)&lt;br>&nbsp;&nbsp;&nbsp; ret&lt;br>&lt;=<br>
+br>&lt;br>_write_ramdisk::&lt;br>&nbsp;&nbsp;&nbsp; ld (ixsave),ix&lt;br>&nbsp;&nbsp=<br>
+;&nbsp; pop ix&lt;br>&nbsp;&nbsp;&nbsp; ld (retsave),ix&lt;br>&nbsp;&nbsp;&nbsp; =<br>
+call r_write_ramdisk&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(retsave)&lt;br>&nbsp;&nbsp;&=<br>
+nbsp; push ix&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(ixsave)&lt;br>&nbsp;&nbsp;&nbsp; re=<br>
+t&lt;br>&lt;br>&lt;br>_seek_ramdisk::&lt;br>&nbsp;&nbsp;&nbsp; ld (ixsave),ix&lt;br>&nbsp;=<br>
+&nbsp;&nbsp; pop ix&lt;br>&nbsp;&nbsp;&nbsp; ld (retsave),ix&lt;br>&nbsp;&nbsp;&n=<br>
+bsp; call r_seek_ramdisk&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(retsave)&lt;br>&nbsp;&nb=<br>
+sp;&nbsp; push ix&lt;br>&nbsp;&nbsp;&nbsp; ld ix,(ixsave)&lt;br>&nbsp;&nbsp;&nbsp=<br>
+; ret&lt;br>&lt;br>&nbsp;&nbsp;&nbsp; .area _BSS&lt;br>ixsave:&nbsp; .ds 2&lt;br>retsav=<br>
+e: .ds 2&lt;br>&lt;br>;; possibly a more compact way to wrap???&nbsp; untested!!!=<br>
+_xxxxxxx::&lt;br>;&nbsp;&nbsp;&nbsp; ld&nbsp;&nbsp; (ixsave),ix&lt;br>;&nbsp;&nbs=<br>
+p;&nbsp; ld&nbsp;&nbsp; hl,#commonret&lt;br>;&nbsp;&nbsp; ex&nbsp;&nbsp; (sp),=<br>
+hl&lt;br>;&nbsp;&nbsp;&nbsp; ld&nbsp;&nbsp; (retsave),hl&lt;br>;&nbsp;&nbsp;&nbsp=<br>
+; ld&nbsp;&nbsp; hl,#r_xxxxxxx&lt;br>;&nbsp;&nbsp;&nbsp; jp&nbsp;&nbsp; (hl)&lt;b=<br>
+r>&lt;br>; ...but all wrapped functions use this single instance of ret code o=<br>
+n the way out.&lt;br>;commonret:&nbsp;&nbsp;&nbsp; &lt;br>;&nbsp;&nbsp;&nbsp; ld&=<br>
+nbsp;&nbsp; ix,(ixsave)&lt;br>;&nbsp;&nbsp;&nbsp; ld&nbsp;&nbsp; de,(retsave)&lt;=<br>
+br>;&nbsp;&nbsp;&nbsp; jp&nbsp;&nbsp; (de)&lt;br>&lt;br>&lt;br>&lt;br>&lt;br>&lt;/font><br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Firmware Functions</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Dec 21, 2007</p>
+<p class="formattedBody"><br>
+<br>
+g with the mailstation firmware.<br>
+<br>
+Here is another, a modal dialog bo=<br>
+x, with a text message<br>
+field, and various combinations of buttons.  I have<br>
+=<br>
+tentatively called it "messagebox", but I am interested<br>
+in hearing any othe=<br>
+r suggestions for the name.  Also<br>
+any suggestions for the param names, and =<br>
+constant<br>
+names would be helpful!<br>
+<br>
+int  messagebox(uint16_t res_str, uint16_=<br>
+t flags);<br>
+<br>
+res_str:<br>
+a resource string number<br>
+<br>
+flags:<br>
+0x0100 =3D ok<br>
+<br>
+=<br>
+0x0200 =3D ok & cancel         (ok default)<br>
+0x2200 =3D ok & cancel    =<br>
+(cancel default)<br>
+<br>
+0x0400 =3D yes & no            (yes default)<br>
+0=<br>
+x2400 =3D yes & no            (no default)<br>
+<br>
+0x0800 =3D yes & no & cancel=<br>
+(yes default)<br>
+0x2800 =3D yes & no & cancel   (no default)<br>
+0x4800 =<br>
+=3D yes & no & cancel   (cancel default)<br>
+<br>
+retval:<br>
+1 =3D ok<br>
+2 =3D canc=<br>
+el<br>
+3 =3D yes<br>
+4 =3D no<br>
+<br>
+put this in mailstation.s:<br>
+_messagebox =3D=3D=<br>
+0x07f1<br>
+<br>
+<br>
+Also, there is another f=<br>
+unction, at 0x0AD0, that<br>
+is the same as above except that it takes a normal=<br>
+<br>
+string instead of a resource string.  What would<br>
+that one be called???  An=<br>
+ybody out there????????<br>
+<br>
+CJ<br>
+<br>
+<br>
+lp@...> wrote:&lt;br>>&lt;br>> // mailstation.h&lt;br>> //&lt;br>> // Fu=<br>
+nction prototypes and other declarations needed&lt;br>> // for interfacing =<br>
+with the mailstation firmware.&lt;br>&lt;snip>&lt;br>&lt;br>Here is another, a mo=<br>
+dal dialog box, with a text message&lt;br>field, and various combinations of b=<br>
+uttons.&nbsp; I have &lt;br>tentatively called it "messagebox", but I am inter=<br>
+ested &lt;br>in hearing any other suggestions for the name.&nbsp; Also &lt;br>any=<br>
+suggestions for the param names, and constant &lt;br>names would be helpful!&lt;=<br>
+br>&lt;br>int&nbsp; messagebox(uint16_t res_str, uint16_t flags);&lt;br>&lt;br>res_s=<br>
+tr: &lt;br>&nbsp; a resource string number&lt;br>&lt;br>flags:&lt;br>&nbsp; 0x0100 =3D =<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;br>&lt;br>&nbsp; 0x0200 =3D &lt;b>ok&lt;/b> & cancel&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (ok default)&lt;br>&nbsp; 0x220=<br>
+0 =3D ok & &lt;b>cancel&lt;/b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; (cancel default)&lt;br>&lt;br>&nbsp; 0x0400 =3D &lt;b>yes&lt;/b> & no&nbsp;&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (yes default)&lt;br>&nb=<br>
+sp; 0x2400 =3D yes & &lt;b>no&lt;/b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp; (no default)&lt;br>&lt;br>&nbsp; 0x0800 =3D &lt;b>yes&lt;/b> =<br>
+& no & cancel&nbsp;&nbsp; (yes default)&lt;br>&nbsp; 0x2800 =3D yes &a=<br>
+mp; &lt;b>no&lt;/b> & cancel&nbsp;&nbsp; (no default)&lt;br>&nbsp; 0x4800 =3D ye=<br>
+s & no & &lt;b>cancel&lt;/b>&nbsp;&nbsp; (cancel default)&lt;br>&lt;br>retval:&lt;=<br>
+br>&nbsp; 1 =3D ok&lt;br>&nbsp; 2 =3D cancel&lt;br>&nbsp; 3 =3D yes&lt;br>&nbsp; 4 =<br>
+=3D no&lt;br>&lt;br>&lt;br>put this in mailstation.s:&lt;br>_messagebox =3D=3D 0x07f1&lt;b=<br>
+r>&lt;br>----------------------------------------&lt;br>&lt;br>Also, there is anothe=<br>
+r function, at 0x0AD0, that&lt;br>is the same as above except that it takes a =<br>
+normal&lt;br>string instead of a resource string.&nbsp; What would&lt;br>that one=<br>
+be called???&nbsp; Anybody out there????????&lt;br>&lt;br>--&lt;br>CJ&lt;br>&lt;br>&lt;br>&lt;b=<br>
+r>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbs=<br>
+p;&nbsp;&nbsp;&nbsp;&lt;/font><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

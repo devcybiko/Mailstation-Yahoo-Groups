@@ -1,0 +1,171 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Just Deals DET1 has someone's old messages in memory (Nov 22, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Anthony Albert" <albert@...> Nov 22, 2005</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Nov 28, 2005</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Nov 28, 2005</a></li>
+<li><a class="link" href="#4">From: Gary Clouse <niklaus37217@...> Nov 29, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: Just Deals DET1 has someone's old messages in memory</h3>
+<p class="from">From: "Chris H" &lt;runparts@...></p>
+<p class="date">Nov 22, 2005</p>
+<p class="formattedBody">I'm cross posting my message from the I-Appliance BBS because this<br>
+seems to=<br>
+get more traffic. Anyway, I found a neat thing about my<br>
+MailStation:<br>
+<br>
+So I=<br>
+was playing around with an old Southwestern Bell branded<br>
+"eMessage" (DET1 =<br>
+MIVO 100 w/ 2.22CIDSV firmware) that I got from Just<br>
+Deals a good time ago,=<br>
+and while browsing with the hex editor<br>
+(Shift-Fn-T while powering on, then=<br>
+hiting shift F3? however it is<br>
+done, I forget) I found what appear to be s=<br>
+omeone else's saved emails.<br>
+The unit came to me unconfigured, I've added on=<br>
+e user and left the<br>
+other 4 blank. At around 02 c0 a0 plus or minus there a=<br>
+re several<br>
+emails from/to a Kirstin who is apparently new to email ("I GOT =<br>
+MAIL<br>
+FOR MY PHONE!!"). Interesting to read. My guess is that the Just Deals=<br>
+<br>
+units were re-furbished from a warrenty return. They reset them at the<br>
+fac=<br>
+tory but that does not wipe the user space memory clear. So I get<br>
+to read s=<br>
+ome random person's emails. Check it out if you have one of<br>
+the Just Deals =<br>
+mailstations or another refurbished unit.<br>
+<br>
+Not necessarly useful informatio=<br>
+n, but interesting and raises several<br>
+questions about privacy.<br>
+<br>
+Chris H.<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Just Deals DET1 has someone's old messages in memory</h3>
+<a href="#0">(top)</a><p class="from">From: "Anthony Albert" &lt;albert@...></p>
+<p class="date">Nov 22, 2005</p>
+<p class="formattedBody">On 22 Nov 2005 at 10:20, Chris H wrote:<br>
+<br>
+Indeed, it does raise privacy concerns.  Reliable and complete deletion<br>
+of (possibly) sensitive information should definitely be on the list of<br>
+any refurbishement operation...   My guess is that they just didn't<br>
+give it any thought at the refurb place, just assumed the reset would<br>
+do the trick.  With flash memory, though, that's not enough - I think<br>
+there should have been a ROM routine included for doing just that.<br>
+<br>
+Anthony Albert<br>
+===========================================================<br>
+Anthony J. Albert                     albert@...<br>
+Systems and Software Support Specialist          Postmaster<br>
+Computer Services - University of Maine, Presque Isle<br>
+"This is only temporary, unless it works."<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Just Deals DET1 has someone's old messages in memory</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Nov 28, 2005</p>
+<p class="formattedBody">=<br>
+" (DET1 MIVO 100 w/ 2.22CIDSV firmware) that I got from<br>
+Just<br>
+od time ago, and while browsing with the hex editor<br>
+ering on, then hiting shift F3? however it is<br>
+<br>
+Hi Chris,=<br>
+<br>
+It's Shift-F5 (from test mode), to enter hex viewer mode.<br>
+<br>
+From there, an=<br>
+interesting key sequence is<br>
+g710304x&lt;back><br>
+<br>
+Then try function-s<br>
+You will f=<br>
+ind yourself in hex *edit* mode.  :-)<br>
+<br>
+else's saved  emails.<br>
+er and left the<br>
+several<br>
+MAIL<br>
+D=<br>
+eals<br>
+<br>
+the<br>
+<br>
+he Just Deals mailstations or another refurbished unit.<br>
+useful information, but interesting and raises<br>
+several<br>
+privacy.<br>
+<br>
+I find it both useful and interesting!  Useful, because it inspir=<br>
+ed<br>
+me to take another look at the file structure from the hex-viewer.<br>
+I hav=<br>
+e been trying to understand the file system by examining the<br>
+code.  But the=<br>
+re were several details that hadn't really clicked<br>
+into place.  Looking at=<br>
+some files after knowing a little bit about<br>
+the structure provided a coupl=<br>
+e of big "AHA!!!" moments.<br>
+<br>
+And interesting, because it raises the question=<br>
+of just where the<br>
+responsibility lies for protecting the privacy of data t=<br>
+hat is<br>
+locked inside of an appliance with non-removable and non-volatile<br>
+m=<br>
+emory.<br>
+<br>
+I tend to believe it should be the users responsibility.  But maybe=<br>
+<br>
+as consumers, we need to demand a privacy policy from the<br>
+manufacturers an=<br>
+d dealers of these kinds of devices?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Just Deals DET1 has someone's old messages in memory</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Nov 28, 2005</p>
+<p class="formattedBody">Testing the flash seems to wipe out all of the dataflash,<br>
+except for the se=<br>
+rial number.  The files are no longer just<br>
+tagged as deleted, they are zer=<br>
+oed out.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: Just Deals DET1 has someone's old messages in memory</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Nov 29, 2005</p>
+<p class="formattedBody">I work a lot with used computers, and they often have<br>
+old data on them. I will usually backup the data, and<br>
+hold it until I can verify that the previous owner<br>
+doen't want it, at which time I delete the backup.<br>
+MOst of the time the former owner is unreachable or<br>
+doesn't want the old data.<br>
+<br>
+<br>
+<br>
+__________________________________<br>
+Yahoo! Mail - PC Magazine Editors' Choice 2005<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Time to Update Your Datasheets (Jan 23, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: Jon Kirwan <jonk@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#2">From: Brad Fayette <bfayette@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#3">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#4">From: "FyberOptic" <fyberoptic@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#5">From: Jon Kirwan <jonk@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#6">From: "FyberOptic" <fyberoptic@...> Jan 23, 2010</a></li>
+<li><a class="link" href="#7">From: "FyberOptic" <fyberoptic@...> Jan 23, 2010</a></li>
+</ol><hr>
+<hr><h3>Subject: Time to Update Your Datasheets</h3>
+<p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">Go to <a target="_blank" href="http://www.fcc.gov/oet/ea/fccid/">(URL)</a><br>
+<br>
+Put "pqu" into the Grantee Code fie=<br>
+ld.<br>
+<br>
+Search, hit Details on each result, and prepare to possibly shit pants=<br>
+.<br>
+<br>
+For those who are impatient and want to know what I found, how does "s=<br>
+chematic diagram" sound?<br>
+<br>
+It's detailed documents of two versions of the Ma=<br>
+ilstation 250 and one of the Mailstation 350.  Not only are there photos of=<br>
+the hardware, but also photos of the circuit boards, and then the best par=<br>
+t, full schematics.  And oh yes they are full.  For example, I now know tha=<br>
+t the CPU crystal is 12.288mhz.  And, even better, I know the labels of eve=<br>
+ry CPU pin, including the unused ones.<br>
+<br>
+From there, I can see that it can a=<br>
+ddress up to 8MB of memory.  I can see that it has TX/RX serial pins.  I ca=<br>
+n see that it does indeed have an additional unused device selector.  I can=<br>
+see what is very likely an oscillator out pin, which could possibly be use=<br>
+d to determine the frequency currently used by the CPU after going through =<br>
+the divider.  I can see that it has a whole 'nother unused 8-bit port.  Man=<br>
+y of the pin labels I simply don't know the purpose of at the moment, so wh=<br>
+o knows what else is in there.<br>
+<br>
+And for the record, the 350 runs at 34.4mhz=<br>
+.<br>
+<br>
+So, why only the 250 and 350?  Good question.  I'll start at the beginni=<br>
+ng of my search and go from there in explaining what I learned.<br>
+<br>
+First, I w=<br>
+ent in search of the FCC number on the back of my Mailstation: 1EBCHN-27372=<br>
+-OT-E.  Turns out, this wasn't a normal FCC ID.  I didn't understand why it=<br>
+was different from what they wanted.  But regardless, I got nothing, so th=<br>
+at was a dead-end.  So, by happenstance I dropped it into Google before giv=<br>
+ing up, and found some results.  Nothing big, it looked like just some FCC =<br>
+update notices of some kind.  Stuff that looks like this:<br>
+<br>
+648-CX-2001     =<br>
+8145386-5<br>
+NOTICE OF CHANGE NOT AFFECTING COMPLIANCE<br>
+HAS BEEN FILE=<br>
+D FOR THE FOLLOWING<br>
+REG. NO.: 1EBCHN-27372-OT-E<br>
+GRANTEE: =<br>
+INVENTEC ELECTRONICS (NANJING) CO.,LTD.<br>
+NATURE OF APPLICATION:<br>
+EQUIPMENT=<br>
+DESCRIPTION: E-MAIL TERMINAL MODEM DEVICE W/FAX WITH CALLER ID<br>
+TRADE NAME=<br>
+: CIDCO<br>
+MODEL: FB DET1, DET1A, DET1B, DET2<br>
+<br>
+I noticed the grantee name,=<br>
+"Inventec Electronics."  So, back to the FCC database with that.  Many res=<br>
+ults!  But I started going through'em anyway, clicking Details, then one of=<br>
+their external photos, just to see what it was.  Didn't take long, but the=<br>
+next thing I knew I was staring at the picture of a Mailstation, and I cou=<br>
+ldn't believe the other files I found in there with it.  Short of a datashe=<br>
+et for the CPU, a schematic of the whole thing is the next best thing you c=<br>
+ould have.<br>
+<br>
+So, curious of what else Mailstation-related I might find burie=<br>
+d away in there (like perhaps the older models), I searched just for grante=<br>
+es with that name, which you can do there on the left if you do an advanced=<br>
+search.  I got multiple results for Inventec Electronics.  One of them was=<br>
+listed as "Nanjing" though, which is in that text I pasted above that I fo=<br>
+und on Google.  It has the grantee code "PQU".  And sure enough, putting ju=<br>
+st that one into the search gives you only the Mailstation results.  Just t=<br>
+he three, though, unfortuantely.<br>
+<br>
+Eventually I found that the number on the=<br>
+back of my Mailstation isn't an FCC ID.  It's an FCC Registration Number, =<br>
+which is different.  The older Mailstation is classified under "Part 68" eq=<br>
+uipment, which apparently means it doesn't need extensive testing, since it=<br>
+'s just a telephone network device.  However..!  The Mailstation 250 and up=<br>
+use wireless base stations to connect to their phone line.  This means the=<br>
+y're using frequency spectrum, which means they require a full-on FCC ID.  =<br>
+I probably could have saved myself a few steps if I owned a 250 or 350 and =<br>
+had their FCC ID to begin with.  But hey, whatever works.<br>
+<br>
+In any case, t=<br>
+here is one interesting thing of note about the FCC registration number.  T=<br>
+he first three characters, 1EB, are this in their database:<br>
+<br>
+1EB|INVENTEC E=<br>
+LECTRONICS (MALYASIA)|37 ANSON RD|10400 PENANG||MALYASIA|||08/29/1989|D REG=<br>
+INALD TIBBETTS|2151 CAMINO PABLO|MORAGA|CA|94556|<br>
+<br>
+So, as it turns out, Inv=<br>
+entec is definitely who developed the Mailstation.  Their name is on all of=<br>
+the schematics as well.  And a Google search shows their name in Cidco pre=<br>
+ss releases/financial reports/whatever.<br>
+<br>
+But here's the really interesting =<br>
+part: Inventec made a CPU for one of the TI calculators too, apparently.  A=<br>
+nyone who knows anything about those graphing calculators know that they us=<br>
+ed Z80 CPUs for years.  I found this in a Google search, of a guy asking fo=<br>
+r information on a chip:<br>
+<br>
+<br>
+I'm in search of data for an Inventec =<br>
+processor. The chip came from a TI-83+ graphing calculator as bares the tex=<br>
+t:<br>
+<br>
+Inventec<br>
+6SI837 0A<br>
+Japan 0216EAI<br>
+PDARD<br>
+F0254ZAA<br>
+<br>
+...if it helps, this i=<br>
+s a Z80-enabled CISC processor. I've tried googling and came up empty. Any =<br>
+data on pinouts, or clocking data would be appreciated.<br>
+<br>
+<br>
+Notice =<br>
+the similarity of the part number!  The Mailstation's is 3SI176 0A.  A Goog=<br>
+le search on the 6SI one gives some results, but I found that I get other r=<br>
+esults when I put in "6S1837".  Somebody seems to have mistaken an I for a =<br>
+1.<br>
+<br>
+So, I emailed Inventec, and I guess we'll see if my email ever gets bey=<br>
+ond the webmaster to anywhere that might possibly have information on the M=<br>
+ailstation CPU.<br>
+<br>
+p.s.  For anyone interested, here's the somewhat vague =<br>
+at times patent application for what I'm almost certain is the Mailstation.=<br>
+<br>
+<a target="_blank" href="http://patft.uspto.gov/netacgi/nph-Parser?Sect1=3DPTO1&Sect2=3DHITOFF&d=">(URL)</a><br>
+=3DPALL&p=3D1&u=3D%2Fnetahtml%2FPTO%2Fsrchnum.htm&r=3D1&f=3DG&l=3D50&s1=3D6=<br>
+,510,455.PN.&OS=3DPN/6,510,455&RS=3DPN/6,510,455<br>
+<br>
+In case that link doesn't=<br>
+work right, the patent # is 6,510,455.<br>
+<br>
+I almost debated posting anything =<br>
+here, but I'm fairly sure none of it is illegal to do so, because it's publ=<br>
+icly-accessible information.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: Jon Kirwan &lt;jonk@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">On Sat, 23 Jan 2010 08:39:19 -0000, you wrote:<br>
+<br>
+et/ea/fccid/<br>
+ls on each result, and prepare to possibly shit pants.<br>
+<br>
+Very nice a=<br>
+nd thanks!  I have a few 120's, 150's, and 250's<br>
+laying about here.  The 25=<br>
+0 schematics are going to be a help<br>
+for those.  I would certainly like to h=<br>
+ave such info on the<br>
+120 and 150.<br>
+<br>
+Thanks again.  I'm googling around, too.=<br>
+But I suspect that<br>
+I am finding nothing more than you've already uncovere=<br>
+d<br>
+already.<br>
+<br>
+Jon<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: Brad Fayette &lt;bfayette@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">Content-Transfer-Encoding: 7bit<br>
+<br>
+These devices are in the FCC database because they have radio transceivers.<br>
+<br>
+On 01/23/2010 03:39 AM, FyberOptic wrote:<br>
+<br>
+Content-Transfer-Encoding: 7bit<br>
+<br>
+These devices are in the FCC database because they have radio<br>
+transceivers.&lt;br><br>
+On 01/23/2010 03:39 AM, FyberOptic wrote:<br>
+style="display: none;">&nbsp;&lt;/span><br>
+<br>
+href="<a target="_blank" href="http://www.fcc.gov/oet/ea/fccid/">http://www.fcc.<wbr>gov/oet/ea/<wbr>fccid/</a><br>">(URL)</a><br>
+Put "pqu" into the Grantee Code field.&lt;br><br>
+Search, hit Details on each result, and prepare to possibly shit pants.&lt;br><br>
+For those who are impatient and want to know what I found, how does<br>
+"schematic diagram" sound?&lt;br><br>
+It's detailed documents of two versions of the Mailstation 250 and one<br>
+of the Mailstation 350. Not only are there photos of the hardware, but<br>
+also photos of the circuit boards, and then the best part, full<br>
+schematics. And oh yes they are full. For example, I now know that the<br>
+CPU crystal is 12.288mhz. And, even better, I know the labels of every<br>
+CPU pin, including the unused ones.&lt;br><br>
+can see that it has TX/RX serial pins. I can see that it does indeed<br>
+have an additional unused device selector. I can see what is very<br>
+likely an oscillator out pin, which could possibly be used to determine<br>
+the frequency currently used by the CPU after going through the<br>
+divider. I can see that it has a whole 'nother unused 8-bit port. Many<br>
+of the pin labels I simply don't know the purpose of at the moment, so<br>
+who knows what else is in there.&lt;br><br>
+And for the record, the 350 runs at 34.4mhz.&lt;br><br>
+So, why only the 250 and 350? Good question. I'll start at the<br>
+beginning of my search and go from there in explaining what I learned.&lt;br><br>
+First, I went in search of the FCC number on the back of my<br>
+Mailstation: 1EBCHN-27372-&lt;wbr>OT-E. Turns out, this wasn't a normal<br>
+FCC ID. I didn't understand why it was different from what they wanted.<br>
+But regardless, I got nothing, so that was a dead-end. So, by<br>
+happenstance I dropped it into Google before giving up, and found some<br>
+results. Nothing big, it looked like just some FCC update notices of<br>
+some kind. Stuff that looks like this:&lt;br><br>
+648-CX-2001 8145386-5&lt;br><br>
+NOTICE OF CHANGE NOT AFFECTING COMPLIANCE&lt;br><br>
+HAS BEEN FILED FOR THE FOLLOWING&lt;br><br>
+REG. NO.: 1EBCHN-27372-&lt;wbr>OT-E &lt;br><br>
+GRANTEE: INVENTEC ELECTRONICS (NANJING) CO.,LTD.&lt;br><br>
+NATURE OF APPLICATION: &lt;br><br>
+EQUIPMENT DESCRIPTION: E-MAIL TERMINAL MODEM DEVICE W/FAX WITH CALLER ID&lt;br><br>
+TRADE NAME: CIDCO&lt;br><br>
+MODEL: FB DET1, DET1A, DET1B, DET2 &lt;br><br>
+I noticed the grantee name, "Inventec Electronics.&lt;wbr>" So, back to<br>
+the FCC database with that. Many results! But I started going<br>
+through'em anyway, clicking Details, then one of their external photos,<br>
+just to see what it was. Didn't take long, but the next thing I knew I<br>
+was staring at the picture of a Mailstation, and I couldn't believe the<br>
+other files I found in there with it. Short of a datasheet for the CPU,<br>
+a schematic of the whole thing is the next best thing you could have.&lt;br><br>
+So, curious of what else Mailstation-&lt;wbr>related I might find buried<br>
+away in there (like perhaps the older models), I searched just for<br>
+grantees with that name, which you can do there on the left if you do<br>
+an advanced search. I got multiple results for Inventec Electronics.<br>
+One of them was listed as "Nanjing" though, which is in that text I<br>
+pasted above that I found on Google. It has the grantee code "PQU". And<br>
+sure enough, putting just that one into the search gives you only the<br>
+Mailstation results. Just the three, though, unfortuantely.&lt;br><br>
+Eventually I found that the number on the back of my Mailstation isn't<br>
+an FCC ID. It's an FCC Registration Number, which is different. The<br>
+older Mailstation is classified under "Part 68" equipment, which<br>
+apparently means it doesn't need extensive testing, since it's just a<br>
+telephone network device. However..! The Mailstation 250 and up use<br>
+wireless base stations to connect to their phone line. This means<br>
+they're using frequency spectrum, which means they require a full-on<br>
+FCC ID. I probably could have saved myself a few steps if I owned a 250<br>
+or 350 and had their FCC ID to begin with. But hey, whatever works. &lt;br><br>
+In any case, there is one interesting thing of note about the FCC<br>
+registration number. The first three characters, 1EB, are this in their<br>
+database:&lt;br><br>
+1EB|INVENTEC ELECTRONICS (MALYASIA)|37 ANSON RD|10400 PENANG||MALYASIA|&lt;wbr>||08/29/1989|&lt;wbr>D<br>
+REGINALD TIBBETTS|2151 CAMINO PABLO|MORAGA|&lt;wbr>CA|94556|&lt;br><br>
+So, as it turns out, Inventec is definitely who developed the<br>
+Mailstation. Their name is on all of the schematics as well. And a<br>
+Google search shows their name in Cidco press releases/financial<br>
+reports/whatever.&lt;br><br>
+But here's the really interesting part: Inventec made a CPU for one of<br>
+the TI calculators too, apparently. Anyone who knows anything about<br>
+those graphing calculators know that they used Z80 CPUs for years. I<br>
+found this in a Google search, of a guy asking for information on a<br>
+chip:&lt;br><br>
+I'm in search of data for an Inventec processor. The chip came from a<br>
+TI-83+ graphing calculator as bares the text:&lt;br><br>
+Inventec&lt;br><br>
+6SI837 0A&lt;br><br>
+Japan 0216EAI&lt;br><br>
+PDARD&lt;br><br>
+F0254ZAA&lt;br><br>
+...if it helps, this is a Z80-enabled CISC processor. I've tried<br>
+googling and came up empty. Any data on pinouts, or clocking data would<br>
+be appreciated.&lt;br><br>
+Notice the similarity of the part number! The Mailstation'&lt;wbr>s is<br>
+3SI176 0A. A Google search on the 6SI one gives some results, but I<br>
+found that I get other results when I put in "6S1837". Somebody seems<br>
+to have mistaken an I for a 1.&lt;br><br>
+So, I emailed Inventec, and I guess we'll see if my email ever gets<br>
+beyond the webmaster to anywhere that might possibly have information<br>
+on the Mailstation CPU.&lt;br><br>
+p.s. For anyone interested, here's the somewhat vague at times patent<br>
+application for what I'm almost certain is the Mailstation.&lt;br><br>
+//--unintelligible--//<br>
+In case that link doesn't work right, the patent # is 6,510,455.&lt;br><br>
+I almost debated posting anything here, but I'm fairly sure none of it<br>
+is illegal to do so, because it's publicly-accessible information.&lt;br><br>
+<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody"><br>
+Hey great!  Now we know the functions of the pins th=<br>
+at are<br>
+not hooked to anything!!!  ;^)<br>
+<br>
+The names they put on the used pins=<br>
+don't seem as useful as the<br>
+names I gave them, though.<br>
+<br>
+I googled the pin =<br>
+names on unused pins 91 thru 94,<br>
+[LP FP FR SCP]  and got an interesting hi=<br>
+t:<br>
+<br>
+<a target="_blank" href="http://www.google.com/patents?id=3D1gMfAAAAEBAJ&printsec=3Dabstract&zoo=">(URL)</a><br>
+m=3D4&source=3Dgbs_overview_r&cad=3D0#v=3Donepage&q=3D&f=3Dfalse<br>
+<br>
+patent nu=<br>
+mber is 5448259 just in case.<br>
+<br>
+Seems likely there is a LCD controller in it=<br>
+, but I<br>
+can't say it is useful knowledge.  But who knows?<br>
+<br>
+grantee name, "Inventec Electronics."<br>
+<br>
+It has been known who made it for =<br>
+a long time now:<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/message/544=">(URL)</a><br>
+<br>
+I'm sure(???) it=<br>
+was on l-h board.><br>
+<br>
+In addition to the ti calculators, they made the ipod =<br>
+for apple.<br>
+<br>
+<br>
+I thought it=<br>
+was interesting when I found it, too.  ;^)<br>
+<br>
+ed Inventec,<br>
+<br>
+You speak Chinese?  :-)<br>
+<br>
+Just kidding, they prolly have *som=<br>
+eone* there who<br>
+speaks English... right???  :-)  :-)<br>
+<br>
+Wouldn't it be a ri=<br>
+ot if they sent the datasheet.  I never<br>
+even thought to ask for it!<br>
+<br>
+CJ<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">nice and thanks!  I have a few 120's, 150's, and 250's<br>
+.  The 250 schematics are going to be a help<br>
+y like to have such info on the<br>
+<br>
+Somebody will have to co=<br>
+rrect me if I'm wrong, but as far as I know, the 250 and under are all prac=<br>
+tically identical in terms of guts (aside from the wireless capability), wh=<br>
+ich would make the schematics fairly useful even for the older models.  It =<br>
+all looks very similar to my DET1 from what I've gone over so far.  The CPU=<br>
+is likely identical in any case, which was the biggest thing I was after i=<br>
+n terms of info.  But a full schematic is nice too!<br>
+<br>
+googling around, too.  But I suspect that<br>
+you've already uncovered<br>
+<br>
+Doesn't hurt to look.  Sometimes a=<br>
+random search can put you on a certain track, which is how I found that st=<br>
+uff to begin with.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: Jon Kirwan &lt;jonk@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">On Sun, 24 Jan 2010 00:13:58 -0000, you wrote:<br>
+<br>
+oups.com, Jon Kirwan &lt;jonk@...> wrote:<br>
+a few 120's, 150's, and 250's<br>
+going to be a help<br>
+on the<br>
+but as far as<br>
+=<br>
+e schematics fairly useful even for the older<br>
+similar to my DET1 from what I've<br>
+entical in any case,<br>
+info.<br>
+<br>
+I don't see the LCD display pre=<br>
+sented on the schematics,<br>
+though I suppose the connectors I see probably su=<br>
+ffice.<br>
+<br>
+I am finding nothing more than you've already uncovered<br>
+sn't hurt to look.  Sometimes a random search can put you<br>
+ack, which is how I found that stuff to begin<br>
+<br>
+Yes.  One never know=<br>
+s.  And not just google, I suppose. There<br>
+are a lot of different engines ar=<br>
+ound and some of the web<br>
+spiders are better at some things than others.<br>
+<br>
+In=<br>
+any case, thanks for what you found already.  Big help, I<br>
+think.<br>
+<br>
+Jon<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">p@...> wrote:<br>
+re<br>
+<br>
+I'd have to look at the insides ag=<br>
+ain to see just how tiny those pins were (they always seem bigger in my hea=<br>
+d), but now that we know for sure that there's a sixth device select, it mi=<br>
+ght be pretty neat to take advantage of it.  Something like compact flash c=<br>
+omes to mind, since the data and address lines would be easy to tap into fr=<br>
+om the eyelets on the board.<br>
+<br>
+seem as useful as the<br>
+names on unused pins 91 thru 94,<br>
+hit:<br>
+ct&zoom=3D4&source=3Dgbs_overview_r&cad=3D0#v=3Donepage&q=3D&f=3Dfalse<br>
+patent number is 5448259 just in case.<br>
+ntroller in it, but I<br>
+<br>
+=<br>
+Ah nice, I was wondering about those, and have been doing some poking aroun=<br>
+d myself for possible matches.  I dismissed a possible LCD at first, but af=<br>
+ter seeing that patent, I think it seems a little too similar to be a coinc=<br>
+idence.<br>
+<br>
+I'm thinking BZCLK might be a buzzer?  The 350 has a buzzer connec=<br>
+tion for whatever reason.  I don't know how that's used since I've never us=<br>
+ed that model before.  But I'm assuming one of the ports would set the freq=<br>
+uency coming out of BZCLK.  Could be neat to have.  A clever programmer cou=<br>
+ld probably manage music of some kind out of there.<br>
+<br>
+Looks like there's an =<br>
+unused interrupt available too.  There's three bits unaccounted for on P3, =<br>
+so it's surely one of those.<br>
+<br>
+All I've ever really known about the 350's g=<br>
+uts is that it "has a different cpu".  I never looked into it further than =<br>
+that since I don't have one.  I just didn't realize how different it was.  =<br>
+This thing is 16-bit based on the data lines coming out of it.  It also see=<br>
+ms to have two identical sized pieces of flash (which I'm sure 350 owners w=<br>
+ho have opened theirs already know), which at first you would think is a go=<br>
+od thing, but the sector size seems to be 4KB.  Not quite as easy to work w=<br>
+ith at the 256-byte sectors of the old model dataflash.  At least it has mo=<br>
+re ram for holding temporary sectors.  And who knows how much the CPU can a=<br>
+ddress at one time.  I'd love to know what CPU architecture it's based on, =<br>
+for curiosity's sake if nothing else.<br>
+<br>
+One other tidbit I found out is fro=<br>
+m a trademark search.  Apparently Cidco also registered "Surfstation".<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Time to Update Your Datasheets</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">don't see the LCD display presented on the schematics,<br>
+the connectors I see probably suffice.<br>
+<br>
+I noticed that, even though the =<br>
+350 schematics includes both the LCD and the keyboard matrix.  So maybe the=<br>
+y're not quite as "full" as I originally implied.  But fortunately, we alre=<br>
+ady know the keyboard and LCD!<br>
+<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstat=">(URL)</a><br>
+ion/files/part%20files/mailstation_LCD.doc<br>
+<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/gr=">(URL)</a><br>
+oup/mailstation/files/part%20files/mailstation_keyboard.html<br>
+<br>
+case, thanks for what you found already.  Big help, I<br>
+<br>
+No prob=<br>
+lem, I'm just glad to contribute.  I was late to the Mailstation game and l=<br>
+ack certain tools to be of more help on the hardware testing side, but I st=<br>
+ill try to see what I can muster up once in a while in other areas.  Good l=<br>
+earning experience, too!<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

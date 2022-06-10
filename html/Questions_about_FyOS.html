@@ -1,0 +1,409 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Questions about FyOS (Nov 21, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Fr. John & Pybta. Phylis" <ke7doy@...> Nov 21, 2007</a></li>
+<li><a class="link" href="#2">From: "Jeff" <fyberoptic1979@...> Nov 30, 2007</a></li>
+<li><a class="link" href="#3">From: "Jeff" <fyberoptic1979@...> Nov 30, 2007</a></li>
+<li><a class="link" href="#4">From: "iwireless2001" <waynem@...> Nov 30, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Dec 10, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Questions about FyOS</h3>
+<p class="from">From: "Terry O." &lt;sandstar.geo@...></p>
+<p class="date">Nov 21, 2007</p>
+<p class="formattedBody">I need to look in my van to see if my mailstations are still there or<br>
+if th=<br>
+ey ended up at goodwill.  If they are, I'll try to load the new<br>
+OS files an=<br>
+d play around some.<br>
+<br>
+I was reading your livejournal and am impressed :-) bu=<br>
+t since I'm not<br>
+a c coder and only know that cp/m preceded ms-dos (well, ov=<br>
+erlapped<br>
+some, IIRC) what can I expect to do with it?  Maybe if I list some=<br>
+<br>
+things, you can tell me if they are ever remotely possible?<br>
+<br>
+- Simple memo=<br>
+ry games or flashcards for the kids?<br>
+- Pull weather, headlines, whatever =<br>
+from a direct connected<br>
+internet-enabled pc?  (Along the lines of ybox?)<br>
+- =<br>
+Smart Keyboard for a pda with a serial connection?<br>
+- Dumb terminal for a se=<br>
+rver box?<br>
+<br>
+From what you've written, they don't seem totally impossible. I =<br>
+really<br>
+like the idea of using a MS like this:<br>
+<br>
+<a target="_blank" href="http://www.jtsystem.ca/touch=">(URL)</a><br>
+amp.htm<br>
+<br>
+Of course, I know that the Palm OS has a lot more memory available=<br>
+but<br>
+the serial connection to the WinAmp machine is cool.<br>
+<br>
+<br>
+One thing =<br>
+that I've always thought would make the MS useable as is, if<br>
+I could use a =<br>
+null modem connection to put any text I'd written onto<br>
+my main pc.  You see=<br>
+m to be able to talk to the unit, so is that<br>
+something you could document h=<br>
+ow to do?  I do have an old external<br>
+modem and null modem adapter.  I even =<br>
+have an ancient parallel port<br>
+external hard drive that I could dig out and =<br>
+use.<br>
+<br>
+Anyway, thanks for sharing all your work!<br>
+<br>
+Terry<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Questions about FyOS</h3>
+<a href="#0">(top)</a><p class="from">From: "Fr. John & Pybta. Phylis" &lt;ke7doy@...></p>
+<p class="date">Nov 21, 2007</p>
+<p class="formattedBody">I could use a null modem connection to put any text I'd written onto<br>
+ain pc.  You seem to be able to talk to the unit, so is that<br>
+u could document how to do?  I do have an old external<br>
+em adapter.  I even have an ancient parallel port<br>
+t I could dig out and use.<br>
+work!<br>
+I made a cable from a standard rj11 cord and an old 9V w=<br>
+all cube.  I<br>
+cut the red wire and hooked the wires from the wall cube to e=<br>
+ither side<br>
+of the cut.  (afaik the polarity does not matter.) Plug one end=<br>
+into<br>
+your computers modem and the other into MS.  Change the setting to n=<br>
+ot<br>
+wait for a dial tone before dialing and fax the document to a blank<br>
+ph=<br>
+one number.  I use an OCR to reconvert the tiff image to text.  You<br>
+have t=<br>
+o save each 500 word block seperatly.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Questions about FyOS</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Nov 30, 2007</p>
+<p class="formattedBody">wrote:<br>
+<br>
+t<br>
+ome, IIRC) what can I expect to do with it?  Maybe if I list some<br>
+you can tell me if they are ever remotely possible?<br>
+<br>
+Well if I could put a=<br>
+ctual CP/M on it, there'd be lots of<br>
+applications that could be run native=<br>
+ly.  The problem is the memory<br>
+layout of the Mailstation, and how CP/M and=<br>
+applications compiled for<br>
+it expect a slightly different memory layout.  =<br>
+Changing it would<br>
+require a hardware modification to the unit, which is pr=<br>
+obably above<br>
+the head of most casual Mailstation modders.  Possibly above =<br>
+mine as<br>
+well, considering the small traces on the board involved in doing =<br>
+it!<br>
+<br>
+That's pretty much why I was working on FyOS, which would be similar<br>
+=<br>
+to CP/M, but unfortunately not be compatible with its applications.<br>
+Possi=<br>
+ble exceptions might be in cases where the source code to one<br>
+might be ava=<br>
+ilable and easily modifiable.  Ones without source just<br>
+seem too hard to d=<br>
+o anything with.  I tried to decompile and modify<br>
+Zork, for example, but o=<br>
+nce I started going into the assembly code<br>
+and realizing just what a job t=<br>
+hat would be, just for one program, I<br>
+found it just wasn't viable.  I was =<br>
+having to completely learn what<br>
+every bit of the code did before I could e=<br>
+ven begin modifying it, and<br>
+considering it was all in assembly, that's a b=<br>
+it hard.<br>
+<br>
+Most applications for FyOS would probably have to be written by m=<br>
+e or<br>
+someone else who learned the ins and outs.  But since I figured out<br>
+=<br>
+how to compile things in C for it, there might be a few folks who<br>
+could do=<br>
+it once I had a better version of FyOS out.  When I last<br>
+worked on it, I =<br>
+was still at the stage of developing a storage<br>
+method, which would be a pr=<br>
+etty important part to being able to have<br>
+applications on there.  At the m=<br>
+oment, people can write programs in C<br>
+with what I've done so far, but they=<br>
+'d still have to be transferred<br>
+individually.<br>
+<br>
+You made some pretty good s=<br>
+uggestions though of the sorts of programs<br>
+that I too would like to see.  =<br>
+One being something like a PDA<br>
+keyboard, since I type pretty quick on the =<br>
+PC, and it's extremely<br>
+limiting to try and peck stuff out on a PDA screen'=<br>
+s keyboard.  I<br>
+think my Palm would be a much more useful tool if I could u=<br>
+se the<br>
+Mailstation to type stuff into it.<br>
+<br>
+The other good suggestion is =<br>
+the dumb terminal.  I run one particular<br>
+server completely headless, and i=<br>
+t would be handy to be able to<br>
+interface it directly without having to SSH=<br>
+in from elsewhere at<br>
+times.  I also have one of those Fonera router thing=<br>
+s which runs<br>
+Linux, and think it would be neat to interface the Mailstatio=<br>
+n with<br>
+it, giving the Fonera (which has wifi) a keyboard and screen to wor=<br>
+k<br>
+with.  With a battery pack, the Fonera could be mobile, since it's so<br>
+s=<br>
+mall.<br>
+<br>
+The problem with making any sort of serial connection though is the =<br>
+<br>
+lack of a serial port.  The Mailstation uses a modem chip, which<br>
+unfortun=<br>
+ately directly outputs to a phone line.  I haven't looked<br>
+over the datashe=<br>
+et for the chip very thoroughly, so I don't know if<br>
+it might have any pins=<br>
+to tap into the serial port of it directly,<br>
+but even if one could, solder=<br>
+ing onto those pins would be extremely<br>
+tricky.  The other alternative is u=<br>
+sing the parallel port of the<br>
+Mailstation to emulate a serial port, which =<br>
+would require very<br>
+precise programming to time the speed of a serial data.=<br>
+It would<br>
+probably also require a bit of hardware to be plugged between t=<br>
+he MS<br>
+and PC, to convert the signals from the parallel port into the<br>
+volt=<br>
+ages that a serial port wants.  I've managed to get away without<br>
+such conv=<br>
+ersions in the past on other projects, but that only worked<br>
+when talking t=<br>
+o my laptop's serial port, and not on my desktop<br>
+machine.<br>
+<br>
+I have kind of =<br>
+made a dumb terminal to my PC before in a way, by<br>
+writing some software to=<br>
+send keystrokes to the computer, then send<br>
+them to an IRC chat room, and =<br>
+then send any output from chat back to<br>
+the Mailstation screen.  This was a=<br>
+ll done through the parallel<br>
+laplink cable though that I use to load FyOS.=<br>
+One could probably do<br>
+something similar with a Linux machine for an actu=<br>
+al terminal, but it<br>
+wouldn't be as simple to setup as just a serial connec=<br>
+tion.<br>
+<br>
+But yeah, I think perhaps trying to emulate the serial port is<br>
+prob=<br>
+ably something good to try sometime.  With that, it would open up<br>
+a few po=<br>
+ssibilities in general.  I'm just not sure if I have any of<br>
+the chips arou=<br>
+nd to do the serial conversion at the moment for<br>
+testing.<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Questions about FyOS</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Nov 30, 2007</p>
+<p class="formattedBody">Phylis" &lt;ke7doy@...=<br>
+be.<br>
+her side of the cut.  (afaik the polarity does not matter.)<br>
+into your computers modem and the other into MS.<br>
+not wait for a dial tone before dialing<br>
+phone number.  I use an OCR<br>
+ve to save each<br>
+<br>
+I once had two modems that =<br>
+were able to talk to each other without a<br>
+line simulator, and crossed my f=<br>
+ingers in hopes that the Mailstation<br>
+could talk to my PC's modem the same =<br>
+way.  But alas, that wasn't the<br>
+case.  So I also had to build one of these=<br>
+too.  Mine ended up kind<br>
+of sloppy since I didn't solder any of it, but i=<br>
+t gets the job done<br>
+at a fair connection speed.<br>
+<br>
+Here's a reference on ho=<br>
+w to make one for anyone interested:  <a target="_blank" href="http://">(URL)</a><br>
+www.jagshouse.com/modem.html<br>
+=<br>
+<br>
+Somebody emailed me with interest in downloading emails off the<br>
+Mailstati=<br>
+on without having to do this, and I think that's a good<br>
+idea.  I had also =<br>
+considered it before myself, since it's pretty<br>
+handy for writing stuff on.=<br>
+So the next thing I work on will<br>
+probably be a way to just download all =<br>
+the email off the unit via the<br>
+parallel laplink cable, which would be a lo=<br>
+t easier/faster than the<br>
+modem connection stuff.  I doubt it'll be hard, i=<br>
+t's just a matter of<br>
+diving back into all that Mailstation code again!<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Questions about FyOS</h3>
+<a href="#0">(top)</a><p class="from">From: "iwireless2001" &lt;waynem@...></p>
+<p class="date">Nov 30, 2007</p>
+<p class="formattedBody">Jeff, I would like to thank you for all the work you have done on<br>
+this pro=<br>
+ject !!!<br>
+<br>
+Were you able to find out what the internal modem had for<br>
+parame=<br>
+ters ??  Baud rate, parity ???<br>
+<br>
+Also is there some pin on the serial/parall=<br>
+el port that could be used<br>
+as a PTT/transmit pinout when the modem goes in=<br>
+to transmit mode ??<br>
+<br>
+My thinking is to use this as a dumb data terminal in =<br>
+a mobile sense,<br>
+connecting to some 2 way radio units.<br>
+<br>
+Thanks,<br>
+Wayne<br>
+<br>
+In mailstation@yahoogroups.com, "Jeff" &lt;fyberoptic1979@...> wrote:<br>
+In mailstation@yahoogroups.com, "Fr. John & Pybta.<br>
+ote:<br>
+c=<br>
+ube.<br>
+one end into your computers modem and the other into MS.<br>
+etting to not wait for a dial tone before dialing<br>
+to a blank phone number.  I use an OCR<br>
+text.  You have to save each<br>
+had two modems that were able to talk to each other without<br>
+a<br>
+ulator, and crossed my fingers in hopes that the<br>
+Mailstation<br>
+to my PC's modem the same way.  But alas, that wasn't<br>
+the<br>
+also had to build one of these too.  Mine ended up kind<br>
+I didn't solder any of it, but it gets the job done<br>
+speed.<br>
+<br>
+<a target="_blank" href="http://">(URL)</a><br>
+rest in downloading emails off the<br>
+, and I think that's a good<br>
+f, since it's pretty<br>
+rk on will<br>
+via<br>
+the<br>
+n the<br>
+<br>
+of<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Questions about FyOS</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Dec 10, 2007</p>
+<p class="formattedBody">wrote:<br>
+=<br>
+project !!!<br>
+<br>
+Thanks a lot!  It wouldn't have been possible without all =<br>
+the hard<br>
+work of Cyrano Jones though, who I thank for that in turn.<br>
+<br>
+re you able to find out what the internal modem had for<br>
+aud rate, parity ???<br>
+<br>
+Different model Mailstations appear to have different=<br>
+modem speeds.<br>
+There's a list in the Database section of the group here. =<br>
+The one<br>
+mine uses though is 33.6kbps, using the chip RCV336ACFW/SP.  Ther=<br>
+e's<br>
+a datasheet for it in the Files section here, in the "part files"<br>
+dir=<br>
+ectory, if you understand electronics enough to look over it.  I<br>
+would ass=<br>
+ume it defaults to 8-N-1 parity, but I have no idea.  I've<br>
+never written a=<br>
+ny code to access it myself as of this time.<br>
+<br>
+on the serial/parallel port that could be<br>
+used<br>
+when the modem goes into transmit mode ??<br>
+as a dumb data terminal in a mobile<br>
+sense,<br>
+io units.<br>
+<br>
+The modem chip itself might activate some pins when it's usin=<br>
+g the<br>
+modem, but I haven't read the datasheet in any detail to know.  It'd=<br>
+<br>
+be hard to take advantage of that anyway since the pins are so tiny<br>
+on t=<br>
+hat chip.<br>
+<br>
+That's an interesting concept though.  I honestly have never w=<br>
+orked<br>
+with any sort of half-duplex audio equipment with a data connection,=<br>
+<br>
+but I assume it can be done.  I don't think a standard modem would<br>
+work,=<br>
+however, since as far as I know, it requires full-duplex,<br>
+particularly to=<br>
+negotiate the connection, but to maintain it as well.<br>
+<br>
+The only thing I ca=<br>
+n figure that you could do would be to use some<br>
+sort of external hardware =<br>
+to modulate data into something that could<br>
+transmit via audio, and use the=<br>
+Mailstation's parallel port to talk<br>
+to that device.  Not exactly what you=<br>
+had in mind I guess, but that's<br>
+the only way I can figure that it could b=<br>
+e done.  I don't know enough<br>
+about that sort of thing to know what sort of=<br>
+device you'd need for<br>
+it.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Startup Hook (Aug 21, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Aug 21, 2007</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 21, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Startup Hook</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 21, 2007</p>
+<p class="formattedBody">So since I can hook/replace the interrupt fairly easily via<br>
+software,<br>
+I t=<br>
+hought it might be worth trying to hook the startup procedure<br>
+too.  This w=<br>
+ay one could test code that they might one day decide to<br>
+flash onto codefl=<br>
+ash page 0, without so much of the risk to bricking<br>
+the thing by a silly m=<br>
+istake.  Only problem is that this of course<br>
+means flashing it to some deg=<br>
+ree in order to place the hook.<br>
+<br>
+There appears to be 33 empty bytes at the =<br>
+start of page 0.   Now I<br>
+know that these are probably left that way in cas=<br>
+e a RST command is<br>
+sent.  But are these ever even used by the MS?  That se=<br>
+ems to be the<br>
+real kicker here.  If at any point they do get executed, I'd=<br>
+be in<br>
+trouble.  We know it sets interrupt mode 1 at startup, so at least =<br>
+<br>
+they'd never get triggered in that manner.<br>
+<br>
+But, assuming they're never us=<br>
+ed, it should be easy to make a<br>
+signature test on a section in ram, and if=<br>
+it verifies, then you<br>
+jump<br>
+to your code in ram.  If the bytes didn't ver=<br>
+ify, then normal<br>
+Mailstation startup would carry on instead.  This means y=<br>
+ou could<br>
+use<br>
+a normal Mailstation Yahoo-style app to load your code, then=<br>
+as long<br>
+as the power was never removed, your code should remain intact un=<br>
+til<br>
+overwritten or power is lost.  So you'd be able to reboot the MS and<br>
+=<br>
+test your startup code, and if for whatever reason it had a problem,<br>
+you'd=<br>
+just have to pull the power to kill the ram contents.<br>
+<br>
+33 bytes isn't a lo=<br>
+t to work in, but it seems to be enough with a<br>
+couple to spare for doing a=<br>
+three byte signature.  The MS only does<br>
+two bytes for checking its own da=<br>
+ta at startup, but since this is<br>
+code, I figure three might be better.  Wh=<br>
+o knows!  I mostly just<br>
+decided on three to use my initials.  ;)  I figure=<br>
+this should do<br>
+the<br>
+trick:<br>
+<br>
+org #0000<br>
+<br>
+di				; disable interrupts, in=<br>
+<br>
+case<br>
+we jump here<br>
+<br>
+ld	a, 1			; set ram page 1 into<br>
+slot8000<br>
+out	(#08=<br>
+), a<br>
+out	(#07), a<br>
+<br>
+ld	hl, #8003		; Test first byte<br>
+ld	a, SIGBYTE1<br>
+cp	=<br>
+(hl)<br>
+jr	nz, code_end<br>
+<br>
+inc	hl			; Test second byte<br>
+ld	a, SIGBYTE2<br>
+cp	(h=<br>
+l)<br>
+jr	nz, code_end<br>
+<br>
+inc	hl			; Test third byte<br>
+ld	a, SIGBYTE3<br>
+cp	(hl)<br>
+=<br>
+jr	nz, code_end<br>
+<br>
+jp	#8000			; Code seems good, jump to<br>
+it<br>
+<br>
+code_end:	=<br>
+; Code not valid, normal boot<br>
+<br>
+This fits into 30 bytes. It assumes you =<br>
+load your code at #8000 on<br>
+ram<br>
+page 1 on slot8000, with a JP taking the f=<br>
+irst three bytes, and then<br>
+the next three being your signature.  But that =<br>
+can be changed around<br>
+to suit one's needs of course.<br>
+<br>
+But again, the worry=<br>
+is the RST bytes.  If I fill them up, and then<br>
+it executes one at some im=<br>
+portant point, I might possibly have<br>
+bricked it.  So I'm mostly wondering =<br>
+if it was ever confirmed as to<br>
+their usage.  It just seems like there'd re=<br>
+ally be no reason for them<br>
+to ever do so, considering they can jump to #00=<br>
+00 for the same<br>
+effect.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Startup Hook</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 21, 2007</p>
+<p class="formattedBody">Holy cow, my formatting didn't look messed up like that in the<br>
+preview!  H=<br>
+opefully the message still makes sense.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Startup Hook</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 21, 2007</p>
+<p class="formattedBody">Holy cow, my formatting didn't look messed up like that in the<br>
+Hopefully the message still makes sense.<br>
+<br>
+Not quite wysiwyg, huh???  :-)<br>
+<br>
+=<br>
+On the group web site there is (now) an option to view<br>
+messages with a fix=<br>
+ed-width font, which puts the<br>
+message inside &lt;pre> &lt;/pre> tags.<br>
+<br>
+That will=<br>
+make columns line up again.<br>
+<br>
+To bad you can't just select that when you po=<br>
+st.<br>
+But if you use the rich text option to compose a<br>
+message, I think you c=<br>
+an force message to keep<br>
+cols lined up.<br>
+<br>
+It used to be you had to hit reply=<br>
+button, and<br>
+quoted msg would have the cols lined up in the<br>
+reply box.  So=<br>
+Yahoo has always been keeping<br>
+the original (correctly formatted) text.  It=<br>
+'s<br>
+just that they assume formatting does not matter,<br>
+a bad assumption, part=<br>
+icularly on a programming<br>
+oriented group!<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Reflashing methods was: How big are the hex dump files supposed to be? (Apr 27, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Apr 27, 2004</a></li>
+<li><a class="link" href="#2">From: "jmareksr" <jimmarek@...> Apr 28, 2004</a></li>
+<li><a class="link" href="#3">From: "John R. Hogerhuis" <jhoger@...> Apr 28, 2004</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> Apr 28, 2004</a></li>
+<li><a class="link" href="#5">From: "Cyrano Jones" <cyranojones_lalp@...> May 2, 2004</a></li>
+<li><a class="link" href="#6">From: "John R. Hogerhuis" <jhoger@...> May 2, 2004</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> May 2, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: Reflashing methods was: Re: How big are the hex dump files supposed to be?</h3>
+<p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Apr 27, 2004</p>
+<p class="formattedBody">John,<br>
+<br>
+Studying the code that runs at 8000, as described in other notes, has<br>
+convinced me that "non-invasive" reflashing is realistic if you<br>
+connect a parallel port to the ms. Since you will most likely need a<br>
+computer to generate the new code, connecting it to the ms via a<br>
+parallel port should be easy. The challenge will be to figure out how<br>
+to get that code at 8000 to run, and the exact structure and timing<br>
+of the parallel port protocol.<br>
+<br>
+There was also talk about reflashing via email messages. I read some<br>
+postings on the linux-hacker web site about the process of requesting<br>
+a new password from the ISP. It was reported that the ISP set the new<br>
+password via an email. The email appeared to contain a validation<br>
+string. When people tried to change the parameters themselves, the<br>
+emails were ignored. It seemed that the validation string was content<br>
+sensitive. I could not find this thread last night, but maybe someone<br>
+else recalls it (hamilton?).<br>
+<br>
+Now changing a password is certainly different than changing code,<br>
+but I suspect both capabilities exist. What a great way to fix bugs!<br>
+Alas, what a way to infect ms's all around the country (world?). For<br>
+that reason, I don't intend to pursue that reflash technique. But I<br>
+am working on the parallel port method.<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Reflashing methods was: Re: How big are the hex</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 27, 2004</p>
+<p class="formattedBody">Hello Jim --<br>
+<br>
+Finding such a bug in the mailstation that would allow reflashing of the<br>
+unit by email would actually be the best way I think, since it is<br>
+probably the "normal" path to upgrading the unit.<br>
+<br>
+Also it would detect a security flaw that ought to be fixed. I find it<br>
+hard to believe Cidco doesn't have a strategy for mitigating such a<br>
+circumstance. That said, even if found I wouldn't recommend publishing<br>
+an exploit immediately, but first giving Cidco a chance to respond and<br>
+fix the bug. This is how it usually works on the security mailing lists.<br>
+<br>
+My guess is, the normal route of upgrade by email requires the user to<br>
+type something at the keyboard (password, whatever). This would preclude<br>
+an upgrade being done without permission.<br>
+<br>
+That said, there are probably buffer overflows and other security flaws<br>
+hiding in there waiting to be exploited. In any event as long as it is<br>
+done "the right way" I don't see any moral or ethical issues in cracking<br>
+the mailstation, as long as Cidco gets a chance to respond. Who knows,<br>
+the mailstation has been out there a while, the exploit we find may<br>
+already be in the wild. Should only the black hats know about it? Better<br>
+if it gets fixed. But for me, I'd like to help people upgrade to some<br>
+more useful firmware over the net without having to hook up any special<br>
+cables (and these days a parallel port cable might be considered<br>
+"special" by some, where a phone cord is not special).<br>
+<br>
+Anyway glad to hear you're working on the parallel port hacking. Keep us<br>
+apprised. I should be back to hacking that code in a week or two, so you<br>
+might beat me to the find.<br>
+<br>
+Later,<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Reflashing methods was: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Apr 28, 2004</p>
+<p class="formattedBody">Read message #69 if you want the context of this reply and John's<br>
+worthwhile points.<br>
+<br>
+John,<br>
+<br>
+Your points ARE worthwhile, and I DO consider myself a "white hat",<br>
+so maybe I'll need to reconsider staying away from the reflashing-via-<br>
+the-Internet code. BTW, the reflashing emails were reported to be<br>
+invisible to the end user. According to the reports, they did not<br>
+even show up in the email counts, IIRC.<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Reflashing methods was: Re: How big are the hex</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 28, 2004</p>
+<p class="formattedBody">Sweet Jesus! That's insane that the user didn't have to do anything to<br>
+allow them in. But I feel the same as you, that the report is probably<br>
+correct. Perhaps they are using encryption, that's the only thing which<br>
+could save them in this scenario, and even then they are asking for<br>
+trouble.<br>
+<br>
+Well if we could get support to do it again, we could be ready with a<br>
+setup like the following:<br>
+<br>
+1. Set up a Linux box as PPP server to connect Mailstation to Internet<br>
+through ethernet connection. Run tcpdump or Ethereral on the Ethernet<br>
+connection<br>
+2. have the mailstation dial into that box<br>
+3. Call tech support and get them to upgrade the unit.<br>
+<br>
+Voila, we have a nice packet trace of the transaction for upgrading the<br>
+unit.<br>
+<br>
+We just need a unit that requires upgrading, a reason to call and some<br>
+gumption as far as the Linux setup, but I think there are already setups<br>
+described on linux-hacker for the Linux box.<br>
+<br>
+I wonder if anyone has already done this?<br>
+<br>
+<br>
+On Wed, 2004-04-28 at 11:08, jmareksr wrote:<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Reflashing methods</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 28, 2004</p>
+<p class="formattedBody">From: "jmareksr" &lt;jimmarek@...><br>
+<br>
+<br>
+"Get that code at 8000 to run" .. perhaps when the reflash tool is connected<br>
+and you select the setup mode on the MS it recognizes the device and enables<br>
+the operation from the keyboard?<br>
+<br>
+BTW, I have seen messages which imply that some limited reprogramming can be<br>
+done via the phone line.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Reflashing methods was: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody"><br>
+<br>
+This thread on linux-hacker contains a capture of one of the clipmail<br>
+messages:  "Mailstation Hacker $100 Challenge!"<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?Action=ShowPost&Board=mswhatever&Post=13&Idle=0&Sort=0&Order=">(URL)</a><br>
+Descend&Page=0&Session=<br>
+<br>
+I'm pretty sure the clipmail commands are related to the pop protcol<br>
+extensions that cause problems with some pop servers.  I seem to<br>
+remember that someone else did experiments that showed the<br>
+problem was that some pop servers choked on the extra mime-types<br>
+<br>
+<br>
+There are strings in the code regarding downloading applications,<br>
+but I don't know if cidco ever offered any extra apps.  If you can<br>
+figure out how to download any executable code, then you<br>
+can pretty much bootstap your way up from there.<br>
+<br>
+There is some sort of security key, that would surely need to be<br>
+"understood" before you could use this route.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] Reflashing methods was: Re: How big are the hex</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody">Someone in this thread on linux-hacked mentioned they believe the unit<br>
+may accept reflash right after reset.<br>
+<br>
+Anyone have a logic analyzer? If we could try throwing some characters<br>
+to the unit on the parallel port right after reset and see what<br>
+addresses appear on the address bus, this might take us to the parallel<br>
+port reflash trigger detection code.<br>
+<br>
+A question for the hardware hackers: should any parallel cable work? And<br>
+do we think any PC with bi directional parallel port could drive it?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Reflashing methods was: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody">wrote:<br>
+unit<br>
+characters<br>
+parallel<br>
+<br>
+The test for reflash is at #03:451c, and it seems to be<br>
+called continuously while the mailstation is running.<br>
+<br>
+work? And<br>
+<br>
+It uses a parallel laplink style interface.  I don't know if<br>
+a parallel port can drive a "straight" cable and talk to it.<br>
+<br>
+Laplink uses 5 data lines (d0-d5) to "talk", and the<br>
+5 status lines to "listen" (crossed, data on one end to<br>
+the status on the other).<br>
+<br>
+I have some pascal code that matches the mailstation send/receive<br>
+routines.  I'll try to post more soon, but i gotta go to sleep now...<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

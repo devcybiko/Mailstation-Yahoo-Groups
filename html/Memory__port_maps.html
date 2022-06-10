@@ -1,0 +1,983 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Memory & port maps (Jan 2, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "donhamilton2002" <donhamilton2002@...> Jan 3, 2005</a></li>
+<li><a class="link" href="#2">From: Sean Walton <ab8kf@...> Jan 3, 2005</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Jan 4, 2005</a></li>
+<li><a class="link" href="#4">From: Sean Walton <ab8kf@...> Jan 4, 2005</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> Jan 4, 2005</a></li>
+<li><a class="link" href="#6">From: Sean Walton <ab8kf@...> Jan 4, 2005</a></li>
+<li><a class="link" href="#7">From: "Neil Morrison" <neilsmorr@...> Jan 4, 2005</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Jan 6, 2005</a></li>
+<li><a class="link" href="#9">From: Sean Walton <ab8kf@...> Jan 6, 2005</a></li>
+<li><a class="link" href="#10">From: "John R. Hogerhuis" <jhoger@...> Jan 6, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: Memory & port maps</h3>
+<p class="from">From: "ab8kf" &lt;ab8kf@...></p>
+<p class="date">Jan 2, 2005</p>
+<p class="formattedBody">Where can I get all the discovered memory and port maps to date?<br>
+-Sean<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "donhamilton2002" &lt;donhamilton2002@...></p>
+<p class="date">Jan 3, 2005</p>
+<p class="formattedBody"><br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?Action=ShowPost&Board=mswhatever&Post=77&Idle=0&Sort=0&Order=Descend&Page=0&Session=">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: Sean Walton &lt;ab8kf@...></p>
+<p class="date">Jan 3, 2005</p>
+<p class="formattedBody">Too bad that more progress was not made.  In any case<br>
+I have several questions regarding these specs:<br>
+<br>
+| PORT definitions<br>
+| P01 = keyboard (in = cols, out = rows)<br>
+Do we have the keyboard matrix mapping?<br>
+<br>
+| P02 = various<br>
+|   .7 = LCD_ON (output)<br>
+Is this part of a "sleep" mode?<br>
+<br>
+|   .6 = CALLERID_DATA (input)<br>
+What is this??  I'm guessing that indicates that<br>
+caller ID data is waiting...?<br>
+<br>
+|   .5 = NOT_MODEM_POWER (output)<br>
+Another part of a "sleep" mode?<br>
+<br>
+|   .4 = YOUGOTMAIL_LED (output)<br>
+This is obvious.<br>
+<br>
+|   .3 = LCD_CAS (output)<br>
+What is this?<br>
+<br>
+|   .2 = CALLERID_DATA_RDY (input)<br>
+??  Wait... Didn't I see this above... now I'm<br>
+confused.<br>
+<br>
+|   .1 = KEYROW_9 (output)<br>
+??<br>
+<br>
+|   .0 = KEYROW_8 (output)<br>
+??<br>
+<br>
+| P03 = software masks for ISRs: in's are interrupt<br>
+source, out's are masks.<br>
+| Highest to lowest:<br>
+|   .7 = Caller id handler<br>
+Ok, I think I understand this one...<br>
+<br>
+|   .5 = maybe RTC???<br>
+Yeah, I understand.  Now, I have questions about the<br>
+Real-Time Clock...<br>
+<br>
+|   .6 = Modem handler<br>
+How much do we know about the modem?  E.g. does it<br>
+have a queue?<br>
+Smartmodem compliant?<br>
+<br>
+|   .4 = increment time16<br>
+???  What's this??<br>
+<br>
+|   .3 = null<br>
+|   .0 = null<br>
+|   .1 = Keyboard handler<br>
+|   .2 = null<br>
+OK.<br>
+<br>
+| P05 = slot4000page holds A14 - A21, for addresses in<br>
+#4000-7FFF range.<br>
+| P06 = slot4000device holds A22 - A29, for addresses<br>
+in #4000-7FFF range.<br>
+| P07 = slot8000page holds A14 - A21, for addresses in<br>
+#8000-BFFF range.<br>
+| P08 = slot8000device holds A22 - A29, for addresses<br>
+in #8000-BFFF range.<br>
+|Device codes:<br>
+|  0 = codeflash (64 pages)<br>
+|  1 = ram ( 8 pages)<br>
+|  2 = LCD (right half) ( 1 page )<br>
+|  3 = dataflash (32 pages)<br>
+|  4 = LCD (left half) ( 1 page )<br>
+|  5 = modem ( 1 page )<br>
+OK, I guessing that the notes "holds A22 - A29" is<br>
+bogus because of the<br>
+device codes and should read:<br>
+P05 = slot4000 page holds A14 - A21, for addresses<br>
+in #4000-7FFF range.<br>
+P06 = slot4000 device code for $4000 slot<br>
+P07 = slot8000 page holds A14 - A21, for addresses<br>
+in #8000-BFFF range.<br>
+P08 = slot8000 device code for $8000 slot<br>
+<br>
+| P09 = printer control & power detect & power button.<br>
+|   .0 = PRINTER_STROBE (output)<br>
+|   .1 = PRINTER_AUTOFEED (output)<br>
+|   .2 = PRINTER_INIT (output)<br>
+|   .3 = PRINTER_SELECT (output)<br>
+|   .4 = POWERBUTTON (input)<br>
+|   .5 = dc-dc good (input)<br>
+|   .6 = +5V good (input)<br>
+|   .7 = +6V good (input)<br>
+Clear.<br>
+<br>
+| P0A = printer control direction<br>
+Um... I'm assuming that this is ALWAYS=1111.0000.<br>
+Input is b=0, output is b=1<br>
+(I believe that's the standard for parallel line<br>
+controllers).<br>
+<br>
+| P0D = CPU clock rate control (clock is 8MHz on<br>
+reset)<br>
+|   #f0=8MHz, #30=10MHz, #00=12MHz. Resets to 8MHz.<br>
+|   (bits: ?X?X.???? bits 6 & 4 defined/known)<br>
+Has anyone fleshed out the unknown bits?<br>
+I do find it interesting when devices select their own<br>
+clock rate: why would<br>
+anyone want anything but the fastest rate?<br>
+<br>
+| P21 = printer status (db25 pins 10,11,12,13,15)<br>
+Which bits are mapped to which pin?<br>
+<br>
+| P28 = various (output)<br>
+|   .0 = modem_reset<br>
+Ok, I get this.<br>
+<br>
+|   .1 = 74C74_pin4_via600ohm<br>
+|   .2 = callid_dataclock<br>
+|   .3 = callid_sleep/reset<br>
+|   .4 = callid_FSK/not_DTMF<br>
+What is all of this?<br>
+<br>
+|   .5 = ??<br>
+|   .6 = ??<br>
+|   .7 = ??<br>
+Has anyone done more here?<br>
+<br>
+| P2C = printer data direction<br>
+Um... I'm assuming that P2C.0-7 maps to D0-7.  To<br>
+enable bidirectional PIO,<br>
+the lines have to be driven 0000.0000 for input and<br>
+1111.1111 for output.  Does<br>
+anyone know if this is compatible with APIO/PPI specs.<br>
+It would be fun to<br>
+connect a Zip drive.<br>
+<br>
+| P2D = printer data (db25 pins 2 - 9)<br>
+Gotcha.  (Of course, I'm assuming that P2D.0-7 => D0-7<br>
+<br>
+| P2F = RTC clock rate control????<br>
+Does anyone know the division rate?<br>
+<br>
+| There are a few more ports not doc. here. (probably<br>
+clock/calendar?????)<br>
+Anyone know what they are?<br>
+<br>
+| Just what is a "bank? Is it where memory goes, or<br>
+the memory that goes there?<br>
+| As in "there are 2 banks, at #4000 & #8000" versus<br>
+"there are 64 banks of<br>
+| codeflash", and "32 banks of dataflash", and "8<br>
+banks of ram".  Too avoid<br>
+| confusion, I am calling the chunks of memory<br>
+"pages", and the places those<br>
+| chunks are swapped into "slots". I find it too<br>
+confusing to keep calling them<br>
+| both banks.<br>
+| There are 4 slots, of 16k each, at #0000, #4000,<br>
+#8000, & #C000.<br>
+| Only slot #4000 & slot #8000 have been observed to<br>
+be swappable, with<br>
+| codeflash swapping into #4000, and ram into #8000.<br>
+Also, it seems everything<br>
+| except the ram uses #4000 slot. (LCD, dataflash,<br>
+Modem, caller ID)<br>
+| slot #0000 is always codeflash page #00<br>
+| slot #4000 is codeflash pages #01 to #3f (Or LCD,<br>
+dataflash, Modem, caller ID)<br>
+| slot #8000 is ram pages #1 to #7<br>
+| slot #C000 is always ram page #00<br>
+Okay, I'm cool with the definitions.  However, I am<br>
+unclear about several<br>
+things:<br>
+1) It appears that either the $4000 or the $8000 slot<br>
+can take a device<br>
+page. Does this mean that I can map any of the<br>
+devices to either slot?<br>
+The slot definitions, above, say 'no'.  Therefore, I<br>
+have to assume that<br>
+the device selector for $8000 (P08) must always =1<br>
+(RAM bank).<br>
+2) Is it possible to have both LCD banks visible<br>
+selected at the same<br>
+time?  (This depends on Q#1 being 'yes'.)<br>
+3) The modem is a serial device.  Are all but the<br>
+first byte be undefined?<br>
+4) What does the Caller ID data look like?  Is it a<br>
+string?  Is it serial<br>
+and interupt-driven like the modem?<br>
+<br>
+| On reset, slot4000 and slot8000 both contain<br>
+codeflash page 0 (dev 0, pg 0).<br>
+| I would guess that any device can swap into either<br>
+slot, but so far the ram<br>
+| is the only thing to use #8000 slot, and it never<br>
+goes in the #4000 slot.<br>
+Okay, one question answered.  That means that the<br>
+monochrome display is fully<br>
+writable (one can actually write to the full display<br>
+without paging).<br>
+<br>
+| It seems that the #0000 slot always is codeflash<br>
+page #00, & since pg #00 has<br>
+| the bank swapping code, this makes sense.  There are<br>
+a lot of low level<br>
+| routines in this page, too. And if the dataflash and<br>
+codeflash both swap into<br>
+| slot #4000, then the only routines to directly<br>
+access dataflash MUST be in<br>
+| page 0 of codeflash ...<br>
+Logical. logical. logical.<br>
+Slot $0000 appears to be the main manager for the<br>
+"operating system".<br>
+<br>
+| (or copied to ram, as in update mode)<br>
+Aha!  Here's the other goodie.  The update mode seems<br>
+to be running from RAM.<br>
+So, I have several hypotheses and questions:<br>
+1) Is the "update mode" the re-flashing function that<br>
+SJ was playing with?<br>
+2) Has anyone found & isolated this "update mode"?<br>
+3) This clearly means that we can execute in other<br>
+regions than $0000 and<br>
+$4000<br>
+<br>
+| It stands to reason that slot #C000 is fixed ram<br>
+page, since it contains the<br>
+| stack.  Everything I have seen says that the #4000<br>
+slot is where all the<br>
+| coderom above #003fff is mapped.<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 4, 2005</p>
+<p class="formattedBody"><br>
+Yes.  But I'm tryin'.<br>
+<br>
+<br>
+When it rains, it pours!   :-)<br>
+<br>
+<br>
+I sketched it on paper, and it is on the "todo list"<br>
+to type it up.  If you really want it, I can post it<br>
+sooner rather than later.<br>
+<br>
+In the meantime, the Matrix is 10 rows by 8 columns.<br>
+(bet you saw all three movies, and missed that! ;^)<br>
+<br>
+8 of the rows are connected to output port #00,<br>
+and the other 2 are on output port #02 bits 0 & 1.<br>
+<br>
+The 8 columns are read back on input port #00.<br>
+<br>
+<br>
+I guess so, for just the lcd.<br>
+The cpu can turn off the power to most of the<br>
+circuits (including the lcd) in what I would call the sleep mode,<br>
+but that is separate from this.<br>
+Also, some parts of the circuit can be powered down<br>
+independent of the rest (modem for instance).<br>
+I don't know for sure, but it seems a good guess that<br>
+turning the lcd off with a low to "LCD_ON" would save<br>
+power.  LCD_ON seems to be an enable for the lcd<br>
+driver circuits (inside of the lcd).<br>
+<br>
+<br>
+Serial data, from the caller id chip, to the cpu.<br>
+<br>
+<br>
+This one actually gates the power on/off to the<br>
+modem circuitry.  It seems logical that it would<br>
+be off to save power whenever you are not using the modem.<br>
+<br>
+<br>
+I am not an expert on lcd's, in fact this mailstation<br>
+lcd is the first I have really looked at.  I looked<br>
+at several common lcd data sheets, and as I recall<br>
+this one did not match any of the common ones.<br>
+Since message 38, I have seen sevearal lcd's<br>
+that have a command/data pin, and I suppose<br>
+that could be the real function of this signal<br>
+(it goes directly to the lcd ribbon cable).  But<br>
+if that is the case, the only command I see<br>
+the mailstation sending is a "column number".<br>
+I called it cas (column address select), because<br>
+it reminded me of how DRAM chips are addressed.<br>
+But it is probably better to rename it "column register select",<br>
+because the column number is sent on the data<br>
+bus (in a seperate write cycle), not on a<br>
+multiplexed address bus as with DRAM cas.<br>
+Maybe there *are* other commands<br>
+besides the column number, and it really *is*<br>
+"command register select"????  I dunno.<br>
+<br>
+<br>
+Above was the actual serial data input, *this* is<br>
+the handshake that tells the cpu to read that data.<br>
+<br>
+<br>
+The 2 (of 10) rows that did not fit port #01.<br>
+<br>
+<br>
+I dunno, but I can post the data sheet<br>
+(if it is not already there???)<br>
+The handler does implement send and recv queue's in software.<br>
+<br>
+<br>
+There are two software timebases, one is a 16 bit<br>
+value, and the other is 32 bit.  The 32 bit one<br>
+seems to be counting milliseconds, but I don't<br>
+know what this one is counting (besides the<br>
+number of times that int 3.4 has happened).<br>
+The only thing that happens during<br>
+int 3.4 is this 16 bit counter is incremented.<br>
+So far, I don't know where this value is used,<br>
+or what for.<br>
+<br>
+<br>
+A22-29 *is* the device code.<br>
+<br>
+Although there are no pins on the cpu for a22-a29,<br>
+the device reg's can be thought of as holding those<br>
+bits.<br>
+<br>
+I have been using the notation "DDPP:XXXX"<br>
+for 32 bit mailstation addresses, where<br>
+DD is one byte of device address (port #06 or #08),<br>
+PP is one byte of page address (port #05 or #07), and<br>
+XXXX is two bytes of slot & offset (the z80's idea of the address).<br>
+<br>
+The hi two bits of XXXX determine the "slot"<br>
+(which dev & page registers to use)<br>
+and the lo 14 bits are the offset in<br>
+page PP of device DD.<br>
+<br>
+(slot0000 and slotC000 don't have writeable<br>
+device and page registers, AFAICT, they use<br>
+fixed values, so addresses in these "slots"<br>
+always refer to fixed pages, with<br>
+slot0000 always holding page #00 of device #00<br>
+and<br>
+slotC000 always holding page #00 of device #01.)<br>
+<br>
+<br>
+The mailstation probably leaves it set that way.<br>
+Or I should say it sets it that way, and leaves it.<br>
+I would guess (but have not tried it) that you<br>
+could set any way you want, in *your* code.<br>
+<br>
+<br>
+Not me.<br>
+<br>
+<br>
+The power dissipation in CMOS devices is directly<br>
+proportional to the clock rate.  The batteries<br>
+will last 1.5 times as long at 8 MHz.  (But it might take<br>
+1.5 times as long to do your calculation!)<br>
+<br>
+<br>
+P21.7 in - printer status busy     (db25.11)<br>
+P21.6 in - printer status ack      (db25.10)<br>
+P21.5 in - printer status paper end(db25.12)<br>
+P21.4 in - printer status select   (db25.13)<br>
+P21.3 in - printer status error    (db25.15)<br>
+<br>
+(The DB25 is a standard parallel port pinout.)<br>
+<br>
+<br>
+I think that 28.0 & 28.1 may be reversed????<br>
+P28.0 = connected to pin 4 of the 74c74 ic via a 600 ohm resistor.<br>
+P28.1 = modem_reset<br>
+<br>
+The 74c74 is a dual flip flop, and it gates<br>
+the power to most of the board (via a transistor).<br>
+I think pulsing 28.0 will turn the board off.<br>
+<br>
+callid_dataclock - the cpu toggles this line, and<br>
+the callid chip sends one serial bit for each clock.<br>
+<br>
+callid_sleep/reset - puts the callid chip in low power sleep mode.<br>
+<br>
+callid_FSK/not_DTMF - selects whether the callid chip listens for<br>
+call id data (freq shift keyed modem-like data) or touch-tones<br>
+(dual tone multi freq)<br>
+<br>
+<br>
+I don't know if they are used for anything internal,<br>
+but I don't think they are brought out to pins on the cpu.<br>
+<br>
+<br>
+Dunno.  What are APIO/PPI ?<br>
+<br>
+<br>
+The description above is just how the mailstation<br>
+code is using the hardware.  I have verified that<br>
+the coderom can be mapped to slot8000, and<br>
+also that ram can be mapped to slot4000.<br>
+I assume that any device can go in either slot,<br>
+but I only tested those.<br>
+<br>
+<br>
+Both lcd banks are visible all the time, they<br>
+are the right and left halfs of the screen.<br>
+The cpu can only access one half at a time, though.<br>
+In fact, the cpu can only access one byte (one row,<br>
+of one column, of one half the screen) at a time.<br>
+<br>
+Each row is mapped to a different address in the cpu's<br>
+address space.  Changing columns within a half requires<br>
+sending a new column number to that column register thingy.<br>
+And changing halfs requires outputing a device number to<br>
+the appropriate device register.<br>
+<br>
+<br>
+The modem interface to the cpu is parallel,<br>
+one byte at a time (the uart is inside the modem chip).<br>
+When the modem is banked in, the 8 modem registers<br>
+are mapped to the first 8 bytes of whichever slot it is in<br>
+(probably mirrored throughout)  The mailstation code<br>
+puts the modem into slot4000.<br>
+<br>
+So, with the modem in slot 4000, the recv data is<br>
+read from memory address #4000, and send data<br>
+is written to that address.<br>
+#4001-4007 are the status and control registers.<br>
+<br>
+<br>
+Dunno.<br>
+<br>
+<br>
+Yes.  Yes.<br>
+<br>
+<br>
+You mean by putting one half in slot4000 and the other<br>
+half in slot8000??????<br>
+<br>
+I suppose you could do that, but you would still have to deal<br>
+with the column addresses.  IOW, you cannot map all the<br>
+screen pixels into memory at the same time.  You possibly could<br>
+map one column from first half and one column from<br>
+the second half at the same time.<br>
+(Each column is a byte wide x 128 bytes high.  And each half screen<br>
+is 20 columns wide.)<br>
+<br>
+The mailstation handles this nastiness by using a screen<br>
+buffer in ram (in fixed slotC000).  All drawing is done<br>
+in this buffer, which *is* a block of bits representing the<br>
+whole 320 x 128 pixel screen.  There are text, line, and icon<br>
+drawing routines.<br>
+<br>
+And after a whole screen is drawn another routine<br>
+copies the whole mess over to the actual lcd.<br>
+Half the screen at a time.<br>
+One column of each half at a time.<br>
+One byte of each column at a time.<br>
+<br>
+<br>
+Those above referenced drawing routines are there, too!<br>
+<br>
+<br>
+Yes.<br>
+<br>
+<br>
+Yes.<br>
+<br>
+<br>
+Yes.  The protocol was described in message 92<br>
+and code to interface posted in the files section (mesg 85 + 86).<br>
+<br>
+<br>
+Yes, it is just that the mailstation code is assembled/linked<br>
+to run in those slots.  Your code can run wherever you like.<br>
+<br>
+<br>
+My code is still not ready for prime time, but I expect<br>
+too post a "beta" version "real soon now".  I tried it out<br>
+under win XP, and it does not work.  :-(<br>
+<br>
+There is also a nasty tendency for the mailstation flash to be erased<br>
+if you leave the laplink cable attached while rebooting the pc.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: Sean Walton &lt;ab8kf@...></p>
+<p class="date">Jan 4, 2005</p>
+<p class="formattedBody">If it isn't obvious, I'm trying to write a firmware<br>
+specification.<br>
+<br>
+| > | PORT definitions<br>
+| > | P01 = keyboard (in = cols, out = rows)<br>
+| > Do we have the keyboard matrix mapping?<br>
+|<br>
+| I sketched it on paper, and it is on the "todo list"<br>
+| to type it up.  If you really want it, I can post it<br>
+| sooner rather than later.<br>
+If you could scan the sketch and email it, I will<br>
+formalize it.<br>
+<br>
+| > | P03.3 = LCD_CAS (output)<br>
+| > What is this?<br>
+|<br>
+| I am not an expert on lcd's, in fact this<br>
+mailstation<br>
+| lcd is the first I have really looked at.  I looked<br>
+| at several common lcd data sheets, and as I recall<br>
+| this one did not match any of the common ones.<br>
+| Since message 38, I have seen sevearal lcd's<br>
+| that have a command/data pin, and I suppose<br>
+| that could be the real function of this signal<br>
+| (it goes directly to the lcd ribbon cable).  But<br>
+| if that is the case, the only command I see<br>
+| the mailstation sending is a "column number".<br>
+| I called it cas (column address select), because<br>
+| it reminded me of how DRAM chips are addressed.<br>
+| But it is probably better to rename it "column<br>
+register select",<br>
+| because the column number is sent on the data<br>
+| bus (in a seperate write cycle), not on a<br>
+| multiplexed address bus as with DRAM cas.<br>
+| Maybe there *are* other commands<br>
+| besides the column number, and it really *is*<br>
+| "command register select"????  I dunno.<br>
+Ok, I can understand this... However, this is a<br>
+bit-wide: So,<br>
+the column must be selected serially.  How long is the<br>
+column<br>
+address and where is the clock port?<br>
+<br>
+| > |   .5 = maybe RTC???<br>
+| > Yeah, I understand.  Now, I have questions about<br>
+the<br>
+| > Real-Time Clock...<br>
+Do we have any information about the RTC?<br>
+<br>
+| > |   .6 = Modem handler<br>
+| > How much do we know about the modem?  E.g. does it<br>
+| > have a queue?<br>
+| > Smartmodem compliant?<br>
+|<br>
+| I dunno, but I can post the data sheet<br>
+| (if it is not already there???)<br>
+| The handler does implement send and recv queue's in<br>
+software.<br>
+I don't recall seeing the document.  I think that we<br>
+need to<br>
+place the significant documents like this in the<br>
+/files folder.<br>
+<br>
+| > |   .4 = increment time16<br>
+| > ???  What's this??<br>
+|<br>
+| There are two software timebases, one is a 16 bit<br>
+| value, and the other is 32 bit.  The 32 bit one<br>
+| seems to be counting milliseconds, but I don't<br>
+| know what this one is counting (besides the<br>
+| number of times that int 3.4 has happened).<br>
+| The only thing that happens during<br>
+| int 3.4 is this 16 bit counter is incremented.<br>
+| So far, I don't know where this value is used,<br>
+| or what for.<br>
+What are the port #s for these two counters?<br>
+<br>
+| >   P06 = slot4000 device code for $4000 slot<br>
+| >   P07 = slot8000 page holds A14 - A21, for<br>
+addresses<br>
+| > in #8000-BFFF range.<br>
+| >   P08 = slot8000 device code for $8000 slot<br>
+|<br>
+| A22-29 *is* the device code.<br>
+I think that we are picking nits on semantics.<br>
+According to the 3SI176 pinout, pin #26-32 appear to<br>
+be<br>
+a port with each pin assigned to each device.  You<br>
+know<br>
+the code better than anyone else -- when selecting a<br>
+device is it a bitset or is the pinout inaccurate?<br>
+<br>
+| > I do find it interesting when devices select their<br>
+own<br>
+| > clock rate: why would<br>
+| > anyone want anything but the fastest rate?<br>
+|<br>
+| The power dissipation in CMOS devices is directly<br>
+| proportional to the clock rate.  The batteries<br>
+| will last 1.5 times as long at 8 MHz.  (But it might<br>
+take<br>
+| 1.5 times as long to do your calculation!)<br>
+Excellent point.  I believe that power consumption is<br>
+nonlinear: the faster you go the power increases<br>
+nonlinearly.  So, keeping things slow is a "good<br>
+thing."<br>
+<br>
+| > | P28 = various (output)<br>
+| > |   .0 = modem_reset<br>
+| > Ok, I get this.<br>
+| ><br>
+| > |   .1 = 74C74_pin4_via600ohm<br>
+| > |   .2 = callid_dataclock<br>
+| > |   .3 = callid_sleep/reset<br>
+| > |   .4 = callid_FSK/not_DTMF<br>
+| > What is all of this?<br>
+|<br>
+| I think that 28.0 & 28.1 may be reversed????<br>
+Once again, I was using collected information I could<br>
+find.<br>
+You know the code far better than I do.  I have made<br>
+the<br>
+change.<br>
+<br>
+| P28.0 = connected to pin 4 of the 74c74 ic via a 600<br>
+ohm resistor.<br>
+| P28.1 = modem_reset<br>
+|<br>
+| The 74c74 is a dual flip flop, and it gates<br>
+| the power to most of the board (via a transistor).<br>
+| I think pulsing 28.0 will turn the board off.<br>
+Does the board turn itself "on" through the hardware?<br>
+<br>
+| > | P2C = printer data direction<br>
+| > Um... I'm assuming that P2C.0-7 maps to D0-7.  To<br>
+| > enable bidirectional PIO,<br>
+| > the lines have to be driven 0000.0000 for input<br>
+and<br>
+| > 1111.1111 for output.  Does<br>
+| > anyone know if this is compatible with APIO/PPI<br>
+specs.<br>
+|<br>
+| Dunno.  What are APIO/PPI ?<br>
+APIO = Advanced Parallel I/O<br>
+PPI should be ECP/EPP (sorry)<br>
+It may actually work... You stated that you can<br>
+reprogram<br>
+the MS using the parallel port.  Do you manage to do<br>
+bidirectional communication to-from the PC/MS?<br>
+<br>
+| >       2) Is it possible to have both LCD banks<br>
+visible<br>
+| > selected at the same<br>
+| >       time?  (This depends on Q#1 being 'yes'.)<br>
+|<br>
+| Both lcd banks are visible all the time, they<br>
+| are the right and left halfs of the screen.<br>
+Sorry, I should have been more clear: I meant "visible<br>
+to the firmware code."<br>
+<br>
+| Each row is mapped to a different address in the<br>
+cpu's<br>
+| address space.  Changing columns within a half<br>
+requires<br>
+| sending a new column number to that column register<br>
+thingy.<br>
+| And changing halfs requires outputing a device<br>
+number to<br>
+| the appropriate device register.<br>
+| I suppose you could do that, but you would still<br>
+have to deal<br>
+| with the column addresses.  IOW, you cannot map all<br>
+the<br>
+| screen pixels into memory at the same time.  You<br>
+possibly could<br>
+| map one column from first half and one column from<br>
+| the second half at the same time.<br>
+| (Each column is a byte wide x 128 bytes high.  And<br>
+each half screen<br>
+| is 20 columns wide.)<br>
+|<br>
+| The mailstation handles this nastiness by using a<br>
+screen<br>
+| buffer in ram (in fixed slotC000).  All drawing is<br>
+done<br>
+| in this buffer, which *is* a block of bits<br>
+representing the<br>
+| whole 320 x 128 pixel screen.  There are text, line,<br>
+and icon<br>
+| drawing routines.<br>
+|<br>
+| And after a whole screen is drawn another routine<br>
+| copies the whole mess over to the actual lcd.<br>
+| Half the screen at a time.<br>
+| One column of each half at a time.<br>
+| One byte of each column at a time.<br>
+Please help me, I need more clarification.<br>
+I believe that you are implying that each byte<br>
+represents a pixel on<br>
+the display -- is that true?  If so, the screen has<br>
+its own memory<br>
+of 320x128x8 (or ~40KB).  It's also possible that the<br>
+display grays.<br>
+Could you explain in more detail exactly how a block<br>
+of bits are<br>
+written to the display?<br>
+<br>
+| >       2) Has anyone found & isolated this "update<br>
+mode"?<br>
+|<br>
+| Yes.  The protocol was described in message 92<br>
+| and code to interface posted in the files section<br>
+(mesg 85 + 86).<br>
+I will look at those messages -- this is a major step<br>
+and kudos to<br>
+you!<br>
+<br>
+| My code is still not ready for prime time, but I<br>
+expect<br>
+| too post a "beta" version "real soon now".  I tried<br>
+it out<br>
+| under win XP, and it does not work.  :-(<br>
+Still, I think that you have made some mjor progress!<br>
+<br>
+| There is also a nasty tendency for the mailstation<br>
+flash to be erased<br>
+| if you leave the laplink cable attached while<br>
+rebooting the pc.<br>
+eeek!<br>
+<br>
+-Sean<br>
+<br>
+__________________________________<br>
+Do you Yahoo!?<br>
+Yahoo! Mail - now with 250MB free storage. Learn more.<br>
+<a target="_blank" href="http://info.mail.yahoo.com/mail_250">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jan 4, 2005</p>
+<p class="formattedBody">From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+...<br>
+<br>
+There is good reason for this. LCDs tend to be slow to update, so it's<br>
+better to do some things with it off in some cases. They may not use this,<br>
+but you never know.<br>
+<br>
+Regards,<br>
+<br>
+Neil Morrison<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: Sean Walton &lt;ab8kf@...></p>
+<p class="date">Jan 4, 2005</p>
+<p class="formattedBody">Really?  That jives with CJ's statement implying that<br>
+the LCD has its own memory.  Good comment!<br>
+-Sean<br>
+<br>
+<br>
+<br>
+__________________________________<br>
+Do you Yahoo!?<br>
+Yahoo! Mail - Find what you need with new enhanced search.<br>
+<a target="_blank" href="http://info.mail.yahoo.com/mail_250">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jan 4, 2005</p>
+<p class="formattedBody">I have a lot of experience with the Tandy Model 100 and they are very slow<br>
+to scroll etc. so it's normal to find ways around this.<br>
+<br>
+Neil<br>
+<br>
+From: "Sean Walton" &lt;ab8kf@...><br>
+<br>
+<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 6, 2005</p>
+<p class="formattedBody"><br>
+Sounds interesting.  By firmware spec, do you mean<br>
+essentially a datasheet for the mailstation hardware?<br>
+<br>
+<br>
+I typed it and uploaded to file section.  Also<br>
+another modem datasheet, and a revised verion of my lcd<br>
+data.<br>
+<br>
+[blah blah, lcd, blah....]<br>
+<br>
+<br>
+The lcd interface is byte wide.<br>
+Column numbers are sent as bytes.<br>
+And pixel data is sent 8 pixels per byte.<br>
+<br>
+The columns are 8 pixels wide by 128 pixels high.<br>
+<br>
+2 halfs x 20 columns/half x 8 pixels/column = 320 pixel wide screen.<br>
+<br>
+[...blah, rtc, blah...]<br>
+<br>
+<br>
+I'm pretty sure that i/o ports #10 thru #1F are for the rtc.<br>
+The date & time digits are #10-#1C, and the last 3<br>
+are some sort of control.<br>
+<br>
+[...modem...]<br>
+<br>
+<br>
+done.  I skimmed thru it again, and it would seem<br>
+that the modem in the ms is capable of controling a<br>
+speakerphone, and the interfacing to a headset, too.<br>
+Hmmmm.<br>
+<br>
+<br>
+No ports, they are in ram.<br>
+<br>
+<br>
+On the software side, it is the binary address.<br>
+<br>
+To select device 5 (the modem), the device register<br>
+holds "0000 0101"<br>
+<br>
+You are correct that the device bits are decoded<br>
+internally to a "1 of 7", and the device address<br>
+bits never make it outside the cpu.  And it is<br>
+impossible to add even an 8th device, coz the<br>
+whole device reg & decoder is buried in the chip.<br>
+(There is one device select unused and available for<br>
+expansion purposes, device 6).<br>
+<br>
+[......................]<br>
+<br>
+<br>
+Yes, but not with that same signal.  It can wake itself<br>
+up at a set time, and download mail.  And as far as I<br>
+can tell, the cpu is sleeping, or off, before wakeup.<br>
+So it can't wake itself up with a i/o bit.<br>
+It must be a timer, likely part of the rtc.<br>
+<br>
+[....]<br>
+<br>
+<br>
+My hunch is that it is just a matter of writing<br>
+the software.  The data pins on the parport are<br>
+capable of bidir communication.<br>
+<br>
+<br>
+Yes, but the ms update code uses a "laplink" type<br>
+of protocol.  It requires the minimum in parports,<br>
+and will work with even the oldest par ports.  It<br>
+does not use real bidir capability, it receives<br>
+5 bits at a time using the status lines as inputs.<br>
+<br>
+[.................................................]<br>
+<br>
+<br>
+each byte is 8 horizontal pixels.<br>
+<br>
+<br>
+It does have its own memory.<br>
+(2 halfs x 20 cols  x 128 rows x 8 pixels).<br>
+<br>
+<br>
+no.<br>
+<br>
+<br>
+check the revised lcd data in file section, under "part files".<br>
+<br>
+[.........]<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: Sean Walton &lt;ab8kf@...></p>
+<p class="date">Jan 6, 2005</p>
+<p class="formattedBody"><br>
+Essentially, yes.  A firmware specification does<br>
+define all the hardware elements in an embedded<br>
+system, but it goes further to describe the:<br>
+-Support devices and their programming<br>
++flash devices<br>
++RTC<br>
++display<br>
++modem<br>
++keyboard<br>
++parallel port<br>
++caller ID<br>
++LEDs<br>
++power modes<br>
+-Interrupt subsystem<br>
++priorities<br>
++masking<br>
++stacking<br>
+-Paging mechanisms and rules<br>
++slots & pages<br>
+-Ports -- their meaning and programming<br>
++...?<br>
+-Clocking: RTC and clock interrupts (if they exist)<br>
++timers<br>
++wake-ups<br>
++MM/DD/YYYY HH:MM:SS.mmm<br>
+<br>
+Many of the items above are still in flux, but I could<br>
+gather what we know right now into a useful<br>
+programmers document.  I would like to get to the<br>
+point of being able to completely reprogram the MS<br>
+with my own OS and programming language(s).  This is<br>
+the first step in that direction.  That is the reason<br>
+I put that poll up -- I wanted to see if publishing<br>
+this would be useful to more than myself alone.<br>
+<br>
+-Sean<br>
+<br>
+__________________________________<br>
+Do you Yahoo!?<br>
+Yahoo! Mail - now with 250MB free storage. Learn more.<br>
+<a target="_blank" href="http://info.mail.yahoo.com/mail_250">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: [mailstation] Re: Memory & port maps</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jan 6, 2005</p>
+<p class="formattedBody">Sean,<br>
+<br>
+Useful, certainly, but most of us can get along with an I/O map, memory<br>
+map and the datasheets, so if I were you I wouldn't put too much effort<br>
+into polished engineering documentation. Just the essentials will<br>
+suffice for those who will be writing code.<br>
+<br>
+Where hard questions come up, one just disassembles the original<br>
+firmware.<br>
+<br>
+Maybe better just to start hacking and document peculiarities as you go?<br>
+I always figured the linux-hacker stuff looked sufficient to start<br>
+getting code up and running. It certainly helped point the way to the<br>
+native reflash code.<br>
+<br>
+(CJ -- I haven't forgotten about porting/testing the reflash code, alas<br>
+I am just swamped with end-of-year bookkeeping stuff at the moment...)<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

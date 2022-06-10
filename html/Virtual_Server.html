@@ -1,0 +1,278 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Virtual Server (Mar 18, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Mar 18, 2006</a></li>
+<li><a class="link" href="#2">From: "Neil Morrison" <neilsmorr@...> Mar 18, 2006</a></li>
+<li><a class="link" href="#3">From: "Anthony Albert" <albert@...> Mar 20, 2006</a></li>
+<li><a class="link" href="#4">From: Gary Clouse <niklaus37217@...> Mar 20, 2006</a></li>
+<li><a class="link" href="#5">From: "John Hogerhuis" <jhoger@...> Mar 20, 2006</a></li>
+<li><a class="link" href="#6">From: "Cristian" <topdriver_porsche@...> Mar 22, 2006</a></li>
+<li><a class="link" href="#7">From: "Anthony Albert" <albert@...> Mar 22, 2006</a></li>
+<li><a class="link" href="#8">From: Gary Clouse <niklaus37217@...> Mar 23, 2006</a></li>
+<li><a class="link" href="#9">From: "Cristian" <topdriver_porsche@...> Mar 28, 2006</a></li>
+<li><a class="link" href="#10">From: "wayne markis" <waynem@...> Mar 28, 2006</a></li>
+<li><a class="link" href="#11">From: Gary Clouse <niklaus37217@...> Mar 31, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: Virtual Server</h3>
+<p class="from">From: "Cristian" &lt;topdriver_porsche@...></p>
+<p class="date">Mar 18, 2006</p>
+<p class="formattedBody">It will be possible to do this using the telephone line?  To create a<br>
+virt=<br>
+ual server in my PC and to deceive mailstation making him think<br>
+that mail.=<br>
+mymailstation.com is the server<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Mar 18, 2006</p>
+<p class="formattedBody">I wonder if or when Earthlink will abandon this URL? Might be worth grabbing<br>
+if it becomes available. Should be able to renew it for $8 per year.<br>
+<br>
+Neil<br>
+<br>
+From: "Cristian" &lt;topdriver_porsche@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Mar 18, 2006</p>
+<p class="formattedBody">Itchy and Scratchy? Someone watches The Simpsons!<br>
+<br>
+Domain Name.......... mymailstation.com<br>
+Creation Date........ 1999-03-24<br>
+Registration Date.... 2003-04-16<br>
+Expiry Date.......... 2007-03-24<br>
+Organisation Name.... Earthlink, Inc.<br>
+Organisation Address. 1375 Peachtree St.<br>
+Organisation Address. Level A<br>
+Organisation Address. Atlanta<br>
+Organisation Address. 30309<br>
+Organisation Address. GA<br>
+Organisation Address. UNITED STATES<br>
+<br>
+Name Server.......... itchy.earthlink.net<br>
+Name Server.......... scratchy.earthlink.net<br>
+<br>
+Registry Status: REGISTRAR-LOCK<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Anthony Albert" &lt;albert@...></p>
+<p class="date">Mar 20, 2006</p>
+<p class="formattedBody">On 18 Mar 2006 at 17:07, Cristian wrote:<br>
+<br>
+<br>
+It is possible to do this... however, it's not easy.  The components<br>
+are:<br>
+<br>
+- PC with modem and phone line<br>
+- Software for dial-in TCP/IP access, so the PC can accept the call<br>
+from the Mailstation<br>
+- DHCP service on the PC, to give out IP address to Mailstation<br>
+- DNS on PC, to respond to the Mailstation's request for name<br>
+resolution of "mail.mymailstation.com"<br>
+- SMTP on PC, to accept mail<br>
+- POP3 on PC, to hand mail to mailstation<br>
+- remailler software on PC, to send/receive email with the rest of the<br>
+Internet, and also to re-write the headers so that the mail can come<br>
+and go.<br>
+<br>
+This would be, in my opinion, easiest to set up with Linux, but it<br>
+should be possible to do it with Windows.   I seem to recall, in the<br>
+early days of the group, a report of someone actually doing this, but<br>
+efforts since have been focused on finding ways to change the settings<br>
+in the Mailstation, or to re-program the Mailstation.<br>
+<br>
+Anthony Albert<br>
+===========================================================<br>
+Anthony J. Albert                     albert@...<br>
+Systems and Software Support Specialist          Postmaster<br>
+Computer Services - University of Maine, Presque Isle<br>
+"This is only temporary, unless it works."<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Mar 20, 2006</p>
+<p class="formattedBody">With Windows 2000 an newer you should everthing except<br>
+the mail server and forwarder by configuring incoming<br>
+connections.<br>
+<br>
+I have been trying to do something similar on linux,<br>
+but I am having trouble to get "bind" (the linux dns<br>
+service) configured like I want.<br>
+<br>
+<br>
+===========================================================<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "John Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Mar 20, 2006</p>
+<p class="formattedBody">Content-Disposition: inline<br>
+<br>
+[ Attachment content not displayed ]<br>
+Content-Disposition: inline<br>
+<br>
+[ Attachment content not displayed ]<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Cristian" &lt;topdriver_porsche@...></p>
+<p class="date">Mar 22, 2006</p>
+<p class="formattedBody">I made the question after reading these messages in the forum<br>
+<br>
+<a target="_blank" href="http://www.l=">(URL)</a><br>
+inux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?<br>
+Action=3DShowPost&Board=<br>
+=3Dmswhatever&Post=3D10&Idle=3D0&Sort=3D0&Order=3DDescend&Pa<br>
+ge=3D0&Session=<br>
+=3D<br>
+<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?">(URL)</a><br>
+Action=<br>
+=3DShowPost&Board=3Dmswhatever&Post=3D102&Idle=3D0&Sort=3D0&Order=3DDescend=<br>
+&P<br>
+age=3D0&Session=3D<br>
+<br>
+To more than I arrive in Linux went to install Suse =<br>
+9 and Knopix<br>
+What version of Linux use?<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: [mailstation] Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Anthony Albert" &lt;albert@...></p>
+<p class="date">Mar 22, 2006</p>
+<p class="formattedBody">On 22 Mar 2006 at 5:12, Cristian wrote:<br>
+<br>
+<br>
+Any version of Linux would work, I believe.  The trick that is noted in<br>
+the posts on linux-hacker.net is to point towards your own DNS server<br>
+software, which can hand out IP addresses for the POP3 and SMTP server<br>
+names, which point to your own server.<br>
+<br>
+Anthony Albert<br>
+===========================================================<br>
+Anthony J. Albert                     albert@...<br>
+Systems and Software Support Specialist          Postmaster<br>
+Computer Services - University of Maine, Presque Isle<br>
+"This is only temporary, unless it works."<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: [mailstation] Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Mar 23, 2006</p>
+<p class="formattedBody">I am trying to do that now with a Compaq Clipper and<br>
+Debian Linux. You need a dhcp server to assign an IP,<br>
+a ppp server to make the connection and bind (dns<br>
+server) to fool the Clipper into thinking it's on the<br>
+internet.<br>
+So far I have got the bind configuration just right.<br>
+<br>
+<br>
+===========================================================<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "Cristian" &lt;topdriver_porsche@...></p>
+<p class="date">Mar 28, 2006</p>
+<p class="formattedBody">In these pages and the forum I found examples of those who have<br>
+tried to m=<br>
+ount their home server with linux, but I do not understand<br>
+it, if somebody=<br>
+could make a tutorial step by step.  For example<br>
+that distribution, that =<br>
+packages and that configuration is special<br>
+is used.<br>
+<br>
+To connect to the ser=<br>
+ver without a telephone line:<br>
+<a target="_blank" href="http://www.hotspot.freeserve.co.uk/HOTSPOT/T=">(URL)</a><br>
+LS/tlsframe.htm?lsdiag<br>
+<br>
+Server:<br>
+<a target="_blank" href="http://www.newsforge.com/print.pl?sid=3D02=">(URL)</a><br>
+/02/05/171219<br>
+<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.p=">(URL)</a><br>
+l?<br>
+Action=3DShowPost&Board=3Dmswhatever&Post=3D102&Idle=3D0&Sort=3D0&Order=<br>
+=3DDescend<br>
+&Page=3D0&Session=3D<br>
+<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/Ultr=">(URL)</a><br>
+aBoard/UltraBoard.pl?<br>
+Action=3DShowPost&Board=3Dmswhatever&Post=3D59&Idle=<br>
+=3D0&Sort=3D2&Order=3DDescend&<br>
+Page=3D0&Session=3D<br>
+<br>
+<a target="_blank" href="http://www.linux-hacke=">(URL)</a><br>
+r.net/cgi-bin/UltraBoard/UltraBoard.pl?<br>
+Action=3DShowPost&Board=3Dmswhateve=<br>
+r&Post=3D10&Idle=3D0&Sort=3D0&Order=3DDescend&<br>
+Page=3D0&Session=3D<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: [mailstation] Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: "wayne markis" &lt;waynem@...></p>
+<p class="date">Mar 28, 2006</p>
+<p class="formattedBody">You have to load on the Apache Linux Server software onto that computer.<br>
+You are looking at around $ 500. if you buy it, or get it "Free" on the<br>
+Internet, but then YOU have to load and configure it yourself !!!<br>
+<br>
+The Apache server has the mail server in it.   www.apache.org<br>
+<br>
+Wayne<br>
+<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: [mailstation] Re: Virtual Server</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Mar 31, 2006</p>
+<p class="formattedBody">you will also need to install bind9 (the dns server),<br>
+dhcpd and ppp. Configuring these on linux is a lot<br>
+esier if you install Webmin.<br>
+PPP makes the connection.<br>
+dhcp assigns an IP sddress<br>
+bind9 is the Domain Name Service<br>
+Webmin is a web based system configuration utility.<br>
+The idea is to configure Bind9 as a master server and<br>
+map you mailservice name to you server ip.<br>
+<br>
+<br>
+<a target="_blank" href="http://www.hotspot.freeserve.co.uk/HOTSPOT/TLS/tlsframe.htm?lsdiag">(URL)</a><br>
+<a target="_blank" href="http://www.newsforge.com/print.pl?sid=02/02/05/171219">(URL)</a><br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?">(URL)</a><br>
+Action=ShowPost&Board=mswhatever&Post=102&Idle=0&Sort=0&Order=Descend<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?">(URL)</a><br>
+Action=ShowPost&Board=mswhatever&Post=59&Idle=0&Sort=2&Order=Descend&<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?">(URL)</a><br>
+Action=ShowPost&Board=mswhatever&Post=10&Idle=0&Sort=0&Order=Descend&<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

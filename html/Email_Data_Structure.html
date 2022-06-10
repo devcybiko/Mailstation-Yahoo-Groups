@@ -1,0 +1,292 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Email Data Structure (Dec 10, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Dec 11, 2007</a></li>
+<li><a class="link" href="#2">From: "tuzilo" <tuzilo@...> Dec 11, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Email Data Structure</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Dec 10, 2007</p>
+<p class="formattedBody">I thought I'd make a new topic regarding this, since I don't think<br>
+it's be=<br>
+en discussed before.<br>
+<br>
+Basically, I want to figure out the data structure of=<br>
+the email<br>
+stored in the dataflash.  I haven't investigated it thoroughly =<br>
+yet,<br>
+but I thought I'd post my preliminary findings, and perhaps see if<br>
+s=<br>
+omeone else might have learned more about it already before I spend<br>
+any ti=<br>
+me trying to figure it out.<br>
+<br>
+Here's what I've found so far.  Messages seem =<br>
+to start with a 14 byte<br>
+header, the first of which tends to always be 0xfd=<br>
+.  It's followed by<br>
+the subject line, null terminated, but the field alway=<br>
+s appears to be<br>
+142 bytes long, regardless of how short the subject really=<br>
+is.  After<br>
+that is the email recipient, immediately terminated by a null.=<br>
+Then<br>
+the message body, also terminated by null.  Then I think there's an=<br>
+8<br>
+byte footer of data.<br>
+<br>
+I've been doing various dumps after creating em=<br>
+ails and such to<br>
+compare the data.  I think the second byte of the email h=<br>
+eaders<br>
+possibly determines the status in some way, such as if it's deleted=<br>
+<br>
+or whatnot.<br>
+<br>
+I'd like to find an index or something, but I'm not sure if =<br>
+one<br>
+exists.  Perhaps it just reads through them all and constructs and<br>
+in=<br>
+dex in memory.<br>
+<br>
+I'll post more info as I get around to finding it.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Email Data Structure</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Dec 11, 2007</p>
+<p class="formattedBody">regarding this, since<br>
+ically, I want to figure out the data structure of<br>
+he dataflash.  I haven't investigated<br>
+'d post my preliminary<br>
+ave<br>
+igure it out.<br>
+<br>
+Funny you should ask.  I've been taking apart the "Inbox"<br>
+a=<br>
+pp, mainly because I want to understand how to use the<br>
+scrolling text widg=<br>
+et, and I just figured out the message<br>
+header a couple of days ago.<br>
+<br>
+e's what I've found so far.  Messages seem to start<br>
+r, the first of which tends to always<br>
+<br>
+The first 4 bytes are =<br>
+a "file header", or maybe more<br>
+correct, a "record header".  Either way, th=<br>
+ese first<br>
+4 bytes are part of the file system, not really part<br>
+of the messa=<br>
+ge.  The first byte is always FD, as you<br>
+found. (I have seen FC, but I am =<br>
+not sure what it means.<br>
+It may mean a deleted record.)<br>
+<br>
+The second byte i=<br>
+s a "file number" that tells what file<br>
+the record belongs to.  Third and f=<br>
+ourth bytes (word)<br>
+are the file size, not counting the header iirc.<br>
+The =<br>
+rest is a variable amount of file data.<br>
+<br>
+I get the distinct impression that=<br>
+each of these records<br>
+holds one complete message.<br>
+<br>
+File/record format:<br>
+<br>
+=<br>
+byte 0xFD<br>
+byte filenumber<br>
+word filesize<br>
+data (message, addres=<br>
+sbook, or calendar data)<br>
+<br>
+minated, but the field always appears to be<br>
+f how short the subject really is.  After<br>
+mmediately terminated by a null.  Then<br>
+by null.  Then I think there's an 8<br>
+<br>
+I don't thi=<br>
+nk there is a footer.  Perhaps what you<br>
+see is the "directory" record???  F=<br>
+or a file with<br>
+only one data record, the directory record will be<br>
+8 bytes (=<br>
+I think).<br>
+<br>
+There does not seem to be any sort of text filenames<br>
+used (I gue=<br>
+ss embedded systems don't really need them).<br>
+<br>
+Each file has it's own direct=<br>
+ory record.  These<br>
+directory records are similar to the message<br>
+records, w=<br>
+ith the same 4 byte header format, except<br>
+the file number is 0x40 + the fi=<br>
+le number of the<br>
+associated data records.<br>
+<br>
+The data portion of a directory =<br>
+record is just a list<br>
+of 4 byte addresses of the data records in that<br>
+par=<br>
+ticular file.<br>
+<br>
+There is a special sector (in dataflash page 8)<br>
+That keeps=<br>
+a list of the current addresses of<br>
+the directory records.  This special se=<br>
+ctor is<br>
+the only part of dataflash that they keep a<br>
+use-count for.  I supp=<br>
+ose this is because that<br>
+sector is re-written whenever any file is<br>
+written,=<br>
+and will get more use than any other<br>
+sector.  When use-count reaches 10,00=<br>
+0 it moves<br>
+this special sector up to next sector.  There<br>
+are 5 of these spe=<br>
+cial sectors reserved, and<br>
+after 50,000 writes, it starts re-using the<br>
+sam=<br>
+e 5 sectors.<br>
+<br>
+To top it all off, the 5th byte in the second-to-last<br>
+sector =<br>
+determines which of the 5 sectors is<br>
+currently in use!<br>
+<br>
+But if you use the =<br>
+mailstation's read function,<br>
+(0x089F), you don't need to worry about all<br>
+=<br>
+these details.  ;^)<br>
+<br>
+You just need the following details...<br>
+<br>
+Message data f=<br>
+ormat:<br>
+<br>
+word offset_to_body<br>
+byte flagbits<br>
+word year<br>
+byte mo=<br>
+nth<br>
+byte day<br>
+byte hour<br>
+byte min<br>
+byte sec<br>
+subjectstring =<br>
+(padded to 142 dec bytes)<br>
+fromstring ("tostring" in outbox)<br>
+body of=<br>
+message<br>
+<br>
+The "tostring" in outbox messages can be more<br>
+than one email add=<br>
+ress.<br>
+<br>
+flagbits xxxx xxx1 =3D new message<br>
+<br>
+The "new" bit, when in outbox, =<br>
+seems to mean<br>
+"ready to send".  Draft messages seem to be<br>
+stored in outbo=<br>
+x with this bit cleared.<br>
+<br>
+Several other bits have meaning, I'm not sure jus=<br>
+t<br>
+what.  Seems some might flag message as a "form"<br>
+rather than normal messa=<br>
+ge.  I have never seen one<br>
+of these forms, but I think they are a way for<br>
+c=<br>
+idco to send a fill-out-form, with checkboxes<br>
+and fill-in fields, to their =<br>
+customers.  I think<br>
+they get emailed back after being filled out.<br>
+<br>
+The file=<br>
+numbers I have figured out so far:<br>
+<br>
+00 - ???<br>
+01 - ???<br>
+02 - address bo=<br>
+ok<br>
+03 - calendar<br>
+04 - ???<br>
+05 - inbox user 0<br>
+06 - inbox user 1<br>
+07 - in=<br>
+box user 2<br>
+08 - inbox user 3<br>
+09 - inbox user 4<br>
+0A - outbox user 0<br>
+0B -=<br>
+outbox user 1<br>
+0C - outbox user 2<br>
+0D - outbox user 3<br>
+0E - outbox user 4<br>
+=<br>
+0F - sent user 0<br>
+10 - sent user 1<br>
+11 - sent user 2<br>
+12 - sent user 3<br>
+13=<br>
+- sent user 4<br>
+14 - ???? user 0   Not sure if files 14 thru 18 are used fo=<br>
+r anything.<br>
+15 - ???? user 1   Seems that deleting user may erase/move the=<br>
+se,<br>
+16 - ???? user 2   which implys they might be used for something.<br>
+1=<br>
+7 - ???? user 3<br>
+18 - ???? user 4<br>
+19 - ?             I think 19 thru 1E ar=<br>
+e unused???<br>
+1A - ?<br>
+1B - ?<br>
+1C - ?<br>
+1D - ?<br>
+1E - ?             highest fil=<br>
+e number<br>
+<br>
+CJ<br>
+<br>
+and such to<br>
+ers<br>
+<br>
+e if one<br>
+and<br>
+it.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Email Data Structure</h3>
+<a href="#0">(top)</a><p class="from">From: "tuzilo" &lt;tuzilo@...></p>
+<p class="date">Dec 11, 2007</p>
+<p class="formattedBody">Wow ..., I am very impressed that even MailStation still survives<br>
+these da=<br>
+ys. I have mine, i.e. MailStation250 and MailStation350,<br>
+completely forgot=<br>
+ten and stowed away on some shelves in the<br>
+basement. ;) If anyone needs th=<br>
+ese, I will be more than happy to<br>
+trade-in with something you have that I =<br>
+may find useful. Let me<br>
+know.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

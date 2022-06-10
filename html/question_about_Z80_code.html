@@ -1,0 +1,177 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">question about Z80 code (Jul 27, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 28, 2006</a></li>
+<li><a class="link" href="#2">From: "Anthony Albert" <albert@...> Jul 31, 2006</a></li>
+<li><a class="link" href="#3">From: "ppc7447" <ppc7447@...> Aug 1, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: question about Z80 code</h3>
+<p class="from">From: "Terry O." &lt;sandstar.geo@...></p>
+<p class="date">Jul 27, 2006</p>
+<p class="formattedBody">I'm not all that familiar with this whole area but because I have a<br>
+Rex 600=<br>
+0 and 2 unused mailstations, I thought I'd ask if source code<br>
+for the Rex a=<br>
+pplications could be reused with the nifty mailbug<br>
+software that I see in t=<br>
+he files section but haven't tried?  I rarely<br>
+use the Rex anymore but do ha=<br>
+ve a bunch of files saved that have the<br>
+source code for some small apps and=<br>
+games.<br>
+<br>
+The mailstations I would love to make into a portable word proce=<br>
+ssor<br>
+(for me) and a pre-schooler's "laptop" for my grandsons.  Is that<br>
+anyw=<br>
+here feasible yet or even for the near future?  I was just<br>
+wondering the ot=<br>
+her day if I should just put them in the Goodwill<br>
+pile.  The kids get bored=<br>
+playing with the keys without any feedback,<br>
+so they are useless even for p=<br>
+retend.  Well, especially with the other<br>
+computers on and nickjr.com at the=<br>
+top of the bookmarks... :-)<br>
+<br>
+Thanks,<br>
+<br>
+Terry<br>
+<br>
+p.s. I am a software tech b=<br>
+y trade - which means I can usually<br>
+recompile source code if it's fairly ge=<br>
+neric and I have flashed my<br>
+pdas and done some work with the Keil emulator =<br>
+software - okay I just<br>
+made the lcds blink but it was fun... so my skill le=<br>
+vel isn't nearly<br>
+enough for hardware modding without the "for dummies" docu=<br>
+mentation.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: question about Z80 code</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 28, 2006</p>
+<p class="formattedBody">=<br>
+6000 and 2 unused mailstations, I thought I'd ask if source code<br>
+Rex applications could be reused with the nifty mailbug<br>
+see in the files section but haven't tried?<br>
+<br>
+Hi,<br>
+<br>
+The short answer is: "no=<br>
+".<br>
+<br>
+A longer answer: Not without a lot of work.<br>
+Any input or output, or for=<br>
+that matter any calls<br>
+to the OS would have to be mapped to alternative<br>
+cal=<br>
+ls to the mailstations OS.  Unless, by some unlikely<br>
+coincidence both the r=<br>
+ex 6000 and the mailstation<br>
+have the same low level firmware.<br>
+<br>
+use the Rex anymore but do have a bunch of files saved that have the<br>
+rce code for some small apps and games.<br>
+<br>
+Is the source code in C or assem=<br>
+bler?<br>
+<br>
+I had never heard of the Rex 6000 before now, but I googled it,<br>
+and =<br>
+spent some time reading about the hacking efforts last night.<br>
+Seems they ar=<br>
+e quite a bit further along than us!  (Heck, they were<br>
+further in 2001 than=<br>
+we are now!!!)<br>
+<br>
+Although the hardware is quite similar, I imagine there wo=<br>
+uld be<br>
+a lot of work involved in porting a rex 6000 app to mailstation,<br>
+not=<br>
+the least of would be reversing the existing mailstation OS,<br>
+or writing a =<br>
+new one.<br>
+<br>
+At one point there were a few group members who wanted to<br>
+complet=<br>
+ely rewrite the firmware.  I haven't heard much lately<br>
+about any efforts in=<br>
+that direction.  My own plan was to reverse<br>
+enough of the existing firmwar=<br>
+e so that we could use the existing OS,<br>
+but that isn't moving very fast, ei=<br>
+ther.<br>
+<br>
+sor<br>
+nywhere feasible yet or even for the near future?<br>
+<br>
+Define "feasible"...  =<br>
+:-)  :-)  :-)<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re: question about Z80 code</h3>
+<a href="#0">(top)</a><p class="from">From: "Anthony Albert" &lt;albert@...></p>
+<p class="date">Jul 31, 2006</p>
+<p class="formattedBody">On 29 Jul 2006 at 2:33, Cyrano Jones wrote:<br>
+[SNIP]<br>
+<br>
+If you set them up to dial-in and send email, then you can use them as<br>
+a word processor to a certain degree - simply compose your text in an<br>
+email message, and [ save it as a draft | send it as email ] to your<br>
+desktop computer.<br>
+<br>
+Anthony Albert<br>
+===========================================================<br>
+Anthony J. Albert                     albert@...<br>
+Systems and Software Support Specialist          Postmaster<br>
+Computer Services - University of Maine, Presque Isle<br>
+"For, you see, so many out-of-the-way things had happened<br>
+lately, that Alice had begun to thing that very few<br>
+things indeed were really impossible."-Alice in Wonderland<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: question about Z80 code</h3>
+<a href="#0">(top)</a><p class="from">From: "ppc7447" &lt;ppc7447@...></p>
+<p class="date">Aug 1, 2006</p>
+<p class="formattedBody">For something like that, you might have more luck with an Apple eMate.  The=<br>
+y're cheap<br>
+(about $30 or so) and nearly indestructible (they were initiall=<br>
+y designed for education...)<br>
+The battery lasts for ages, and the Newton O=<br>
+S is really easy to use.<br>
+<br>
+-R<br>
+<br>
+Albert" &lt;albert@...> wrote:<br>
+<br>
+processor<br>
+that<br>
+ne "feasible"...   :-)  :-)  :-)<br>
+al-in and send email, then you can use them as<br>
+tain degree - simply compose your text in an<br>
+t as a draft | send it as email ] to your<br>
+Albert<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+=3D=3D=3D=3D<br>
+albert@...<br>
+ter<br>
+e, so many out-of-the-way things had happened<br>
+un to thing that very few<br>
+n Wonderland<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

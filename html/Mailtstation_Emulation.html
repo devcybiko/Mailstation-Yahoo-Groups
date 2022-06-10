@@ -1,0 +1,483 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailtstation Emulation (Dec 27, 2009)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "fyberoptic1979" <fyberoptic@...> Dec 29, 2009</a></li>
+<li><a class="link" href="#2">From: "Donald H" <donhamilton2002@...> Dec 30, 2009</a></li>
+<li><a class="link" href="#3">From: "FyberOptic" <fyberoptic@...> Dec 30, 2009</a></li>
+<li><a class="link" href="#4">From: "Donald H" <donhamilton2002@...> Dec 30, 2009</a></li>
+<li><a class="link" href="#5">From: "FyberOptic" <fyberoptic@...> Dec 30, 2009</a></li>
+</ol><hr>
+<hr><h3>Subject: Mailtstation Emulation</h3>
+<p class="from">From: "fyberoptic1979" &lt;fyberoptic1979@...></p>
+<p class="date">Dec 27, 2009</p>
+<p class="formattedBody"><br>
+Hiya folks, been a while since I checked here.  Nice to see there's at<br>
+leas=<br>
+t been a few posts recently, though!<br>
+<br>
+Anyhow, I was trying to get a version=<br>
+of CP/M written a while back for<br>
+the Mailstation, and even did that hardwa=<br>
+re mod for banking out the<br>
+first 16KB of address space with ram just specif=<br>
+ically for that.  But<br>
+then a combination of distractions as well as the lof=<br>
+ty goals of writing<br>
+like a storage system for the Flash memory and everythi=<br>
+ng just kind of<br>
+pulled me away from Mailstation work.<br>
+<br>
+Part was laziness to=<br>
+o though, I admit, since it's tedious to write code<br>
+on the PC, compile, tra=<br>
+nsfer it to the Mailstation, see if it works.  If<br>
+not, try to debug what ha=<br>
+ppened by trying to write things to the screen,<br>
+etc.  And even then you're =<br>
+not getting all the information you might<br>
+want for debugging purposes, espe=<br>
+cially if you crashed it.  Definitely a<br>
+pain.<br>
+<br>
+So recently, when the notion=<br>
+of messing around with the MS again started<br>
+rattling around in my head, I =<br>
+realized that the only reasonable way for<br>
+me to continue developing anythin=<br>
+g elaborate was to emulate the hardware<br>
+on the PC.  More lofty goals!<br>
+<br>
+But =<br>
+the more I thought about it, the more I realized that the hardest<br>
+part was =<br>
+going to be the CPU.  And as luck would have it, I found<br>
+something called l=<br>
+ibz80 to do the job for me.  It has hooks for<br>
+reading/writing memory and I/=<br>
+O, which works great for all the<br>
+device/page switching that the Mailstation=<br>
+does.<br>
+<br>
+Well, turns out, libz80 has a ton of emulation bugs, which were mes=<br>
+sing<br>
+me up for a few days.  I've corrected many of them in the source (it's=<br>
+<br>
+very well written and easy to modify compared to another z80 emulation<br>
+lib=<br>
+rary I saw), and notified the author, who seemed eager to get a fixed<br>
+versi=<br>
+on up as soon as possible.<br>
+<br>
+So now, after much debugging and digging throug=<br>
+h assembly output, I've<br>
+successfully gotten to what appears to be a Mailsta=<br>
+tion error screen,<br>
+and then the cpu is intentionally halted. =A0Here's an i=<br>
+mage:<br>
+<br>
+I have no idea what is resulting in the behavior at this point, bu=<br>
+t it's<br>
+the first visible indication of progress so far, so I thought I'd sh=<br>
+are<br>
+it for anyone interested.<br>
+<br>
+As for the technical details:<br>
+<br>
+- The Mailsta=<br>
+tion memory map is properly emulated, with codeflash page 0<br>
+in the first 16=<br>
+K, and RAM page 0 in the last 16K.<br>
+- Device/page switching via I/O ports is=<br>
+functional for the middle two<br>
+16K slots<br>
+- Devices emulated so far: RAM (re=<br>
+ad/write), Codeflash (read), Dataflash<br>
+(read/write), LCD (write)<br>
+- Dataflas=<br>
+h has sector-erase and byte-program chip functions emulated<br>
+- LCD is curren=<br>
+tly written into buffers (one for each LCD half), and<br>
+later dumped to separ=<br>
+ate files. =A0The LCD CAS bit is properly emulated<br>
+to make this possible. =<br>
+=A0I've written a separate utility to convert<br>
+the raw binary files into vie=<br>
+wable BMP images.<br>
+<br>
+I've started writing in PDCurses support to give a deb=<br>
+ugger interface.<br>
+Though I've also done /raw and /silent command line switc=<br>
+hes.  The<br>
+former dumps disassembly and debug output straight to the screen,=<br>
+which<br>
+can be redirected to a file.  The latter disables all output, speedi=<br>
+ng<br>
+emulation up considerably.  I've actually done 100% of my debugging so<br>
+f=<br>
+ar by using /raw and dumping to a text file, which has grown upwards to<br>
+200=<br>
+MB!  I'm hoping to get the debugging interface working eventually to<br>
+avoid =<br>
+this roundabout way of doing it.<br>
+<br>
+Another possibly interesting tidbit is th=<br>
+at I'm modifying the codeflash<br>
+at emulator startup, and changing the Mailst=<br>
+ation's delay() function to<br>
+simply RET immediately.  It was outputting tons=<br>
+of useless information<br>
+during that call.  I don't think this will hurt my =<br>
+emulation at all,<br>
+especially since I'm not even emulating interrupts/timers=<br>
+yet.<br>
+<br>
+I'm running on the Mailstation v2.53 firmware for this, with a dataf=<br>
+lash<br>
+dump I made from my v3.03 firmware.  I have no idea if this will cause=<br>
+<br>
+issues, but it's the only dataflash image I have.  The reason I'm using<br>
+th=<br>
+e 2.53 firmware is because I have a very commented disassembly file of<br>
+code=<br>
+flash page 0 for that version, which has helped a ton in debugging.<br>
+I woul=<br>
+d love to have more disassembled pages with comments like this, if<br>
+anyone h=<br>
+as them!  I've spent a lot of time commenting some of the later<br>
+pages mysel=<br>
+f to the best of my ability, which has slowed me down a lot.<br>
+<br>
+Anyhow, the n=<br>
+ext biggest thing is to get the LCD actually emulated<br>
+visually in real-time=<br>
+.  In order to make it all as cross-platform as<br>
+possible, I might be able t=<br>
+o do it with SDL, but I'll have to see what I<br>
+can do.<br>
+<br>
+The other big thing =<br>
+is to track down why the Mailstation is halting<br>
+after showing this screen. =<br>
+It'll take a lot more digging through<br>
+disassembled Mailstation source I gu=<br>
+ess, since the initialization<br>
+routine it was running was in another page of=<br>
+the codeflash.  But I'm<br>
+still making progress, albeit slowly!<br>
+<br>
+<br>
+Hiya folks, been a while since I checked here.  Nice to see there's at leas=<br>
+t been a few posts recently, though!&lt;BR>&lt;BR>Anyhow, I was trying to get a v=<br>
+ersion of CP/M written a while back for the Mailstation, and even did that =<br>
+hardware mod for banking out the first 16KB of address space with ram just =<br>
+specifically for that.  But then a combination of distractions as well as t=<br>
+he lofty goals of writing like a storage system for the Flash memory and ev=<br>
+erything just kind of pulled me away from Mailstation work.  &lt;BR>&lt;BR>Part w=<br>
+as laziness too though, I admit, since it's tedious to write code on the PC=<br>
+, compile, transfer it to the Mailstation, see if it works.  If not, try to=<br>
+debug what happened by trying to write things to the screen, etc.  And eve=<br>
+n then you're not getting all the information you might want for debugging =<br>
+purposes, especially if you crashed it.  Definitely a pain.&lt;BR>&lt;BR>So recen=<br>
+tly, when the notion of messing around with the MS again started rattling a=<br>
+round in my head, I realized that the only reasonable way for me to continu=<br>
+e developing anything elaborate was to emulate the hardware on the PC.  Mor=<br>
+e lofty goals!&lt;BR>&lt;BR>But the more I thought about it, the more I realized =<br>
+that the hardest part was going to be the CPU.  And as luck would have it, =<br>
+I found something called libz80 to do the job for me.  It has hooks for rea=<br>
+ding/writing memory and I/O, which works great for all the device/page swit=<br>
+ching that the Mailstation does.&lt;BR>&lt;BR>Well, turns out, libz80 has a ton o=<br>
+f emulation bugs, which were messing me up for a few days.  I've corrected =<br>
+many of them in the source (it's very well written and easy to modify compa=<br>
+red to another z80 emulation library I saw), and notified the author, who s=<br>
+eemed eager to get a fixed version up as soon as possible.&lt;BR>&lt;BR>So now, a=<br>
+fter much debugging and digging through assembly output, I've successfully =<br>
+gotten to what appears to be a Mailstation error screen, and then the cpu i=<br>
+s intentionally halted. =A0Here's an image:<BR><BR><IMG src=3D"<a target="_blank" href="http://www.f=">(URL)</a><br>
+ybertech.net/mailstation/img/lcdfull.png">&lt;BR>&lt;P>I have no idea what is res=<br>
+ulting in the behavior at this point, but it's the first visible indication=<br>
+of progress so far, so I thought I'd share it for anyone interested.&lt;/P>&lt;P=<br>
+ly emulated, with codeflash page 0 in the first 16K, and RAM page 0 in the =<br>
+last 16K.&lt;BR>- Device/page switching via I/O ports is functional for the mi=<br>
+ddle two 16K slots&lt;BR>- Devices emulated so far: RAM (read/write), Codeflas=<br>
+h (read), Dataflash (read/write), LCD (write)&lt;BR>- Dataflash has sector-era=<br>
+se and byte-program chip functions emulated&lt;BR>- LCD is currently written i=<br>
+nto buffers (one for each LCD half), and later dumped to separate files. =<br>
+=A0The LCD CAS bit is properly emulated to make this possible. =A0I've writ=<br>
+ten a separate utility to convert the raw binary files into viewable BMP im=<br>
+ages.&lt;BR>&lt;/P>&lt;P>&lt;BR>I've started writing in PDCurses support to give a debu=<br>
+gger interface.  Though I've also done /raw and /silent command line switch=<br>
+es.  The former dumps disassembly and debug output straight to the screen, =<br>
+which can be redirected to a file.  The latter disables all output, speedin=<br>
+g emulation up considerably.  I've actually done 100% of my debugging so fa=<br>
+r by using /raw and dumping to a text file, which has grown upwards to 200M=<br>
+B!  I'm hoping to get the debugging interface working eventually to avoid t=<br>
+his roundabout way of doing it.&lt;BR>&lt;BR>Another possibly interesting tidbit =<br>
+is that I'm modifying the codeflash at emulator startup, and changing the M=<br>
+ailstation's delay() function to simply RET immediately.  It was outputting=<br>
+tons of useless information during that call.  I don't think this will hur=<br>
+t my emulation at all, especially since I'm not even emulating interrupts/t=<br>
+imers yet.&lt;BR>&lt;BR>I'm running on the Mailstation v2.53 firmware for this, w=<br>
+ith a dataflash dump I made from my v3.03 firmware.  I have no idea if this=<br>
+will cause issues, but it's the only dataflash image I have.  The reason I=<br>
+'m using the 2.53 firmware is because I have a very commented disassembly f=<br>
+ile of codeflash page 0 for that version, which has helped a ton in debuggi=<br>
+ng.  I would love to have more disassembled pages with comments like this, =<br>
+if anyone has them!  I've spent a lot of time commenting some of the later =<br>
+pages myself to the best of my ability, which has slowed me down a lot.&lt;BR>=<br>
+ally in real-time.  In order to make it all as cross-platform as possible, =<br>
+I might be able to do it with SDL, but I'll have to see what I can do.  &lt;BR=<br>
+ter showing this screen.  It'll take a lot more digging through disassemble=<br>
+d Mailstation source I guess, since the initialization routine it was runni=<br>
+ng was in another page of the codeflash.  But I'm still making progress, al=<br>
+beit slowly!&lt;BR>&lt;BR>&lt;BR>&lt;BR>&lt;BR>&lt;/P><br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Mailtstation Emulation</h3>
+<a href="#0">(top)</a><p class="from">From: "fyberoptic1979" &lt;fyberoptic@...></p>
+<p class="date">Dec 29, 2009</p>
+<p class="formattedBody"><br>
+I've made some progress, after muchhhh firmware disassembly, tracing<br>
+throu=<br>
+gh the startup procedure. =A0<br>
+<br>
+First up, I've gone to SDL for graphics, so =<br>
+now the LCD can be updated<br>
+in mostly real-time (not too often though or it =<br>
+slows down emulation<br>
+considerably).<br>
+<br>
+I emulated the power and battery bits =<br>
+of port 9, so that it actually<br>
+thinks it's not about to burn out. =A0This g=<br>
+ot rid of the previous<br>
+screen I was seeing (which I assume was a low batter=<br>
+y warning, despite<br>
+the missing text), and now simply displayed the logo ins=<br>
+tead (without<br>
+the blank message box on top) before halting.<br>
+<br>
+So after a whi=<br>
+le of more tracing through things, I realized that maybe I<br>
+just needed to w=<br>
+arm-boot the system, since it does have a cold-boot<br>
+procedure too, and it s=<br>
+eemed to be running this every time (messing with<br>
+dataflash, setting up ram=<br>
+, etc). =A0So upon receiving the CPU halt, I<br>
+told it to simply reboot autom=<br>
+atically instead (keeping ram/dataflash<br>
+changes intact). =A0Then, low and b=<br>
+ehold:<br>
+<br>
+Same shot as above, except from the v3.03 firmware:<br>
+<br>
+I th=<br>
+ink maybe an interrupt automatically wakes it back up normally<br>
+instead of h=<br>
+aving to push the power button again? =A0I'll have to look<br>
+into it more. =<br>
+=A0<br>
+<br>
+Anyway, I tried the v3.03 firmware again to see if that would make a<br>
+=<br>
+difference due to the dataflash image I'm using, but I still get the<br>
+reset =<br>
+menu. =A0Which I later remembered is what normally happens when<br>
+you cold-bo=<br>
+ot a Mailstation. =A0<br>
+<br>
+I also tried setting the "bootstate" ram byte to 0x5=<br>
+a at startup to<br>
+avoid all the cold-boot initialization stuff, to maybe get =<br>
+straight to<br>
+the main menu, but it just perpetually reboots then. =A0I'm obv=<br>
+iously<br>
+missing something it needs/wants to work properly in that respect.<br>
+<br>
+=<br>
+So it looks like the next step is to properly emulate keypresses, in<br>
+order =<br>
+to get past this screen! =A0That'll require triggering an<br>
+interrupt too. =<br>
+=A0Only part I'm worried about is that I seem to recall<br>
+the key scanning fu=<br>
+nction relies on a timer to know how long you've held<br>
+down a key, and I don=<br>
+'t know if I'll ever be able to emulate that with<br>
+complete accuracy (especi=<br>
+ally since the Z80 cpu library I'm using just<br>
+emulates instructions, not cl=<br>
+ock cycles). =A0But we'll see.<br>
+<br>
+<br>
+through the startup procedure. =A0&lt;/P>&lt;P>First up, I've gone to SDL for gra=<br>
+phics, so now the LCD can be updated in mostly real-time (not too often tho=<br>
+ugh or it slows down emulation considerably).&lt;/P>&lt;P>I emulated the power an=<br>
+d battery bits of port 9, so that it actually thinks it's not about to burn=<br>
+out. =A0This got rid of the previous screen I was seeing (which I assume w=<br>
+as a low battery warning, despite the missing text), and now simply display=<br>
+ed the logo instead (without the blank message box on top) before halting.&lt;=<br>
+/P>&lt;P>So after a while of more tracing through things, I realized that mayb=<br>
+e I just needed to warm-boot the system, since it does have a cold-boot pro=<br>
+cedure too, and it seemed to be running this every time (messing with dataf=<br>
+lash, setting up ram, etc). =A0So upon receiving the CPU halt, I told it to=<br>
+simply reboot automatically instead (keeping ram/dataflash changes intact)=<br>
+. =A0Then, low and behold:<BR></P><BR><IMG src=3D"<a target="_blank" href="http://www.fybertech.net/=">(URL)</a><br>
+mailstation/img/msemu_scanningdata.png"><BR><BR><IMG src=3D"<a target="_blank" href="http://www.fybe=">(URL)</a><br>
+rtech.net/mailstation/img/msemu_resetdata253.png">&lt;BR>&lt;BR>Same shot as abov=<br>
+e, except from the v3.03 firmware:<BR><P><IMG src=3D"<a target="_blank" href="http://www.fybertech.n=">(URL)</a><br>
+et/mailstation/img/msemu_resetdata303.png">&lt;/P>&lt;P>&lt;BR>&lt;/P>&lt;P>I think maybe =<br>
+an interrupt automatically wakes it back up normally instead of having to p=<br>
+ush the power button again? =A0I'll have to look into it more. =A0&lt;BR>&lt;/P>&lt;=<br>
+P>Anyway, I tried the v3.03 firmware again to see if that would make a diff=<br>
+erence due to the dataflash image I'm using, but I still get the reset menu=<br>
+. =A0Which I later remembered is what normally happens when you cold-boot a=<br>
+Mailstation. =A0&lt;/P>&lt;P>I also tried setting the "bootstate" ram byte to 0x=<br>
+5a at startup to avoid all the cold-boot initialization stuff, to maybe get=<br>
+straight to the main menu, but it just perpetually reboots then. =A0I'm ob=<br>
+viously missing something it needs/wants to work properly in that respect.&lt;=<br>
+/P>&lt;P>So it looks like the next step is to properly emulate keypresses, in =<br>
+order to get past this screen! =A0That'll require triggering an interrupt t=<br>
+oo. =A0Only part I'm worried about is that I seem to recall the key scannin=<br>
+g function relies on a timer to know how long you've held down a key, and I=<br>
+don't know if I'll ever be able to emulate that with complete accuracy (es=<br>
+pecially since the Z80 cpu library I'm using just emulates instructions, no=<br>
+t clock cycles). =A0But we'll see.&lt;/P>&lt;P>&lt;BR>&lt;/P>&lt;P>&lt;BR>&lt;/P><br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Mailtstation Emulation</h3>
+<a href="#0">(top)</a><p class="from">From: "Donald H" &lt;donhamilton2002@...></p>
+<p class="date">Dec 30, 2009</p>
+<p class="formattedBody">Looks like nice work.<br>
+<br>
+ARe you running this emulator under Linux or Windows=<br>
+?<br>
+<br>
+don<br>
+<br>
+79@...> wrote:<br>
+see there's at<br>
+s trying to get a version of CP/M written a while back for<br>
+n, and even did that hardware mod for banking out the<br>
+ss space with ram just specifically for that.  But<br>
+distractions as well as the lofty goals of writing<br>
+for the Flash memory and everything just kind of<br>
+station work.<br>
+s to write code<br>
+f it works.  If<br>
+to the screen,<br>
+n you might<br>
+efinitely a<br>
+h the MS again started<br>
+ly reasonable way for<br>
+emulate the hardware<br>
+hought about it, the more I realized that the hardest<br>
+e the CPU.  And as luck would have it, I found<br>
+do the job for me.  It has hooks for<br>
+ch works great for all the<br>
+s.<br>
+sing<br>
+'s<br>
+<br>
+<br>
+gging through assembly output, I've<br>
+o be a Mailstation error screen,<br>
+. =A0Here's an image:<br>
+havior at this point, but it's<br>
+o far, so I thought I'd share<br>
+echnical details:<br>
+ith codeflash page 0<br>
+- Device/page switching via I/O ports is functional for the middle two<br>
+K slots<br>
+taflash<br>
+-program chip functions emulated<br>
+(one for each LCD half), and<br>
+AS bit is properly emulated<br>
+rate utility to convert<br>
+<br>
+ace.<br>
+=<br>
+can be redirected to a file.  The latter disables all output, speeding<br>
+mulation up considerably.  I've actually done 100% of my debugging so<br>
+by using /raw and dumping to a text file, which has grown upwards to<br>
+MB!  I'm hoping to get the debugging interface working eventually to<br>
+d this roundabout way of doing it.<br>
+is that I'm modifying the codeflash<br>
+e Mailstation's delay() function to<br>
+tting tons of useless information<br>
+ill hurt my emulation at all,<br>
+errupts/timers yet.<br>
+this, with a dataflash<br>
+a if this will cause<br>
+he reason I'm using<br>
+disassembly file of<br>
+ton in debugging.<br>
+ments like this, if<br>
+some of the later<br>
+ed me down a lot.<br>
+ually emulated<br>
+latform as<br>
+see what I<br>
+station is halting<br>
+ing through<br>
+tion<br>
+m<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Mailtstation Emulation</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Dec 30, 2009</p>
+<p class="formattedBody"><br>
+r Windows ?<br>
+<br>
+I'm compiling/running it under Windows at the mom=<br>
+ent, though I'm thinking it won't take much in terms of tweaks to make it r=<br>
+un in Linux.  I've never tried writing an SDL-based app in Linux, though, s=<br>
+o at this point I don't know if it involves anything extra or not.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Mailtstation Emulation</h3>
+<a href="#0">(top)</a><p class="from">From: "Donald H" &lt;donhamilton2002@...></p>
+<p class="date">Dec 30, 2009</p>
+<p class="formattedBody">=<br>
+:<br>
+r Linux or Windows ?<br>
+er Windows at the moment, though I'm thinking it won't take much in terms o=<br>
+f tweaks to make it run in Linux.  I've never tried writing an SDL-based ap=<br>
+p in Linux, though, so at this point I don't know if it involves anything e=<br>
+xtra or not.<br>
+<br>
+I am new to emulators, so this would act as a learning tool=<br>
+.<br>
+<br>
+Will you be making your code available ?<br>
+<br>
+Thanks<br>
+<br>
+don<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Mailtstation Emulation</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Dec 30, 2009</p>
+<p class="formattedBody"><br>
+l you be making your code available ?<br>
+<br>
+Yeah I don't =<br>
+see why not.  I released all the source to Mailstation things I've written =<br>
+before and all.  Right now it's a mess though, full of lots of debugging st=<br>
+uff that would only make sense to me.  Not to mention, it's not very functi=<br>
+onal just yet!<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

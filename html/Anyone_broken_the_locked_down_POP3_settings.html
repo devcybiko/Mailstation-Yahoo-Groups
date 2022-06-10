@@ -1,0 +1,302 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Anyone broken the locked down POP3 settings? (Sep 24, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Sep 24, 2004</a></li>
+<li><a class="link" href="#3">From: Robert Pittman <pittmanr99@...> Sep 26, 2004</a></li>
+<li><a class="link" href="#4">From: "Anthony Z." <hunter_az@...> Sep 26, 2004</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> Sep 26, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: Anyone broken the locked down POP3 settings?</h3>
+<p class="from">From: "Ronny Julian" &lt;k4rjj@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">I thought everyone had given up on this.  I see it's not the case.<br>
+<br>
+Has anyone been able to change the server settings from Earthlink?  I've<br>
+still got 2 brand new units here.  I was going to take one and toy around<br>
+with the idea of spoofing their IP inside my own DNS and creating my own<br>
+dialup port.  With WiFi being "everywhere" around Atlanta it's not really<br>
+worth the trouble anymore though.<br>
+<br>
+I had tried back when these were "free" to get a womens shelter to get them.<br>
+They said they were only accepting PII or better machines for donation and<br>
+they "preferred laptops".  Well La De Dah!  I never thought I'd see the day<br>
+you could not give away a free machine!<br>
+<br>
+Good luck, good hacking!<br>
+<br>
+Ronny<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Anyone broken the locked down POP3 settings?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">Which models? The Yahoo ones seem to be best.<br>
+<br>
+Neil<br>
+<br>
+From: "Ronny Julian" &lt;k4rjj@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Anyone broken the locked down POP3 settings?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Sep 24, 2004</p>
+<p class="formattedBody">On Fri, 2004-09-24 at 14:42, Ronny Julian wrote:<br>
+<br>
+I am interested in running alternative firmware on the thing... say with<br>
+ZCN or maybe a hacked up TRS-80 Model 100 ROM, or a make it a<br>
+stand-alone Forth machine...<br>
+<br>
+In fact interfacing to the outside world is a challenge on the<br>
+mailstation. It's highest speed interface is its parallel port.<br>
+<br>
+Once we have alternative firmware, I think a MailStation will be every<br>
+bit as useful as the various smart keyboards that are around. Only thing<br>
+that would make it much better is if it had a USB port.<br>
+<br>
+CJ has already done the heavy lifting by reverse engineering the code<br>
+enough to produce a tool which can program the flash over the parallel<br>
+port.<br>
+<br>
+Unforunately I don't know much about using the existing firmware. There<br>
+are various notes over at linux-hacker which you've probably already<br>
+found.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Anyone broken the locked down POP3 settings?</h3>
+<a href="#0">(top)</a><p class="from">From: Robert Pittman &lt;pittmanr99@...></p>
+<p class="date">Sep 26, 2004</p>
+<p class="formattedBody"><br>
+I've looked at the possibility of breaking the key code, but this could be dangerous in light of the DMCA.<br>
+<br>
+//--unintelligible--//<br>
+<br>
+//--unintelligible--//<br>
+<br>
+//--unintelligible--//<br>
+<br>
+//--unintelligible--//<br>
+<br>
+"Anthony Z." &lt;hunter_az@...> wrote:<br>
+Just wanted to let everyone know that the �Function +<br>
+D + Reset� is only for Restoring the default account.<br>
+The default account is the<br>
+@.... this is handy if you<br>
+are giving a mailstation away and don�t want to leave<br>
+any information (e-mails, settings, or address book<br>
+information) in the unit.<br>
+<br>
+I know the "Function + Shift + T + Power On" should<br>
+work for putting your own settings in. When you use<br>
+"Function + Shift + T + Power On" that should leave<br>
+you at the �Diagnostic Menu�. First you need to do the<br>
+�Fast Test�, this should be option number 2. This will<br>
+test �Flash, Key, Printer Port, RAM and ROM�, after<br>
+that screen it will go to the �Battery TESTING�<br>
+screen. You then need to hit the �Enter� key twice,<br>
+this will drop you back to the �Diagnostic� Menu, now<br>
+hit �Q� for quit. You should see the �Test Over!�<br>
+message, then it will dump you out at the standard<br>
+reset menu, just hit �No Clear� and if all went well<br>
+you should see a prompt like �Please create a new user<br>
+account�. Just hit OK and slap you info in to the<br>
+unit.<br>
+<br>
+Also I was able to find some interesting information<br>
+on the XTND commands. The XTND commands are used in<br>
+configuration of the mailstation. When a configuration<br>
+is generated the key code is also created verifying<br>
+that it�s a real configuration. The unit will then<br>
+take all the configuration information and configure<br>
+its-self.<br>
+<br>
+From what i have gathered there are 2 parts to the<br>
+mailstation service. First you have your standard POP3<br>
+Mailbox and they have a Mail Proxy that sits over it.<br>
+The Mail Proxy chops up long e-mails and strips out<br>
+some advertisements that would normally cause the mail<br>
+not to come though. I don�t know what method the proxy<br>
+uses to figure what parts to strip but if anyone has<br>
+idea please let me know.<br>
+<br>
+|-------| |-----| |-------|<br>
+|POP3 |&lt;->|PROXY|&lt;--|MAIL |<br>
+|Mailbox| | | |STATION|<br>
+|-------| |-----| |-------|<br>
+<br>
+Anyways this leaves me with several questions about<br>
+the key code. I�m thinking that the Mail Proxy<br>
+verifies the key and sends all the configuration<br>
+information to the mailstation. I have tried to<br>
+simulate configuration messages but to no avail.<br>
+Anyone else working in this direction?<br>
+<br>
+__________________________________<br>
+Do you Yahoo!?<br>
+New and Improved Yahoo! Mail - Send 10MB messages!<br>
+<a target="_blank" href="http://promotions.yahoo.com/new_mail">(URL)</a><br>
+<br>
+Yahoo! Groups Links<br>
+<br>
+Do you Yahoo!?<br>
+Yahoo! Mail - 50x more storage than other providers!<br>
+<br>
+//--unintelligible--//<br>
+//--unintelligible--//<br>
+//--unintelligible--//<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Anyone broken the locked down POP3 settings?</h3>
+<a href="#0">(top)</a><p class="from">From: "Anthony Z." &lt;hunter_az@...></p>
+<p class="date">Sep 26, 2004</p>
+<p class="formattedBody">aahhh I see. Well, I can understand wanting to stay<br>
+out of legal/DMCA issues. Well I guess we will have to<br>
+look at something else. I for one dont want to get in<br>
+trouble over a mailstation. Well I'm going to do some<br>
+more thinking, and see what I can figure out. I'll<br>
+keep you posted.<br>
+<br>
+It seems the parallel flash is going to be the best<br>
+bet to do anything with the mailstation :)<br>
+<br>
+Oh well, just a though....<br>
+<br>
+<br>
+I've looked at the possibility of breaking the key<br>
+code, but this could be dangerous in light of the<br>
+DMCA.<br>
+<br>
+The method of sending updates to a Mailstation is<br>
+covered by US Patent 6,697,942.  The "security key" is<br>
+discussed in this patent, and the patent mentions<br>
+"Simple DES" cyphers.  I'm no expert in cryptography,<br>
+so I wouldn't know how to go about generating a valid<br>
+key, and even if I did, there's no guarantee that the<br>
+method described in the patent is the method used.<br>
+<br>
+Any attempt to circumvent the security process could<br>
+result in legal issues. This is why I haven't looked<br>
+into this area very closely. I've created and sent<br>
+messages to my Mailstation without a security key and<br>
+have had no luck in updating anything. It seems that<br>
+the security key verifies that the message is legit,<br>
+and without it you're going to have no luck in<br>
+changing any settings.<br>
+<br>
+Another member is exploring the possibility of<br>
+changing the contents of the on-board flash through<br>
+the parallel port built in to the machine. I think<br>
+there's more possibility of success using that<br>
+approach, but it requires extra equipment that I don't<br>
+have right now.<br>
+<br>
+The processor is a Z80-derivative, so information is<br>
+readily available on the Web. The problem is that<br>
+there could be several megabytes of code to wade<br>
+through to find the code that verifies the key, and it<br>
+may not be easy to recognize when you see it. I'm not<br>
+saying it's impossible; it's just not your typical<br>
+weekend project. I'm sure it's only a matter of time<br>
+before someone isolates that code and finds a way<br>
+around it.<br>
+<br>
+_______________________________<br>
+Do you Yahoo!?<br>
+Declare Yourself - Register online to vote today!<br>
+<a target="_blank" href="http://vote.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Anyone broken the locked down POP3 settings?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 26, 2004</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+<br>
+If it's done outside of the USA - no problems. Why is it that "the land of=<br>
+the free" is so very unfree?<br>
+<br>
+Regards,<br>
+<br>
+Neil Morrison<br>
+<br>
+ssage -----<br>
+From: Robert Pittman<br>
+<br>
+I've looked at the possibility of =<br>
+breaking the key code, but this could be dangerous in light of the DMCA.<br>
+<br>
+=<br>
+The method of sending updates to a Mailstation is covered by US Patent 6,6=<br>
+97,942.  The "security key" is discussed in this patent, and the patent men=<br>
+tions "Simple DES" cyphers.  I'm no expert in cryptography, so I wouldn't k=<br>
+now how to go about generating a valid key, and even if I did, there's no g=<br>
+uarantee that the method described in the patent is the method used.<br>
+<br>
+Any=<br>
+attempt to circumvent the security process could result in legal issues. T=<br>
+his is why I haven't looked into this area very closely. I've created and s=<br>
+ent messages to my Mailstation without a security key and have had no luck =<br>
+in updating anything. It seems that the security key verifies that the mess=<br>
+age is legit, and without it you're going to have no luck in changing any s=<br>
+ettings.<br>
+<br>
+...<br>
+charset="iso-8859-1"<br>
+<br>
+<br>
+"><br>
+IV><br>
+roblems. Why<br>
+is it that "the land of the free" is so very unfree?&lt;/FONT>&lt;/=<br>
+DIV>&lt;FONT<br>
+face=3DArial><br>
+FONT>&lt;/FONT>&lt;/DIV><br>
+style=3D"PADDING-RIGHT: 0px; PADDING-LEFT: =<br>
+5px; MARGIN-LEFT: 5px; BORDER-LEFT: #000000 2px solid; MARGIN-RIGHT: 0px"><br>
+=<br>
+V<br>
+style=3D"BACKGROUND: #e4e4e4; FONT: 10pt arial; font-color: black">&lt;B>=<br>
+From:&lt;/B><br>
+o.com">Robert<br>
+Pittman&lt;/A> &lt;/DIV><br>
+NT>&lt;BR>&lt;/DIV><br>
+e, but this could<br>
+be dangerous in light of the DMCA.&lt;/DIV><br>
+face=3DArial size=3D2>&lt;/FONT>&nbsp;&lt;/DIV><br>
+tes to a Mailstation is covered by US Patent<br>
+6,697,942.&nbsp; The "secur=<br>
+ity key" is discussed in this patent, and&nbsp;the<br>
+patent mentions&nbsp;=<br>
+"Simple DES"&nbsp;cyphers.&nbsp; I'm no expert in<br>
+cryptography, so I wou=<br>
+ldn't know how to go about generating a valid key, and<br>
+even if I did, th=<br>
+ere's no guarantee that the method described in the patent is<br>
+the method=<br>
+used.&lt;/DIV><br>
+Any attempt to circumvent the security process could result in legal<br>
+iss=<br>
+ues. This is why I haven't looked into this area very closely. I've created=<br>
+<br>
+and sent messages to my Mailstation without a security key and have had=<br>
+no<br>
+luck in updating anything.&nbsp;It seems that the security key verif=<br>
+ies that<br>
+the message is legit, and without it you're going to have no lu=<br>
+ck in changing<br>
+any settings.&lt;/DIV><br>
+FONT>&nbsp;&lt;/DIV><br>
+|**| -->&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

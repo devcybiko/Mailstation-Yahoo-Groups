@@ -1,0 +1,217 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Debugger (Mar 10, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Mar 19, 2005</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Mar 20, 2005</a></li>
+<li><a class="link" href="#3">From: "John R. Hogerhuis" <jhoger@...> Mar 21, 2005</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> Mar 21, 2005</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Mar 22, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: Debugger</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Mar 10, 2005</p>
+<p class="formattedBody">I have uploaded a current copy of my remote debugger<br>
+to the files section (a DOS executable, mailbug.exe).<br>
+<br>
+It includes code to flash the remote target code<br>
+(MBOOT/MBUG) into a mailstation.  I have tested<br>
+it on version 2.22r and 2.53yr.  It should work with<br>
+2.54, too.  I don't know about any of the others,<br>
+but it might.  You need a parallel laplink cable to<br>
+use it.  I think a windows DCC (direct cable connect)<br>
+is essentially the same thing.<br>
+<br>
+If you don't feel adventurous, it should be possible<br>
+to make a version that is more likely to work on<br>
+unknown versions, it just is not done yet.<br>
+<br>
+It also includes a "RAM" target, that emulates only the<br>
+mailstation ROM (you don't need to connect to real mailstation).<br>
+This will allow "on the fly" disassembly of the rom code,<br>
+including comments, but not execution.  (unzip don<br>
+hamiltons dump in subdir "hamilton", and debugger<br>
+will convert it to .rom files.)<br>
+<br>
+Installing the MBUG target will erase most of the<br>
+mailstation code, but the low level stuff is preserved.<br>
+MBUG will allow on the fly disassembly, uploading to<br>
+ram, and executing, among other things.  Breakpoints<br>
+still do not work.<br>
+<br>
+There is also an extremely simple "hello world" program<br>
+(both .asm & .hex). It makes a call to a system routine,<br>
+and displays on the LCD.<br>
+<br>
+The source code is included for the remote part, with<br>
+an explanation of how it (remote) works.  The source<br>
+for the PC side is not included, 'cause it is not ready yet.<br>
+There is no documentation on using it yet either, but<br>
+the menu should help.<br>
+<br>
+It uses the same code I posted earlier (unit_tribbles.pas)<br>
+but with new timeout code that should work regardless<br>
+of cpu speed now.  And it is still a DOS app (just be glad<br>
+it is not still CP/M!!!).  If anyone knows how to turn<br>
+tribbles.pas into a win32 device driver, then I could<br>
+make a win32 version.<br>
+<br>
+I only included comment file for page #00 of the rom<br>
+for now.  I have a lot more, but it is taking time to get<br>
+everything in order.  I hope to post more soon.  But I<br>
+wanted to get something out now.<br>
+<br>
+I'm sure I have forgot something....<br>
+<br>
+Oh, if something goes wrong, you could toast your<br>
+mailstation.  I now have 4 units with unbootable rom code.<br>
+<br>
+And I would highly advise not to leave the laplink<br>
+connected between your PC and the mailstation when<br>
+booting the PC.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Debugger</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Mar 19, 2005</p>
+<p class="formattedBody">On Thu, 2005-03-10 at 08:13 +0000, Cyrano Jones wrote:<br>
+<br>
+<br>
+<a target="_blank" href="http://www.emulation.com/catalog/off-the-shelf_solutions/debugging_accessories/test_clips/tsop_test_clips/">(URL)</a><br>
+<br>
+I'm not sure how well such a clip would work, given the low profile of a<br>
+TSOP flash part, but if it does work wouldn't that mean one could<br>
+reprogram a toasted mailstation flash chip without desoldering the part?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Debugger</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Mar 20, 2005</p>
+<p class="formattedBody"><a target="_blank" href="http://www.emulation.com/catalog/off-the-shelf_solutions/debugging_acc">(URL)</a><br>
+essories/test_clips/tsop_test_clips/<br>
+<br>
+OUCH!  Did you see the price on those?  You could<br>
+buy 20 or 30 mailstations for that price!  :-)<br>
+<br>
+I am sure you can rescue a misflashed mailstation<br>
+without removing the chip.  It's just not gonna be<br>
+real easy.<br>
+<br>
+I was thinking that the ram chip would be the easiest<br>
+place to get at the bus, like in Don Hamilton's pic<br>
+in the groups photo section.  Just solder wires to it!<br>
+<br>
+I don't know about just driving the bus and flashing,<br>
+but what I was thinking was to connect the data bus<br>
+to the data pins on a pc parallel port, and maybe the<br>
+/rd or /ce, or an address line or two, to the status<br>
+pins.  You would need to cut the /ce to the flash, and<br>
+pull the flash side of it high, and monitor the other<br>
+side of it.<br>
+<br>
+Then, with a fast pc, emulate the codeflash.  Send<br>
+code for the cpu to execute, and have it load<br>
+whatever you want into ram, then jump to it.<br>
+After your arbitrary code was running from<br>
+ram, disconnect the pc from the bus, and reconnect<br>
+the /ce to the codeflash chip.<br>
+<br>
+Then the code in ram can flash whatever it needs to<br>
+into the codeflash.  This technique would<br>
+give you access to any device, not just<br>
+a trashed mailstation.  You could even use<br>
+it to access/download the rom before erasing<br>
+any of the unknown ms firmware versions.<br>
+<br>
+Maybe there is some socket with the right pitch<br>
+to mate with that ram chip?  It wouldn't need to<br>
+snap on, you could just hold it on for the instant<br>
+it would take to load the ram.  A through-hole<br>
+type rather than surface mount might work<br>
+even better (use the solder side pins to contact<br>
+the ram, and solder your wires to the component side).<br>
+<br>
+(It might be easier to just piggyback a similar<br>
+packaged preprogrammed rom on to the ram, with<br>
+its /cs connected to the codeflash /cs, but I don't<br>
+have such a chip, or a programmer for it.)<br>
+<br>
+Anybody able to identify the type of package<br>
+for the ram chip?  I am by no means an expert<br>
+on surface mount packages.  Is it a SOP?  SSOP??<br>
+TSOP-II???<br>
+<br>
+Whats the difference between all those anyhow???<br>
+The fact that different manufacturers seem<br>
+to use different names for the same packages<br>
+doesn't help.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Re: Debugger</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Mar 21, 2005</p>
+<p class="formattedBody">On Sun, 2005-03-20 at 07:11 +0000, Cyrano Jones wrote:<br>
+<br>
+<br>
+Well with shipping on each one I think it would be more like 10 or 15,<br>
+but yeah. It ain't free.<br>
+<br>
+But then such a solution would work in all cases, no matter how hose the<br>
+MS, and whether or not the built-in flash routine is accessible. Only<br>
+one of us would have to own one, and could reprogram MS's for others.<br>
+<br>
+I heard about this particular test clip from someone that reprograms<br>
+firmware on certain tv receivers.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Debugger</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Mar 21, 2005</p>
+<p class="formattedBody">wrote:<br>
+15,<br>
+<br>
+I got a bunch for betwwen $0.01 & $1.00, plus s/h.<br>
+I figure the average price I paid might be about $8.00<br>
+after shipping.  I got a box of 10 150's, shipped for<br>
+$50.00 total.  :-)<br>
+<br>
+But the price seems to have gone UP on ebay this<br>
+week.  &lt;heh, heh><br>
+<br>
+the<br>
+Only<br>
+others.<br>
+<br>
+I can't afford it.  Maybe I'll send mine to you?  ;^)<br>
+<br>
+<br>
+TVs???  Or Tivos???<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Debugger</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Mar 22, 2005</p>
+<p class="formattedBody">On Tue, 2005-03-22 at 03:22 +0000, Cyrano Jones wrote:<br>
+<br>
+<br>
+Satellite tv receivers. Every once in a while they change some codes,<br>
+and the modders have to reprogram their firmware.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

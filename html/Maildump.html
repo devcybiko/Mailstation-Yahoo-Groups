@@ -1,0 +1,230 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Maildump (Jul 30, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Maildump</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 30, 2007</p>
+<p class="formattedBody">I decided to dump my codeflash since I have a DET1 demo unit and<br>
+haven't s=<br>
+een anyone else dump the code from one, so I thought I'd<br>
+post both the Win=<br>
+dows C++ app I wrote to fetch it on the PC side<br>
+(based around Cyrano Jones=<br>
+' unit_tribbles) as well as my actual<br>
+codeflash dump (v3.03a).  You need h=<br>
+is spew.txt Yahoo app to dump the<br>
+data to the PC, mind you.<br>
+<br>
+I plan to mod=<br>
+ify the spew.txt to let me dump the dataflash too, out<br>
+of curiosity.<br>
+<br>
+Anyh=<br>
+oo, here's just the C file for anyone that wants to check it out<br>
+here:<br>
+<br>
+=<br>
+/*<br>
+*	Maildump.cpp<br>
+*	------------<br>
+*<br>
+*	This should dump your Mailstatio=<br>
+n's codeflash, in combination<br>
+*	with Cyrano Jones' "spew.txt" app for the =<br>
+Mailstation, and<br>
+*	a laplink cable of course.<br>
+*<br>
+*	Basic use would be as=<br>
+follows:<br>
+*	1.) connect laplink cable to MS and PC<br>
+*	2.) turn on MS<br>
+*	3.=<br>
+) run maildump on PC<br>
+*	4.) run spew on MS<br>
+*<br>
+*	The MS should be on first =<br>
+to ensure parallel port signals are<br>
+*	reset, otherwise your dump could be =<br>
+bad.  If you think you<br>
+*	did get a bad dump, it wouldn't hurt to turn the=<br>
+MS off and<br>
+*	on again, waiting for the main menu to show up, just to make=<br>
+<br>
+*	sure it resets itself before you start listening for data.<br>
+*<br>
+*	The du=<br>
+mp should be 1,048,576 bytes (1MB), and named "ms.bin",<br>
+*	which is automat=<br>
+ically overwritten everytime you run the<br>
+*	program.<br>
+*<br>
+*	This is based ar=<br>
+ound Cyrano Jones' unit_tribbles in Pascal,<br>
+*	but written to work under W=<br>
+indows (tested under XP) thanks<br>
+*	to inpout32.dll, which doesn't require a=<br>
+separate driver<br>
+*	to interface with I/O ports.  It's pretty useful!<br>
+*<br>
+=<br>
+*	Spew.txt can be gotten from the Yahoo Mailstation group's file<br>
+*	section=<br>
+:<br>
+*	<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/Mailbug/">(URL)</a><br>
+*<br>
+*<br>
+=<br>
+*	- FyberOptic (fyberoptic@...)<br>
+*<br>
+*/<br>
+<br>
+#include &lt;windows.h><br>
+#include=<br>
+#include &lt;math.h><br>
+<br>
+#define PORTADDRESS 0x378<br>
+<br>
+#define DATA PORTA=<br>
+DDRESS+0<br>
+#define STATUS PORTADDRESS+1<br>
+#define CONTROL PORTADDRESS+2<br>
+<br>
+#defin=<br>
+e bsyin 0x40<br>
+#define bsyout 0x08<br>
+#define stbin 0x80<br>
+#define stbout 0x10<br>
+#de=<br>
+fine tribmask 0x07<br>
+#define dibmask 0x03<br>
+<br>
+typedef short (_stdcall *inpfuncPt=<br>
+r)(short portaddr);<br>
+typedef void (_stdcall *oupfuncPtr)(short portaddr, sho=<br>
+rt datum);<br>
+<br>
+inpfuncPtr inp32fp;<br>
+oupfuncPtr oup32fp;<br>
+<br>
+short  Inp32 (short po=<br>
+rtaddr)<br>
+{<br>
+return (inp32fp)(portaddr);<br>
+}<br>
+<br>
+void  Out32 (short portaddr, shor=<br>
+t datum)<br>
+{<br>
+(oup32fp)(portaddr,datum);<br>
+}<br>
+<br>
+int InitIOLibrary()<br>
+{<br>
+HINSTANC=<br>
+E hLib;<br>
+<br>
+hLib =3D LoadLibrary("inpout32.dll");<br>
+<br>
+if (hLib =3D=3D NULL) {<br>
+=<br>
+fprintf(stderr,"LoadLibrary Failed.\n");<br>
+return -1;<br>
+}<br>
+<br>
+inp32fp =3D (in=<br>
+pfuncPtr) GetProcAddress(hLib, "Inp32");<br>
+<br>
+if (inp32fp =3D=3D NULL) {<br>
+fpr=<br>
+intf(stderr,"GetProcAddress for Inp32 Failed.\n");<br>
+return -1;<br>
+}<br>
+<br>
+oup32f=<br>
+p =3D (oupfuncPtr) GetProcAddress(hLib, "Out32");<br>
+<br>
+if (oup32fp =3D=3D NULL=<br>
+) {<br>
+fprintf(stderr,"GetProcAddress for Oup32 Failed.\n");<br>
+return -1;<br>
+}=<br>
+<br>
+}<br>
+<br>
+unsigned char recvtribble()<br>
+{<br>
+Out32(DATA,0);	// drop busy/ack<br>
+while=<br>
+((Inp32(STATUS) & stbin) !=3D 0) {}		// wait for<br>
+(inverted) strobe<br>
+unsi=<br>
+gned char mytribble =3D (Inp32(STATUS) >> 3) &<br>
+tribmask;	// grab tribble<br>
+=<br>
+Out32(DATA,bsyout);		// raise busy/ack<br>
+while ((Inp32(STATUS) & stbin) =3D=<br>
+=3D 0) {}		// wait for<br>
+(inverted) UNstrobe<br>
+<br>
+return mytribble;<br>
+}<br>
+<br>
+int m=<br>
+ain(int ARGC, void **ARGV)<br>
+{<br>
+<br>
+if (!InitIOLibrary()) { printf("Failed to i=<br>
+nitialize port I/O<br>
+library\n"); return -1; }<br>
+<br>
+FILE * pFile;<br>
+<br>
+pFile =<br>
+=3D fopen ("ms.bin" , "wb");<br>
+if (!pFile)<br>
+{<br>
+printf("Couldn't open file\n=<br>
+");<br>
+return -1;<br>
+}<br>
+<br>
+unsigned char bytereceived;<br>
+int totalbytesreceived =<br>
+=3D 0;<br>
+<br>
+printf("Waiting...");<br>
+<br>
+while (totalbytesreceived &lt; (1024*1024)=<br>
+)	// Fetch 1MB<br>
+{<br>
+bytereceived =3D recvtribble() + (recvtribble() &lt;&lt; 3)=<br>
++<br>
+((recvtribble() & dibmask) &lt;&lt; 6);<br>
+fputc ( bytereceived, pFile );<br>
+=<br>
+totalbytesreceived++;<br>
+printf("\rReceived: %d bytes (%d%%)             ", =<br>
+<br>
+totalbytesreceived, (int)floor(((float)totalbytesreceived /<br>
+(1024*1024))*=<br>
+100));<br>
+}<br>
+fclose (pFile);<br>
+<br>
+printf("\n");<br>
+<br>
+return 0;<br>
+<br>
+}<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

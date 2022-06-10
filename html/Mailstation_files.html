@@ -1,0 +1,518 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailstation files (Feb 8, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Mailstation files</h3>
+<p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Feb 8, 2010</p>
+<p class="formattedBody">Some of this is based on guesses, and any of it may<br>
+turn out to be wrong.<br>
+<br>
+=<br>
+Some of this is pasted in from text that is prolly<br>
+too wide.  If you are re=<br>
+ading it on group website,<br>
+you can select "use fixed width font" over there=<br>
+and it might look a little better.<br>
+<br>
+Dataflash files are accessed by a "file number".<br>
+<br>
+(The number of =<br>
+question-marks is an indicator of how wild<br>
+a guess is.  Normal educated gu=<br>
+esses usually get 3.)<br>
+<br>
+file#<br>
+00 - unused/ or 00 not possible???<br>
+01 - =<br>
+unused????<br>
+02 - address book<br>
+03 - calendar<br>
+04 - unused???<br>
+05 - inbo=<br>
+x user 0<br>
+06 - inbox user 1<br>
+07 - inbox user 2<br>
+08 - inbox user 3<br>
+09 -=<br>
+inbox user 4<br>
+0A - outbox user 0<br>
+0B - outbox user 1<br>
+0C - outbox user =<br>
+2<br>
+0D - outbox user 3<br>
+0E - outbox user 4<br>
+0F - sent user 0<br>
+10 - sent =<br>
+user 1<br>
+11 - sent user 2<br>
+12 - sent user 3<br>
+13 - sent user 4<br>
+14 - ??? =<br>
+user 0   (not really sure 14 thru 18 used, should test???)<br>
+15 - ??? user =<br>
+1<br>
+16 - ??? user 2<br>
+17 - ??? user 3<br>
+18 - ??? user 4<br>
+19 - unused???<br>
+=<br>
+...<br>
+1D - unused???  (not sure what highest possible file# is, need to te=<br>
+st)<br>
+<br>
+I am pretty sure they go up to at least 0x1d or 0x1e, but need<br>
+to t=<br>
+est to be sure.  There are also file numbers, offset from<br>
+actual file numb=<br>
+ers by 0x20 or 0x40 (I forget exactly) that<br>
+are part of the actual file, (=<br>
+or part of the directory,<br>
+depending on how you see things).<br>
+<br>
+I can't find =<br>
+it written anywhere, and I forget exactly how it<br>
+works, but I seem to reca=<br>
+ll thinking the higher numbers may be<br>
+a "thread" thru the actual records, =<br>
+in a sorted order.<br>
+IIRC, At least one file also had a second sort order, =<br>
+using<br>
+a file number an additional offset higher (+0x80???).<br>
+<br>
+I do believ=<br>
+e the higher numbers are just for internal usage,<br>
+and you don't ever "open=<br>
+" one of them, you just use the lower<br>
+set of file numbers.<br>
+(I could be wro=<br>
+ng on that, though!)<br>
+<br>
+(I prolly understood this a lot better 2 or 3 years =<br>
+ago!!!)<br>
+<br>
+I have a vague notion that I saw a place where code was<br>
+deleting=<br>
+a user, and copying the files of higher users<br>
+down 1, to close the gap.  =<br>
+IIRC, it was copying 4 different<br>
+groups, but I never figured out what the 4=<br>
+th group was<br>
+(in/out/sent/???).<br>
+But it is possible it was just 3 groups.=<br>
+<br>
+There is more info on files below, in "notes" section.<br>
+There is a part =<br>
+of dataflash I called "bookmarks", but it<br>
+might be better called a "direct=<br>
+ory".  The bookmark sector<br>
+holds a table of 4 byte dataflash addresses for=<br>
+the possible<br>
+file numbers.  Each file number has 2 entries (iow, 8 bytes)=<br>
+,<br>
+I believe the difference is the sort order of that files records.<br>
+<br>
+I am =<br>
+really stretching my memory to the limit, but I seem to<br>
+think the bookmarks=<br>
+point to a linked list of records with<br>
+the file numbers offset as refered =<br>
+to earlier.  I believe<br>
+these are sorted, and each node points to a message=<br>
+record,<br>
+in addition to a "next" pointer record.  The message records<br>
+hav=<br>
+e the actual file number (less than 0x20 iirc), and each<br>
+message record ho=<br>
+lds a single email message.  I want to say<br>
+that there is only one record o=<br>
+f pointers for each file, but<br>
+I am not sure.  It is possible that each "no=<br>
+de" in sorted<br>
+list is a separate record.  I don't recall if these have<br>
+th=<br>
+e same header as the message records.<br>
+<br>
+I am pretty sure that each message =<br>
+in a file has a separate<br>
+record, with a 4 byte header.<br>
+<br>
+Most files (or may=<br>
+be I really mean "records" of files)<br>
+start with 0xFD if valid, and 0xFC (ii=<br>
+rc) if deleted.<br>
+The 2nd byte is file number, 3rd & 4th (word) are the size=<br>
+<br>
+of the data that follows this 4 byte header.<br>
+<br>
+There are 4 of what I ca=<br>
+lled "special files" that use<br>
+completely different file structure, with a =<br>
+fixed<br>
+position in df, and a fixed number of records:<br>
+<br>
+A0 - user accounts=<br>
+<br>
+A1 - settings data<br>
+A2 - ???<br>
+A3 - ???<br>
+<br>
+Some of the lower number fil=<br>
+es (0x02 & 0x03????) have<br>
+patches to the file handling code.  This possibl=<br>
+y has something<br>
+to do with the sorting?????  There are also patches to han=<br>
+dle<br>
+the "special" files differently.<br>
+<br>
+I believe you can open/read/write/etc=<br>
+*any* of the dataflash<br>
+files with the same functions (see my "mailstation=<br>
+.h" in<br>
+groups file section).<br>
+<br>
+There is also info in that header regardin=<br>
+g structure of the<br>
+data portion of the "message" files (inboxes/outboxes/se=<br>
+ntboxes).<br>
+<br>
+The mailstation firmware also has another concept of "files",<br>
+wi=<br>
+th completely different functions used to access them.<br>
+the "ramdisk" functi=<br>
+ons.  More than 1 of the ram pages is<br>
+dedicated to this ramdisk, I forget =<br>
+if it is 2, 3, or maybe 4????<br>
+<br>
+It is entirely possible that file 0x00 & 0x0=<br>
+1 in list above<br>
+are not accessed by the dataflash access functions.<br>
+(ok, I =<br>
+just removed these two from list)<br>
+<br>
+00 - string table???? (maybe ramdisk, =<br>
+and no df file 00?????  if so, then likewise for 01.)<br>
+01 - widget "sets"=<br>
+(one looks like new acct entry screen, one might be sent screen???)<br>
+<br>
+They=<br>
+might really be "ramdisk" type files????<br>
+The more I think, the more like=<br>
+ly that seems.<br>
+I do remember thinking that it seemed they purposely<br>
+did =<br>
+not use the same filenumbers for both types of<br>
+file, but I see no reason w=<br>
+hy you could not have one of<br>
+each for a given number.<br>
+It may be that they =<br>
+developed on a system with normal disk<br>
+files, and then mapped some to dataf=<br>
+lash, and others to<br>
+ram/rom-disk??????????????<br>
+<br>
+The ramdisk functions are =<br>
+more like normal file access functions,<br>
+there is even a "seek" function ava=<br>
+ilable.<br>
+<br>
+The ms seems to use these for storing various data<br>
+relating to the=<br>
+"widgets", iow the widget value is<br>
+the file data (IIRC, this includes text=<br>
+in text<br>
+widgets.<br>
+<br>
+I think two files (00 & 01) accessed by what I called<br>
+"=<br>
+ramdisk" functions are actually accessing fixed data in<br>
+the  codeflash.  C=<br>
+all them "romdisk" maybe???<br>
+No, that is not good, there is a function I lab=<br>
+eled<br>
+"romdisk" that is something entirely different (perhaps<br>
+to access th=<br>
+at huge chunk of codeflash with the<br>
+spellcheck dictionary????????)<br>
+<br>
+<br>
+My approach to making a file system for cp/m wo=<br>
+uld leave all<br>
+this to the ms firmware, and just call the read/write functio=<br>
+ns.<br>
+I have thought of various schemes, including using one of the<br>
+"users" i=<br>
+nboxes, where each "message" was a file.  One interesting<br>
+aspect of that wo=<br>
+uld be possibility of just "emailing" a file<br>
+to the ms!<br>
+<br>
+Or you could make =<br>
+each record in a ms file be a "track" to cp/m.<br>
+<br>
+<br>
+Some more info on dataflash contents:<br>
+<br>
+(I used the # as meaning hex,=<br>
+I think 'coz the disassembler<br>
+we were using at first used that syntax.)<br>
+<br>
+=<br>
+address  pg:sect:offset<br>
+#00=<br>
+0000  00:00:00 - 00:3f:ff   1st loaded app<br>
+#004000  01:00:00 - 01:3f:ff   =<br>
+2nd loaded app<br>
+#008000  02:00:00 - 02:3f:ff   3rd loaded app<br>
+#00c000  03:=<br>
+00:00 - 03:3f:ff   4th loaded app<br>
+#010000  04:00:00 - 04:3f:ff   5th loade=<br>
+d app<br>
+#014000  05:00:00 - 05:3f:ff   ???<br>
+#018000  06:00:00 - 06:3f:ff   ?=<br>
+??<br>
+<br>
+#01c000  07:00:00 - 07:00:02   user_flag   (3 bytes) #AA, #AA, #nn, wh=<br>
+ere nn is number of user records added.<br>
+#01c003  07:00:03 - 07:3f:ff   use=<br>
+r_adds   (0 to 5  562 byte user acct records)  (note 7)<br>
+<br>
+#020000  08:00:00=<br>
+- 08:00:ff   magic_sect  (256 bytes) (note 4)<br>
+#020100  08:01:00 - 08:01:f=<br>
+f   unknown use (256 bytes)<br>
+<br>
+#020200  08:02:00 - 08:02:ff   bookmark_0<br>
+=<br>
+#020300  08:03:00 - 08:03:ff   bookmark_1  (notes 2 & 3 & 9)<br>
+#020400  08:0=<br>
+4:00 - 08:04:ff   bookmark_2<br>
+#020500  08:05:00 - 08:05:ff   bookmark_3  =<br>
+<br>
+#020600  08:06:00 - 08:06:ff   bookmark_4<br>
+#020700  08:07:00 - 08:07:ff=<br>
+bookmark_5<br>
+<br>
+#020800  08:08:00 - 08:08:08   flag_50     (9 bytes)<br>
+#=<br>
+020809  08:08:09              flag_51     (1 byte)   current user#  (note 9=<br>
+)<br>
+#02080A  08:08:0A              flag_52     (1 byte)<br>
+#02080B  08:08:0B  =<br>
+flag_53     (1 byte)<br>
+#02080C  08:08:0C              flag_54   =<br>
+(1 byte)<br>
+#02080D  08:08:0D              flag_55     (1 byte)<br>
+#02080E  0=<br>
+8:08:0E              flag_56     (1 byte)<br>
+#02080F  08:08:0F              f=<br>
+lag_57     (1 byte)<br>
+<br>
+#020900  08:09:00 - 08:1e:08   alt_splash  (5385 byte=<br>
+s)  (note 1, 6)<br>
+#022100  08:21:00 - 08:24:28   alt_logo    (809 bytes)   (=<br>
+note 1,6)<br>
+<br>
+#022900  08:29:00 - 08:33:??   file_A0     users_accoun=<br>
+ts (5 records, 562 bytes each) (counts are decimal) (note 7)<br>
+#023400  08:3=<br>
+4:00 - 08:34:0f   file_A1     settings     (1 record, 16 bytes)<br>
+#023416  0=<br>
+8:34:16              file_A2                  (1 record, 2048 bytes)  (file=<br>
+#A2 is all 0's on mine)<br>
+#023CFE  08:3C:FE              file_A3           =<br>
+(50 records, 81 bytes each)<br>
+<br>
+#024D00  09:0D:00 - 1F:3D:FF   normal_=<br>
+files  (note 11)<br>
+<br>
+second to last sector<br>
+#07FE00  1f:3e:00  datafl_flag =<br>
+(2 bytes)  dataflash state (set to #8017 after dataflash is initialized)<br>
+#=<br>
+07FE02  1f:3e:02  ??????      (2 bytes)<br>
+#07FE04  1f:3e:04  book_select (2 =<br>
+bytes)  selects one of 5 possible bookmark sectors  (note 3)<br>
+#07FE06  1f:3=<br>
+e:06  flag64      (2 bytes)<br>
+#07FE08  1f:3e:08  flag65      (2 bytes)<br>
+<br>
+l=<br>
+astsector<br>
+#07FF00  1f:3f:00  mode_flag   (4 bytes)  run mode, See "Write_d=<br>
+ataflash_Lastsector" [37DE] for values<br>
+#07FFC8  1f:3f:c8  serial_num  (16 =<br>
+bytes)<br>
+<br>
+note 0: Some of thes notes are redundant.  They may have been writ=<br>
+ten<br>
+months or years apart, and I don't have time to edit right<br>
+=<br>
+now.  The "note #" has very little to do with the order<br>
+they we=<br>
+re written.<br>
+<br>
+note 1: These are optional customized splash screen & logo im=<br>
+age data.  The<br>
+sizes are how many bytes get copied to ram when thi=<br>
+s file is used.<br>
+If first two bytes are not "OK", then hardcoded im=<br>
+ages in codeflash<br>
+are used.<br>
+<br>
+the first 4 words of the s=<br>
+plash file are "5083, 4, 319, 127" or<br>
+in hex "#13db, #0004, #013f,=<br>
+#007f".  The rest is bit data???<br>
+The 319 is x dimension, and 127 =<br>
+is y, in pixels.<br>
+I don't think you can change the dimensions, coz =<br>
+prog expects these<br>
+sizes.  The splash is a full screenful, and the=<br>
+logo is the size of<br>
+the "Mailstation" logo at the top of the main=<br>
+menu (iow, it *is*<br>
+the main menu logo).<br>
+<br>
+note 2: I called these=<br>
+sectors "bookmarks" for lack of better idea.<br>
+There are 2 kinds =<br>
+of bookmark sector, and there is always just one<br>
+of each kind.  A =<br>
+value in the 2nd to last sector specs which of<br>
+5 different pairs o=<br>
+f sectors are the current bookmarks.  After<br>
+a bookmark has been er=<br>
+ased 10,000 times, the next pair is used.<br>
+After all 5 pairs have b=<br>
+een used, it starts over with the first pair.<br>
+<br>
+The first bookmark =<br>
+sector of the pair holds the start addresses for<br>
+each of the "norm=<br>
+al" files, and also a use count.<br>
+<br>
+The second of the pair just hold=<br>
+s the address of the next free<br>
+location in dataflash, and a use co=<br>
+unt.<br>
+<br>
+All the values in the bookmark sectors are 4 bytes long.  =<br>
+<br>
+The "free" pointer is the 1st 4 bytes of the "free bookmark" sec=<br>
+tor,<br>
+and the 2nd 4 bytes are a count of how many times this sector=<br>
+<br>
+has been erased.<br>
+<br>
+The "file bookmarks" are offset in tha=<br>
+t sector by 8 x the file<br>
+number.  There are two pointers for each =<br>
+file, and I think the<br>
+difference may be that they point to 2 diffe=<br>
+rent threads thru the<br>
+same file (unsorted, and sorted?????).  The =<br>
+last 4 bytes in the<br>
+sector are the erase count.<br>
+<br>
+note 3: What I am=<br>
+calling bookmarks are pointers to the "normal" files<br>
+(and free sp=<br>
+ace).  There are five bookmark<br>
+sectors.  A byte in second to last =<br>
+sector selects which of the<br>
+five is currently in use.  The first 4=<br>
+bytes<br>
+are the dataflash address of next free dataflash sector.<br>
+=<br>
+The second 4 bytes are a "use count" for this<br>
+particular =<br>
+bookmark.  When use count reaches 10,000 the next<br>
+bookmark sector =<br>
+is used.  After all 5 bookmarks<br>
+have been used 10,000 times, it st=<br>
+art over with the first bookmark.<br>
+The bookmark sector is written w=<br>
+henever<br>
+one of the "normal files" is modified, so it would see a l=<br>
+ot<br>
+more wear than any other sector.  I don't like<br>
+this me=<br>
+chanism, but wear leveling is a tricky problem, and this is better than not=<br>
+hing.<br>
+(08:02:xx) might be a bookmark also???  erased along with ot=<br>
+her 5.<br>
+<br>
+note 4: I called this "magic_sector" just because I didn't know wh=<br>
+at it was<br>
+for.  Turns out it is a sort of directory for the loaded=<br>
+apps.<br>
+<br>
+note 6: the first 4 words of the splash file are "5083, 4, 319, 12=<br>
+7" or<br>
+in hex "#13db, #0004, #013f, #007f".  The rest is bit data??=<br>
+?<br>
+The larger one is full screenful, other is smaller, probably<br>
+=<br>
+the size of the cidco logo?????<br>
+<br>
+note 7: user adds are written at tw=<br>
+o different places, page #07,<br>
+and file #A0.  Why I don't know.<br>
+<br>
+n=<br>
+ote 8: dataflash pg 00 thru 07 values are from 2.22r, looks like<br>
+t=<br>
+est pattern.<br>
+<br>
+note 9: sectors (08:02:00) thru (08:08:FF)  are not writeabl=<br>
+e by<br>
+write_dataflash_low (bookmarks & flags)<br>
+<br>
+note 10: settings f=<br>
+ile data, 16 dec bytes at dataflash  (08:34:00)<br>
+raw address #02=<br>
+3400<br>
+There is a 2 byte header, so the data starts at (08:34:02)<br>
+=<br>
+The default setings are:<br>
+<br>
+'0815', #00  ;; download t=<br>
+ime<br>
+#00          ;; 0 =3D am / 1 =3D pm<br>
+#00  =<br>
+;; every (0, 4, 8, 12, 24) hours.   (0 =3D 0hr, 1 =3D 4hr, 2 =3D 8h=<br>
+r, 3 =3D 12hr,  4 =3D 24hr)<br>
+#01          ;; save messages on =<br>
+server  (0 =3D yes / 1 =3D no)<br>
+'8', #00     ;; max size of do=<br>
+wnload (k)<br>
+'10', #00    ;; auto powerdown time (minutes)<br>
+=<br>
+#01          ;; call waiting  (0 =3D yes / 1 =3D no)<br>
+=<br>
+#00          ;; spkr vol   (0 =3D low, 1 =3D hi, 2 =3D off)<br>
+=<br>
+#01          ;; ignore dial tone   (0 =3D yes / 1 =3D no)<br>
+<br>
+note 11: This =<br>
+is the largest area in dataflash, and it is where the "normal"<br>
+fi=<br>
+les are, but they are not at fixed locations.<br>
+The the first byt=<br>
+e of a file is #FD, and the second byte is<br>
+the file number.  Thir=<br>
+d & fourth bytes are file size, not counting<br>
+the 4 byte header.<br>
+=<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

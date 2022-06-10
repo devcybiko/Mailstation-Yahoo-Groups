@@ -1,0 +1,124 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">New life for a mailstation (Jul 20, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 20, 2005</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Jul 21, 2005</a></li>
+<li><a class="link" href="#3">From: "Neil Morrison" <neilsmorr@...> Jul 21, 2005</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 22, 2005</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Jul 23, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: New life for a mailstation</h3>
+<p class="from">From: "niklaus37217" &lt;niklaus37217@...></p>
+<p class="date">Jul 20, 2005</p>
+<p class="formattedBody">Since these are showing up everywhere, has anyone though of<br>
+reprogramming them into a functional PC assistant type device?<br>
+What I think would be workable might be<br>
+1 keep the flash update facility.<br>
+2 keep basic email ability<br>
+3 dump the spell checker and add some sort of programming facility.<br>
+4 add parallel port data exchange drivers and support for a simple<br>
+terminal emulation.<br>
+<br>
+What would be good would be something of the functionality of one of<br>
+the alphasmart laptops. Mailstations have a much faster processor and<br>
+much more memory than the old tandy 100s and there is still a market<br>
+for the tandy laptops.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: New life for a mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 20, 2005</p>
+<p class="formattedBody"><br>
+If you can program in z80 assembler, "we have the technology".<br>
+We just need some code now...<br>
+<br>
+<br>
+There are at least 9 pages of 16k each available, without dumping<br>
+anything (except the out of date tv listings, etc.).  But I agree,<br>
+the spell checker is useless, and that is at least another page or<br>
+three.<br>
+<br>
+After loafing for several weeks, I've got back to looking<br>
+at this project, and made a lot of progress figuring out<br>
+how to integrate new apps into existing mailstation firmware.<br>
+<br>
+I also have figured out how to dump the rom before erasing it.  :-)<br>
+(I started typing it up last night, but conked out before I<br>
+could post it.)<br>
+<br>
+It turns out that you can add the "Yahoo" type of app to<br>
+*all* the mailstations, whether they have the yahoo/mycidco<br>
+menu item or not.  They show up as icons after "settings"<br>
+if there is no yahoo folder!<br>
+<br>
+By yahoo type of app, I mean adding code that takes the<br>
+place of the yahoo data.  I am not talking about adding<br>
+tv listings or weather or news.  The yahoo data is stored<br>
+as an executable program, and this program can be anything<br>
+you want (given that somebody writes the code).<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] New life for a mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jul 21, 2005</p>
+<p class="formattedBody">On Wed, 2005-07-20 at 22:41 +0000, niklaus37217 wrote:<br>
+<br>
+A good first step would be to port the SDCC Z80 target "standard<br>
+library" to work with the debugger loader.<br>
+<br>
+My intent is to finish my port of CamelForth to MS... probably a day's<br>
+work, but it's just one of a list of projects I have going at the<br>
+moment.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] New life for a mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 21, 2005</p>
+<p class="formattedBody">From: "niklaus37217" &lt;niklaus37217@...><br>
+<br>
+<br>
+Why? There's plenty of room already.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: New life for a mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 22, 2005</p>
+<p class="formattedBody"><br>
+<br>
+I'm not sure I understand...  Do you mean work with<br>
+as far as console i/o?  Or loading?<br>
+<br>
+<br>
+Looking forward to it!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: New life for a mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jul 23, 2005</p>
+<p class="formattedBody">On Fri, 2005-07-22 at 14:20 +0000, Cyrano Jones wrote:<br>
+<br>
+Both. sdcc already has a z80 target, But to do a simple program like<br>
+hello world someone needs to create an init and connect to whatever low<br>
+level i/o routines we have available.<br>
+<br>
+<br>
+It wasn't too hard to port to WP-2, another z80 laptop. Three or four<br>
+little subroutines to port, and you can start testing high level forth<br>
+code interactively at the prompt.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

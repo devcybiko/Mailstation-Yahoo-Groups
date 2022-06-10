@@ -1,0 +1,1322 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Hardware Expansion (Sep 19, 2008)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Sep 19, 2008</a></li>
+<li><a class="link" href="#2">From: "Jeff" <fyberoptic1979@...> Sep 20, 2008</a></li>
+<li><a class="link" href="#3">From: "Jeff" <fyberoptic1979@...> Sep 20, 2008</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> Sep 20, 2008</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Sep 20, 2008</a></li>
+<li><a class="link" href="#6">From: "Jeff" <fyberoptic1979@...> Sep 21, 2008</a></li>
+<li><a class="link" href="#7">From: "Jeff" <fyberoptic1979@...> Sep 21, 2008</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 22, 2008</a></li>
+<li><a class="link" href="#9">From: "Jeff" <fyberoptic1979@...> Sep 22, 2008</a></li>
+<li><a class="link" href="#10">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 22, 2008</a></li>
+<li><a class="link" href="#11">From: "Cyrano Jones" <cyranojones_lalp@...> Sep 22, 2008</a></li>
+<li><a class="link" href="#12">From: "Jeff" <fyberoptic1979@...> Sep 23, 2008</a></li>
+</ol><hr>
+<hr><h3>Subject: Hardware Expansion</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 19, 2008</p>
+<p class="formattedBody"><br>
+Hiya folks, been a while since I posted here.  My work on the<br>
+Mailstation a=<br>
+nd FyOS pretty much got sidetracked by other things, and I<br>
+never did get ba=<br>
+ck to it for quite some time.<br>
+<br>
+When the Mailstation did start to pique my =<br>
+interest again about a month<br>
+ago, I came back to the same conclusion as bef=<br>
+ore: ROM locked into the<br>
+lower 16KB of address space was a nuisance.  FyOS =<br>
+was going to be CP/M<br>
+compatible, but it would only ever be able to do so to=<br>
+a certain degree.<br>
+Any CP/M application would have to be recompiled at the =<br>
+very least<br>
+before it would ever work.  That almost defeated the purpose in =<br>
+my eyes,<br>
+because many programs that a person might want to =A0actually run =<br>
+(like<br>
+Zork) don't necessarily have source available. =A0Disassembling and<br>
+m=<br>
+odifying apps to run at a different starting offset would be quite a<br>
+chore.=<br>
+<br>
+So since the Mailstation has basically just been laying here collecting<br>
+d=<br>
+ust, I decided to take the plunge and modify the hardware.  If I<br>
+damaged it=<br>
+, then so be it. =A0At least I'd still have a keyboard and<br>
+LCD to use for a=<br>
+nother project, right?<br>
+<br>
+Luckily, that didn't happen!<br>
+<br>
+In a nutshell=<br>
+, when the Mailstation starts, everything is as it always<br>
+was.  But if ROM_=<br>
+TOGGLE is brought high, the code flash ROM is disabled,<br>
+and the second 16KB=<br>
+page of SRAM is put into the 0-16KB slot of the<br>
+Mailstation.  I made it us=<br>
+e the second 16KB SRAM page because the first<br>
+page is already in use in the=<br>
+Mailstation's 48-64KB address area. =A0<br>
+So basically this means that the e=<br>
+ntire 64KB of address space of the<br>
+Mailstation can be set to RAM.  And it m=<br>
+eans a true CP/M can be run on<br>
+it, as well as normal applications. =A0Keep =<br>
+in mind though that if one<br>
+were to port the original CP/M, they'd still hav=<br>
+e to write a BIOS module<br>
+to compile into it to support the Mailstation hard=<br>
+ware, so it's not as<br>
+easy as just dropping a new OS onto it. =A0But I plan =<br>
+to continue<br>
+developing FyOS now to allow CP/M apps to be run, now that they=<br>
+actually<br>
+can be.<br>
+<br>
+I can't solder anytime I want around here, so in the va=<br>
+rious windows of<br>
+opportunity I get, I've been putting a board together to h=<br>
+old the three<br>
+logic chips used in my design (1 inverter, 1 AND, 1 OR) so th=<br>
+at it can<br>
+be tucked back inside the Mailstation.  Using it with the breadbo=<br>
+ard is<br>
+currently too fragile to really do much with it, so I haven't gone f=<br>
+ar<br>
+beyond the hardware aspect, other than writing a test app which<br>
+continuo=<br>
+usly writes three bytes into a particular spot in the lower<br>
+16KB, and then =<br>
+prints out those locations to the screen.  When<br>
+ROM_TOGGLE is low, naturall=<br>
+y it will return three bytes from the ROM.<br>
+But when it's high, I get back =<br>
+the values I had been writing to the<br>
+location (since it's now RAM).<br>
+<br>
+One pr=<br>
+oblem at the moment is the toggle of ROM_TOGGLE. =A0Currently,<br>
+it's a physi=<br>
+cal action on my part to enable the SRAM. =A0I tried<br>
+connecting it to vario=<br>
+us output pins of the Mailstation's CPU, but the<br>
+Mailstation OS must be tog=<br>
+gling and setting up these things during its<br>
+initialization (thereby switch=<br>
+ing ROM out of the address space and<br>
+crashing it), because it never starts =<br>
+up. =A0The only solution here<br>
+that I can think of is to go ahead and replac=<br>
+e the Mailstation software<br>
+too, to avoid the hardware initialization on wha=<br>
+tever pin I want to use.<br>
+=A0But I'll take that one step at a time, because =<br>
+screwing up the code<br>
+flash means a ton of work to wire into the MS board to=<br>
+reflash it. =A0<br>
+<br>
+I'll actually be able to test new startup code by writing=<br>
+it into RAM,<br>
+then resetting the Mailstation. =A0It'll then boot off of my =<br>
+code<br>
+instead of the ROM as long as ROM_TOGGLE is enabled. =A0Once I'm sure<br>
+=<br>
+my code is good, I'll work on writing it into the code flash.<br>
+<br>
+Anyway, as I=<br>
+said, I still need to finish the circuit board before I<br>
+really get back in=<br>
+to the software, so I'm hoping to have that done over<br>
+the weekend. =A0It's =<br>
+just three chips, but cutting, stripping,<br>
+arranging, and threading wires on=<br>
+to the board takes more time than the<br>
+actual soldering. =A0If I had the mon=<br>
+ey, I'd have just paid to have a<br>
+PCB made, just to avoid dealing with the w=<br>
+ires! =A0<br>
+<br>
+I was going to wait to post about it until I had the board made =<br>
+and the<br>
+Mailstation running a CP/M app, but with the renewed interest and<br>
+p=<br>
+osting in this group lately, I thought I'd go ahead and chime in, since<br>
+I'm=<br>
+excited about where it can go now.<br>
+<br>
+And feel free to ask any questions abo=<br>
+ut the hardware if I didn't<br>
+explain everything. =A0I can give a detailed ex=<br>
+planation of how it<br>
+works if necessary. =A0I can also export a circuit sche=<br>
+matic if anyone<br>
+is interested in building it. =A0But keep in mind that it w=<br>
+ill require<br>
+cutting traces on the Mailstation board!<br>
+<br>
+<br>
+Hiya folks, been a while since I posted here.  My work on the Mailstation a=<br>
+nd FyOS pretty much got sidetracked by other things, and I never did get ba=<br>
+ck to it for quite some time.&lt;BR>&lt;BR>&lt;P>When the Mailstation did start to p=<br>
+ique my interest again about a month ago, I came back to the same conclusio=<br>
+n as before: ROM locked into the lower 16KB of address space was a nuisance=<br>
+.  FyOS was going to be CP/M compatible, but it would only ever be able to =<br>
+do so to a certain degree.  Any CP/M application would have to be recompile=<br>
+d at the very least before it would ever work.  That almost defeated the pu=<br>
+rpose in my eyes, because many programs that a person might want to =A0actu=<br>
+ally run (like Zork) don't necessarily have source available. =A0Disassembl=<br>
+ing and modifying apps to run at a different starting offset would be quite=<br>
+a chore.&lt;/P>&lt;P>So since the Mailstation has basically just been laying her=<br>
+e collecting dust, I decided to take the plunge and modify the hardware.  I=<br>
+f I damaged it, then so be it. =A0At least I'd still have a keyboard and LC=<br>
+D to use for another project, right?&lt;/P>&lt;P>Luckily, that didn't happen!&lt;BR>=<br>
+jpg"><BR><BR><IMG src=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/ms_romwir=">(URL)</a><br>
+es.jpg"><BR><BR><IMG src=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/ms_rom=">(URL)</a><br>
+board.jpg">&lt;BR>&lt;BR>&lt;P>In a nutshell, when the Mailstation starts, everythin=<br>
+g is as it always was.  But if ROM_TOGGLE is brought high, the code flash R=<br>
+OM is disabled, and the second 16KB page of SRAM is put into the 0-16KB slo=<br>
+t of the Mailstation.  I made it use the second 16KB SRAM page because the =<br>
+first page is already in use in the Mailstation's 48-64KB address area. =A0=<br>
+ilstation can be set to RAM.  And it means a true CP/M can be run on it, as=<br>
+well as normal applications. =A0Keep in mind though that if one were to po=<br>
+rt the original CP/M, they'd still have to write a BIOS module to compile i=<br>
+nto it to support the Mailstation hardware, so it's not as easy as just dro=<br>
+pping a new OS onto it. =A0But I plan to continue developing FyOS now to al=<br>
+low CP/M apps to be run, now that they actually can be.&lt;BR>&lt;BR>&lt;P>I can't s=<br>
+older anytime I want around here, so in the various windows of opportunity =<br>
+I get, I've been putting a board together to hold the three logic chips use=<br>
+d in my design (1 inverter, 1 AND, 1 OR) so that it can be tucked back insi=<br>
+de the Mailstation.  Using it with the breadboard is currently too fragile =<br>
+to really do much with it, so I haven't gone far beyond the hardware aspect=<br>
+, other than writing a test app which continuously writes three bytes into =<br>
+a particular spot in the lower 16KB, and then prints out those locations to=<br>
+the screen.  When ROM_TOGGLE is low, naturally it will return three bytes =<br>
+from the ROM.  But when it's high, I get back the values I had been writing=<br>
+to the location (since it's now RAM).&lt;/P>&lt;P>One problem at the moment is t=<br>
+he toggle of ROM_TOGGLE. =A0Currently, it's a physical action on my part to=<br>
+enable the SRAM. =A0I tried connecting it to various output pins of the Ma=<br>
+ilstation's CPU, but the Mailstation OS must be toggling and setting up the=<br>
+se things during its initialization (thereby switching ROM out of the addre=<br>
+ss space and crashing it), because it never starts up. =A0The only solution=<br>
+here that I can think of is to go ahead and replace the Mailstation softwa=<br>
+re too, to avoid the hardware initialization on whatever pin I want to use.=<br>
+=A0But I'll take that one step at a time, because screwing up the code fla=<br>
+sh means a ton of work to wire into the MS board to reflash it. =A0&lt;/P>&lt;P>I=<br>
+'ll actually be able to test new startup code by writing it into RAM, then =<br>
+resetting the Mailstation. =A0It'll then boot off of my code instead of the=<br>
+ROM as long as ROM_TOGGLE is enabled. =A0Once I'm sure my code is good, I'=<br>
+ll work on writing it into the code flash.&lt;/P>&lt;P>Anyway, as I said, I still=<br>
+need to finish the circuit board before I really get back into the softwar=<br>
+e, so I'm hoping to have that done over the weekend. =A0It's just three chi=<br>
+ps, but cutting, stripping, arranging, and threading wires onto the board t=<br>
+akes more time than the actual soldering. =A0If I had the money, I'd have j=<br>
+ust paid to have a PCB made, just to avoid dealing with the wires! =A0&lt;/P>&lt;=<br>
+P>I was going to wait to post about it until I had the board made and the M=<br>
+ailstation running a CP/M app, but with the renewed interest and posting in=<br>
+this group lately, I thought I'd go ahead and chime in, since I'm excited =<br>
+about where it can go now.&lt;/P>&lt;P>And feel free to ask any questions about t=<br>
+he hardware if I didn't explain everything. =A0I can give a detailed explan=<br>
+ation of how it works if necessary. =A0I can also export a circuit schemati=<br>
+c if anyone is interested in building it. =A0But keep in mind that it will =<br>
+require cutting traces on the Mailstation board!&lt;/P>&lt;P>&lt;/P><br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 19, 2008</p>
+<p class="formattedBody">True, but Infocom/Zork is one that isn't a problem - we have good clones.<br>
+<br>
+However the best bet would be to add a BASIC (like Microsoft's old one) in<br>
+an unused segment - no problem relocating that.<br>
+<br>
+I wouldn't bother with CP/M.<br>
+<br>
+Neil<br>
+<br>
+From: Jeff<br>
+<br>
+Hiya folks, been a while since I posted here. My work on the Mailstation and<br>
+FyOS pretty much got sidetracked by other things, and I never did get back<br>
+to it for quite some time.<br>
+<br>
+When the Mailstation did start to pique my interest again about a month ago,<br>
+I came back to the same conclusion as before: ROM locked into the lower 16KB<br>
+of address space was a nuisance. FyOS was going to be CP/M compatible, but<br>
+it would only ever be able to do so to a certain degree. Any CP/M<br>
+application would have to be recompiled at the very least before it would<br>
+ever work. That almost defeated the purpose in my eyes, because many<br>
+programs that a person might want to  actually run (like Zork) don't<br>
+necessarily have source available.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 20, 2008</p>
+<p class="formattedBody"><br>
+Welp, I finished it, and it worked on the first try!<br>
+<br>
+Kinda got flash-b=<br>
+linded there but you get the idea. I also covered the<br>
+back and a small bit =<br>
+of the front with a strip of tape so that none of<br>
+the exposed metal would t=<br>
+ouch anything when inside the Mailstation case.<br>
+<br>
+Downside is, I'm still act=<br>
+ivating the ROM toggle manually, which at the<br>
+moment means wires sticking o=<br>
+ut of the back from the battery compartment<br>
+tation/img/ms_backwires.jpg> . But it'll<br>
+have to do for now, because as I m=<br>
+entioned before, none of the output<br>
+pins from the CPU that I tried will wor=<br>
+k without crashing it at startup.<br>
+I can devise a test now though to determi=<br>
+ne if it's actually the MS<br>
+firmware causing it.<br>
+<br>
+I wanted a lot of slack on=<br>
+the wires so that I could work with it<br>
+without pulling things loose, but I=<br>
+ended up with a bit of a wire jungle<br>
+/img/ms_wirejungle.jpg> . It all<br>
+fits back in the case though, just require=<br>
+s a minor squeeze to make it<br>
+go together to put the screws in.<br>
+<br>
+So once I =<br>
+get the Mailstation software issue dealt with, so that I can<br>
+tie the ROM_TO=<br>
+GGLE pin onto a cpu pin and toggle it via software, it'll<br>
+be pretty spiffy.=<br>
+For now I'll probably try to wire a switch into those<br>
+three wires to make =<br>
+it easier to use, then just put up a prompt for<br>
+whenever I need to switch i=<br>
+t to RAM.<br>
+<br>
+The funny thing is, if I could afford a GAL programmer, I could =<br>
+have<br>
+done all of this with a single chip and tons less hassle. =A0But this<br>
+=<br>
+works for now.<br>
+<br>
+<br>
+Welp, I finished it, and it worked on the first try!&lt;BR>&lt;BR>&lt;IMG src=3D"htt=<br>
+p://www.fybertech.net/mailstation/img/msboard_front.jpg">&lt;BR>&lt;BR>&lt;IMG src=<br>
+=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/msboard_back.jpg"><BR><BR>Kind=">(URL)</a><br>
+a got flash-blinded there but you get the idea. I also covered the back and=<br>
+a small bit of the front with a strip of tape so that none of the exposed =<br>
+metal would touch anything when inside the Mailstation case.&lt;BR>&lt;BR>Downsid=<br>
+e is, I'm still activating the ROM toggle manually, which at the moment mea=<br>
+ns <A href=3D"<a target="_blank" href="http://www.fybertech.net/mailstation/img/ms_backwires.jpg">wi=">(URL)</a><br>
+res sticking out of the back from the battery compartment&lt;/A>. But it'll ha=<br>
+ve to do for now, because as I mentioned before, none of the output pins fr=<br>
+om the CPU that I tried will work without crashing it at startup. I can dev=<br>
+ise a test now though to determine if it's actually the MS firmware causing=<br>
+it.&lt;BR>&lt;BR>I wanted a lot of slack on the wires so that I could work with =<br>
+it without pulling things loose, but <A href=3D"<a target="_blank" href="http://www.fybertech.net/ma=">(URL)</a><br>
+ilstation/img/ms_wirejungle.jpg">I ended up with a bit of a wire jungle&lt;/A>=<br>
+. It all fits back in the case though, just requires a minor squeeze to mak=<br>
+e it go together to put the screws in.&lt;BR>&lt;BR>&lt;P>So once I get the Mailstat=<br>
+ion software issue dealt with, so that I can tie the ROM_TOGGLE pin onto a =<br>
+cpu pin and toggle it via software, it'll be pretty spiffy. For now I'll pr=<br>
+obably try to wire a switch into those three wires to make it easier to use=<br>
+, then just put up a prompt for whenever I need to switch it to RAM.&lt;/P>&lt;P>=<br>
+The funny thing is, if I could afford a GAL programmer, I could have done a=<br>
+ll of this with a single chip and tons less hassle. =A0But this works for n=<br>
+ow.&lt;/P><br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 20, 2008</p>
+<p class="formattedBody">I was pretty much just going to replicate the CP/M BDOS functions,<br>
+which w=<br>
+ould allow the various applications to run.  I dunno if I'll<br>
+actually go a=<br>
+s far as duplicating the command processor itself.  The<br>
+biggest reason bei=<br>
+ng because I've hardly ever used CP/M, so I don't<br>
+know most of the command=<br>
+s!  I know my way around DOS well though, and<br>
+figured I'd probably base th=<br>
+e command line more on that.  DOS 1<br>
+practically was CP/M anyway.<br>
+<br>
+And as=<br>
+a bonus, I've already had some experience of working with<br>
+DOS's older fun=<br>
+ctions which CP/M used (like the File Control Block<br>
+interface) when I as w=<br>
+orking on making a DOS clone recently.  So<br>
+that'll come in handy.<br>
+<br>
+As for =<br>
+BASIC, I've never tried implementing a version of that on<br>
+anything.  Makin=<br>
+g one work on a stock MS would be interesting to try<br>
+sometime.  I just wou=<br>
+ldn't know where to start though without looking<br>
+through the source.<br>
+<br>
+- In mailstation@yahoogroups.com, "Neil Morrison" &lt;neilsmorr@...><br>
+wrote:<br>
+<br>
+cl=<br>
+ones.<br>
+ld<br>
+one) in<br>
+n't bother with CP/M.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Sep 20, 2008</p>
+<p class="formattedBody">Most of us old TRS-80 guys have a disassembled copy (or two) of the 12 K<br>
+basic with comments. IIRC, there are spare memory blocks in the MS which<br>
+could hold this.<br>
+<br>
+Neil<br>
+<br>
+From: Jeff<br>
+<br>
+I was pretty much just going to replicate the CP/M BDOS functions,<br>
+which would allow the various applications to run. I dunno if I'll<br>
+actually go as far as duplicating the command processor itself. The<br>
+biggest reason being because I've hardly ever used CP/M, so I don't<br>
+know most of the commands! I know my way around DOS well though, and<br>
+figured I'd probably base the command line more on that. DOS 1<br>
+practically was CP/M anyway.<br>
+<br>
+And as a bonus, I've already had some experience of working with<br>
+DOS's older functions which CP/M used (like the File Control Block<br>
+interface) when I as working on making a DOS clone recently. So<br>
+that'll come in handy.<br>
+<br>
+As for BASIC, I've never tried implementing a version of that on<br>
+anything. Making one work on a stock MS would be interesting to try<br>
+sometime. I just wouldn't know where to start though without looking<br>
+through the source.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Sep 20, 2008</p>
+<p class="formattedBody">I think CP/M is the way to go. This will give lots of applications<br>
+(Wordstar, etc.) and compilers right out of the gate.<br>
+<br>
+A Xilinx CPLD might be the right way to do the hardware mod. That's<br>
+what was used for Remem and REX, which are memory/flash upgrades for<br>
+the TRS-80 Model 100/102/200.<br>
+<br>
+My understanding is that you can program it in-circuit with a JTAG<br>
+cable, no stand-alone programmer necessary.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 21, 2008</p>
+<p class="formattedBody">I ran into a somewhat unexpected snag for one of the things I wanted<br>
+to tr=<br>
+y, it would seem.  I was thinking that I could just write some<br>
+code to the=<br>
+SRAM, and while my ROM_TOGGLE hardware was active<br>
+(putting ram page 1 int=<br>
+o the 0-16KB slot), that I'd be able to reset<br>
+the Mailstation and then boo=<br>
+t code directly out of the RAM for<br>
+testing purposes.<br>
+<br>
+Well it seems that=<br>
+when I push the reset button in, the thing just<br>
+locks up or something.<br>
+<br>
+M=<br>
+y test code is a simple app which disables interrupts, turns the New<br>
+Mail =<br>
+LED on, loops through reading port 0x10 to wait 1 second, turns<br>
+the LED ba=<br>
+ck off, waits 1 second again, then loops the program.  I<br>
+tested it via the=<br>
+Mailstation Yahoo app loader method and it works as<br>
+expected from there. =<br>
+<br>
+I was only using JRs instead of JPs (which I had to disable assembler<br>
+o=<br>
+ptimizations to ensure), and disassembled the resulting binary to<br>
+make sur=<br>
+e it was doing exactly as I wrote.  So the code was portable<br>
+to any memory=<br>
+location, but resetting the Mailstation didn't execute<br>
+it at startup as e=<br>
+xpected.<br>
+<br>
+To make absolute sure there wasn't some hardware problem with run=<br>
+ning<br>
+code from the 0x0000 slot when set to RAM, I modified the test app<br>
+w=<br>
+ith an ORG 0x0000 and a JP at the end.  That way, after it was<br>
+loaded via =<br>
+the Yahoo loader app (into 0x8000, SRAM page 1), it would<br>
+blink the LED on=<br>
+ce and use a JP to loop the program, then end up in<br>
+the 0x000 slot (also S=<br>
+RAM page 1) to continue execution.  And, as<br>
+expected, it continued to exec=<br>
+ute just fine from the first slot.  So<br>
+it wasn't the hardware apparently.<br>
+=<br>
+<br>
+So my assumption at this point is that maybe pressing the reset<br>
+button is=<br>
+erasing the contents of the SRAM?  If this is the case,<br>
+what method would=<br>
+be available to reset the system to a default state<br>
+without causing that?=<br>
+And/or would it be possible to stop it from<br>
+erasing the SRAM when pushin=<br>
+g the button by modifying it somehow?  I<br>
+haven't traced the connections fr=<br>
+om the button to see what all they<br>
+do yet.<br>
+<br>
+I mostly just want to be able =<br>
+to get the system into a default<br>
+startup mode when executing my code from =<br>
+the SRAM.  That way anything<br>
+I write will be in the same conditions as it =<br>
+would be whenever I<br>
+decide to write that code into the code flash, which w=<br>
+ould greatly<br>
+improve the chances of not bricking it.<br>
+<br>
+I'm running off of a=<br>
+n AC adapter and not batteries, if that possibly<br>
+makes a difference.<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 21, 2008</p>
+<p class="formattedBody">Nevermind, I ran into one of those "gotchas" that results from trying<br>
+to u=<br>
+se the hardware from the reset state.<br>
+<br>
+Turns out my test code was in fact r=<br>
+unning out of RAM at startup.<br>
+But me trying to toggle the LED in that sta=<br>
+te wasn't working because<br>
+the P2 direction bits hadn't been initialized.<br>
+<br>
+=<br>
+All it took was adding in:<br>
+<br>
+ld      a, #FF<br>
+out     (#0B), a<br>
+<br>
+I discovere=<br>
+d this when looking through Mailstation firmware init<br>
+code, seeing what it=<br>
+did to each port during initialization, and<br>
+noticed the P2 direction regi=<br>
+ster.  I assume P2 is all inputs by<br>
+default, hence the LED never coming on=<br>
+.<br>
+<br>
+Having to initialize directions for some of the ports has made me<br>
+wond=<br>
+er again about what pin could be attached to my ROM_TOGGLE line.<br>
+Currentl=<br>
+y I think P28.3 is my best bet.  It's apparently caller ID<br>
+related, but my=<br>
+Mailstation has no caller ID.  All other caller ID<br>
+pins aren't connected =<br>
+to anything from the cpu on mine.  Even P28.3<br>
+just goes out to a pad on th=<br>
+e back of the board, not connecting to<br>
+anything else, which makes me wonde=<br>
+r why they connected that one to<br>
+something but not the others.  But hopefu=<br>
+lly it'll be usable for my<br>
+purposes when the Mailstation code isn't fiddli=<br>
+ng with it.<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 22, 2008</p>
+<p class="formattedBody">seeing what it did to each port during initialization, and<br>
+P2 direction register.  I assume P2 is all inputs by<br>
+LED never coming on.<br>
+<br>
+Yeah, I think all the ports are input by default.<br>
+<br>
+Having to initialize directions for some of the ports has made me<br>
+again about what pin could be attached to my ROM_TOGGLE line.<br>
+y I think P28.3 is my best bet.<br>
+<br>
+Add a resistor to pull it to your default=<br>
+state when it<br>
+is set as an input.  Then set the bit to the same state,<br>
+and=<br>
+then set the dir to output.<br>
+<br>
+I used bit D5 of the par port for my bank swi=<br>
+tch<br>
+circuit.  IIRC, I connected d5 to the clock on a flip-flop,<br>
+and connect=<br>
+ed the ms reset line to the ff reset.<br>
+A hi then lo pulse on d5 would flip t=<br>
+he bank.  I<br>
+used a toggle switch to control whether the normal<br>
+(reset) sta=<br>
+te was the ms codeflash, or the socket<br>
+I kluged in.  Clocking the flip-flop=<br>
+swapped in<br>
+the other.<br>
+<br>
+At first I used a boot-rom (mboot) in the socket<br>
+to=<br>
+get mailbug going.  Later I put the boot code<br>
+in the ms rom, and a big ra=<br>
+m chip in the socket.<br>
+The boot code loaded mbug into ms RAM, then swapped<br>
+t=<br>
+he socket in, giving me a mailstation with mbug<br>
+loaded, and RAM in place o=<br>
+f the codeflash chip.<br>
+Then I could load whatever I wanted into that RAM.<br>
+I =<br>
+used this setup to run modified versions of the ms<br>
+code.  (Breakpoints work=<br>
+ed with this setup, too!!!)<br>
+<br>
+I used d5 because d0-d4 are used for the updat=<br>
+e protocol,<br>
+and d6-d7 were in use as a bit-bang serial port.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 22, 2008</p>
+<p class="formattedBody">wrote:<br>
+pull it to your default state when it<br>
+it to the same state,<br>
+<br>
+I ended up doin=<br>
+g exactly that, except I forgot to set the port<br>
+direction on P28 at first =<br>
+so it wasn't working.  Doh!  I had<br>
+forgotten that the MS init code only se=<br>
+ts a couple of P28 to outputs,<br>
+not all of them (not sure why, since they'r=<br>
+e all actually outputs as<br>
+far as I know).  But now I have P28.3 connected =<br>
+to my ROM_TOGGLE<br>
+signal, and can enable or disable the RAM easily from the=<br>
+port.<br>
+Hooray.<br>
+<br>
+What is kind of confusing me though is the resistor value=<br>
+I had to<br>
+use for the pull-down.  I ended up using a 1k, since a 4.7k and =<br>
+<br>
+higher wouldn't work (ROM_TOGGLE was apparently behaving as 'high' at<br>
+sta=<br>
+rtup when using these other values, as if ground weren't connected<br>
+at all)=<br>
+.<br>
+<br>
+Pull-down aside, there's three inputs on the logic chips all<br>
+connected =<br>
+together which make up the ROM_TOGGLE input signal.  When<br>
+ROM_TOGGLE is co=<br>
+nnected to ground, those three inputs are low of<br>
+course, and so ROM is ena=<br>
+bled.  But when I disconnect from ground,<br>
+they automatically pull themselv=<br>
+es high without me connecting them to<br>
+anything (high =3D RAM enabled).  I =<br>
+kind of have some fuzzy ideas as to<br>
+why that happens, but I'm not versed w=<br>
+ell enough with analog<br>
+electronic concepts to fully explain it.  But I'm a=<br>
+ssuming that<br>
+having three inputs connected together could be why I ended u=<br>
+p having<br>
+to use such a low resistor value.  I just hope it's not problemat=<br>
+ic<br>
+in terms of power consumption or something, since pull-downs are<br>
+usual=<br>
+ly 10k or 47k as far as I understand.<br>
+<br>
+r my bank switch<br>
+op,<br>
+on d5 would flip the bank.  I<br>
+he normal<br>
+.  Clocking the flip-flop swapped in<br>
+<br>
+That sounds like a good =<br>
+method too, since it resets properly.  Now<br>
+that I'm wired into a CPU port =<br>
+to do my switching, pressing the MS<br>
+reset button resets P28 as an input an=<br>
+d automatically brings the ROM<br>
+back into slot 0.  In many respects, this i=<br>
+s good, since it behaves<br>
+like yours does.  But that also means I can't boo=<br>
+t from the RAM now,<br>
+which was one of the things I wanted to be able to do =<br>
+easily.<br>
+<br>
+What I think I'll do though is maybe combine a pull-up into the wh=<br>
+ole<br>
+mess, connected with a switch.  Not sure what resistor value would<br>
+wo=<br>
+rk at the moment considering there's already a pull-down present<br>
+too.  But=<br>
+that way, by flipping the switch, ROM_TOGGLE could be<br>
+forced high regardl=<br>
+ess of P28.3 being an input at startup, and I'd be<br>
+able to boot from the R=<br>
+AM again when I wanted to test boot code.<br>
+<br>
+Or I dunno, maybe it'd be better=<br>
+to just put the switch between the<br>
+pull-down and ground, since ROM_TOGGLE=<br>
+seems to automatically go high<br>
+when not connected to anything (or when co=<br>
+nnected to something set as<br>
+an input).  I dunno if it's good to leave thos=<br>
+e inputs floating or<br>
+not though, if it's even still considered floating wh=<br>
+en multiple<br>
+inputs are connected like that.<br>
+<br>
+rom (mboot) in the socket<br>
+e<br>
+d mbug into ms RAM, then swapped<br>
+ith mbug<br>
+load whatever I wanted into that RAM.<br>
+ersions of the ms<br>
+<br>
+Ha=<br>
+ving an external socket would really reduce the worry of messing up<br>
+what's=<br>
+written to the MS codeflash.  I thought about adding one<br>
+myself, but so m=<br>
+any wires involved.  I think I've seen enough to last<br>
+me for a few days!<br>
+<br>
+=<br>
+While I'm thinking of it, what would be a safe 64K sector of the<br>
+codeflash=<br>
+to erase to test writing to it?  I perused mine and noticed<br>
+there doesn't=<br>
+seem to be an empty sector anywhere.  I only have one<br>
+or two pages of the=<br>
+disassembled/well-commented codeflash, so I dunno<br>
+what's in those others =<br>
+without lots of digging.  But surely there's<br>
+an unimportant section, or on=<br>
+e that doesn't get used except in<br>
+certain circumstances.  I mostly only ne=<br>
+ed the Mailstation to be able<br>
+to get into the Yahoo apps menu and run stuf=<br>
+f at this point.<br>
+<br>
+tocol,<br>
+<br>
+I thought abo=<br>
+ut using a pin from there initially when the others I<br>
+tried didn't work (o=<br>
+r more accurately, I didn't know how to make them<br>
+work at the time), but t=<br>
+hen I thought that I might want the full 8<br>
+bits of the parallel port for s=<br>
+omething.  One could interface an SD<br>
+card into it or some such, since they=<br>
+'re fairly shy on pin usage.<br>
+You'd need a 5v to 3.3v conversion on power =<br>
+and data pins though,<br>
+which is the biggest inconvenience.  I doubt the Mai=<br>
+lstation has a<br>
+3.3v source available.<br>
+<br>
+I also considered disconnecting the=<br>
+modem's chip-select and<br>
+connecting address/data/modem CS lines to an IDE-=<br>
+to-Compact Flash<br>
+adapter.  CF cards (ones abiding by standards at least) c=<br>
+an be used<br>
+in 8-bit data transfer mode from what I understand.  I'd have t=<br>
+o<br>
+check CF power requirements though to make sure it wasn't a big<br>
+strain =<br>
+on the Mailstation.  But having removable storage would be<br>
+nice, because t=<br>
+hen I wouldn't have to try implementing some kind of<br>
+special file system f=<br>
+or the dataflash to avoid wearing it out.<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 22, 2008</p>
+<p class="formattedBody"><br>
+n input.  Then set the bit to the same state,<br>
+utput.<br>
+direction on P28 at first so it wasn't working.  Doh!  I had<br>
+hat the MS init code only sets a couple of P28 to outputs,<br>
+m (not sure why, since they're all actually outputs as<br>
+ut now I have P28.3 connected to my ROM_TOGGLE<br>
+disable the RAM easily from the port.<br>
+ng me though is the resistor value I had to<br>
+ed up using a 1k, since a 4.7k and<br>
+pparently behaving as 'high' at<br>
+if ground weren't connected<br>
+<br>
+I was gonna say you should check f=<br>
+or a pullup resistor<br>
+hiding on the ms board somewhere, but read on below...=<br>
+<br>
+d together which make up the ROM_TOGGLE input signal.  When<br>
+connected to ground, those three inputs are low of<br>
+enabled.  But when I disconnect from ground,<br>
+mselves high without me connecting them to<br>
+).<br>
+<br>
+Ook!!!  Sounds like you are using TTL logic!!!<br>
+<br>
+I looked at your pictur=<br>
+es, and sure enough, I see 74LS parts.<br>
+When I said "Add a resistor to pull =<br>
+it to your default<br>
+state", I was assuming CMOS logic.  I don't even know if=<br>
+<br>
+driving TTL is within spec for the ms cpu.  I assume that<br>
+the cpu is CMOS.=<br>
+I would replace the LS parts with<br>
+HC or HCT.<br>
+<br>
+ideas as to<br>
+<br>
+three inputs connected together could be why I ended up having<br>
+ch a low resistor value.  I just hope it's not problematic<br>
+wer consumption or something, since pull-downs are<br>
+far as I understand.<br>
+<br>
+Not analog, it's just the design rules are different =<br>
+for<br>
+TTL than CMOS.  Unconnected TTL inputs "float high", and have<br>
+to be act=<br>
+ively pulled low.  You usually will not pull a TTL<br>
+input low with a resisto=<br>
+r (passive).  You either drive it low<br>
+with a TTL output, or peg it directly=<br>
+to gnd.  CMOS inputs<br>
+don't float high, they are just as happy to float low=<br>
+as hi,<br>
+and an unconnected CMOS input will pick up enough influence<br>
+just ou=<br>
+t of the air to flutter back and forth between lo and hi.<br>
+As such, a CMOS i=<br>
+nput can be pulled lo or hi with a resistor.<br>
+<br>
+port for my bank switch<br>
+a flip-flop,<br>
+then lo pulse on d5 would flip the bank.  I<br>
+trol whether the normal<br>
+et<br>
+hat sounds like a good method too, since it resets properly.  Now<br>
+m wired into a CPU port to do my switching, pressing the MS<br>
+resets P28 as an input and automatically brings the ROM<br>
+In many respects, this is good, since it behaves<br>
+that also means I can't boot from the RAM now,<br>
+s I wanted to be able to do easily.<br>
+e combine a pull-up into the whole<br>
+re what resistor value would<br>
+dy a pull-down present<br>
+<br>
+If you change to HC or HCT, then 47k might b=<br>
+e good.<br>
+I have used 1M when I didn't want to run batteries down<br>
+too fast!<br>
+<br>
+=<br>
+If you stick with LS, then I would change circuit so<br>
+your default was "pull=<br>
+ed up" state.  I don't remember<br>
+what a typical LS pullup value is.  (IMO, L=<br>
+S has been<br>
+obsolete for like 20 years or more.)<br>
+<br>
+g the switch, ROM_TOGGLE could be<br>
+n input at startup, and I'd be<br>
+ted to test boot code.<br>
+<br>
+Might want to make switch select pull-up or pull-do=<br>
+wn<br>
+(use one res, and spdt switch to select +5 or gnd).<br>
+That would avoid pos=<br>
+sibility of having p28.3 pegged to<br>
++5v when it is in output mode driving lo=<br>
+w.<br>
+<br>
+pull-down and ground, since ROM_TOGGLE seems to automatically go high<br>
+en not connected to anything (or when connected to something set as<br>
+put).  I dunno if it's good to leave those inputs floating or<br>
+if it's even still considered floating when multiple<br>
+d like that.<br>
+<br>
+I learned you should not trust ttl to float hi, you<br>
+should al=<br>
+ways use a pullup.  I think it is less succeptible<br>
+to noise with pullup.  B=<br>
+ut when experimenting, letting<br>
+them float hi always seemed good enough!<br>
+<br>
+.  Later I put the boot code<br>
+ocket.<br>
+et in, giving me a mailstation with mbug<br>
+e codeflash chip.<br>
+nts worked with this setup, too!!!)<br>
+lly reduce the worry of messing up<br>
+thought about adding one<br>
+ve seen enough to last<br>
+<br>
+It's not so bad!<br>
+<br>
+(I dunno if =<br>
+above embeded image is gonna work.  If<br>
+not, you can see it in group's photo=<br>
+section.)<br>
+I found the little gold test points to work better than<br>
+the vias=<br>
+for attaching the wires.<br>
+<br>
+64K sector of the<br>
+ine and noticed<br>
+y have one<br>
+I dunno<br>
+'s<br>
+in circumstances.  I mostly only need the Mailstation to be able<br>
+nto the Yahoo apps menu and run stuff at this point.<br>
+<br>
+Offhand I can't say w=<br>
+hat part of code you could dump<br>
+and still get it to run.  I think the last =<br>
+16k page<br>
+is empty in most versions of firmware (ok, I only<br>
+looked at a few,=<br>
+but I don't remember any that had<br>
+code in last page).  Why not use last pa=<br>
+ge, and just<br>
+reflash the other three pages with code from your dump?<br>
+<br>
+used d5 because d0-d4 are used for the update protocol,<br>
+in use as a bit-bang serial port.<br>
+there initially when the others I<br>
+I didn't know how to make them<br>
+t I might want the full 8<br>
+<br>
+Yeah,=<br>
+even something like a parallel port!  I didn't<br>
+make mine with intention of=<br>
+it being anything other<br>
+than a research tool to learn about ms insides.<br>
+An=<br>
+d now that I think about it, the way mine works<br>
+you could print to your hea=<br>
+rts content, and the<br>
+flip-flop is gonna stay flipped.  And you won't<br>
+even g=<br>
+et a glitch on your printer when flipping<br>
+the bank, 'coz bank switching doe=<br>
+s not activate<br>
+the printer port strobe!<br>
+<br>
+One downside to callid bits is tha=<br>
+t some ms's have<br>
+the callid chip, so you would have to disable it<br>
+on those,=<br>
+I suppose.<br>
+<br>
+they're fairly shy on pin usage.<br>
+ower and data pins though,<br>
+he Mailstation has a<br>
+ecting the modem's chip-select and<br>
+to an IDE-to-Compact Flash<br>
+at least) can be used<br>
+.  I'd have to<br>
+a big<br>
+nice, because then I wouldn't have to try implementing some kind of<br>
+ial file system for the dataflash to avoid wearing it out.<br>
+<br>
+That would be p=<br>
+retty neat.  I have wondered about possibility<br>
+of interfacing to USB flash =<br>
+drives.  If only I had an<br>
+infinite supply of time!!!  I can't even stay up =<br>
+late<br>
+putzing with this stuff anymore, 'coz I got me one of<br>
+those J.O.B. thi=<br>
+ngs that my girlfriend (and family)<br>
+have been nagging me about.  :-(<br>
+<br>
+CJ<br>
+<br>
+=<br>
+<br>
+<br>
+gt; is set as an input.&nbsp; Then set the bit to the same state,&lt;br>> &=<br>
+gt; and then set the dir to output.&lt;br>> &lt;br>> I ended up doing exact=<br>
+ly that, except I forgot to set the port &lt;br>> direction on P28 at first=<br>
+so it wasn't working.&nbsp; Doh!&nbsp; I had &lt;br>> forgotten that the M=<br>
+S init code only sets a couple of P28 to outputs, &lt;br>> not all of them =<br>
+(not sure why, since they're all actually outputs as &lt;br>> far as I know=<br>
+).&nbsp; But now I have P28.3 connected to my ROM_TOGGLE &lt;br>> signal, a=<br>
+nd can enable or disable the RAM easily from the port.&nbsp; &lt;br>> Hoora=<br>
+y.&lt;br>> &lt;br>> What is kind of confusing me though is the resistor val=<br>
+ue I had to &lt;br>> use for the pull-down.&nbsp; I ended up using a 1k, si=<br>
+nce a 4.7k and &lt;br>> higher wouldn't work (ROM_TOGGLE was apparently beh=<br>
+aving as 'high' at &lt;br>> startup when using these other values, as if gr=<br>
+ound weren't connected &lt;br>> at all).&lt;br>&lt;br>I was gonna say you should =<br>
+check for a pullup resistor&lt;br>hiding on the ms board somewhere, but read o=<br>
+n below...&lt;br>&nbsp;&lt;br>> Pull-down aside, there's three inputs on the l=<br>
+ogic chips all &lt;br>> connected together which make up the ROM_TOGGLE inp=<br>
+ut signal.&nbsp; When &lt;br>> ROM_TOGGLE is connected to ground, those thr=<br>
+ee inputs are low of &lt;br>> course, and so ROM is enabled.&nbsp; But when=<br>
+I disconnect from ground, &lt;br>> they automatically pull themselves high=<br>
+without me connecting them to &lt;br>> anything (high =3D RAM enabled).&nb=<br>
+sp; &lt;br>&lt;br>Ook!!!&nbsp; Sounds like you are using TTL logic!!!&lt;br>&lt;br>I lo=<br>
+oked at your pictures, and sure enough, I see 74LS parts.&lt;br>When I said "A=<br>
+dd a resistor to pull it to your default &lt;br>state", I was assuming CMOS lo=<br>
+gic.&nbsp; I don't even know if&lt;br>driving TTL is within spec for the ms cp=<br>
+u.&nbsp; I assume that&lt;br>the cpu is CMOS.&nbsp; I would replace the LS par=<br>
+ts with&lt;br>HC or HCT.&lt;br>&lt;br>> I kind of have some fuzzy ideas as to &lt;br=<br>
+electronic concepts to fully explain it.&nbsp; But I'm assuming that &lt;br>&=<br>
+gt; having three inputs connected together could be why I ended up having &lt;=<br>
+br>> to use such a low resistor value.&nbsp; I just hope it's not proble=<br>
+matic &lt;br>> in terms of power consumption or something, since pull-downs=<br>
+are &lt;br>> usually 10k or 47k as far as I understand.&lt;br>&lt;br>Not analog,=<br>
+it's just the design rules are different for&lt;br>TTL than CMOS.&nbsp; Uncon=<br>
+nected TTL inputs "float high", and have &lt;br>to be actively pulled low.&nbs=<br>
+p; You usually will not pull a TTL &lt;br>input low with a resistor (passive).=<br>
+&nbsp; You either drive it low &lt;br>with a TTL output, or peg it directly to=<br>
+gnd.&nbsp; CMOS inputs&lt;br>don't float high, they are just as happy to floa=<br>
+t low as hi,&lt;br>and an unconnected CMOS input will pick up enough influence=<br>
+such, a CMOS input can be pulled lo or hi with a resistor.&lt;br>&nbsp;&lt;br>&gt=<br>
+; > I used bit D5 of the par port for my bank switch&lt;br>> > circui=<br>
+t.&nbsp; IIRC, I connected d5 to the clock on a flip-flop,&lt;br>> > and=<br>
+connected the ms reset line to the ff reset.&lt;br>> > A hi then lo pul=<br>
+se on d5 would flip the bank.&nbsp; I &lt;br>> > used a toggle switch to=<br>
+control whether the normal&lt;br>> > (reset) state was the ms codeflash=<br>
+, or the socket&lt;br>> > I kluged in.&nbsp; Clocking the flip-flop swap=<br>
+ped in&lt;br>> > the other.&lt;br>> &lt;br>> That sounds like a good met=<br>
+hod too, since it resets properly.&nbsp; Now &lt;br>> that I'm wired into a=<br>
+CPU port to do my switching, pressing the MS &lt;br>> reset button resets =<br>
+P28 as an input and automatically brings the ROM &lt;br>> back into slot 0.=<br>
+&nbsp; In many respects, this is good, since it behaves &lt;br>> like yours=<br>
+does.&nbsp; But that also means I can't boot from the RAM now, &lt;br>> wh=<br>
+ich was one of the things I wanted to be able to do easily.&lt;br>> &lt;br>&gt=<br>
+; What I think I'll do though is maybe combine a pull-up into the whole &lt;br=<br>
+ld &lt;br>> work at the moment considering there's already a pull-down pres=<br>
+ent &lt;br>> too.&nbsp; &lt;br>&lt;br>If you change to HC or HCT, then 47k might =<br>
+be good.&lt;br>I have used 1M when I didn't want to run batteries down &lt;br>too=<br>
+fast!&lt;br>&lt;br>If you stick with LS, then I would change circuit so&lt;br>your =<br>
+default was "pulled up" state.&nbsp; I don't remember&lt;br>what a typical LS =<br>
+pullup value is.&nbsp; (IMO, LS has been&lt;br>obsolete for like 20 years or m=<br>
+ore.)&lt;br>&lt;br>> But that way, by flipping the switch, ROM_TOGGLE could be=<br>
+d be &lt;br>> able to boot from the RAM again when I wanted to test boot co=<br>
+de.&lt;br>&lt;br>Might want to make switch select pull-up or pull-down &lt;br>(use o=<br>
+ne res, and spdt switch to select +5 or gnd).&lt;br>That would avoid possibili=<br>
+ty of having p28.3 pegged to &lt;br>+5v when it is in output mode driving low.=<br>
+n the &lt;br>> pull-down and ground, since ROM_TOGGLE seems to automaticall=<br>
+y go high &lt;br>> when not connected to anything (or when connected to som=<br>
+ething set as &lt;br>> an input).&nbsp; I dunno if it's good to leave those=<br>
+inputs floating or &lt;br>> not though, if it's even still considered floa=<br>
+ting when multiple &lt;br>> inputs are connected like that.&lt;br>&lt;br>I learne=<br>
+d you should not trust ttl to float hi, you&lt;br>should always use a pullup.&=<br>
+nbsp; I think it is less succeptible&lt;br>to noise with pullup.&nbsp; But whe=<br>
+n experimenting, letting &lt;br>them float hi always seemed good enough!&lt;br>&n=<br>
+bsp;&lt;br>> > At first I used a boot-rom (mboot) in the socket&lt;br>> =<br>
+the ms rom, and a big ram chip in the socket.&lt;br>> > The boot code l=<br>
+oaded mbug into ms RAM, then swapped&lt;br>> > the socket in, giving me =<br>
+a mailstation with mbug &lt;br>> > loaded, and RAM in place of the codef=<br>
+lash chip.&lt;br>> > Then I could load whatever I wanted into that RAM.&lt;=<br>
+br>> > I used this setup to run modified versions of the ms&lt;br>> &=<br>
+gt; code.&nbsp; (Breakpoints worked with this setup, too!!!)&lt;br>> &lt;br>&g=<br>
+t; Having an external socket would really reduce the worry of messing up &lt;b=<br>
+r>> what's written to the MS codeflash.&nbsp; I thought about adding one=<br>
+h to last &lt;br>> me for a few days!&lt;br>&lt;br>It's not so bad!&lt;br>&lt;img src=<br>
+=3D"<a target="_blank" href="http://tech.ph.groups.yahoo.com/group/mailstation/photos/view/535c?b=3D=">(URL)</a><br>
+2&m=3Df&o=3D0">&lt;br>(I dunno if above embeded image is gonna work.&n=<br>
+bsp; If&lt;br>not, you can see it in group's photo section.)&lt;br>I found the li=<br>
+ttle gold test points to work better than&lt;br>the vias for attaching the wir=<br>
+es.&lt;br>&lt;br>> While I'm thinking of it, what would be a safe 64K sector o=<br>
+f the &lt;br>> codeflash to erase to test writing to it?&nbsp; I perused mi=<br>
+ne and noticed &lt;br>> there doesn't seem to be an empty sector anywhere.&=<br>
+nbsp; I only have one &lt;br>> or two pages of the disassembled/well-commen=<br>
+ted codeflash, so I dunno &lt;br>> what's in those others without lots of d=<br>
+igging.&nbsp; But surely there's &lt;br>> an unimportant section, or one th=<br>
+at doesn't get used except in &lt;br>> certain circumstances.&nbsp; I mostl=<br>
+y only need the Mailstation to be able &lt;br>> to get into the Yahoo apps =<br>
+menu and run stuff at this point.&lt;br>&lt;br>Offhand I can't say what part of c=<br>
+ode you could dump&lt;br>and still get it to run.&nbsp; I think the last 16k p=<br>
+age&lt;br>is empty in most versions of firmware (ok, I only &lt;br>looked at a fe=<br>
+w, but I don't remember any that had &lt;br>code in last page).&nbsp; Why not =<br>
+use last page, and just&lt;br>reflash the other three pages with code from you=<br>
+r dump?&lt;br>&lt;br>> > I used d5 because d0-d4 are used for the update pr=<br>
+otocol,&lt;br>> > and d6-d7 were in use as a bit-bang serial port.&lt;br>&g=<br>
+t; > &lt;br>> &lt;br>> I thought about using a pin from there initially =<br>
+when the others I &lt;br>> tried didn't work (or more accurately, I didn't =<br>
+know how to make them &lt;br>> work at the time), but then I thought that I=<br>
+might want the full 8 &lt;br>> bits of the parallel port for something.&nb=<br>
+sp; &lt;br>&lt;br>Yeah, even something like a parallel port!&nbsp; I didn't&lt;br>ma=<br>
+ke mine with intention of it being anything other&lt;br>than a research tool t=<br>
+o learn about ms insides.&lt;br>And now that I think about it, the way mine wo=<br>
+rks&lt;br>you could print to your hearts content, and the&lt;br>flip-flop is gonn=<br>
+a stay flipped.&nbsp; And you won't&lt;br>even get a glitch on your printer wh=<br>
+en flipping&lt;br>the bank, 'coz bank switching does not activate &lt;br>the prin=<br>
+ter port strobe!&lt;br>&lt;br>One downside to callid bits is that some ms's have&lt;=<br>
+br>the callid chip, so you would have to disable it &lt;br>on those, I suppose=<br>
+.&lt;br>&lt;br>> One could interface an SD &lt;br>> card into it or some such,=<br>
+since they're fairly shy on pin usage.&nbsp; &lt;br>> You'd need a 5v to 3=<br>
+.3v conversion on power and data pins though, &lt;br>> which is the biggest=<br>
+inconvenience.&nbsp; I doubt the Mailstation has a &lt;br>> 3.3v source av=<br>
+ailable.&lt;br>> &lt;br>> I also considered disconnecting the modem's chip-=<br>
+select and &lt;br>> connecting address/data/modem CS lines to an IDE-to-Com=<br>
+pact Flash &lt;br>> adapter.&nbsp; CF cards (ones abiding by standards at l=<br>
+east) can be used &lt;br>> in 8-bit data transfer mode from what I understa=<br>
+nd.&nbsp; I'd have to &lt;br>> check CF power requirements though to make s=<br>
+ure it wasn't a big &lt;br>> strain on the Mailstation.&nbsp; But having re=<br>
+movable storage would be &lt;br>> nice, because then I wouldn't have to try=<br>
+implementing some kind of &lt;br>> special file system for the dataflash t=<br>
+o avoid wearing it out.&lt;br>&lt;br>That would be pretty neat.&nbsp; I have wond=<br>
+ered about possibility&lt;br>of interfacing to USB flash drives.&nbsp; If only=<br>
+I had an&lt;br>infinite supply of time!!!&nbsp; I can't even stay up late&lt;br>=<br>
+putzing with this stuff anymore, 'coz I got me one of &lt;br>those J.O.B. thin=<br>
+gs that my girlfriend (and family)&lt;br>have been nagging me about.&nbsp; :-(=<br>
+<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Sep 22, 2008</p>
+<p class="formattedBody"><br>
+not, you can see it in group's photo section.)<br>
+est points to work better than<br>
+<br>
+OK, I f=<br>
+iggered why it didn't work, I used url of the<br>
+html.  The jpg looks like one=<br>
+of the protected url's,<br>
+and I tire of fighting the yahoos, so I will try j=<br>
+ust a<br>
+link to the html page, instead of embeded image...<br>
+<br>
+<a target="_blank" href="http://tech.ph.g=">(URL)</a><br>
+roups.yahoo.com/group/mailstation/photos/view/535c?b=3D2&m\<br>
+=3Df&o=3D0<br>
+p://tech.ph.groups.yahoo.com/group/mailstation/photos/view/535c?b=3D2&\<br>
+m=<br>
+=3Df&o=3D0><br>
+<br>
+CJ<br>
+<br>
+<br>
+onna work.&nbsp; If&lt;br>> not, you can see it in group's photo section.)&lt;=<br>
+br>> I found the little gold test points to work better than&lt;br>> the=<br>
+vias for attaching the wires.&lt;br>&lt;br>OK, I figgered why it didn't work, I =<br>
+used url of the&lt;br>html.&nbsp; The jpg looks like one of the protected url'=<br>
+s,&lt;br>and I tire of fighting the yahoos, so I will try just a&lt;br>link to th=<br>
+e html page, instead of embeded image...<br><a href=3D"<a target="_blank" href="http://tech.ph.group=">(URL)</a><br>
+s.yahoo.com/group/mailstation/photos/view/535c?b=3D2&m=3Df&o=3D0"> =<br>
+<a target="_blank" href="http://tech.ph.groups.yahoo.com/group/mailstation/photos/view/535c?b=3D2&am=">(URL)</a><br>
+p;m=3Df&o=3D0&lt;/a>&lt;br>&lt;br>CJ&lt;br><br>
+<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: Hardware Expansion</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 23, 2008</p>
+<p class="formattedBody">wrote:<br>
+your pictures, and sure enough, I see 74LS parts.<br>
+istor to pull it to your default<br>
+n't even know if<br>
+t<br>
+<br>
+O=<br>
+h wow, somehow I got it into my head that the LS parts were better<br>
+than CM=<br>
+OS!  I've mostly messed with older electronic devices, since<br>
+they're usual=<br>
+ly the only things easily modifiable for me at this<br>
+point.  And I don't ev=<br>
+en have any basic glue logic in 74HC,<br>
+apparently.  I tended to pick up LS =<br>
+ones here and there when I'd find<br>
+them cheap from somewhere when getting s=<br>
+omething else (to better<br>
+warrant the shipping costs and all), since 74LS i=<br>
+s what I've seen<br>
+most of so far (like in the NES).<br>
+<br>
+I already added a pull=<br>
+-up into the mix earlier today, with a switch<br>
+between the ROM_TOGGLE and t=<br>
+he pull-up resistor.  I tried a 4.7k at<br>
+first, which only half-worked.  Wh=<br>
+en I used it to force the<br>
+ROM_TOGGLE line high, I watched my test app disp=<br>
+laying bytes from a<br>
+slot 0 memory address, and they constantly jittered ba=<br>
+ck and forth<br>
+between devices.  I ended up using a 1k here too, which appea=<br>
+red to<br>
+keep the line held solidly.  So the pull-up and pull-down use the<br>
+=<br>
+same values.  I guess that means with voltage division that I'm only<br>
+passi=<br>
+ng ~2.5v into ROM_TOGGLE, unless the P28.3 and the three TTL<br>
+chip inputs a=<br>
+ffect that in ways I don't realize.<br>
+<br>
+I don't really care for using these pa=<br>
+rts on the MS now that you've<br>
+made me aware of what a drain they might be,=<br>
+but I guess they'll have<br>
+to do for the time being.  At least I know now! =<br>
+Thanks for the<br>
+enlightenment.<br>
+<br>
+Eventually I'd like to be able to replace =<br>
+all of that with a single<br>
+GAL or CPLD anyways, since they seem like they'd=<br>
+be interesting to<br>
+work with considering how many logic chips they would e=<br>
+liminate from<br>
+a design.  A board I was making for my NES before would end =<br>
+up using<br>
+less than half the chips!<br>
+<br>
+f above embeded image is gonna work.  If<br>
+hoto section.)<br>
+the vias for attaching the wires.<br>
+<br>
+That's yours?  I didn't realize due to t=<br>
+he user name.  I thought it<br>
+was someone who came and disappeared from here=<br>
+ages ago.<br>
+<br>
+One thing we've seen at least is that I have a ways to go to ge=<br>
+t a<br>
+clean wiring job like that!  I used long wires that twisted onto<br>
+wire=<br>
+s coming out of the add-on board because I wanted to be able to<br>
+disconnect=<br>
+it and return the MS to its original state easily if need<br>
+be.  I wasn't e=<br>
+ven sure if what I was doing was going to work, after<br>
+all.  It was a relie=<br>
+f to see it doing on a breadboard what I had<br>
+planned out, but implementing=<br>
+that on an actual circuit was another<br>
+story.  I've never modified somethi=<br>
+ng this modern, now that I think<br>
+about it.  Well, unless you count putting=<br>
+a mod chip on a Gamecube,<br>
+but I didn't design that of course so it hardly=<br>
+counts.<br>
+<br>
+still get it to run.  I think the last 16k page<br>
+of firmware (ok, I only<br>
+ad<br>
+er three pages with code from your dump?<br>
+<br>
+I did notice that 16K chunk.  I w=<br>
+as just afraid I might write code to<br>
+erase and rewrite it, but have some u=<br>
+nexpected bug maybe and then not<br>
+be able to write the 64K back right away,=<br>
+and take the chance on<br>
+needing that 64K sector to run the Mailstation eno=<br>
+ugh to run the<br>
+loader app.  I guess I'll just take the plunge sometime and=<br>
+see how<br>
+it goes!<br>
+<br>
+possibility<br>
+nite supply of time!!!  I can't even stay up late<br>
+anymore, 'coz I got me one of<br>
+d family)<br>
+<br>
+On the bright side, at least =<br>
+you're making money to putz around with<br>
+something at some point with!<br>
+<br>
+USB=<br>
+is even less pins, but I honestly don't know much about it<br>
+myself.  I tri=<br>
+ed to work with it via a PIC once to talk to a PC, but<br>
+the protocol confus=<br>
+ed me at the time.  I haven't looked at it in a<br>
+long time since then.  I s=<br>
+hould learn more about it though, because<br>
+interfacing things with USB coul=<br>
+d be neat.<br>
+<br>
+Another thing I thought about in regards to disconnecting the m=<br>
+odem<br>
+was to replace it with an actual serial port, which would probably be=<br>
+<br>
+much easier to work with than fiddling with the laplink protocol.  I<br>
+hav=<br>
+e to admit that the laplink protocol is something that has messed<br>
+with my =<br>
+head many times when trying to make sure I had all my data<br>
+signals and par=<br>
+allel port pins working together properly,<br>
+particularly since some of them=<br>
+are inverted.  If I ever had to write<br>
+code for a parallel port communicat=<br>
+ion method again, I think that<br>
+maybe your serial-like protocol with just a=<br>
+couple of pins might be<br>
+much easier to deal with.<br>
+<br>
+Anyhoo, as for a seria=<br>
+l port, I guess the problem that arises is how<br>
+one would deal with flow co=<br>
+ntrol and timing.  You'd probably need an<br>
+entire UART and not just some si=<br>
+mple level conversion and junk.<br>
+Using a PIC or an AVR might accomplish su=<br>
+ch a task, but it's starting<br>
+to add in more complexity and power consumpti=<br>
+on than it might be<br>
+worth.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

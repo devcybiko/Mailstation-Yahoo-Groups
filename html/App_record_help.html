@@ -1,0 +1,123 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">App record help (Jul 15, 2011)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "CyranoJ" <cyranojones_lalp@...> Jul 15, 2011</a></li>
+<li><a class="link" href="#2">From: "wizardofhaas1024" <sean@...> Jul 15, 2011</a></li>
+<li><a class="link" href="#3">From: "wizardofhaas1024" <sean@...> Jul 14, 2011</a></li>
+</ol><hr>
+<hr><h3>Subject: App record help</h3>
+<p class="from">From: "CyranoJ" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 15, 2011</p>
+<p class="formattedBody">I approved this message using the group web-interface, but it<br>
+just disappe=<br>
+ared.  Group log shows it was approved, too.<br>
+I tried to approve the copy in=<br>
+my email, but when I click<br>
+"approve" link, it tells me message no longer e=<br>
+xists.<br>
+<br>
+So, I am pasting in a copy of it here.<br>
+<br>
+Thursday, July 14, 2011 9:=<br>
+09 PM<br>
+From:<br>
+"wizardofhaas1024" &lt;sean@........><br>
+To:<br>
+mailstation@yahoogroups.=<br>
+com<br>
+Hi,<br>
+I am trying to write in an app record on my mailstation.<br>
+I am using=<br>
+an ivory DET1 and the instructions(Method C) from the docs that come with =<br>
+FyOS.<br>
+I got it to work on an emulator using the Demo Mailstation ROM.<br>
+I wri=<br>
+te in the code on the Hex editor, but when I get back to MailstationOS it d=<br>
+oesn't have the app record under extras.<br>
+Any ideas?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: App record help</h3>
+<a href="#0">(top)</a><p class="from">From: "CyranoJ" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 15, 2011</p>
+<p class="formattedBody">"wizardofhaas1024" wrote:<br>
+<br>
+ilstation.<br>
+he docs that come with FyOS.<br>
+mo Mailstation ROM.<br>
+back to MailstationOS it doesn't have the app record under extras.<br>
+deas?<br>
+<br>
+What address did you put your app at?<br>
+<br>
+Did you also edit the "app di=<br>
+rectory" at 0x020000 in the dataflash?<br>
+<br>
+I realize my documentation is rathe=<br>
+r sketchy, and I am not<br>
+very familiar with documentation for FYOS.....<br>
+<br>
+...=<br>
+.OK, I downloaded fyos doc, skimmed thru it, and I have to<br>
+say, large hunks=<br>
+of it bear a striking resemblance to my docs.<br>
+<br>
+It seems what fyos calls an=<br>
+"app record" is what I would call<br>
+an "app directory" entry.  So, I will as=<br>
+sume you have not<br>
+entered the actual app code yet, and are just wanting to=<br>
+see<br>
+if you can add an empty selectable item to the "extras" menu.<br>
+(by the =<br>
+way, if your mailstation has the "yahoo" folder, the<br>
+new app will appear th=<br>
+ere, and not in extras.)<br>
+<br>
+So, you need to edit page 0x08 of the dataflash, =<br>
+which is at<br>
+raw address 020000<br>
+(i fergit how many leading zeroes are displ=<br>
+ayed in mailstation's<br>
+hex editor.)  you want to make it look like this:<br>
+<br>
+0=<br>
+20000  01 00 01 00 00 00 00 00   00 18 00 00 00 00 00 00<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: App record help</h3>
+<a href="#0">(top)</a><p class="from">From: "wizardofhaas1024" &lt;sean@...></p>
+<p class="date">Jul 15, 2011</p>
+<p class="formattedBody">Got It!<br>
+Thanks for the help.<br>
+Didn't realize I had the Yahoo folder. I tho=<br>
+ught it was just a link to Yahoo.<br>
+Thanks!<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: App record help</h3>
+<a href="#0">(top)</a><p class="from">From: "wizardofhaas1024" &lt;sean@...></p>
+<p class="date">Jul 14, 2011</p>
+<p class="formattedBody">Hi,<br>
+I am trying to write in an app record on my mailstation.<br>
+I am using an =<br>
+ivory DET1 and the instructions(Method C) from the docs that come with FyOS=<br>
+.<br>
+I got it to work on an emulator using the Demo Mailstation ROM.<br>
+I write i=<br>
+n the code on the Hex editor, but when I get back to MailstationOS it doesn=<br>
+'t have the app record under extras.<br>
+Any ideas?<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">mailstation signals & events (Jul 31, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R." <jhoger@...> Aug 1, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: mailstation signals & events</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 31, 2006</p>
+<p class="formattedBody">I don't really know what these should be called.  I<br>
+named the "event type" =<br>
+field as "signal" in my notes.<br>
+There is a queue that the events and such ar=<br>
+e placed in.<br>
+At first I was calling it "msgQ", when I didn't have any<br>
+idea=<br>
+what the messages were.<br>
+<br>
+When I realized some of them were keyboard input,=<br>
+I<br>
+changed it to "eventQ".  But then I noticed some of the<br>
+items did not ma=<br>
+tch my idea of "event", such as signal #0d<br>
+which means "draw yourself".  Ma=<br>
+ny of the signals are what<br>
+I would call "commands" rather than "events".<br>
+<br>
+T=<br>
+hese are the signals that I have figured out so far.<br>
+Some are just guesses,=<br>
+based on what *seemed* to be<br>
+happening where I saw them used.  (I am quite=<br>
+sure that<br>
+01 thru 0d are correct.)  These values are passed<br>
+to your apps "=<br>
+handleevent" function, in the "signal" param.<br>
+<br>
+;; signals:<br>
+01  - init app<br>
+0=<br>
+2 - ???<br>
+03 - go prev<br>
+04 - go main<br>
+05 - timer<br>
+06 - keydown, top keyrow  (may=<br>
+be should call it buttondown???)<br>
+07 - keyup, top keyrow<br>
+08 - keydown, norma=<br>
+l key<br>
+09 - keyup, normal key<br>
+0A - menu event???<br>
+0B<br>
+0C<br>
+0d - draw<br>
+0e - creat=<br>
+e file???  widget 4<br>
+0f - close file???  widget 4.  also sent before setting=<br>
+widget as<br>
+avail. (removing widget)<br>
+10 - init????  or maybe to focus???<br>
+11 =<br>
+-  clean up???? or maybe to un-focus???<br>
+13  -  check dataflash??? 19:7b88<br>
+1=<br>
+4  - exit???<br>
+15  -<br>
+16  - for "change font"???<br>
+56 - download email??? [19:=<br>
+7f4c]<br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] mailstation signals & event</h3>
+<a href="#0">(top)</a><p class="from">From: "John R." &lt;jhoger@...></p>
+<p class="date">Aug 1, 2006</p>
+<p class="formattedBody">On 7/31/06, Cyrano Jones &lt;cyranojones_lalp@...> wrote:<br>
+<br>
+Great detective work.<br>
+<br>
+I think you had it right in the first place: looks like a garden<br>
+variety message queue. Having all events placed on the queue allows a<br>
+simple idle loop where your app is just a big switch case in which you<br>
+process the next message from the queue. Most GUI programs are<br>
+architected this way: your application is associated with a window<br>
+which is associated with a message queue. All mouse and keyboard<br>
+events typically go into the queue; the same for paint events, button<br>
+clicks, etc. It looks like init/cleanup (lifecycle) also go through<br>
+the event queue.<br>
+<br>
+The reason for a message queue like this is typically to keep<br>
+interrupt latency low (post to queue and process messages on idle<br>
+and/or bottom half of interrupt handler, i.e. run only when it is<br>
+safe). It also facilitates cooperative multitasking since the "kernel"<br>
+can easily switch between processing the queue for one application to<br>
+another without disruption.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

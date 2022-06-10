@@ -1,0 +1,46 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Dataflash was: How big are the hex dump files supposed to be? (Apr 18, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Dataflash  was: Re: How big are the hex dump files supposed to be?</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody">wrote:<br>
+<br>
+The dataflash (28SF040) has 2048 sectors of 256 bytes each.<br>
+<br>
+And it is mapped into slot #4000 1 page of 16k (or 64 sectors) at<br>
+a time.<br>
+<br>
+When any particular page of 64 dataflash sectors<br>
+is mapped to slot #4000,<br>
+The 1st sector is at #4000<br>
+The 2nd sector is at #4100<br>
+. . . . .<br>
+The 64rd sector is at #7F00<br>
+<br>
+Try thinking of it from this perspective:  If there is not<br>
+16k of dataflash occupying the #4000-7FFF memory space,<br>
+what else is???<br>
+<br>
+You can think of the #4000-7FFF "slot" as a sliding window on a<br>
+much larger address space.  The window is 16k high, and it<br>
+slides up and down in 16k increments.<br>
+<br>
+You could design a system that slid the window on 256 byte<br>
+increments, and then you could put any arbitrary sector at<br>
+#4000-40FF.  In that case, you would need 6 more bits of<br>
+"page" address.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

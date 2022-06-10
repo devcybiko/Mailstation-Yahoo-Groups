@@ -1,0 +1,132 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">mail station useability - IMAP and AUTH smtp (Aug 8, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Aug 19, 2005</a></li>
+<li><a class="link" href="#2">From: "kat_skan" <kat_skan@...> Aug 20, 2005</a></li>
+<li><a class="link" href="#3">From: "lavaklaublauer" <daviduchovny@...> Aug 21, 2005</a></li>
+<li><a class="link" href="#4">From: "John R. Hogerhuis" <jhoger@...> Aug 22, 2005</a></li>
+<li><a class="link" href="#5">From: "lavaklaublauer" <daviduchovny@...> Aug 23, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: mail station useability - IMAP and AUTH smtp</h3>
+<p class="from">From: "lavaklaublauer" &lt;daviduchovny@...></p>
+<p class="date">Aug 8, 2005</p>
+<p class="formattedBody">Hello, group, this is my first post here, as I recently got a blue<br>
+det2 MS120 with 4.04e, which I was able to update the dialup and email<br>
+acccount into on thanks to users posts, not just here.  At any rate,<br>
+the useability of this machine is greatly reduced by the limitation of<br>
+pop3 and non auth smtp mailing.  I, for one, would love to see the<br>
+firmware updated to include these options, opening up other email<br>
+services such as those from the likes of AOL itself.  (for my<br>
+grandmother)<br>
+The imap would not have to be complex, but just retrieve email form<br>
+one folder, the 'inbox', thus simplifying the programming.  Also,<br>
+'auth' could not be that hard?<br>
+For those of you asking the question 'how can we set up an auth smtp<br>
+relay without being taken advantage of spammers - here is how my<br>
+school does it:  They keep a record of recent (authenticated) pop3<br>
+logins and IPs, and only allow smtp mail from those.  Mial programs<br>
+usually check pop incoming mail first, and then the server would know<br>
+that it's OK to accept smtp session from that IP.  Jut a thought if<br>
+you're serious about setting up a server for users of the mailstation.<br>
+Thanks to all for your great work on this unit, although from what I<br>
+see there is only a very basic debug shell and rom dump written in<br>
+assembly so far.  Where are all the z80 games that run on the ti-85<br>
+calculators? (that also use a z80 and pixel screen)  aah well.<br>
+If we could just get smtp auth and simple imap protocol in these<br>
+units it would be fantastic.  Best of luck, and let me know if you do<br>
+so<br>
+Andrew<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] mail station useability - IMAP and AUTH smtp</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 19, 2005</p>
+<p class="formattedBody">Do you think it would work just to set up a proxy server somewhere on<br>
+the Internet? There was a discussion about this, and the idea was that<br>
+you can use any ISP you like, we just need a proxy server somewhere that<br>
+doesn't demand SMTP auth.<br>
+<br>
+I guess your POP3-auth-first would work.<br>
+<br>
+Why do we we need IMAP instead of POP3? Anyway if we're proxying it<br>
+anyway the IMAP could be supported on the other side of the proxy.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: mail station useability - IMAP and AUTH smtp</h3>
+<a href="#0">(top)</a><p class="from">From: "kat_skan" &lt;kat_skan@...></p>
+<p class="date">Aug 20, 2005</p>
+<p class="formattedBody">wrote:<br>
+<br>
+Well, IMAP can do a few things server-side that seem like they'd be<br>
+pretty painful on an appliance like the Mailstation. Plus you could<br>
+handle considerably more messages if you kept everything server-side<br>
+and just cached a handfull of them locally.<br>
+<br>
+That said, I rather doubt the existing firmware is extensible enough<br>
+that you can add support for arbitrary protocols to it. There has been<br>
+some discussion of porting CP/M to the Mailstation, though. Are there<br>
+any IMAP-capable email clients for that?<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: mail station useability - IMAP and AUTH smtp</h3>
+<a href="#0">(top)</a><p class="from">From: "lavaklaublauer" &lt;daviduchovny@...></p>
+<p class="date">Aug 21, 2005</p>
+<p class="formattedBody">OK, so the goal was to allow my grandparents to use their mailstation<br>
+120 at their vacation cottage to send and receive email using their<br>
+pre-existing AOL account, with no extra charge.<br>
+<br>
+It has been accomplished.<br>
+<br>
+What I did was allowed them to use a dial-up account that came with<br>
+my DSL (so it was free)  and using my DSL I set up a server that<br>
+receives their pop and smtp requests, translates pop to imap, adds an<br>
+AUTH wrapper to their smtp request, and re-routes them to and from AOL.<br>
+<br>
+It wasn't the simplest of things, but it was a fun challenge.  The<br>
+smtp translator was locked down to only allow requests from their<br>
+dialup IP range, and email will only be sent if it matches their user<br>
+account, so the likelihood of becoming an open relay is practically nil.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: mail station useability - IMAP and AUTH smtp</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 22, 2005</p>
+<p class="formattedBody">On Sun, 2005-08-21 at 23:30 +0000, lavaklaublauer wrote:<br>
+<br>
+<br>
+Cool!<br>
+<br>
+Are you planning to make the script code available? Maybe there's a way<br>
+to make it more generic so that one or a few of us could setup proxy<br>
+servers for other users to connect to (without creating an open relay).<br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: mail station useability - IMAP and AUTH smtp</h3>
+<a href="#0">(top)</a><p class="from">From: "lavaklaublauer" &lt;daviduchovny@...></p>
+<p class="date">Aug 23, 2005</p>
+<p class="formattedBody">well, the first sending software I could find is smtp server pro. This<br>
+is not complex enough to send emails to different smtp servers based<br>
+on sender's address.  However, the mdaemon sales rep said that mdaemon<br>
+pro would be capable of doing this, so if you want to set up a group<br>
+server, that might be your best bet.  For the pop software, I modified<br>
+this:<br>
+<a target="_blank" href="http://www.kohsuke.org/imap2pop/">(URL)</a><br>
+because this is open source, it could easily be modified to accept<br>
+multiple users.  Note, however, that you have to change its method of<br>
+getting the imap server address, because the mailstation uses the<br>
+BEGINNING of the from address for pop authentication, and for most<br>
+servers the from: address must match the smtp login name.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

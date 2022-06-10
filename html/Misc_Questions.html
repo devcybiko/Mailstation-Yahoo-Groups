@@ -1,0 +1,467 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Misc Questions (Jul 27, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#2">From: "Neil Morrison" <neilsmorr@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#3">From: "Jeff" <fyberoptic1979@...> Jul 29, 2007</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 1, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Aug 1, 2007</a></li>
+<li><a class="link" href="#6">From: "Neil Morrison" <neilsmorr@...> Aug 1, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Misc Questions</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">I decided to make a new topic with just a bunch of various questions,<br>
+and =<br>
+hopefully it'll be easier for folks to find in a search.  HERE<br>
+GOES~<br>
+<br>
+- W=<br>
+hat does "XTND: On" mean exactly in the top right corner of the<br>
+options sc=<br>
+reen?<br>
+<br>
+- From my understanding, the demo units of the DET1 allowed you to<br>
+=<br>
+type in your own POP/SMTP servers.  Does this mean the codeflash<br>
+between a=<br>
+demo unit and standard unit are different, or is it simply<br>
+detecting some=<br>
+hardware aspect and locking out the feature from<br>
+standard units?  If the =<br>
+code is indeed different, has it ever been<br>
+dumped?  If not/so, are the dum=<br>
+ps in the Files section from a<br>
+standard unit?<br>
+<br>
+My own demo unit version =<br>
+seems to be 3.03a, which makes me think that<br>
+the code is in fact different=<br>
+, and that it hasn't been dumped (or at<br>
+least not uploaded), but I wanted =<br>
+to verify both things.<br>
+<br>
+And related to this, I assume it would be possible =<br>
+to take a dump<br>
+from a demo unit and put it on a standard unit, so that one=<br>
+could<br>
+change the POP/SMTP servers.  Not that it matters much, I don't use=<br>
+<br>
+the modem functionality of the MS, but I'm curious nonetheless.<br>
+<br>
+- Do we=<br>
+know what all triggers NMI interrupts?<br>
+<br>
+- Do we know how exactly to write =<br>
+into the codeflash and/or dataflash<br>
+via software?  Apparently the Mailstat=<br>
+ion can do it, so I'm only left<br>
+to assume one can either use the routines =<br>
+already there, or someone<br>
+has possibly figured out how to do it from scrat=<br>
+ch.<br>
+<br>
+- How is a codeflash update triggered from the parallel port?<br>
+<br>
+- How=<br>
+does the port "P2C =3D printer data direction" work?  And related<br>
+to that=<br>
+:  once set as inputs, does one still need to write 1's to the<br>
+data port i=<br>
+n order to read from it properly?<br>
+<br>
+- Did we ever find out if there was a de=<br>
+vice 6?  There seems to be a<br>
+pin for it on the processor pinout list.  If =<br>
+nothing's attached, it<br>
+could be kind of useful for adding ones own hardwar=<br>
+e.  Assuming one<br>
+could even solder to the tiny pins on the board!<br>
+<br>
+I th=<br>
+ought I had more questions, but they seem to have escaped me at<br>
+the moment=<br>
+.  But this is enough for now!<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">Usually on devices like this I believe power-off is what triggers NMI.<br>
+This gives a small window to prepare for loss of power.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">My take on this is that there must be a pin which puts the port into a<br>
+quas=<br>
+i serial I/O mode, and this is how the device is reflashed.<br>
+<br>
+Neil<br>
+<br>
+ailstation@yahoogroups.com, "Jeff" &lt;fyberoptic1979@...> wrote:<br>
+<br>
+a codeflash update triggered from the parallel port?<br>
+rt "P2C =3D printer data direction" work?  And related<br>
+t as inputs, does one still need to write 1's to the<br>
+to read from it properly?<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 29, 2007</p>
+<p class="formattedBody"><br>
+dataflash<br>
+=<br>
+left<br>
+to assume one can either use the routines already there, or someone<br>
+possibly figured out how to do it from scratch.<br>
+<br>
+I'm going to answer=<br>
+my own question with a bit of a "duh", because I<br>
+forgot that most modern =<br>
+Flash memory can be programmed in-system with<br>
+series of standard read/writ=<br>
+e command sequences.  I normally do all<br>
+the ones I work with in a programm=<br>
+er, though I remembered this<br>
+helpful little fact while reading over a data=<br>
+sheet for a different<br>
+eeprom, which prompted me to look at the sheet for t=<br>
+he Mailstation's<br>
+dataflash (28SF040).  It appears even simpler to do than =<br>
+some.  Only<br>
+tricky part is that you'd have to write to the appropriate<br>
+Ma=<br>
+ilstation port to change the dataflash page (in whichever device<br>
+slot you =<br>
+were using) to set the upper address pins (A14-18), then<br>
+separately set A0=<br>
+-13 to the lower dataflash address during a normal<br>
+read/write z80 command,=<br>
+while making sure to still set A14-15 from<br>
+there appropriately to make su=<br>
+re you were writing to the correct 16k<br>
+Mailstation slot (aka to the eeprom=<br>
+).<br>
+<br>
+Only difference I see from a quick glance at the codeflash is that it<br>
+=<br>
+has some longer command sequences, and of course a different sector<br>
+size.<br>
+=<br>
+<br>
+Anyhoo, as I said, that may be a bit of a "duh" to many folks I'm<br>
+sure, b=<br>
+ut maybe it'll be useful info to somebody else.  Obviously one<br>
+shouldn't s=<br>
+till need the MS's flash writing routines if you were<br>
+going to totally rep=<br>
+lace its data/codeflash.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 1, 2007</p>
+<p class="formattedBody">I decided to make a new topic with just a bunch of various questions,<br>
+d hopefully it'll be easier for folks to find in a search.  HERE<br>
+<br>
+=<br>
+ions screen?<br>
+<br>
+XTND, as best I can guess, refers to extensions to the pop<br>
+p=<br>
+rotocol that allow clipmail commands to work.  I also<br>
+suspect that the "XT=<br>
+ND: ON" is what prevents the mailstation<br>
+from working with some pop server=<br>
+s.<br>
+<br>
+type in your own POP/SMTP servers.<br>
+<br>
+I think what you are calling demo mi=<br>
+ght really be just an<br>
+unlocked unit.  Some mailstations were sold that can=<br>
+use<br>
+any isp, others are locked into using pop.mailstation.com.<br>
+<br>
+One of my=<br>
+mailstations is a demo unit, and it has some<br>
+canned messages in it that c=<br>
+annot be erased.  I do not<br>
+think it can be used to get email from a real a=<br>
+ccount<br>
+(but I never tried).<br>
+<br>
+It can "get mail" even without plugging it in=<br>
+to a phone<br>
+line, a couple of canned messages are added to the inbox.<br>
+Yo=<br>
+u can compose new messages, but I'm pretty sure it won't<br>
+really send them.=<br>
+Whenever you power cycle, any changes<br>
+that were made are lost, inbox and=<br>
+outbox revert to<br>
+original messages.<br>
+<br>
+tween a demo unit and standard unit are different, or is it simply<br>
+ting some hardware aspect and locking out the feature from<br>
+s?  If the code is indeed different, has it ever been<br>
+, are the dumps in the Files section from a<br>
+<br>
+I don't kn=<br>
+ow if it is a setting, or different firmware<br>
+that makes these "demo" units=<br>
+, but mine most definitly<br>
+says "loading demo data" on the screen when it b=<br>
+oots up,<br>
+before the cidco logo appears.  AFAIK, all the mailstations<br>
+have=<br>
+same memory capacity (except 350).<br>
+<br>
+After typing the above, it occurs to m=<br>
+e that I can't<br>
+remember if I ever opened up this "demo" unit.  I did<br>
+find=<br>
+*that* one, in a box with several mis-flashed units :-]<br>
+<br>
+So, I just opene=<br>
+d it up, and my first surprise was there<br>
+were no speaker wires holding boa=<br>
+rd from coming loose<br>
+from case.  Second was a bit more of a shock, a bunch=<br>
+<br>
+of the chips were missing from board!<br>
+<br>
+The cpu/ram/codeflash/dataflash =<br>
+are all there, and same<br>
+capacity as normal units, but none of the modem<br>
+ci=<br>
+rcuitry is there!!!<br>
+<br>
+So, I guess there is no chance of flashing this one<br>
+i=<br>
+nto a normal mailstation.<br>
+<br>
+The firmware version shown on the settings scr=<br>
+een is<br>
+2.53YR, which is the same as the one I had been working<br>
+with.  But=<br>
+in the test mode, it shows it as<br>
+"version 2.53YR Demo", which seems to in=<br>
+dicate it is<br>
+special firmware, not just a setting (the missing<br>
+components=<br>
+point that way, too!)<br>
+<br>
+I put a list of the different models that I am awar=<br>
+e<br>
+of in groups "database" section.  From what I have<br>
+gathered, any of the=<br>
+various firmware versions can<br>
+be locked or unlocked, where the difference=<br>
+is whether<br>
+you can change the servers or not.  I have noticed<br>
+that some =<br>
+firmware versions that include a "R" at<br>
+the end cannot be set to any serve=<br>
+r, even with the<br>
+"flash test" method.  All those without the "R" will<br>
+acc=<br>
+ept any server after erasing flash.  I checked in<br>
+the code (of either 2.22=<br>
+r or 2.53r), and it has<br>
+hardcoded strings that it uses rather than asking =<br>
+user<br>
+for pop and smtp entries.<br>
+<br>
+I only dumped a 2.53yr (and I am pretty su=<br>
+re I verified<br>
+it against the dump in file area).  I have looked at the<br>
+fi=<br>
+rst 4 pages of several firmware versions, after<br>
+flashing sboot into the hi=<br>
+gher pages.<br>
+<br>
+I don't intend to *post* any rom images myself, unless<br>
+I get =<br>
+permission from Earthlink.  The listing for<br>
+spew.asm was supposed to make =<br>
+downloading a rom image<br>
+unnecessary.<br>
+<br>
+interrupts?<br>
+<br>
+Both the normal INT, and nonmaskable NMI vector to the<br>
+same =<br>
+routine.  Port #03 is polled to find source.  I can<br>
+only speculate on what=<br>
+is activating the interrupts, but<br>
+the ISR has been studied:<br>
+<br>
+if p3.7 call=<br>
+er_id_handler<br>
+if p3.5 sets bit 0 of #D631 (whatisit???) (related to rtc???)=<br>
+<br>
+if p3.6 Modem handler<br>
+if p3.4 increment time16<br>
+if p3.3 null<br>
+if p3.0 null<br>
+i=<br>
+f p3.1 KB scan (just 1 row each int), time32, and 10 timers.<br>
+if p3.2 null<br>
+<br>
+=<br>
+The odd ordering of the port 3 bits reflects the priority<br>
+given to each int=<br>
+errupt.  Callid is highest priority.<br>
+<br>
+into the codeflash and/or dataflash<br>
+<br>
+Mailbug can use the=<br>
+mailstations built in reflash.<br>
+That's how we have been installing sboot.=<br>
+<br>
+can either use the routines already there, or someone<br>
+red out how to do it from scratch.<br>
+<br>
+Mailbug can also write to codeflash w=<br>
+ithout using<br>
+the native reflash code, but it needs one of the<br>
+various boo=<br>
+t progs (mboot, sboot, or bootapp) to<br>
+load the remote control stuff (mbug)=<br>
+.<br>
+<br>
+Mailbug cannot yet write to the dataflash (that<br>
+jogs my memory a bit, t=<br>
+hat was the reason 0.0.4<br>
+was not yet released).<br>
+<br>
+pdate triggered from the parallel port?<br>
+<br>
+See message #92<br>
+<a target="_blank" href="http://tech.groups=">(URL)</a><br>
+.yahoo.com/group/mailstation/message/92?var=3D0&l=3D1<br>
+<br>
+t "P2C =3D printer data direction" work?  And related<br>
+as inputs, does one still need to write 1's to the<br>
+o read from it properly?<br>
+<br>
+I think a 1 makes coresponding bit an output????<br>
+=<br>
+I don't think it matters what was written when it<br>
+is an input???  Sorry, it=<br>
+has been about three years<br>
+since I thought about this.<br>
+<br>
+ind out if there was a device 6?  There seems to be a<br>
+processor pinout list.  If nothing's attached, it<br>
+l for adding ones own hardware.  Assuming one<br>
+iny pins on the board!<br>
+<br>
+It seems to be available.  And yes, it would be<br>
+h=<br>
+ard to connect to it, but not impossible.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 1, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+ocked unit.  Some mailstations were sold that can use<br>
+e locked into using pop.mailstation.com.<br>
+emo unit, and it has some<br>
+I do not<br>
+never tried).<br>
+e<br>
+compose new messages, but I'm pretty sure it won't<br>
+enever you power cycle, any changes<br>
+utbox revert to<br>
+<br>
+That's pretty odd then, because I de=<br>
+finately know mine came from a<br>
+store display, and also has a sticker on it=<br>
+saying "This unit is for<br>
+demo purposes only and will not send/receive ema=<br>
+il" towards the top<br>
+left, and a big "NOT FOR RESALE" on the back.  Yet I k=<br>
+now it sends<br>
+email and that the modem components are there, because I've u=<br>
+sed it<br>
+to receive email in the past.<br>
+<br>
+So I dunno, perhaps this is just an =<br>
+unlocked unit as you mentioned,<br>
+just being used as a demo unit.<br>
+<br>
+The one y=<br>
+ou have though still sounds perfectly good for using it as a<br>
+development s=<br>
+ystem or other useful thing, as long as it can still be<br>
+flashed the same. =<br>
+Even if I ever do get an OS onto my own, I doubt<br>
+I'll even use the modem =<br>
+functionality for anything.  I haven't had<br>
+dial-up internet access to mess=<br>
+with for a while now.<br>
+<br>
+m/group/mailstation/message/92?var=3D0&l=3D1<br>
+<br>
+Oh hey, I totally missed t=<br>
+hat message when digging through old ones.<br>
+That one has lots of good tidb=<br>
+its!  Especially what all the functions<br>
+are for in the page 1 jump list, w=<br>
+hich I asked about in another post.<br>
+<br>
+t an output????<br>
+input???  Sorry, it has been about three years<br>
+is.<br>
+<br>
+I wrote my own routines earlier to send out bytes/strings and found<br>
+t=<br>
+hat I never needed to set that input/output port for it to work<br>
+correctly.=<br>
+Of course it might have already been set during some MS<br>
+init code, so I'=<br>
+ll have to try setting it both ways before I run my<br>
+version of sendbyte, a=<br>
+nd see what happens.<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Misc Questions</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Aug 1, 2007</p>
+<p class="formattedBody">You could upload them to Rapidshare.com and post links to them here.<br>
+If Ear=<br>
+thlink bitches Rapidshare will pull them but Earthlink is trying<br>
+to bail on=<br>
+this system now so I doubt they'll care.<br>
+<br>
+If you want to know more about R=<br>
+apidshare, see<br>
+<a target="_blank" href="http://www.filecatchers.com/forum/">(URL)</a><br>
+<br>
+Neil<br>
+<br>
+n@yahoogroups.com, "Cyrano Jones"<br>
+...<br>
+'t intend to *post* any rom images myself, unless<br>
+Earthlink.  The listing for<br>
+rom image<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

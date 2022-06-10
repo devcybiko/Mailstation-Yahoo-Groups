@@ -1,0 +1,402 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">I have an Idea! (Jan 16, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: Gary Clouse <niklaus37217@...> Jan 23, 2006</a></li>
+<li><a class="link" href="#2">From: "Neil Morrison" <neilsmorr@...> Jan 23, 2006</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Jan 30, 2006</a></li>
+<li><a class="link" href="#4">From: Gary Clouse <niklaus37217@...> Jan 30, 2006</a></li>
+<li><a class="link" href="#5">From: "Cyrano Jones" <cyranojones_lalp@...> Jan 31, 2006</a></li>
+<li><a class="link" href="#6">From: Gary Clouse <niklaus37217@...> Feb 2, 2006</a></li>
+<li><a class="link" href="#7">From: Sean Walton <ab8kf@...> Feb 3, 2006</a></li>
+<li><a class="link" href="#8">From: "konablend" <konablend@...> Feb 14, 2006</a></li>
+<li><a class="link" href="#9">From: "Cyrano Jones" <cyranojones_lalp@...> Feb 15, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: I have an Idea!</h3>
+<p class="from">From: "konablend" &lt;konablend@...></p>
+<p class="date">Jan 16, 2006</p>
+<p class="formattedBody">I'm sure I'm not the first. I have a DET1 Blah blah blah...2.54Y<br>
+Firmware.=<br>
+Let me get to the point.  I can get into the edit mode of<br>
+the hex viewer=<br>
+.  As I understand it, what i'm looking at is all user<br>
+mem and not ROM.  B=<br>
+ut the ROM is flashable.  And there are<br>
+instructions already in place to d=<br>
+o it.  And you can enter your own<br>
+apps by hand in hex and run them in the =<br>
+yahoo! feature or wherever.<br>
+All I want to do in turn XTND off or at least=<br>
+change the strings to<br>
+something else the POP3 server wont puke on (-ERR).=<br>
+0C1D30 in the rom<br>
+is what I'm looking to change. 0C1C70, AND 0C1DB0 as w=<br>
+ell.  06bab0 has<br>
+a couple of strings but thats all they are for what I kno=<br>
+w.  So<br>
+basically what I want to do is change XTND to something that wont<br>
+=<br>
+return -ERR on most POP3 servers, and I want to do it without flashing<br>
+the=<br>
+ROM externally.  I am more than willing to enter hex for a few<br>
+hours to m=<br>
+ake it work.  Maybe someone will write an editor for the rom<br>
+someday.  Any=<br>
+idea's anyone?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Jan 23, 2006</p>
+<p class="formattedBody">The Rabbit cpu used in the mailstations have a<br>
+hardware flashmemory function that works through the<br>
+parallel port. I don't know how to access it through<br>
+the printer port, but someone on the list probably<br>
+does.<br>
+<br>
+<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jan 23, 2006</p>
+<p class="formattedBody">Did you look at old messages, or the files section?<br>
+<br>
+Neil<br>
+<br>
+From: "Gary Clouse" &lt;niklaus37217@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 30, 2006</p>
+<p class="formattedBody">wrote:=<br>
+<br>
+function that works through the<br>
+it through<br>
+<br>
+=<br>
+Why do you think it is a Rabbit cpu???  It does not even<br>
+come close to mat=<br>
+ching the pinouts of the standard<br>
+Rabbit chips that I am aware of.  As far=<br>
+as I know,<br>
+it is not a Rabbit part.<br>
+<br>
+In my personal opinion, it is a cu=<br>
+stom ASIC.<br>
+<br>
+But there is a built-in reflash function, in *software*.<br>
+One =<br>
+of the things that my "mailbug" debugger does is<br>
+interface with this nativ=<br>
+e reflash capability<br>
+(via parallel port & laplink cable), allowing you to =<br>
+<br>
+re-program the mailstations codeflash.<br>
+<br>
+So far, the only thing *I* have fl=<br>
+ashed in any of my<br>
+mailstations is code that lets me boot up the remote<br>
+d=<br>
+ebugger.  But it can be used to flash whatever you want.<br>
+Ferinstince, if so=<br>
+meone was inclined to write completely<br>
+new firmware, mailbug can flash it =<br>
+into a stock mailstation.<br>
+Or, if you just want to make some changes to ex=<br>
+isting<br>
+mailstation firmware, it can reflash with your modified<br>
+firmware.<br>
+=<br>
+<br>
+I have been working (Ha!) on a new version of the boot code<br>
+(code that boo=<br>
+ts up the remote debug functions of mailbug)<br>
+that can be used without erasi=<br>
+ng the existing mailstation<br>
+code.  (The native reflash erases most of the =<br>
+codeflash<br>
+*before* you get a chance to "back it up".)<br>
+<br>
+This new version wi=<br>
+ll (when I get it working) let you load<br>
+and execute your own code over the =<br>
+laplink, without killing<br>
+the existing mailstation code.  It also will let =<br>
+you save<br>
+to disk an intact image of your particular firmware version.<br>
+<br>
+Afte=<br>
+r saving your firmware to a file on PC, you can edit it<br>
+with whatever tools=<br>
+you like, and then flash your new<br>
+version back to your mailstation.<br>
+<br>
+If y=<br>
+ou are working with mailstation firmware 2.53yr or 2.54,<br>
+you can do this n=<br>
+ow, with the currently posted mailbug 0.0.3.<br>
+There are images of those tw=<br>
+o firmware versions in the group<br>
+download area.  So, for those two, you do=<br>
+n't really need to<br>
+save your own images.<br>
+<br>
+One catch, mailbug 0.0.3 will no=<br>
+t let you change the first<br>
+four pages of codeflash with the native reflash.=<br>
+If you<br>
+load the remote debug boot code, then you can flash anything<br>
+anyw=<br>
+here.  Mailbug 0.0.4 will flash the whole codeflash<br>
+without needing to load=<br>
+the remote debugger.<br>
+<br>
+<br>
+<br>
+=<br>
+f<br>
+user<br>
+<br>
+.<br>
+s to<br>
+n the rom<br>
+l.  06bab0 has<br>
+I know.  So<br>
+ng that wont<br>
+without flashing<br>
+<br>
+<br>
+oping this will get read, ERIC<br>
+__________________________________<br>
+! Mail has the best spam protection around<br>
+<br>
+This=<br>
+is a test, and this line starts at left margin.<br>
+<br>
+This line is indente=<br>
+d 5 spaces.<br>
+<br>
+ines<br>
+from  being   "fixed"  by  the  friendly  yahoo  people.... I wonder=<br>
+<br>
+if it will???><br>
+<br>
+we now return to our regularly scheduled program.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Jan 30, 2006</p>
+<p class="formattedBody"><br>
+<br>
+Of the 2 that I have ( 1 120 and a 150 ) the 120 has a<br>
+rabbit chip in it. It is apparently a discontinued<br>
+part that was replaced by the 2000. The Rabbit 2000 is<br>
+functionally similar. both are based on a Z180<br>
+compatible core. I'll have to take a peek at theh<br>
+150's innards and see what it has.<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 31, 2006</p>
+<p class="formattedBody"><br>
+nes_lalp@y... wrote:<br>
+ot<br>
+it chips that I am aware of. As far as I know,<br>
+<br>
+n it. It is apparently a discontinued<br>
+The Rabbit 2000 is<br>
+atible core. I'll have to take a peek at theh<br>
+it has.<br>
+<br>
+Are you saying that you have something other than<br>
+the 3SI176 chip,=<br>
+or that the 3SI176 is a Rabbit part?<br>
+<br>
+I have opened up a lot of different =<br>
+models, and found<br>
+the same chip in all (3SI176), except for the 350, which<br>
+=<br>
+had a Toshiba TMP91C820AF.<br>
+<br>
+These are the models I know of:<br>
+<a target="_blank" href="http://groups.y=">(URL)</a><br>
+ahoo.com/group/mailstation/database?method=3DreportRows=3D1<br>
+<br>
+<br>
+=<br>
+just testin' rich text editor...<br>
+this line starts at left margin this line =<br>
+is indented<br>
+<br>
+<br>
+gt; --- Cyrano Jones cyranojones_lalp@y... wrote:&lt;br>> &lt;br>> > Why=<br>
+do you think it is a Rabbit cpu???  It does not&lt;br>> > even &lt;br>>=<br>
+it chips that I am aware of.  As far as I know, &lt;br>> > it is not a R=<br>
+abbit part.  &lt;br>> &lt;br>> Of the 2 that I have ( 1 120 and a 150 ) the=<br>
+120 has a&lt;br>> rabbit chip in it. It is apparently a discontinued&lt;br>&g=<br>
+t; part that was replaced by the 2000. The Rabbit 2000 is&lt;br>> functiona=<br>
+lly similar. both are based on a Z180&lt;br>> compatible core. I'll have to=<br>
+take a peek at theh&lt;br>> 150's innards and see what it has.&lt;br> &lt;br>Are=<br>
+you saying that you have something other than &lt;br>the 3SI176 chip, or that=<br>
+the 3SI176 is a Rabbit part?&lt;br>&lt;br>I have opened up a lot of different mo=<br>
+dels, and found &lt;br>the same chip in all (3SI176), except for the 350, whic=<br>
+h&lt;br> had a Toshiba TMP91C820AF.&lt;br>&lt;br>These are the models I know of:&lt;br>=<br>
+<a target="_blank" href="http://groups.yahoo.com/group/mailstation/database?method=3DreportRows&tbl=">(URL)</a><br>
+=3D1<br>
+just testi=<br>
+n' rich text editor...&lt;br><br>
+this line starts at left margin<br>
+this =<br>
+line is indented<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Feb 2, 2006</p>
+<p class="formattedBody">I opened up my other one and it has the<br>
+same chip set. Several months ago I did find the<br>
+part number on a chip directory, which listed it<br>
+a rabbit semiconductor CPU as compatible. I think<br>
+the 3si176 is a chinese clone.<br>
+<br>
+<br>
+<a target="_blank" href="http://groups.yahoo.com/group/mailstation/database?method=reportRows=1">(URL)</a><br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: [mailstation] Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: Sean Walton &lt;ab8kf@...></p>
+<p class="date">Feb 3, 2006</p>
+<p class="formattedBody">Can you get the details on both chips (and any<br>
+differences)?  I have tried many times to get hardware<br>
+and programming specs from various mfr's, but they are<br>
+only willing to selling the chips.<br>
+-Sean Walton<br>
+<br>
+<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: "konablend" &lt;konablend@...></p>
+<p class="date">Feb 14, 2006</p>
+<p class="formattedBody">I should have mentioned that I dont have a laplink cable nor do I<br>
+desire t=<br>
+o find one unless I really have to.  I had already thought<br>
+about the metho=<br>
+d you present here and was pretty sure it ould work<br>
+but I really want to t=<br>
+ry to do it without hooking my PC up to it.<br>
+More fun/torture that way.  B=<br>
+esides, I have been trying to learn<br>
+z80/81 assembler for some weird reason=<br>
+.<br>
+<br>
+.> wrote:<br>
+7@y...><br>
+don't know how to access it through<br>
+he list probably<br>
+does not even<br>
+bit chips that I am aware of.  As far as I know,<br>
+.<br>
+uilt-in reflash function, in *software*.<br>
+lbug" debugger does is<br>
+(via parallel port & laplink cable), allowing you to<br>
+stations codeflash.<br>
+my<br>
+t it can be used to flash whatever you want.<br>
+inclined to write completely<br>
+tock mailstation.<br>
+<br>
+<br>
+boots up the remote debug functions of mailbug)<br>
+erasing the existing mailstation<br>
+of the codeflash<br>
+new version will (when I get it working) let you load<br>
+n code over the laplink, without killing<br>
+It also will let you save<br>
+mware version.<br>
+t it<br>
+k to your mailstation.<br>
+53yr or 2.54,<br>
+.3.<br>
+nload area.  So, for those two, you don't really need to<br>
+mages.<br>
+ur pages of codeflash with the native reflash.  If you<br>
+ebug boot code, then you can flash anything<br>
+flash the whole codeflash<br>
+<br>
+sure I'm not the first. I have a DET1 Blah blah<br>
+irmware.  Let me get to the point.  I can get into<br>
+=<br>
+user<br>
+re<br>
+your own<br>
+e or wherever.<br>
+<br>
+ERR).<br>
+, AND 0C1DB0 as<br>
+s all they are for what<br>
+o is change XTND to<br>
+P3 servers, and I want to do<br>
+nally.  I am more than willing to enter<br>
+make it work.  Maybe someone will write an<br>
+someday.  Any idea's anyone?<br>
+ad, ERIC<br>
+__________________________<br>
+il has the best spam protection around<br>
+This is a test, and this line starts at left margin.<br>
+indented 5 spaces.<br>
+ght  keep<br>
+lines<br>
+le.... I<br>
+wonder<br>
+duled program.<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: I have an Idea!</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Feb 15, 2006</p>
+<p class="formattedBody">nk cable nor do I<br>
+eady thought<br>
+ld work<br>
+.<br>
+80/81 assembler for some weird reason.<br>
+<br>
+z81???<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Welcome to hacking the mailstation. (Feb 8, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "jmareksr" <jimmarek@...> Feb 11, 2004</a></li>
+<li><a class="link" href="#2">From: "searsz80" <searsz80@...> Feb 14, 2004</a></li>
+<li><a class="link" href="#3">From: "jmareksr" <jimmarek@...> Feb 15, 2004</a></li>
+<li><a class="link" href="#4">From: "searsz80" <searsz80@...> Feb 20, 2004</a></li>
+<li><a class="link" href="#5">From: "searsz80" <searsz80@...> Feb 20, 2004</a></li>
+<li><a class="link" href="#6">From: "donhamilton2002" <donhamilton2002@...> Feb 21, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: Welcome to hacking the mailstation.</h3>
+<p class="from">From: "donhamilton2002" &lt;donhamilton2002@...></p>
+<p class="date">Feb 8, 2004</p>
+<p class="formattedBody">Welcome all who wish to find information about the mailstation.<br>
+<br>
+This groups has been set up as a central location for technical<br>
+information. The file and photo areas were missing with other locations.<br>
+<br>
+I know its been years in the coming, but Ill start off with the old<br>
+files I created of the ROM dump.<br>
+<br>
+I will also include pdf files of the components I have found.<br>
+<br>
+If anyone has any technical information t share, please post here and<br>
+Ill add it to the files/photos lists.<br>
+<br>
+thanks<br>
+<br>
+hamilton<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Feb 11, 2004</p>
+<p class="formattedBody">Thanks for setting up the group and uploading the files. I am looking<br>
+forward to figuring out how the mailstation works and then<br>
+extending it to do some other interesting things. I have several<br>
+questions, but I'll use them to start some new threads.<br>
+<br>
+Thanks again,<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "searsz80" &lt;searsz80@...></p>
+<p class="date">Feb 14, 2004</p>
+<p class="formattedBody"><br>
+Yes, thanks for setting this up!<br>
+<br>
+I have been tinkering with my mailstation for about a year now.<br>
+It probably would have just got stuck away in a box, if not for the<br>
+motivation provided by hamilton's soldering iron, and rogblake's<br>
+disassembler.  (I'm not sure if this is thanks, or blame!!!)<br>
+<br>
+I had studied rogblake's work, and thought I had it figgered out.<br>
+But after much frustration trying to get the thing into reflash mode,<br>
+I broke out MY soldering iron and hacked in a rom socket.  (If I<br>
+post pictures, you will understand why it's called hacking!)  I<br>
+figured if I couldn't get in the back door, I would just build<br>
+a new front door.  With a door-man that worked for *me*!<br>
+<br>
+So, I made a few test progs, and determined the address and polarity<br>
+of the printer data port bits.  Then I modified a remote debug rom I<br>
+had made over 10 years ago, to work with that port.  Now I could<br>
+put the beast through it's paces, under the control of my trusty<br>
+CP/M system (did I mention it was written over 10 years ago?)<br>
+<br>
+Anyways, my goal is to use the ms for something more interesting<br>
+than email.  One idea was to add a barcode reader, and create a<br>
+sort of inventory device.  I also like the idea of porting CP/M<br>
+to it.<br>
+<br>
+Randy<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Feb 15, 2004</p>
+<p class="formattedBody"><br>
+<br>
+Would you post what you learned about the printer port, and what you<br>
+learned about re-flashing the memories?<br>
+<br>
+Also, do you still have a copy of RogBlake's disassembly? I lost<br>
+mine, but I recall that it had some tags on the functions in page 00.<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "searsz80" &lt;searsz80@...></p>
+<p class="date">Feb 20, 2004</p>
+<p class="formattedBody">Hi,<br>
+<br>
+Sorry to take so long responding.<br>
+<br>
+What I know about the printer port, (and most of the<br>
+other ports) is in the thread "ms/z80 hacking" at<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?Action=ShowPost&Board=mswhatever&Post=77">(URL)</a><br>
+There is also info on the banking of the memory, and a<br>
+pinout for the cpu.<br>
+Did anybody see this???<br>
+<br>
+As far as the disassembly, I'm not sure how earthlink would feel about<br>
+it being posted here.  Some info on addresses in reflash code is on<br>
+the other board in the thread "just deals mailstations", as well as<br>
+rogblakes email address, if he is still using it.<br>
+<br>
+I am wondering if it would be better to use that board for<br>
+discussion, and this one for files/etc???<br>
+<br>
+And as for reflashing, that involves ethical considerations that I am<br>
+unsure of at this point.  I would really like to add functionality,<br>
+not cut earthlink out of the picture.<br>
+<br>
+Randy<br>
+<br>
+wrote:<br>
+polarity<br>
+00.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "searsz80" &lt;searsz80@...></p>
+<p class="date">Feb 20, 2004</p>
+<p class="formattedBody"><br>
+<br>
+I posted a couple scans of my hardware in the photo section.<br>
+You can rearrange or delete as  you see fit.<br>
+<br>
+Would it be better to post files to the list in the future?<br>
+<br>
+Randy<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Welcome to hacking the mailstation.</h3>
+<a href="#0">(top)</a><p class="from">From: "donhamilton2002" &lt;donhamilton2002@...></p>
+<p class="date">Feb 21, 2004</p>
+<p class="formattedBody"><br>
+I do not think earthlink cares one way or another.<br>
+<br>
+The few people here that can hack the hardware, I am sure does not<br>
+impact their bottom line.<br>
+<br>
+Now if someone ever figured out how to  externally re-load code, so<br>
+any non-tech type can reflash their roms. That would be cutting them out.<br>
+<br>
+I had always thought the posting about $100 to anyone who can reflash<br>
+thier MS was posted by someone at earthlink. ( we have a $100 bill for<br>
+you, just give us your name and address )<br>
+<br>
+I see two dozen people here, and maybe a few hundred on<br>
+linux-hacker.net, thats just not enough to make/break anyone.<br>
+<br>
+The MS devices are not really selling anyway. ( otherwise they would<br>
+not be giving them away at OfficeMax)<br>
+<br>
+But, If some does find a way to reflash their MS.<br>
+<br>
+Please post here :-).<br>
+<br>
+Hamilton<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,952 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">helloapp.asm (Jul 26, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#4">From: "Jeff" <fyberoptic1979@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#6">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 13, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: helloapp.asm</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 26, 2007</p>
+<p class="formattedBody"><br>
+; Hello World, as a mailstation app.<br>
+<br>
+; As best I can recall, this code has=<br>
+never been tested, mainly<br>
+; because I never finished adding function to ma=<br>
+ilbug that will<br>
+; load dataflash.  I am posting this because I believe it c=<br>
+orrectly<br>
+; shows the structure of a mailstation app.<br>
+<br>
+; some functions we =<br>
+will use from the mailstation rom<br>
+localize              equ #056b  ;localiz=<br>
+e(register de =3D -byteslocal)<br>
+draw_app_foldertab    equ #0827  ;Draw_app_f=<br>
+oldertab(stringptr)<br>
+set_f_key_menu        equ #0638  ;set_f_key_menu(who, d=<br>
+ataptr, num_rows)<br>
+init_widget_thingy    equ #072B  ;init_widget_thingy(tab1=<br>
+6row,<br>
+thingyptr)<br>
+draw_icon_wc          equ #0743  ;draw_icon_wc(thingyptr, =<br>
+x, y, iconnum)<br>
+put_event_go_prev_app equ #066e<br>
+defaulthandler        equ #0=<br>
+602  ;defaulthandler(who, tab30.6, signal,<br>
+par6, par8)<br>
+<br>
+ORG  #4000=<br>
+; This is *always* #4000, regardless of what<br>
+=<br>
+; page you use.<br>
+<br>
+JP    eventhandler<br>
+DEFW  icons<br>
+=<br>
+DEFW  caption<br>
+DEFW  dunno<br>
+<br>
+dunno: DEFB #00<br>
+xpos:  DEFW #0000<br>
+ypos:=<br>
+DEFW #0000<br>
+<br>
+caption:<br>
+DEFW  #0001             ; ?????<br>
+DEFW=<br>
+endcap-caption-6  ; num of chars<br>
+DEFW  #0006             ; offset=<br>
+to first char<br>
+defm "Hello World"      ; the caption string<br>
+endcap:=<br>
+<br>
+org   #4064            ; not sure this is needed<br>
+<br>
+icons:<br>
+de=<br>
+fw  icon2 - icon1    ; size icon1<br>
+defw  icon1 - icons    ; offset to=<br>
+icon1   (icon at #406c)<br>
+defw  iconend - icon2  ; size icon2<br>
+=<br>
+defw  icon2 - icons    ; offset to icon2<br>
+<br>
+icon1:<br>
+; The first icon is used i=<br>
+n the mailstation menu.<br>
+;     First the size data (standard mailstation men=<br>
+u icons are 34 x 34)<br>
+defw #0022  ; icon width  (#0022 =3D 34 dec =3D=<br>
+4.25 bytes,<br>
+; rounded up, means 5 bytes per row)<br>
+=<br>
+defb #22    ; icon height (34 dec pix rows high)<br>
+<br>
+;     Then the icon bitm=<br>
+ap   (lo order bit displays on LEFT of each<br>
+byte!)<br>
+defb  #55,#55,#55=<br>
+,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa=<br>
+,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb =<br>
+#55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55,=<br>
+#aa,#aa,#00,#aa,#aa<br>
+defb  #55,#55,#00,#55,#55, #aa,#aa,#00,#aa,#aa<br>
+=<br>
+defb  #55,#55,#00,#55,#55, #aa,#aa,#00,#aa,#aa<br>
+defb  #55,#55,=<br>
+#00,#55,#55, #aa,#aa,#00,#aa,#aa<br>
+defb  #55,#55,#00,#55,#55, #aa,#aa,=<br>
+#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+de=<br>
+fb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#=<br>
+55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#=<br>
+aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#=<br>
+55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#=<br>
+aa,#aa,#aa,#aa<br>
+defb  #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa<br>
+<br>
+icon=<br>
+2:<br>
+; In official apps, the second icon would be the TV guide,<br>
+; weather, ne=<br>
+ws, etc., stored as a full screen (320 x 128) image.<br>
+; This is used when th=<br>
+e app needs to draw itself.<br>
+; Your app may not need this icon.<br>
+defw =<br>
+#0030   ; width<br>
+defb  #22     ; height<br>
+defb  #00,#00,#04,#E0=<br>
+,#03,#00, #F0,#01,#0F,#3E,#07,#00<br>
+defb  #9C,#02,#0F,#7F,#0C,#00, #04=<br>
+,#86,#07,#93,#09,#00<br>
+defb  #42,#C2,#01,#A0,#0B,#00, #F3,#44,#9E,#FF,=<br>
+#0A,#00<br>
+defb  #91,#F6,#F3,#F6,#0D,#00, #99,#8C,#4E,#E6,#07,#00<br>
+=<br>
+defb  #F1,#C1,#46,#2E,#06,#00, #93,#40,#44,#44,#0C,#00<br>
+defb  #3E,#=<br>
+C0,#C0,#40,#08,#00, #10,#80,#C0,#41,#0C,#00<br>
+defb  #10,#80,#EB,#27,#0=<br>
+6,#00, #18,#00,#3F,#7D,#02,#00<br>
+defb  #08,#00,#00,#C3,#07,#00, #08,#0=<br>
+0,#00,#02,#0E,#00<br>
+defb  #18,#80,#31,#FE,#1F,#80, #70,#00,#1F,#FF,#7F=<br>
+,#78<br>
+defb  #E0,#01,#8C,#F8,#DF,#07, #00,#17,#C8,#F0,#CF,#00<br>
+d=<br>
+efb  #00,#7C,#58,#E0,#87,#FC, #FF,#FF,#B1,#80,#A3,#07<br>
+defb  #00,#80,=<br>
+#7F,#85,#81,#00, #00,#00,#91,#80,#C0,#0F<br>
+defb  #00,#F0,#FF,#C1,#48,#=<br>
+F8, #C0,#1F,#36,#42,#60,#00<br>
+defb  #7C,#80,#5E,#60,#28,#00, #03,#70,#=<br>
+B5,#E0,#1A,#00<br>
+defb  #00,#0E,#E4,#BB,#07,#00, #80,#01,#24,#06,#01,#0=<br>
+0<br>
+defb  #60,#00,#64,#80,#01,#00, #18,#00,#4C,#60,#00,#00<br>
+defb=<br>
+#04,#00,#88,#39,#00,#00, #00,#00,#08,#0F,#00,#00<br>
+iconend:<br>
+<br>
+; -- Above dat=<br>
+a may need to be at fixed addresses, regardless of the<br>
+; -- fact that there=<br>
+seem to be pointers to them in header.  I do<br>
+; -- believe there may be cas=<br>
+es where mailstation addresses data<br>
+; -- directly, without following pointe=<br>
+r.<br>
+; --<br>
+; -- The eventhandler would normally be near end of page, after a<br>
+;=<br>
+; -- i=<br>
+mage).  I don't think address matters, as long as jump in header<br>
+; -- can f=<br>
+ind it.<br>
+<br>
+eventhandler:<br>
+;eventhandler(who, appstate, signal, this, that)<br>
+=<br>
+ld de,-25         ; local: sp0008-sp0020  (25 dec bytes)<br>
+call l=<br>
+ocalize     ;   par: sp0025, sp0027, sp0029, sp002b, sp002d<br>
+<br>
+;locals<br>
+menuit=<br>
+em equ #0008                ; first local is at sp + 8 bytes of<br>
+register sa=<br>
+ve<br>
+mythingy equ menuitem + 5         ; menuitem + size of menuitem<br>
+<br>
+; param=<br>
+eters<br>
+who      equ mythingy + 20 + 4    ; mythingy + size of mythingy + 4 m=<br>
+ore<br>
+bytes of reg save<br>
+appstate equ who      + 2<br>
+signal   equ appstate + 2<br>
+t=<br>
+his     equ signal   + 2<br>
+that     equ this     + 2<br>
+<br>
+ld hl,signal    =<br>
+; a =3D par4   signal<br>
+add hl,sp<br>
+ld a,(hl)<br>
+ex de,hl<br>
+<br>
+=<br>
+dec a<br>
+jr z,event_appinit   ; sig =3D #01  (app init)<br>
+sub=<br>
+07<br>
+jr z,event_keydown   ; sig =3D #08  (key down)<br>
+sub 02<br>
+=<br>
+jp z,event_menu      ; sig =3D #0A  (menu event)<br>
+sub 03<br>
+j=<br>
+r z,event_draw      ; sig =3D #0D  (draw app)<br>
+jp event_other       ;=<br>
+else<br>
+<br>
+event_appinit:<br>
+; draw foldertab<br>
+ld hl,foldertabtext  ; the s=<br>
+tring<br>
+push hl<br>
+call draw_app_foldertab<br>
+pop de<br>
+<br>
+; set up=<br>
+the f-key menu<br>
+ld hl,menuitem<br>
+add hl,sp<br>
+ld (hl),#36  =<br>
+; string# of "Back" in string table<br>
+inc hl<br>
+ld (hl),#00<br>
+=<br>
+inc hl<br>
+ld (hl),#64  ; code for menucommand "cm_back"<br>
+inc hl<br>
+=<br>
+ld (hl),#00<br>
+inc hl<br>
+ld (hl),#03  ; scancode for f1 key<br>
+=<br>
+<br>
+ld hl,#0001<br>
+push hl      ; [-2] push #0001    (n =3D 1 recor=<br>
+d)<br>
+<br>
+ld hl,menuitem+2<br>
+add hl,sp<br>
+push hl      ; [-4] pus=<br>
+h @menuitem<br>
+<br>
+ld hl,who+4<br>
+add hl,sp<br>
+ld e,(hl)<br>
+ld=<br>
+d,#00<br>
+push de      ; [-6] push who<br>
+<br>
+call set_f_key_menu<br>
+=<br>
+pop de<br>
+pop de<br>
+pop de<br>
+<br>
+; return nexstate =3D 1<br>
+ld hl=<br>
+,#0001<br>
+ret<br>
+<br>
+event_draw:<br>
+; draws the datascreen (TV listing, weather=<br>
+, news, etc.)<br>
+; First, we need to init a local thingy<br>
+ld hl,mythingy=<br>
+<br>
+add hl,sp<br>
+push hl     ; push @mythingy<br>
+ld hl,#00FF  ;=<br>
+use whole screen window<br>
+push hl<br>
+call init_widget_thingy<br>
+=<br>
+pop de<br>
+pop de<br>
+<br>
+; Next we draw whatever needs drawin'.<br>
+; For now, =<br>
+we just draw the 2nd app icon (see header)<br>
+; This is how the standard apps =<br>
+display weather, TV listings,<br>
+; or news, the displayed info is just a big i=<br>
+con.<br>
+; But you would draw anything your app needs to display here.<br>
+<br>
+=<br>
+ld hl,#0081  ; 2nd app icon, the datascreen<br>
+push hl<br>
+<br>
+ld hl,(y=<br>
+pos)<br>
+push hl<br>
+<br>
+ld hl,(xpos)<br>
+push hl<br>
+<br>
+ld hl,mythi=<br>
+ngy+6<br>
+add hl,sp<br>
+push hl<br>
+<br>
+call draw_icon_wc<br>
+ld h=<br>
+l,#0008<br>
+add hl,sp<br>
+ld sp,hl<br>
+jr ret_samestate     ; ret =<br>
+par2<br>
+<br>
+event_keydown:<br>
+ex de,hl    ; hl =3D @par4<br>
+inc hl<br>
+=<br>
+inc hl<br>
+ld e,(hl)   ; par6  (this)<br>
+inc hl<br>
+ld d,(hl)<br>
+=<br>
+dec de      ; de =3D this - 1<br>
+ld a,d<br>
+or e<br>
+jr nz,=<br>
+ret_samestate  ; if this &lt;> 1, we're done<br>
+<br>
+; signal was #08  AND  this was =<br>
+#01  (it's the "back" key down)<br>
+call put_event_go_prev_app<br>
+jr=<br>
+ret_samestate     ; ret par2<br>
+<br>
+event_menu:<br>
+ex de,hl    ; hl =3D @pa=<br>
+r4<br>
+inc hl<br>
+inc hl<br>
+ld e,(hl)<br>
+inc hl<br>
+ld d,(=<br>
+hl)   ; par6   (this)<br>
+ld hl,#FF9C ; - #64<br>
+add hl,de   ; hl =<br>
+=3D this - cm_back<br>
+ld a,h<br>
+or l<br>
+jr nz,ret_samestate  ; =<br>
+if this &lt;> #64, then ret par2<br>
+<br>
+; signal was #0A  AND  "this" was #64<br>
+=<br>
+call put_event_go_prev_app<br>
+jr ret_samestate<br>
+<br>
+event_other:<br>
+; signal=<br>
+was something else, call default handler.<br>
+; I suppose this might be like c=<br>
+alling the "inherited" event handler.<br>
+; Default handler rets 0 when signal =<br>
+was #13<br>
+;                 rets 1 when signal was #14<br>
+;                 rets=<br>
+par2 for all other cases<br>
+<br>
+ld hl,that  ; par8   that<br>
+add hl,s=<br>
+p<br>
+ld e,(hl)<br>
+inc hl<br>
+ld d,(hl)<br>
+push de<br>
+<br>
+de=<br>
+c hl<br>
+dec hl<br>
+ld d,(hl)<br>
+dec hl      ; par6   this<br>
+=<br>
+ld e,(hl)<br>
+push de<br>
+<br>
+dec hl<br>
+dec hl      ; par4   signal=<br>
+<br>
+ld e,(hl)<br>
+ld d,00<br>
+push de<br>
+<br>
+dec hl<br>
+dec h=<br>
+l      ; par2   appstate<br>
+ld e,(hl)<br>
+push de<br>
+<br>
+dec hl<br>
+=<br>
+dec hl      ; par0   who<br>
+ld e,(hl)<br>
+push de<br>
+<br>
+call d=<br>
+efaulthandler<br>
+<br>
+ex de,hl    ; de =3D retval<br>
+ld hl,#000A<br>
+=<br>
+add hl,sp<br>
+ld sp,hl<br>
+ld d,00     ;; ret de (we return same ret=<br>
+val)<br>
+ex de,hl<br>
+ret<br>
+<br>
+; after  #0D, #08, #0A,  return par2  (ap=<br>
+pstate)<br>
+; iow, app stays in the same state.<br>
+ret_samestate:<br>
+ld hl,app=<br>
+state<br>
+add hl,sp<br>
+ld e,(hl)<br>
+ld d,00<br>
+ex de,hl    ;=<br>
+ret hl =3D sp0078  (par2)<br>
+ret<br>
+<br>
+foldertabtext:<br>
+db "Hello Wor=<br>
+ld!!!", 0<br>
+<br>
+<br>
+best I can recall, this code has never been tested, mainly&lt;br>; because I =<br>
+never finished adding function to mailbug that will&lt;br>; load dataflash.&nb=<br>
+sp; I am posting this because I believe it correctly&lt;br>; shows the structu=<br>
+re of a mailstation app.&lt;br>&lt;br>&lt;br>; some functions we will use from the m=<br>
+ailstation rom&lt;br>localize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; equ #056b&nbsp; ;localize(register de =3D -by=<br>
+teslocal)&lt;br>draw_app_foldertab&nbsp;&nbsp;&nbsp; equ #0827&nbsp; ;Draw_app=<br>
+_foldertab(stringptr) &nbsp;&lt;br>set_f_key_menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp; equ #0638&nbsp; ;set_f_key_menu(who, dataptr, num_rows)&lt;br>in=<br>
+it_widget_thingy&nbsp;&nbsp;&nbsp; equ #072B&nbsp; ;init_widget_thingy(tab1=<br>
+6row, thingyptr)&lt;br>draw_icon_wc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp; equ #0743&nbsp; ;draw_icon_wc(thingyptr, x, y, iconnum)&lt;br>put_=<br>
+event_go_prev_app equ #066e&lt;br>defaulthandler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+&nbsp;&nbsp; equ #0602&nbsp; ;defaulthandler(who, tab30.6, signal, par6, pa=<br>
+r8)&lt;br>&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ORG&nbsp; #4000&nbsp;&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; This is *always* #4000, regardless of =<br>
+what&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p; ; page you use.&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JP&nbsp;&nbs=<br>
+p;&nbsp; eventhandler&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEFW&nbsp; ic=<br>
+ons&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp; DEFW&nbsp; caption&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEFW&nbsp;=<br>
+dunno&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;=<br>
+br>dunno: DEFB #00&lt;br>xpos:&nbsp; DEFW #0000&lt;br>ypos:&nbsp; DEFW #0000&lt;br>&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>caption:=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; ?????&lt;br>&nbsp;&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp; DEFW&nbsp; endcap-caption-6&nbsp; ; num of char=<br>
+s&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEFW&nbsp; #0006&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; offset to first c=<br>
+har&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defm "Hello World"&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp; ; the caption string&lt;br>endcap:&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;=<br>
+&nbsp;&nbsp; org&nbsp;&nbsp; #4064&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp; ; not sure this is needed&lt;br>&lt;br>icons:&nbsp;&nbs=<br>
+p; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defw&nbsp; icon2 - icon1&nbsp;&=<br>
+nbsp;&nbsp; ; size icon1&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defw&nbsp; icon1=<br>
+- icons&nbsp;&nbsp;&nbsp; ; offset to icon1&nbsp;&nbsp; (icon at #406c)&lt;br=<br>
+n2&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defw&nbsp; icon2 - icons&nbsp;&nbsp;&n=<br>
+bsp; ; offset to icon2&lt;br>&lt;br>icon1:&lt;br>; The first icon is used in the mai=<br>
+lstation menu.&lt;br>;&nbsp;&nbsp;&nbsp;&nbsp; First the size data (standard m=<br>
+ailstation menu icons are 34 x 34)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defw #=<br>
+0022&nbsp; ; icon width&nbsp; (#0022 =3D 34 dec =3D 4.25 bytes,&lt;br>&nbsp;&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp; ; rounded up, means 5 bytes per row)&lt;br>&nbsp;&nbsp;&nb=<br>
+sp;&nbsp;&nbsp; defb #22&nbsp;&nbsp;&nbsp; ; icon height (34 dec pix rows h=<br>
+igh)&lt;br>&lt;br>;&nbsp;&nbsp;&nbsp;&nbsp; Then the icon bitmap&nbsp;&nbsp; (lo =<br>
+order bit displays on LEFT of each byte!)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&n=<br>
+bsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;=<br>
+br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#=<br>
+aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55=<br>
+, #aa,#aa,#00,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,=<br>
+#00,#55,#55, #aa,#aa,#00,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbs=<br>
+p; #55,#55,#00,#55,#55, #aa,#aa,#00,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p; defb&nbsp; #55,#55,#00,#55,#55, #aa,#aa,#00,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp; defb&nbsp; #55,#55,#00,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#a=<br>
+a&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa=<br>
+,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#=<br>
+55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#5=<br>
+5,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&n=<br>
+bsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbsp;&nbsp;&nb=<br>
+sp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,#aa&lt;br>&nbs=<br>
+p;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #55,#55,#55,#55,#55, #aa,#aa,#aa,#aa,=<br>
+#aa&lt;br>&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>icon2:&lt;br>; In official apps, the second =<br>
+icon would be the TV guide,&lt;br>; weather, news, etc., stored as a full scre=<br>
+en (320 x 128) image.&lt;br>; This is used when the app needs to draw itself. =<br>
+&nbsp;&lt;br>; Your app may not need this icon.&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nb=<br>
+sp; defw&nbsp; #0030&nbsp;&nbsp; ; width&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<br>
+defb&nbsp; #22&nbsp;&nbsp;&nbsp;&nbsp; ; height&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+&nbsp; defb&nbsp; #00,#00,#04,#E0,#03,#00, #F0,#01,#0F,#3E,#07,#00&lt;br>&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #9C,#02,#0F,#7F,#0C,#00, #04,#86,#07,#=<br>
+93,#09,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #42,#C2,#01,#A0,#0B=<br>
+,#00, #F3,#44,#9E,#FF,#0A,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; =<br>
+#91,#F6,#F3,#F6,#0D,#00, #99,#8C,#4E,#E6,#07,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp; defb&nbsp; #F1,#C1,#46,#2E,#06,#00, #93,#40,#44,#44,#0C,#00&lt;br>&nbs=<br>
+p;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #3E,#C0,#C0,#40,#08,#00, #10,#80,#C0,=<br>
+#41,#0C,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #10,#80,#EB,#27,#0=<br>
+6,#00, #18,#00,#3F,#7D,#02,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp;=<br>
+#08,#00,#00,#C3,#07,#00, #08,#00,#00,#02,#0E,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbs=<br>
+p;&nbsp; defb&nbsp; #18,#80,#31,#FE,#1F,#80, #70,#00,#1F,#FF,#7F,#78&lt;br>&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #E0,#01,#8C,#F8,#DF,#07, #00,#17,#C8=<br>
+,#F0,#CF,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #00,#7C,#58,#E0,#=<br>
+87,#FC, #FF,#FF,#B1,#80,#A3,#07&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp=<br>
+; #00,#80,#7F,#85,#81,#00, #00,#00,#91,#80,#C0,#0F&lt;br>&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp; defb&nbsp; #00,#F0,#FF,#C1,#48,#F8, #C0,#1F,#36,#42,#60,#00&lt;br>&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #7C,#80,#5E,#60,#28,#00, #03,#70,#B=<br>
+5,#E0,#1A,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbsp; #00,#0E,#E4,#BB,=<br>
+#07,#00, #80,#01,#24,#06,#01,#00&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; defb&nbs=<br>
+p; #60,#00,#64,#80,#01,#00, #18,#00,#4C,#60,#00,#00&lt;br>&nbsp;&nbsp;&nbsp;&n=<br>
+bsp;&nbsp; defb&nbsp; #04,#00,#88,#39,#00,#00, #00,#00,#08,#0F,#00,#00&lt;br>i=<br>
+conend:&lt;br>&lt;br>; -- Above data may need to be at fixed addresses, regardles=<br>
+s of the&lt;br>; -- fact that there seem to be pointers to them in header.&nbs=<br>
+p; I do&lt;br>; -- believe there may be cases where mailstation addresses data=<br>
+ler would normally be near end of page, after a&lt;br>; -- large block of grap=<br>
+hic data (standard ms apps are mostly just an&lt;br>; -- image).&nbsp; I don't=<br>
+think address matters, as long as jump in header&lt;br>; -- can find it.&lt;br>&lt;=<br>
+br>&lt;br>eventhandler:&lt;br>;eventhandler(who, appstate, signal, this, that)&lt;br=<br>
+p;&nbsp;&nbsp; ; local: sp0008-sp0020&nbsp; (25 dec bytes)&lt;br>&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp; call localize&nbsp;&nbsp;&nbsp;&nbsp; ;&nbsp;&nbsp; par: =<br>
+sp0025, sp0027, sp0029, sp002b, sp002d&lt;br>&lt;br>;locals&lt;br>menuitem equ #0008=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp;&nbsp; ; first local is at sp + 8 bytes of register save&lt;br>mythin=<br>
+gy equ menuitem + 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; menui=<br>
+tem + size of menuitem&lt;br>&lt;br>; parameters&lt;br>who&nbsp;&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; equ mythingy + 20 + 4&nbsp;&nbsp;&nbsp; ; mythingy + size of mythingy =<br>
++ 4 more bytes of reg save&lt;br>appstate equ who&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; + 2&lt;br>signal&nbsp;&nbsp; equ appstate + 2&lt;br>this&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; equ signal&nbsp;&nbsp; + 2&lt;br>that&nbsp;&nbsp;&nbsp;&nbsp; equ this&nbsp;=<br>
+&nbsp;&nbsp;&nbsp; + 2&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,signal&n=<br>
+bsp;&nbsp;&nbsp; ; a =3D par4&nbsp;&nbsp; signal&lt;br>&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp; add hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld a,(hl) &nbsp;=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp; dec a&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nb=<br>
+sp;&nbsp;&nbsp;&nbsp; jr z,event_appinit&nbsp;&nbsp; ; sig =3D #01&nbsp; (a=<br>
+pp init) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sub 07&nbsp;&nbsp;&nbsp;&=<br>
+nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jr z,event_keydown&nbsp;&nbs=<br>
+p; ; sig =3D #08&nbsp; (key down) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<br>
+sub 02&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jp =<br>
+z,event_menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; sig =3D #0A&nbsp; (menu event)=<br>
+p; ; sig =3D #0D&nbsp; (draw app)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jp even=<br>
+t_other&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; else&lt;br>&lt;br>&lt;br>event_appinit=<br>
+:&lt;br>; draw foldertab&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,foldertabtext=<br>
+&nbsp; ; the string&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp; &=<br>
+nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call draw_app_foldertab &nbsp;&lt;br>&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>=<br>
+; set up the f-key menu&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,menuitem&lt;br=<br>
+;&nbsp; ld (hl),#36&nbsp; ; string# of "Back" in string table&lt;br>&nbsp;&nbs=<br>
+p;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp; ld (hl),#00 &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc =<br>
+hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld (hl)=<br>
+,#64&nbsp; ; code for menucommand "cm_back"&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<br>
+ld (hl),#00 &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbs=<br>
+p;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld (hl),#03&nbsp; ; scanc=<br>
+ode for f1 key&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,#0001 &nbsp;&lt;br>=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; [-2]=<br>
+push #0001&nbsp;&nbsp;&nbsp; (n =3D 1 record)&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp; ld hl,menuitem+2 &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add hl,=<br>
+sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+&nbsp; ; [-4] push @menuitem&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,wh=<br>
+o+4&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld d,#00&n=<br>
+bsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push de&nbsp;&nbsp;&nbs=<br>
+p;&nbsp;&nbsp; ; [-6] push who&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call s=<br>
+et_f_key_menu &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&n=<br>
+bsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&nbsp=<br>
+;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; &nbsp;&lt;br>&lt;br>; return nexstate =3D 1&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; ld hl,#0001 &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&lt;br>event_draw:&lt;br>; draws the datascreen=<br>
+(TV listing, weather, news, etc.)&lt;br>; First, we need to init a local thin=<br>
+gy&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,mythingy&lt;br>&nbsp;&nbsp;&nbsp;&n=<br>
+bsp;&nbsp; add hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;=<br>
+&nbsp;&nbsp;&nbsp; ; push @mythingy&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl=<br>
+,#00FF&nbsp; ; use whole screen window&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pu=<br>
+sh hl&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call init_widget=<br>
+_thingy &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop de&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; &nbsp;&lt;br>&lt;br>; Next we draw whatever needs drawin'.&lt;br>; For now, we jus=<br>
+t draw the 2nd app icon (see header)&lt;br>; This is how the standard apps dis=<br>
+play weather, TV listings,&lt;br>; or news, the displayed info is just a big i=<br>
+con.&lt;br>; But you would draw anything your app needs to display here.&lt;br>&lt;b=<br>
+r>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,#0081&nbsp; ; 2nd app icon, the data=<br>
+screen&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,(ypos)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p; push hl&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,(=<br>
+xpos)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,mythingy+6&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp; add hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push hl&nbsp;&nbsp=<br>
+; &nbsp;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call draw_icon_wc&nbsp; &nbs=<br>
+p;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,#0008 &nbsp;&lt;br>&nbsp;&nbsp;&nbs=<br>
+p;&nbsp;&nbsp; add hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld sp,hl&=<br>
+nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jr ret_samestate&nbsp;=<br>
+&nbsp;&nbsp;&nbsp; ; ret par2&lt;br>&nbsp;&lt;br>&nbsp;&lt;br>event_keydown:&lt;br>&nbs=<br>
+p;&nbsp;&nbsp;&nbsp;&nbsp; ex de,hl&nbsp;&nbsp;&nbsp; ; hl =3D @par4&lt;br>&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nb=<br>
+sp;&nbsp;&nbsp;&nbsp; ld e,(hl)&nbsp;&nbsp; ; par6&nbsp; (this)&lt;br>&nbsp;&n=<br>
+bsp;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp; ld d,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec =<br>
+de&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; de =3D this - 1&lt;br>&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp; ld a,d&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+&nbsp; or e&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp; jr nz,ret_samestate&nbsp; ; if this &lt;> 1, we're done&lt;br=<br>
+ey down)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call put_event_go_prev_app &nbsp=<br>
+;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jr ret_samestate&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; ; ret par2&lt;br>&lt;br>&lt;br>event_menu:&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ex de=<br>
+,hl&nbsp;&nbsp;&nbsp; ; hl =3D @par4&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc =<br>
+hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc hl&=<br>
+nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) =<br>
+&nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nb=<br>
+sp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld d,(hl)&nbsp;&nbsp; ; par6&nbsp;&nb=<br>
+sp; (this)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,#FF9C ; - #64&nbsp; &nbs=<br>
+p;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add hl,de&nbsp;&nbsp; ; hl =3D this - =<br>
+cm_back&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld a,h&nbsp;&nbsp;&nbsp;&nbsp; &n=<br>
+bsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jr nz,ret_samestate&nbsp; ; i=<br>
+f this &lt;> #64, then ret par2&lt;br>&lt;br>; signal was #0A&nbsp; AND&nbsp; =<br>
+"this" was #64&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call put_event_go_prev_app=<br>
+&nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jr ret_samestate&nbsp;&nbsp; &nbs=<br>
+p;&lt;br>&lt;br>&lt;br>event_other:&lt;br>; signal was something else, call default han=<br>
+dler.&lt;br>; I suppose this might be like calling the "inherited" event handl=<br>
+er.&lt;br>; Default handler rets 0 when signal was #13&lt;br>;&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=<br>
+p; rets 1 when signal was #14&lt;br>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rets par2 for all o=<br>
+ther cases&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld hl,that&nbsp; ; par8&nb=<br>
+sp;&nbsp; that&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add hl,sp &nbsp;&lt;br>&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br>
+inc hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld=<br>
+d,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push de&nbsp;&nbsp; &nbsp;=<br>
+;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;b=<br>
+r>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld d,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbs=<br>
+p;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; par6&nbsp;&nbsp; this&lt;br>&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&n=<br>
+bsp; push de&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec h=<br>
+l&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec hl&n=<br>
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; ; par4&nbsp;&nbsp; signal&lt;br>&nbsp;&nbsp;&nbsp=<br>
+;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld d,00&nb=<br>
+sp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push de&nbsp;&nbsp; &nbs=<br>
+p;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp; &nb=<br>
+sp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<br>
+; par2&nbsp;&nbsp; appstate&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) &nb=<br>
+sp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push de&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&nb=<br>
+sp;&nbsp;&nbsp;&nbsp;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp; dec hl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; par0&nbsp;&=<br>
+nbsp; who&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp;&nbsp=<br>
+;&nbsp;&nbsp;&nbsp; push de&nbsp;&nbsp; &nbsp;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nb=<br>
+sp;&nbsp; call defaulthandler &nbsp;&lt;br>&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =<br>
+ex de,hl&nbsp;&nbsp;&nbsp; ; de =3D retval&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=<br>
+; ld hl,#000A &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add hl,sp &nbsp;&lt;br>=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld sp,hl&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp; ld d,00&nbsp;&nbsp;&nbsp;&nbsp; ;; ret de (we return same=<br>
+retval)&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ex de,hl&nbsp;&nbsp; &nbsp;&lt;br>&=<br>
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp=<br>
+;&lt;br>&lt;br>&lt;br>; after&nbsp; #0D, #08, #0A,&nbsp; return par2&nbsp; (appstate=<br>
+)&lt;br>; iow, app stays in the same state.&lt;br>ret_samestate:&lt;br>&nbsp;&nbsp;&=<br>
+nbsp;&nbsp;&nbsp; ld hl,appstate &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a=<br>
+dd hl,sp &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ld e,(hl) &nbsp;&lt;br>&nbsp=<br>
+;&nbsp;&nbsp;&nbsp;&nbsp; ld d,00&nbsp;&nbsp; &nbsp;&lt;br>&nbsp;&nbsp;&nbsp;&=<br>
+nbsp;&nbsp; ex de,hl&nbsp;&nbsp;&nbsp; ; ret hl =3D sp0078&nbsp; (par2)&lt;br>=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbs=<br>
+p;&lt;br>&lt;br>&nbsp;&lt;br>foldertabtext:&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; db "He=<br>
+llo World!!!", 0&lt;br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;br>&lt;/font><br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+, this code has never been tested, mainly<br>
+ng function to mailbug that will<br>
+ause I believe it correctly<br>
+<br>
+I had recreated the calculator icon in 1-bit-per-pixel format and was<br>
+=<br>
+searching through the dumped flash in the Files section to see if I<br>
+could =<br>
+match it up to something that might have some icon header that<br>
+I could mak=<br>
+e out.  Though I have no idea how it even stores those<br>
+built-in apps and w=<br>
+hether it would have even helped to find the<br>
+icon.  So thanks for the stru=<br>
+cture and icon info!<br>
+<br>
+I compiled with as80 (after fixing some of the assemb=<br>
+ler commands in<br>
+the beginning there, which it complained about them being =<br>
+uppercase)<br>
+and manually entered it into the MS via the hex editor.  A 721 =<br>
+byte<br>
+file ends up being a little longer to type in that one might think,<br>
+=<br>
+but not too bad.  I was able to run the app, got a chuckle from the<br>
+image =<br>
+it displayed, but noticed there was a problem with the tab's<br>
+text.  It was=<br>
+just "! ..." instead of "Hello world!!!".  I realized<br>
+that I didn't put a=<br>
+carriage return after the very last line in the<br>
+assembly file, which resu=<br>
+lted in as80 not even parsing that line (a<br>
+good thing to remember), but ev=<br>
+en when I recompiled and tacked the<br>
+extra bytes onto the end in the hex ed=<br>
+itor, it still gave me the same<br>
+"! ..." instead of the caption.  So I dunn=<br>
+o what's up with that.  But<br>
+the Back button let me exit and such, so the c=<br>
+aption issue seems to<br>
+be the only thing possibly wrong.  I went back over =<br>
+the hex I typed<br>
+in, and am fairly sure I didn't mistype anything.  Unless =<br>
+you spot<br>
+anything with the code that could be the issue, I might double-ch=<br>
+eck<br>
+my typing once more when it's not so late.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">searching through the dumped flash in the Files section to see if I<br>
+d match it up to something that might have some icon header that<br>
+make out.  Though I have no idea how it even stores those<br>
+and whether it would have even helped to find the<br>
+the structure and icon info!<br>
+<br>
+The built-in apps don't use same format.  All=<br>
+of the icons<br>
+are in a big table, right after the font data in codeflash pa=<br>
+ge #04<br>
+<br>
+in<br>
+<br>
+Yeah, by default as80 wants lower case only.  I add the -i switch<br>
+to com=<br>
+mand to allow upper or lower.  I almost always type lowercase<br>
+but I must ha=<br>
+ve cut and pasted part of that file from an uppercase<br>
+example.<br>
+<br>
+For whateve=<br>
+r it's worth, here is my bat file for assembling helloapp,<br>
+with a cheat she=<br>
+et for the options:<br>
+<br>
+..\as80 -x2 -n -i -l -h0 -w200 -ohelloapp.rom helloapp=<br>
+<br>
+C:\PROGRA~1\ACCESS~1\WORDPAD.EXE helloapp.lst<br>
+<br>
+REM these are the relevant =<br>
+options for as80<br>
+REM -x2 =3D use z80 extensions to 8080<br>
+REM -n  =3D no opti=<br>
+mizations<br>
+REM -i  =3D Ignore case in opcodes<br>
+REM -l  =3D Generate pass 2 li=<br>
+sting<br>
+REM -h0 =3D use an infinite page length<br>
+REM -w200 =3D use 200 column =<br>
+page width<br>
+REM -dsomevar =3D define variable<br>
+REM -osomefilename =3D output =<br>
+to file name<br>
+REM -lsomefilename =3D listing file name<br>
+REM<br>
+REM -s2 =3D Writ=<br>
+e intel-hex file instead of binary file<br>
+<br>
+he MS via the hex editor.  A 721 byte<br>
+to type in that one might think,<br>
+<br>
+:-)<br>
+<br>
+run the app, got a chuckle from the<br>
+<br>
+I hope that wa=<br>
+s not one of the nudie pix of my girlfriend!<br>
+I really don't remember what i=<br>
+t is.  I guess it is about the<br>
+size of an icon???<br>
+<br>
+a problem with the tab's<br>
+orld!!!".<br>
+<br>
+I just noticed that my assembly listing shows it to be<br>
+713 by=<br>
+tes, not 721.  This might be at the root of the problem???<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">721.  This might be at the root of the problem???<br>
+<br>
+I just uploaded my assem=<br>
+bly listing of helloapp<br>
+to root of groups file area.<br>
+<br>
+I wonder if I can ma=<br>
+ke a link to it here?<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/=">(URL)</a><br>
+<br>
+Hmmmmm. for some reason, it is leaving off the filename.<br>
+<br>
+This time for s=<br>
+ure....<br>
+<a target="_blank" href="http://f1.grp.yahoofs.com/v1/ELSpRqWjDgtU18v23HDt6o742uvu7h8ncRlgZ-=">(URL)</a><br>
+MSW23Eq4rYV6ETtnbrMEfZR4M59NkLjszTl5D1JWzMG5MxUQiRh8RD4Hw34ebPhRLkdA/helloa=<br>
+pp.lst.txt<br>
+<br>
+Well, that doesn't look right either.  Oh well.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+ally don't remember what it is. I guess it is about the<br>
+?<br>
+<br>
+lol no such luck on nudie pics.  Let's just say that I'm assuming the<br>
+i=<br>
+con represents who you were at I-Appliance.<br>
+<br>
+ssembly listing shows it to be<br>
+root of the problem???<br>
+<br>
+When using your as80 command-line options, I al=<br>
+so got 713 bytes.  But<br>
+when I run the program now, it just says "+V" inste=<br>
+ad of the former<br>
+"! ..."<br>
+<br>
+So I'm not really sure what could be the problem=<br>
+, unless it's<br>
+switching pages during the tab drawing routine.  I wouldn't =<br>
+think so,<br>
+but it's all that comes to mind.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+s.yahoo.com/group/mailstation/files/<br>
+aving off the filename.<br>
+.com/v1/ELSpRqWjDgtU18v23HDt6o742uvu7h8ncRlgZ-<br>
+MSW23Eq4rYV6ETtnbrMEfZR4M59N=<br>
+kLjszTl5D1JWzMG5MxUQiRh8RD4Hw34ebPhRLkdA/<br>
+helloapp.lst.txt<br>
+doesn't look right either.  Oh well.<br>
+<br>
+I think it's using the user's sess=<br>
+ion ID or some other such random<br>
+thing in the url, because it's different =<br>
+when I go to get it.  It's<br>
+even different than it was for me a few minutes=<br>
+ago.  They change it<br>
+up to prevent people from using it to host files out=<br>
+side of the<br>
+group, I guess.<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: helloapp.asm</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 13, 2007</p>
+<p class="formattedBody"><br>
+ust says "+V" instead of the former<br>
+what could be the problem, unless it's<br>
+awing routine.  I wouldn't think so,<br>
+<br>
+T=<br>
+hat's it!!!<br>
+<br>
+I guess it's not a good idea to pass a pointer to a page that =<br>
+might<br>
+not stay put!!!  :-)  :-)  :-)<br>
+<br>
+It seemed innocent enough to pass a =<br>
+pointer to a constant string<br>
+defined within the app.  But the app runs from=<br>
+slot4000, and the<br>
+call to "draw_app_foldertab" uses slot4000, too.  By th=<br>
+e time<br>
+the string is actually used, several other pages have been slapped<br>
+i=<br>
+nto slot4000, too.<br>
+<br>
+So, I declared a local var on the stack, and copied i=<br>
+t there.<br>
+(The stack is in slotC000, which never changes.)<br>
+<br>
+It works now!!!<br>
+=<br>
+<br>
+Thanks!!!<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

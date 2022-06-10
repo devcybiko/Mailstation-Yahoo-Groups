@@ -1,0 +1,606 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">UpdateSoftware Flowcharts (Apr 28, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Apr 28, 2004</a></li>
+<li><a class="link" href="#2">From: "jmareksr" <jimmarek@...> Apr 29, 2004</a></li>
+<li><a class="link" href="#3">From: "John R. Hogerhuis" <jhoger@...> Apr 29, 2004</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> May 17, 2004</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> May 17, 2004</a></li>
+<li><a class="link" href="#6">From: "jmareksr" <jimmarek@...> May 17, 2004</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> May 22, 2004</a></li>
+<li><a class="link" href="#8">From: "John R. Hogerhuis" <jhoger@...> May 22, 2004</a></li>
+<li><a class="link" href="#9">From: "jmareksr" <jimmarek@...> Jun 1, 2004</a></li>
+<li><a class="link" href="#10">From: "John R. Hogerhuis" <jhoger@...> Jun 1, 2004</a></li>
+<li><a class="link" href="#11">From: "Cyrano Jones" <cyranojones_lalp@...> Jun 2, 2004</a></li>
+<li><a class="link" href="#12">From: "John R. Hogerhuis" <jhoger@...> Jun 2, 2004</a></li>
+<li><a class="link" href="#13">From: "John R. Hogerhuis" <jhoger@...> Jun 2, 2004</a></li>
+<li><a class="link" href="#14">From: "Cyrano Jones" <cyranojones_lalp@...> Jun 8, 2004</a></li>
+<li><a class="link" href="#15">From: "John R. Hogerhuis" <jhoger@...> Jun 8, 2004</a></li>
+<li><a class="link" href="#16">From: "Manny A. Wise" <mannywise@...> Jun 9, 2004</a></li>
+<li><a class="link" href="#17">From: "a_b_aldus" <a_b_aldus@...> Jul 4, 2004</a></li>
+<li><a class="link" href="#18">From: "John R. Hogerhuis" <jhoger@...> Jul 5, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: UpdateSoftware Flowcharts</h3>
+<p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Apr 28, 2004</p>
+<p class="formattedBody">I remember when a flowcharting template was a standard tool for<br>
+programmers, so when I started trying to follow the flow through the<br>
+code that reflashes the code pages, I regressed to using a familiar<br>
+tool. I have uploaded a pdf file called UpdateSoftware-0-1.pdf that<br>
+flowcharts the code at locations 8581 to 86C7 in code page 1. The<br>
+file is in a folder called "Code Analysis" and in a subfolder of that<br>
+called "rom-v253yr".<br>
+<br>
+I gave the code the name UpdateSoftware because seemed to describe it<br>
+well, but I hold no illusions of any rights to name anything. I think<br>
+it might be helpful for someone to start a thread that discusses a<br>
+naming convention for the code that we interpret.<br>
+<br>
+I continued to flowchart the functions that "UpdateSoftware" calls,<br>
+but I have not finished. Nor have I understood some of those routines<br>
+well enough to name them. I did name the code at 81F0 and 825C after<br>
+the descriptions posted by John in message #43 (and #44).<br>
+<br>
+The "0-1" in the file name is for version 0.1, indicating something<br>
+not really ready for release. I'm sure there are errors in the charts<br>
+because I have already found one. I will post an update that corrects<br>
+it and includes any corrections you notice.<br>
+<br>
+The flowcharts are intended the show the algorithms expressed in the<br>
+code, so sometimes 10 or 20 bytes of loading, pushing, popping, and<br>
+adding are reduced to a decision block with "Yes" or "No" paths out<br>
+of it.<br>
+<br>
+I will try to finish this, but I covet your inputs,<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 28, 2004</p>
+<p class="formattedBody">Man, you are a master of documentation and reverse engineering. We covet<br>
+your outputs :-)<br>
+<br>
+I scanned through it, I'll look closer later. I didn't see how<br>
+UpdateSoftware gets triggered. Perhaps you haven't found that yet?<br>
+<br>
+Also, what program did you create this pdf file with? Can you upload the<br>
+source so we can edit it as the group discovers more names for routines<br>
+or should we just email them to you?<br>
+<br>
+Thanks!<br>
+<br>
+<br>
+On Wed, 2004-04-28 at 11:53, jmareksr wrote:<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Apr 29, 2004</p>
+<p class="formattedBody">wrote:<br>
+<br>
+It gets called by the code that Cyrano found at 1BC0 (see messages<br>
+#52 and #60). The code at 1BC0 jumps to location 8000 which contains<br>
+a jump to "UpdateSoftware".<br>
+<br>
+<br>
+Do you know the saying, "Everything looks like a nail to a guy with a<br>
+hammer?" Well, my "hammer" is Adobe FrameMaker. I have used it for<br>
+almost 10 years, hated it for the first one or two, and now use it<br>
+for all but the most trivial of documents, for which I use Word,<br>
+Wordpad, or Notepad. Anyway, I would be happy to upload the<br>
+FrameMaker document if anyone can use it. In the meantime, I'd be<br>
+willing to maintain UpdateSoftware and the other routines at 8000<br>
+based on y'alls input.<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 29, 2004</p>
+<p class="formattedBody">Frame... well I guess you'll be maintaining that document ;-)<br>
+<br>
+I have a copy for Winders somewhere, but I doubt anyone else does. We<br>
+can just send you updates to make.<br>
+<br>
+Later,<br>
+<br>
+<br>
+On Thu, 2004-04-29 at 08:18, jmareksr wrote:<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 17, 2004</p>
+<p class="formattedBody"><br>
+Below are some of my notes on the update routines.  UpdateSoftware<br>
+sounds like a good name to me.  I didn't name all of the functions,<br>
+some are just descriptions of what the function does.  I am open<br>
+to suggestions for better or more "correct" names for any of them,<br>
+but I am kinda partial to "send_tribble" and "recv_tribble".  ;^)<br>
+<br>
+<br>
+81F0 actually writes a whole "logical" sector of bytes (256 bytes).<br>
+And it seems that the only time the actual hardware sector<br>
+size is used, is during erase.  So I would propose that the<br>
+word "sector" means 256 bytes, and use "hardware_sector"<br>
+when refering to the physical sector.  Or maybe "physical_sector"<br>
+is better, hell I dunno.<br>
+<br>
+<br>
+I'm sure there are errors in my info below, too.  I always seem<br>
+to notice one right after I press "send".  I'm not sure just<br>
+how many hours it took to type/edit it, but it was too many.<br>
+It's funny how notes that are good enough for personal use<br>
+seem to need so much editing before publishing.  I  probably<br>
+could keep polishing them forever.  But I am determined to post<br>
+this tonight, so I will stop, and instead rely on a disclamer:<br>
+"This info might be all wrong.  Turn back now.<br>
+You have been warned."   :-)<br>
+<br>
+this line should appear indented.<br>
+<br>
+;; Page #01 of the ROM goes in Z80 slot #4000-7fff.  [#0001:4000-7fff]<br>
+;; The first #0F43 bytes are copied to ram at Z80 #8000 before execution!  [RAM page #05, aka #0105:8000]<br>
+;; Addresses in the first #0F43 bytes are org'ed #8000, even though the rom is at #4000.<br>
+;;<br>
+;; Most of the routines in the "Update code" are clones of non-update mode routines, repeated here so they get copied<br>
+;; to ram, making them available to the actual update code, functions [1] & [11].<br>
+;; After erasing flash, the only code available will be rom #4000-#4F43, (running in ram at #8000-#8f43).<br>
+;; Optionally, pages #00-03 can be left un-erased, but the update routines never call them.<br>
+;;<br>
+;; #01:4000-4062  Jump table to the various routines.<br>
+;; #01:4063-4239  Low level subroutines to access flash roms, and power tests.<br>
+;; #01:423A-4580  Strings.<br>
+;; #01:4481-4B21  Main firmware update routines, update-host interface, LCD display interface.<br>
+;; #01:4B22-4F41  Font data.<br>
+;;<br>
+;;            [function]  [called by]<br>
+8000  JP  #8581	;; [1]  [external]UpdateSoftware() This is the entry point for codeflash update<br>
+8003  JP  #8901	;; [2]  [4 & 8]  HL = Shift_right(DE,HL)de shifted right hl bits  (used for flash addressing)<br>
+8006  JP  #8063	;; [3]  [5]	     Write_dataflash(pagesector, offset, n, @buff)<br>
+8009  JP  #8135	;; [4]  [3 & 6]  Split_and_clip(ix=@params, bc = "n") (conv addr to pg:sect, clip n to sect)<br>
+800C  JP  #81B8	;; [5]  [1]      Write_modeflag (HLBC)    (#1F:3F:00 in dataflash )<br>
+800F  JP  #815C	;; [6]  [7]      Read_dataflash(pagesector, offset, n, @buff)<br>
+8012  JP  #81D4	;; [7]  [1]      HLBC = Read_modeflag().<br>
+8015  JP  #81F0	;; [8]  [11]     Write_codeflash_sector(BC = sector, ix = @buff) (256 byte sector)<br>
+8018  JP  #825C	;; [9]  [1]      Erase_codeflash_hardwaresector(B = sector)      (64k byte sector)<br>
+801B  JP  #82CB	;; [10] [1]      Calculate_codeflash_checksum()<br>
+801E  JP  #86C8	;; [11] [1]      Download_software()<br>
+8021  JP  #8784	;; [12] [1 & 11] Recv_sector()  (from update host)<br>
+8024  JP  #8801	;; [13]          recv_word()  (from update host)<br>
+8027  JP  #8817	;; [14]          recv_byte()  (from update host)<br>
+802A  JP  #8843	;; [15]          recv_tribble()<br>
+802D  JP  #887D	;; [16]          busy_send_byte(H)  (raises busy, then calls send_byte)<br>
+8030  JP  #8887	;; [17]          send_byte(H)<br>
+8033  JP  #88A2	;; [18]          send_tribble(A)<br>
+8036  JP  #88D6	;; [19]          tribble_timer()<br>
+8039  JP  #830E	;; [20]  [x]     Low_battery_detect()   (not called in code update)  (p9.5 and p9.6)<br>
+803C  JP  #82FC	;; [21]  [1]     Wall_Adaptor_detect()   ret 1 if +6 volts exists, 0 if not (port9.7).<br>
+803F  JP  #89B0	;; [22]  Render_string_to_lcd_buffer(@string, length, pixel_row)<br>
+8042  JP  #8A6D	;; [23]  Copy a scanline of rendered char to lcd_buffer<br>
+8045  JP  #8A9A	;; [24]  Update the LCD from the lcd_buffer<br>
+8048  JP  #8AB7	;; [25]  Update banked in lcd-half from lcd_buffer<br>
+804B  JP  #8ADE	;; [26]  Clear lcd_buffer<br>
+804E  JP  #8AED	;; [27]  Render the char in B to single_char_buffer<br>
+8051  JP  #8947	;; [28]  Convert word(HL) to hex string(HL)<br>
+8054  JP  #8917	;; [29]  Copy null terminated string (hl) to (de)<br>
+8057  JP  #8922	;; [30]  Strcat(de, bc).<br>
+805A  JP  #8936	;; [31]  hl = Strlen(hl).<br>
+805D  JP  #88F4	;; [32]  2 or 3 second_delay<br>
+8060  JP  #8987	;; [33]  Display_string(hl=@string, C=pixel_row, A=flag)<br>
+<br>
+;; [8000/8581] [1] UpdateSoftware()  This is the entry point for firmware update, after update code is copied to ram.<br>
+;; After checking that the powerpak is connected, it receives a single byte "erase command", of which there are<br>
+;; two options: #05 = whole thing,  #35 = don't erase first 64k. If erase command received (and ack'ed) ok, then<br>
+;; a dummy sector is received.  Any error up to this point, it loops back to the powerpack test, and tries again.<br>
+;; If no error receiving dummy sector, it sets a flag in dataflash indicating "codeflash invalid" (if not already set).<br>
+;; Then, right after the message "Software is updating, please wait...", it erases the codeflash.<br>
+;; This is the point of no return.  Up until you see this message, you can just turn the power off, and nothing is<br>
+;; changed.  After you see this message (by the time you read it), the codeflash is blanked, and you really want to<br>
+;; finish reflashing sucessfully, 'cause I don't think you will get a second chance, even if you left the first 64k<br>
+;; intact.  One of the things the init code in page #00 does is jump up to page #06, which would seem to completely<br>
+;; defeat the purpose of protecting the first 64k (pages #00, 01, 02, 03).  Actually, I don't know how long it takes<br>
+;; to erase, and it starts at the end and erases toward begining, so maybe you can interrupt it and restart?????<br>
+;; When you see the message "New software is downloading, please wait...", it is done erasing, and it calls<br>
+;; "Download_software" to load the new code.  If there is error, it loops up to just after the powerpack test.<br>
+;; I guess that after erasing codeflash, it won't quibble over the power source, and you can load new code on batteries. ;^)<br>
+;; If download is ok, it sets the flag in dataflash to "codeflash valid", and then sets a flag in ram, which I am<br>
+;; guessing means "ram invalid" (variables won't match new code).  Next a checksum is calculated and displayed, and<br>
+;; finally, it jumps to #0000 and reboots.  I am supposing that the ram invalid flag forces a "cold boot".  Also, it<br>
+;; sure looks like the checksum is just displayed, and not tested for any particular value.<br>
+<br>
+;; [801E/86C8] [11] Download_software()   Does the whole thing,  during a single call here.<br>
+;; This routine interacts with the update host, receiving new code, and writes it to previously blanked codeflash chip.<br>
+;; It calls "Recv_sector" once for each block of 256 bytes of new code, toggling the mail LED every 4 sectors.<br>
+;; When a sector with endflag = sector + 1 is received, it returns successful.  Any data in this ending sector is ignored.<br>
+;; Duplicate sectors are ignored.  If you did not erase the first 64k, then any sectors received in that range are<br>
+;; ignored.  Otherwise the sector data is written to the codeflash in the sector indicated by the packet header.<br>
+;; For some reason, after loading pages #00 and #01, it displays the message "Continuing download, please wait...".<br>
+;; If any error is encountered while downloading or writing, it returns unsuccessful.<br>
+<br>
+;; [8021/8784] [12] Recv_sector()  (params in global ram)<br>
+;; This routine drops busy, then receives a "packet" from update host. If there is any error during recv of packet,<br>
+;; it sends a "NAK", tries again after first 3 naks, and after 4th it gives up and returns errcode.  If packet received<br>
+;; ok, it sends "ACK".  After sending "ACK" or "NAK", busy is left up.  It drops busy the next time it is ready to recv.<br>
+;; The data field of the packet is the new code for a single 256 byte sector of the codeflash.  Even though it is<br>
+;; erased in 64k byte sectors (what I call "hardware sectors"), it is written (by write_codeflash) in 256 byte sectors.<br>
+;;<br>
+;;  Format of received sector packet:<br>
+;;      esc_char   (1 byte)<br>
+;;      endflag    (2 bytes)  endflag = sector + 1, means done with code update<br>
+;;      sector     (2 bytes)  this is "sector #", or hi 2 bytes of 3 byte address<br>
+;;      n          (1 byte)   here, #00 means 256 bytes in data field  (data update chokes on n=0)<br>
+;;      data       (n bytes)  data for the sector<br>
+;;      checkbyte  (1 byte)<br>
+;;<br>
+;; The sequence of packets looks like this:<br>
+;;  #1B, #FFFF, #0000, #00, 256 data bytes, checkbyte<br>
+;;  #1B, #FFFF, #0001, #00, 256 data bytes, checkbyte<br>
+;;  #1B, #FFFF, #0002, #00, 256 data bytes, checkbyte<br>
+;;     ........<br>
+;;  #1B, #FFFF, #0fff, #00, 256 data bytes, checkbyte<br>
+;;  #1B, #0000, #ffff, #00, 256 data bytes, checkbyte<br>
+;;<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">May 17, 2004</p>
+<p class="formattedBody">I just got a 120 and a 150. FWIW I suspect the differences are more software<br>
+than hardware. One thing the manual says is that when you dial in via the<br>
+800 number it will figure out where you are and will usually substitute a<br>
+local number. This means that some updating can be done via the phone line,<br>
+even if only the phone number.<br>
+<br>
+Neil<br>
+<br>
+From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+...<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">May 17, 2004</p>
+<p class="formattedBody"><br>
+Wow! Thanks, I'll get to work on updating the flowcharts. I picked up<br>
+a copy of TurboCAD 8.0 at a used book store for about $20. I'm<br>
+considering converting the flowcharts and putting out the TurboCAD<br>
+files in addition to the PDF. Would that be useful?<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 22, 2004</p>
+<p class="formattedBody">...<br>
+<br>
+You're welcome.<br>
+<br>
+TurboCAD 1.0 was one of the first (and few) programs I ever bought.<br>
+I didn't even have a computer that could run it 'till a year or two<br>
+later.  I never really used it for much, but it sure was neat watchin'<br>
+it draw the "oilrig" demo!!!<br>
+<br>
+If it can render the drawing in a gif or bmp format, it might work<br>
+better than pdf for others to edit or add to.  Otherwise, pdf is<br>
+probably easiest to view for most.<br>
+<br>
+My tool of choice when I need to see a flowchart has been<br>
+the "manual graphite display generator".  :-)<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">May 22, 2004</p>
+<p class="formattedBody">Free tools you might consider are dia, xfig, sodipodi, ooimpress<br>
+(ooimpress is like powerpoint, can read some powerpoint files, it's part<br>
+of openoffice.org)<br>
+<br>
+These are all available for Linux, maybe Cygwin. But if I have anything<br>
+to add I can just send you comments if you would rather. Just as long as<br>
+you produce PDF or GIF or something readable via Free tools.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Jun 1, 2004</p>
+<p class="formattedBody">Cyrano,<br>
+<br>
+I have been reviewing and incorporating your notes, but I have some<br>
+questions. Would you prefer to discuss them here or by email? My<br>
+address is published (fool that I am), so if you want to discuss by<br>
+email, send me a note.<br>
+<br>
+Jim<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 1, 2004</p>
+<p class="formattedBody">Unless you are nitpicking his code (which I doubt) the list is a<br>
+perfectly good forum for this kind of thing.<br>
+<br>
+We're a long way from a noisy list :-(<br>
+<br>
+<br>
+On Tue, 2004-06-01 at 17:19, jmareksr wrote:<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jun 2, 2004</p>
+<p class="formattedBody">Hi,<br>
+<br>
+I can't think of any reason to not use the list, other than<br>
+not making it too easy for any nitwit to reflash his mailstation.<br>
+I'm certainly not worried about annoying the 99% who just<br>
+want free email!<br>
+<br>
+My email is this id, at yahoo.com if you want to use that.<br>
+<br>
+Use your judgement, I don't mind using the list.  It's probably<br>
+the fastest way for me, since I go for days without reading<br>
+any of my email boxes.  For that matter, a note to the list<br>
+to check my mailbox wouldn't hurt (me) if you want me to see<br>
+it sooner!  I check the web archive of this list more often<br>
+than email, usually.<br>
+<br>
+I have been thinking (but not really doing anything) about<br>
+what to flash into my mailstation.  The reflash code erases<br>
+most of the mailstation code, and I wanted to figure out how<br>
+to back up the existing code first, if possible, so it can<br>
+be patched.  I know that if I want v2.53yr, that is moot.<br>
+But I still thought it would be good to be able to reflash<br>
+without needing to download the code.<br>
+<br>
+Hopefully whatever you flash will allow reflashing again,<br>
+and one of the first things I think needs to be fixed is<br>
+the all or nothing nature of the existing reflash code.<br>
+If you are willing to wipe out the mailstation code, you need<br>
+to replace it with something.  Maybe a rom monitor, or the<br>
+remote code for a remote debugger, or else a whole new app.<br>
+<br>
+Or maybe a new OS?  Has anybody here ever heard of UZI???<br>
+It is a unix for z80, written many years ago, by Doug Braun.<br>
+I don't know if/how he handled the lack of a protected mode.<br>
+<a target="_blank" href="http://www.dougbraun.com/uzi.html">(URL)</a><br>
+<br>
+There is a newer version, called uzix, for the MSX computer.<br>
+MSX is a z80 system that was popular (I hear) outside of the US.<br>
+<a target="_blank" href="http://uzix.sourceforge.net/">(URL)</a><br>
+<br>
+Cyrano Jones<br>
+<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 2, 2004</p>
+<p class="formattedBody">I have some ideas on what to put there.<br>
+<br>
+For development purposes, a remote target monitor/debugger like NoICE<br>
+would be ideal.<br>
+<br>
+Eventually, what should go there?<br>
+<br>
+Porting CP/M to the mailstation would open up the gigantic library of<br>
+CP/M software to the mailstation. My NEC 8500 and NEC Starlet ROMs might<br>
+be a starting point, or perhaps just going from CP/M source code which<br>
+is available on the web. There's an active CP/M mailing list of folks<br>
+who would give profuse thanks for the ready availability of a new CP/M<br>
+laptop. The unused portion of flash becomes a flash disk for CP/M to use<br>
+as a drive or drives. There are plenty of CP/M compilers (Pascal, C)<br>
+which could then be self-hosted on mailstation. There's also Wordstar,<br>
+and other popular programs available that could be run without even<br>
+porting them (generally CP/M programs do all console I/O to a terminal<br>
+emulation).<br>
+<br>
+Some folks on the Model 100 mailing list, including myself are<br>
+interested in the Mailstation as an upgrade path from Model 100, so<br>
+another track is to get the Model 100 BASIC ROM running on Mailstation.<br>
+The Model 100 uses 8085, which is almost identical to 8080 in<br>
+instruction set, so it should work on Mailstation. There is also the<br>
+WP-2, which is a word-processor feel-alike to the Model 100. It uses<br>
+Z-80, and might make an interesting port to Mailstation.<br>
+<br>
+Another idea is an ANS Forth environment like CamelForth loading on the<br>
+Mailstation. This would allow programming on the mailstation itself, and<br>
+porting Forth to any system is as easy as it gets.<br>
+<br>
+Unix for Mailstation... I suppose that could work. Would open up<br>
+possibility of compiling some open source software for mailstation. My<br>
+only argument with that is that a most of that stuff is written for more<br>
+powerful machines. If you went with CP/M or BASIC or Forth, which were<br>
+tailored to 8 and 16-bit systems from the get-go, we'll get much better<br>
+performance. The disadvantage is less new software.<br>
+<br>
+I do try to echo progress on Mailstation on my bitchin100.com web site.<br>
+Folks here might want to check it out to see what my angle is...<br>
+<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 2, 2004</p>
+<p class="formattedBody">Oh another thing you might consider running eventually is the Z80 port<br>
+of Contiki.<br>
+<br>
+This has an email client, web browser, VNC server, web server, TCP/IP,<br>
+CSLIP for 8-bit machines.<br>
+<br>
+If we added PLIP, it would be ideal for Mailstation since it only has a<br>
+parallel port. And we all now have laplink cables I'm sure...<br>
+<br>
+<br>
+</p>
+<hr><h3 id="14">14: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jun 8, 2004</p>
+<p class="formattedBody">wrote:<br>
+<br>
+I have been working on a version of my remote debugger for<br>
+flashing into an unmodified mailstation.  I will post it when<br>
+it is ready.  (I had hoped to have it before now, but there<br>
+have been many distractions...)<br>
+<br>
+<br>
+I am interested in this, too.  The CP/M BIOS should be all you<br>
+need to port.  That, and you would need to write/find a terminal<br>
+emulator.<br>
+<br>
+CP/M likes to have ram in low memory area, so you might<br>
+need to make a small mod to the mailstation hardware,<br>
+since the mailstation normally has fixed rom in slot #0000.<br>
+<br>
+I have written CP/M BIOS code for console keyboard matrix<br>
+scanning (for Megatel Quark hardware), and a ramdisk driver<br>
+(for custom 512k bankswitched ram mod on Quark).  A driver<br>
+for a flashdisk shouldn't be *too* much trouble.  :-)<br>
+<br>
+<br>
+Licence?<br>
+<br>
+[...]<br>
+[...]<br>
+<br>
+Multi-boot!<br>
+<br>
+[...]<br>
+[...]<br>
+<br>
+Hmmm...  I wonder if your ReMem would fit inside the mailstation?  :-)<br>
+<br>
+I looked at Contiki.<br>
+<a target="_blank" href="http://www.sics.se/~adam/contiki/">(URL)</a><br>
+They mention z80 ports, but I can't find any (working) links to<br>
+any.  (They say there is a gameboy port, and gameboy is z80 based.)<br>
+<br>
+It seems that Contiki will only run apps that are written as<br>
+"Contiki apps" (state machine style multitasking).  But the<br>
+Contiki Tool-Kit  might be the easiest way to get a GUI on<br>
+the mailstation.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="15">15: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 8, 2004</p>
+<p class="formattedBody">On Mon, 2004-06-07 at 22:47, Cyrano Jones wrote:<br>
+<br>
+<br>
+Looking forward to it!<br>
+<br>
+<br>
+Sounds like you're the expert... and therefore the stuck-ee ;-) I'm just<br>
+learning about CP/M<br>
+<br>
+<br>
+I've written some flash code here and there. I could definitely handle<br>
+that. I need to write one for ReMem anyway which could be used in both<br>
+places.<br>
+<br>
+<br>
+Alas, running the 100 ROM is a cool trick but I wouldn't recommend mass<br>
+producing it ;-) or leaving a ready binary for download. I think it<br>
+would be sufficient for the developers to each have a genuine<br>
+non-operational Model 100 motherboard.<br>
+<br>
+The software to be produced would be a "patch" against a real Model 100<br>
+ROM. The end user could apply it themselves. They would be responsible<br>
+for never using their mailstation and their Model 100 at the same<br>
+time...<br>
+<br>
+<br>
+If we want to make a mod to the mailstation it is possible. However, the<br>
+mailstation is already a pretty capable machine, especially once we turn<br>
+it into a general purpose laptop (insofar as a model 100 is considered a<br>
+laptop). Probably should at a serial port, possibly make it a USB slave<br>
+emulating RS232 behavior over USB... power would come from the host.<br>
+Maybe IR to talk to wirelessly to cell phones and printers. The parallel<br>
+port is fine for I/O to PC's though.<br>
+<br>
+In fact I am interested in a case mod to the Tandy M102 that would put a<br>
+mailstation into a 102 case. So the question beomes would a mailstation<br>
+with whatever additional hardware needed fit into a 102 case. Plenty of<br>
+room there, and a much better keyboard.<br>
+<br>
+<br>
+There are at least two, the PC-6001 and the Z-80. I don't know if the<br>
+Apple ran some type of CP/M? Or the Commodore 128?<br>
+<br>
+<br>
+Well state machine driven stuff is not hard to design. In fact just<br>
+about all my programs of any complexity end up having a state machine.<br>
+<br>
+What else do we need besides the default Contiki apps? Some kind of<br>
+interpreter, Forth or BASIC. Forth is easy to port. And a text editor.<br>
+<br>
+</p>
+<hr><h3 id="16">16: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "Manny A. Wise" &lt;mannywise@...></p>
+<p class="date">Jun 9, 2004</p>
+<p class="formattedBody">I just got a hold of a mailstation 100 (white) I been<br>
+told it can be programed to use my regular<br>
+earthlink.net email account...any help will be<br>
+appreciated.. Thanks!!!<br>
+<br>
+__________________________________<br>
+Do you Yahoo!?<br>
+Friends.  Fun.  Try the all-new Yahoo! Messenger.<br>
+<a target="_blank" href="http://messenger.yahoo.com/">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="17">17: Subject: Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "a_b_aldus" &lt;a_b_aldus@...></p>
+<p class="date">Jul 4, 2004</p>
+<p class="formattedBody"><br>
+Hi, everybody,<br>
+<br>
+I'am one of the authors of the UZIX (but, guys, it was so long<br>
+ago...). I own the MIVO-100 and I only wanted to completely replace<br>
+the software and reuse device as some kind of controlling one for my<br>
+hobby needs. It looks like this device is very similar internally<br>
+(meaning CPU and page banking) to MSX we targetted the UZIX to. I'm<br>
+very impressed by all reverse engineering you (and linux-hackers<br>
+guys) did! My question is - is there some clean descriptions of the<br>
+box internals or one should go thru forums gathering the info and<br>
+erratas?<br>
+<br>
+So - if anybody will be interested, I could contact with the Adriano<br>
+(current maintainer of the UZIX) looking for possible porting it onto<br>
+Mailstation (as soon as it's Z80 CPU).<br>
+<br>
+</p>
+<hr><h3 id="18">18: Subject: Re: [mailstation] Re: UpdateSoftware Flowcharts</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jul 5, 2004</p>
+<p class="formattedBody">I think it would be great to have a unix like OS for mailstation. The<br>
+other possibility is CP/M or a complete Forth environment.<br>
+<br>
+Try this link to I/O map on Linux Hacker, it has proven correct so far.<br>
+<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?Action=ShowPost&Board=mswhatever&Post=77&Idle=0&Sort=0&Order=Descend&Page=0&Session=">(URL)</a><br>
+<br>
+<br>
+On Sun, 2004-07-04 at 14:17, a_b_aldus wrote:<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

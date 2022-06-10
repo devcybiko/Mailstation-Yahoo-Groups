@@ -1,0 +1,384 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">CamelForth (Apr 22, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 23, 2005</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Apr 23, 2005</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 29, 2005</a></li>
+<li><a class="link" href="#4">From: "John R. Hogerhuis" <jhoger@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#5">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#6">From: "apple2ebeige" <apple2ebeige@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#7">From: "John R. Hogerhuis" <jhoger@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#9">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 30, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: CamelForth</h3>
+<p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 22, 2005</p>
+<p class="formattedBody">Well as a proof of concept I ported CamelForth to the Tandy WP-2, a<br>
+Z80 based word processor, not too different from the MS. I did the<br>
+WP-2 since I've been planning it for a while and it has a built in<br>
+serial-connected  disk driver that I happen to have a good emulator for.<br>
+<br>
+I had to do a few things:<br>
+<br>
+a) Use the Z180 port of CamelForth, since it can compile with the<br>
+Zilog assembler/linker. The original Z80 CamelForth is compatible with<br>
+some CP/M assembler.<br>
+<br>
+b) Remove hardware specific stuff in the Z180 port. Nothing difficult,<br>
+just deleting some things.<br>
+<br>
+c) Create a WP-2 compatible "header" for the file.<br>
+<br>
+d) Implement EMIT, KEY, and KEY? EMIT outputs a character to the<br>
+terminal, KEY blocks reading a character from the terminal, and KEY?<br>
+just scans for the currently depressed key.<br>
+<br>
+e) Use the HEX2BIN utility of sourceforge to convert Intel hex to binary.<br>
+<br>
+f) Load it up and test my implementations of EMIT, KEY, and KEY?<br>
+<br>
+Anyway, it works! The MS shouldn't be too different, at least if we<br>
+are using its routines. But for stand-alone (ie no dependence on Cidco<br>
+code) we'd need a little bit more, since we'd be generating characters<br>
+ourselves, and we'd have to do all the bootloader stuff. But it might<br>
+be easier to experiment with that kind of thing if we just get<br>
+CamelForth booting first, then we can play with all the hardware<br>
+interactively. I have some ideas for a simple flash file system if we<br>
+get tired of loading code at the keyboard or over the parallel port.<br>
+<br>
+CamelForth is about 6K, there are instructions burning it to ROM<br>
+available (so it doesn't create any variables in program space). Or we<br>
+could just load and run it in RAM for now via MAILBUG.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 23, 2005</p>
+<p class="formattedBody"><br>
+Cool!<br>
+<br>
+[...]<br>
+<br>
+Does the z180 code run on a z80?  If it does, what makes it a z180<br>
+port?<br>
+Just curious.<br>
+<br>
+[...]<br>
+<br>
+Did you use existing terminal routines in the WP-2?<br>
+<br>
+So far, all I have found in ms is the raw scancode key buffer<br>
+routines.<br>
+Won't be "too hard" (heh, there I go again) to convert to ascii.<br>
+<br>
+On the output side it might be a little more work.  I have some<br>
+quick and dirty code that writes whole strings to LCD.  I used<br>
+the existing message display function from the update code.<br>
+Its easy to set the line it writes on, but it always wants to write<br>
+starting at the left edge of the screen.<br>
+<br>
+Probably the most straight forward way to do a better<br>
+terminal would be to restore the font page in codeflash,<br>
+and then use the LCD code in page #00 of the codeflash.<br>
+But I don't know if there is a "text mode" cursor.  Might<br>
+have to keep track of that ourselves.<br>
+<br>
+<br>
+Mailbug can load intel .hex files!  :-)<br>
+(It's one of the few thing that did work right in version posted.<br>
+Is anyone waiting for the fixed version?)<br>
+<br>
+<br>
+It's always fun when "it works"!!!<br>
+<br>
+[...]<br>
+<br>
+Yeah, it seems like you would need to store your program files<br>
+somewhere, even if the forth interpreter is in rom.  And a text<br>
+editor to write programs, or is that part of forth already?<br>
+<br>
+[...]<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 23, 2005</p>
+<p class="formattedBody">On Sun, 2005-04-24 at 01:28 +0000, Cyrano Jones wrote:<br>
+<br>
+I haven't seen anything special. The only thing about this port that I<br>
+needed was that it assembles with the Zilog assembler/linker instead of<br>
+some CP/M assembler/linker. Seems to run fine on a regular Z80 chip.<br>
+<br>
+<br>
+Yes. And of course now I'm finding that the charout is buggy on some<br>
+WP-2 ROMs when you get to the screen scroll. So I may have to do it<br>
+myself at least for the last character on screen.<br>
+<br>
+<br>
+Yeah that sounds like not a big deal. Are they even encoded? In the<br>
+WP-2, for example, they are two bytes, one that has the ascii code and<br>
+the other has bits set for various shift and function keys.<br>
+<br>
+<br>
+<br>
+Fixed width fonts aren't hard to make in any event. Better to use<br>
+something without the Cidco copyright on it.<br>
+<br>
+At the momemnt cursor doesn't work all that well on WP-2, but I can get<br>
+along ok without it. Will add one soon, just not my top priority.<br>
+<br>
+<br>
+I'd like a new version :-) That's one of the reasons I've been poking<br>
+around with WP-2 instead of MS, I know you said there are some bugs in<br>
+the released code.<br>
+<br>
+<br>
+Good point on the editor... then WP-2 is a word processor in ROM so I<br>
+get an editor for free. On the MS, once we get Forth loaded there are<br>
+lots of block editors around, and I believe there are also full screen<br>
+editors. I've seen at least one complete forth word processor source<br>
+code, we could use that if can't find something smaller.<br>
+<br>
+In any event we could just redirect I/O to the parallel port and<br>
+interact completely over a terminal session. Then to upload code just<br>
+use the terminal program. Then we could bootstrap our way to a<br>
+filesystem.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 29, 2005</p>
+<p class="formattedBody"><br>
+When I said that last Saturday, I thought it was ready...<br>
+Then, before uploading, I thought I might actually test<br>
+it!  The new flash code was working "pretty good", but<br>
+when flashing large blocks, it would sometimes get a<br>
+timeout error.  This was quite puzzling, because until then,<br>
+the laplink code had been working flawlessly.<br>
+<br>
+It took me quite a while to figure out just *what* was happening,<br>
+and then even longer to understand *why*.  I'm pretty sure I<br>
+have it fixed now.  I will do some more testing tonight,<br>
+and if all goes well, I'll upload it.<br>
+<br>
+(This is just a fix to ver 0.0.2, not the "next version", so<br>
+it is still just for the older models.)<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody">On Fri, 2005-04-29 at 22:23 +0000, Cyrano Jones wrote:<br>
+<br>
+<br>
+So what are the changes to the new rev? Bugfixes only?<br>
+<br>
+In any event that should allow me to get CamelForth going. Might have to<br>
+render characters myself, but that isn't too hard.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody"><br>
+"load", "save" and "verify" should all work properly now.  They<br>
+each had the same problem with address calculations.  (Apparently,<br>
+when I modified them to use 32 bit address, I didn't really test<br>
+the change.)  Load only loads into RAM, but save should be able to<br>
+save the protected pages of the codeflash to disk.<br>
+<br>
+Codeflash erase and write ("erase" & "zap") are working fine<br>
+now, too.  Writing codeflash is quite a bit slower now, due<br>
+to the fact that flash algorithm runs on the PC now, not on<br>
+the mailstation.  It takes 35 seconds to flash a 16k page,<br>
+versus 4.2 seconds with older method.  I have another method<br>
+in mind that would be much faster. (maybe in future revision???)<br>
+<br>
+After I figured out what was wrong with old method (using code<br>
+in same rom you are writing is not allowed), I was gonna add<br>
+flash erase and flash write commands into mbug.  Then I realized<br>
+that the flash algorithm could be implemented on either side of<br>
+the laplink cable.  So I moved it over to the mailbug side.  It<br>
+is slower now, because the flash commands have to be sent to the<br>
+codeflash for each byte over the laplink.<br>
+<br>
+Most (all???) of the commands now can be cancelled with esc key.<br>
+<br>
+Several minor changes, that I can't think of right now.<br>
+<br>
+There is a new .zip file with (hopefully) all the files<br>
+you need.  You need at a minimum the new mailbug.exe, and<br>
+the matching mbug.rom.  They should work fine with the old<br>
+mboot.rom if you already flashed it.  You should be able to<br>
+unzip it on top of the old files.  I added scancode.hex, and<br>
+a newer version of hello.rom.  The "crunch.dat" file may be<br>
+newer, too (not sure).  crunch.dat holds the type info for<br>
+the disassembler.<br>
+<br>
+I started making up some instructions for how to use it,<br>
+but I haven't got very far with it yet.  If anyone has<br>
+questions, just ask.<br>
+<br>
+Oh, yeah, I added a "blank check" for codeflash, but forgot<br>
+to add it to the menu.  It's ctrl-b and it will prompt for<br>
+which pages to check.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "apple2ebeige" &lt;apple2ebeige@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody">Could somebody say what mailbug works with now amongst the various MSxx0, DETx,<br>
+and firmware models?  What models may work in the future?  What models might never<br>
+work?<br>
+<br>
+Thanks.<br>
+<br>
+-Dave<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: [mailstation] Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody">On Sat, 2005-04-30 at 13:29 +0000, Cyrano Jones wrote:<br>
+<br>
+Cool.<br>
+<br>
+<br>
+Of course it can, but besides being slow as you've found, it is probably<br>
+not the safest way to do it. If the connection breaks during burn (more<br>
+likely since it takes longer) you could end up, say, with a<br>
+half-programmed boot block.  Or is this code intended only for burning<br>
+outside of the boot block?<br>
+<br>
+Probably the best thing would be to a) download a checksummed chunk of<br>
+manageable size b) checksum it c) if it matches, burn it in.<br>
+<br>
+<br>
+Actually flash block burns should probably not be interruptible.<br>
+<br>
+<br>
+Can it be used to update existing mbug.rom?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody"><br>
+The old brown non ergonomic case models,<br>
+firmware ver 2.22r, 2.53yr, 2.54.<br>
+These old models before the mailstation/mivo 100<br>
+did not have a "number".  Possibly some of the<br>
+mailstation/mivo 100 with firmware 3.xx???<br>
+I think John H. flashed one of those and it<br>
+worked.<br>
+<br>
+<br>
+I expect that sooner or later, all up to 250.<br>
+They are all quite similar.<br>
+<br>
+<br>
+350.  It has different cpu (not z80).<br>
+AFAIK, nobody is working on it.<br>
+Esentially would be a different project<br>
+from this one.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: CamelForth</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody"><br>
+That is a very good point, that I had not considered.<br>
+<br>
+The first reason I thought of for doing it this way was to remove<br>
+the possibility of accidently erasing/flashing, which was a problem<br>
+in the past.  :-)<br>
+<br>
+The second reason was that it was way easier to code it in Pascal<br>
+than z80 assembler!  ;^)<br>
+<br>
+<br>
+Right up until the last moment, I had locked out the ability to erase<br>
+the boot blocks.  I wanted to add a special function that would<br>
+erase and reflash the boot code all in one operation.  But I<br>
+compromised<br>
+in the spirit of just getting it uploaded.  So now it issues a<br>
+"stern warning" if you ask it to erase boot code.  You can only<br>
+continue by typing "I dont't care" at the prompt.  :^O<br>
+<br>
+<br>
+Sounds reasonable to me.  Maybe even send a whole 16k page, in<br>
+the case of the boot block, and then let it burn it all at once.<br>
+<br>
+<br>
+They're not, at least after you let it start.  But if you hit the<br>
+key for, say, erase (or load, or save, etc.), when it is asking you<br>
+*what* to erase (load, save ,etc.), you can just skip it.<br>
+<br>
+I do want to add the ability to abort some commands without<br>
+finishing (for instance blank checking all 64 codeflash pages<br>
+can get tiresome).  But reflashing of the boot block<br>
+would definitely be one you would not want to be<br>
+interruptable.<br>
+<br>
+<br>
+(I know you mean mboot.rom, I can't keep them straight myself,<br>
+and I named them!)<br>
+<br>
+Yes.  But you will have to answer the warning with<br>
+"I don't care" (including the ' in don't) to erase the old<br>
+mboot.rom, and then flash the new - _without_rebooting_mbug!<br>
+<br>
+But the neat thing about it is you should seldom need to<br>
+reflash a new mboot.rom.  That is why it is seperated into<br>
+mbug and mboot.  Mbug is a file on the PC disk, that gets<br>
+loaded over the laplink to mailstation RAM.  It is what<br>
+the debugger (mailbug) uses to interface to mailstation.<br>
+<br>
+It is a trivial matter to make change to mbug, reassemble,<br>
+and test.  If you made a mistake, no problem, it's just<br>
+in RAM.  Edit, assemble, and try again.<br>
+<br>
+Mboot is the part that is flashed into mailstation.<br>
+It's only job is to run when mailstation reboots,<br>
+and load the current mbug into ram.<br>
+<br>
+We need a better mboot.rom for the 120/150 etc.<br>
+<br>
+Eventually, I want to split the code that runs on<br>
+the mailstation into three parts:<br>
+1) Seldom changing boot code (mboot.rom), either loads mbug,<br>
+or executes rom monitor if not connected to PC (mailbug).<br>
+2) Changeable-without-fear-of-hosing rom-monitor, that<br>
+runs automatically when not connected to mailbug.<br>
+3) Latest greatest interface to debugger (mbug.rom, but<br>
+it is not really burned to rom)<br>
+<br>
+If this doesn't make any sense, it is probably due to the fact<br>
+that I have been up since yesterday.  I really need to<br>
+sleep now...<br>
+<br>
+CJ<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

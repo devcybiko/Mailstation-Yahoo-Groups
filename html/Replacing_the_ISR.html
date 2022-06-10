@@ -1,0 +1,1652 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Replacing the ISR (Aug 1, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 2, 2007</a></li>
+<li><a class="link" href="#2">From: "Jeff" <fyberoptic1979@...> Aug 19, 2007</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#4">From: "Jeff" <fyberoptic1979@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#6">From: "Jeff" <fyberoptic1979@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#8">From: "Jeff" <fyberoptic1979@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#9">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#10">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#11">From: "Jeff" <fyberoptic1979@...> Aug 22, 2007</a></li>
+<li><a class="link" href="#12">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 24, 2007</a></li>
+<li><a class="link" href="#13">From: "Jeff" <fyberoptic1979@...> Aug 24, 2007</a></li>
+<li><a class="link" href="#14">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 25, 2007</a></li>
+<li><a class="link" href="#15">From: "Jeff" <fyberoptic1979@...> Aug 26, 2007</a></li>
+<li><a class="link" href="#16">From: "John R. Hogerhuis" <jhoger@...> Aug 26, 2007</a></li>
+<li><a class="link" href="#17">From: "Jeff" <fyberoptic1979@...> Aug 26, 2007</a></li>
+<li><a class="link" href="#18">From: "John R. Hogerhuis" <jhoger@...> Aug 26, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Replacing the ISR</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 1, 2007</p>
+<p class="formattedBody">It's been a while since I had done any Z80 programming before I got<br>
+into t=<br>
+he whole Mailstation thing, so I was referring to the<br>
+documentation on the=<br>
+interrupt modes again earlier, and came to<br>
+realize a trick one could prob=<br>
+ably use to hijack it from the MS code<br>
+to your own.  The NMI would still b=<br>
+e stuck there, but maybe that<br>
+rarely gets tripped, if ever (depending on w=<br>
+hat you're doing?).  Mind<br>
+you, this might be a commonly known trick, I dun=<br>
+no, but I thought it<br>
+worth mentioning anyway.<br>
+<br>
+Basically, you put it into =<br>
+interrupt mode 2, which is the one where<br>
+you set I to the high address byt=<br>
+e of an interrupt table.  When the<br>
+interrupt hits, the external device wri=<br>
+tes the low byte (the position<br>
+in the interrupt table) to the processor, a=<br>
+nd then it does an<br>
+indirect call to the address stored at that memory loca=<br>
+tion.<br>
+<br>
+Well, I'm fairly sure the MS doesn't have anything that writes thi=<br>
+s<br>
+byte back to the processor (hence why it uses interrupt mode 1, which<br>
+c=<br>
+alls the fixed address 0x38), meaning some random byte will be there<br>
+on th=<br>
+e data bus when the interrupt happens.  But that's the trick: it<br>
+doesn't m=<br>
+atter what byte is there.<br>
+<br>
+You can simply use a table of 257 identical byte=<br>
+s.  It has to be 257<br>
+bytes instead of 256, since normally, you leave bit 0=<br>
+of the byte fed<br>
+to the processor as 0, so that it'll stay aligned to a ta=<br>
+ble of 2-<br>
+byte addresses.  Since it may or may not be aligned for us due to=<br>
+a<br>
+random value, we just use one extra byte, in case the random byte the<br>
+=<br>
+processor reads happens to be 255.<br>
+<br>
+So, for example, if you set register I =<br>
+to C0, and then positioned<br>
+your lookup table from 0xC000 to 0xC100, settin=<br>
+g every byte in it to<br>
+like, 40, then when the interrupt hit, it would find=<br>
+the address<br>
+0x4040 no matter where it looked in the table.  Then it would=<br>
+call<br>
+0x4040 for the actual interrupt, which of course is an address insid=<br>
+e<br>
+your range of control.<br>
+<br>
+Of course replacing the codeflash is the simples=<br>
+t way to do it, but<br>
+this allows you to leave that alone, and still have it=<br>
+s functionality<br>
+intact if you need it, but be able to take control of the =<br>
+interrupts<br>
+as well if you want.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 2, 2007</p>
+<p class="formattedBody"><br>
+ut that's the trick: it<br>
+simply use a table of 257 identical bytes.<br>
+...<br>
+set register I to C0, and then positioned<br>
+to 0xC100, setting every byte in it to<br>
+hit, it would find the address<br>
+table.  Then it would call<br>
+rse is an address<br>
+<br>
+Pretty slick!<br>
+<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 19, 2007</p>
+<p class="formattedBody">So I finally did exactly what I mentioned here, to try making my own<br>
+entir=<br>
+e interrupt, and came across a few little gotchas that I thought<br>
+was worth=<br>
+sharing.<br>
+<br>
+Oh yeah, first of all, I apparently didn't come up with the 257 =<br>
+<br>
+identical byte table for interrupt mode 2, after seeing some other<br>
+write-=<br>
+ups on z80 interrupts on the web.  I kinda had a feeling that I<br>
+surely did=<br>
+n't invent something for such an old processor, considering<br>
+there are coun=<br>
+tless smarter people in the electronics/programming<br>
+fields than me.  Not t=<br>
+he first time I've "invented" something<br>
+somebody else already did.  But it=<br>
+made me feel smart for a little<br>
+while, at least!<br>
+<br>
+Anyhoo, since I'm not u=<br>
+sing the normal video memory buffer, I<br>
+somewhat randomly decided to use #c=<br>
+1c1 for my interrupt location<br>
+(putting #c1 in my 257 byte interrupt table =<br>
+of course).  Though I'm<br>
+actually just putting a jump here to code in my ma=<br>
+in chunk.  This<br>
+actually led to some problems for me, because AS80 was "op=<br>
+timizing"<br>
+my code, converting the JP to a JR, and it took me forever to re=<br>
+alize<br>
+it.  So I finally bit the bullet and disabled optimizations.  Prolly=<br>
+<br>
+shoulda done it from the get go.<br>
+<br>
+Once I got that out of the way, I found=<br>
+out something else strange.<br>
+If I re-enabled interrupts before my RETI, i=<br>
+t would freeze up.  For a<br>
+while I was just re-enabling them in part of my =<br>
+keyboard loop<br>
+(outside the interrupt), but I knew something had to be wron=<br>
+g, since<br>
+the MS interrupt ends with an EI and works fine.  I actually even=<br>
+did<br>
+a jump to #0038 at the end of my own interrupt (effectively making it=<br>
+<br>
+a hook), and it worked fine.<br>
+<br>
+So it wasn't until looking over the MS co=<br>
+de that I realized that it<br>
+was toggling the bit of the current interrupt o=<br>
+n port #03.  It seemed<br>
+to be the only thing it COULD have been.  And sure =<br>
+enough, toggling<br>
+that bit makes my interrupt work fine, letting me end it =<br>
+with the<br>
+standard EI/RETI like I wanted.  So that's important to know.  I'=<br>
+m<br>
+just curious what exactly toggling the bits does in the hardware, as<br>
+to=<br>
+what would cause it to freeze up like it was doing (unless I re-<br>
+enabled i=<br>
+nterrupts outside the interrupt routine).<br>
+<br>
+After I added my toggling, I rea=<br>
+lized that the time16 interrupt was<br>
+much slower than I had previously expe=<br>
+rienced.  With toggling, time16<br>
+occurred every 1 second.  Before I figured=<br>
+that out, the interrupt<br>
+was happening pretty rapidly (perhaps not togglin=<br>
+g the bit was making<br>
+the interrupt happen repeatedly?).  My bare interrupt=<br>
+routine is<br>
+actually just incrementing a 16-bit value, which I then displa=<br>
+y the<br>
+content of in my main program code loop, which is how I was able to =<br>
+<br>
+see how fast the interrupt was occuring.  Turning the keyboard<br>
+interrupt =<br>
+on makes it count really fast again, but I'm not sure of<br>
+the time interval=<br>
+there.<br>
+<br>
+I then put my own version of my keyboard routine in the interrupt,=<br>
+<br>
+and found it was freezing if I call it after toggling that bit.<br>
+Doing i=<br>
+t beforehand fixed that, as did calling it after setting the<br>
+bit to zero, =<br>
+but before setting the bit back on again.  This seems to<br>
+be the method use=<br>
+d by the MS routine anyway, so I figure I should<br>
+handle it like that from =<br>
+now on.<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">s toggling the bit of the current interrupt on port #03.  It seemed<br>
+e the only thing it COULD have been.  And sure enough, toggling<br>
+makes my interrupt work fine, letting me end it with the<br>
+TI like I wanted.  So that's important to know.  I'm<br>
+xactly toggling the bits does in the hardware, as<br>
+to freeze up like it was doing (unless I re-<br>
+the interrupt routine).<br>
+<br>
+It sounds like clearing the p3.x output port bit m=<br>
+ay be clearing the<br>
+coresponding p3.x input port bit.<br>
+<br>
+The in & out bits a=<br>
+re not the same, the existence of the shadow<br>
+indicates you can't read back =<br>
+what you last wrote.  It seems like<br>
+the output bits serve to enable the res=<br>
+pective interrupt, and now<br>
+you have found evidence that setting the enable =<br>
+bit low also clears<br>
+the request bit.  Good work!!!  Maybe you would even sa=<br>
+y it serves as<br>
+an "acknowledge" to the interrupting hardware?<br>
+<br>
+ded my toggling, I realized that the time16 interrupt was<br>
+an I had previously experienced.<br>
+<br>
+The slower one is probably correct.  I =<br>
+don't know if time16 is even<br>
+used anywhere, the only reference I found to =<br>
+it was the increment<br>
+in the ISR.  It is possible it was used by one of the =<br>
+functions<br>
+that got scraped out by version 2.53yr (caller id????).<br>
+<br>
+Did your=<br>
+keyscan work when time16 was flying?  Oh wait, I bet it<br>
+did, since it's no=<br>
+t int based, right???<br>
+<br>
+Before I figured that out, the interrupt<br>
+perhaps not toggling the bit was making<br>
+).<br>
+<br>
+I'll venture a hypothesis:  Without the toggle of out-P3.4, the in-bi=<br>
+t<br>
+was not cleared.  Since time16 int has a higher priority than<br>
+keyboard i=<br>
+nt, time16 handler was catching keyboard ints.  When you<br>
+added the  toggle=<br>
+of out-P3.4 the keyboard ints were now handled by<br>
+the keyboard int handle=<br>
+r.<br>
+<br>
+And by toggle, I really mean setting low.  You need to set high again=<br>
+<br>
+to re-enable the int.<br>
+<br>
+crementing a 16-bit value, which I then display the<br>
+n program code loop, which is how I was able to<br>
+pt was occuring.  Turning the keyboard<br>
+y fast again, but I'm not sure of<br>
+<br>
+Cool!!!<br>
+<br>
+Can=<br>
+you get an idea of the actual rate of the keyboard int??????<br>
+I think the t=<br>
+imers are in millisec, and that would mean this int<br>
+happens every 1 millise=<br>
+c.  Another theory is it is a 60 Hz int.,<br>
+in which case the timers can't be=<br>
+in millisec (I think I verified<br>
+they were millisec, but maybe I remember w=<br>
+rong???)<br>
+<br>
+pt,<br>
+<br>
+You mean in the P3.1 int, not the P3.4 (time16) int, right?<br>
+<br>
+und it was freezing if I call it after toggling that bit.<br>
+<br>
+Here you mean s=<br>
+etting low then high, both, before calling your<br>
+keyscan, right???  I probab=<br>
+ly used bad terminology when I said<br>
+"toggle" in the comments, which I guess=<br>
+really means "invert".<br>
+<br>
+it after setting the<br>
+in.  This seems to<br>
+ure I should<br>
+<br>
+The keyscan interrupt (wh=<br>
+ich is a misnomer, it is really time32,<br>
+10 timers, and keyscan interrupt),=<br>
+is written to re-enable ints<br>
+inside the ISR (right after inc of time32).  =<br>
+I guess the idea is<br>
+to allow the other ints to be serviced before the time=<br>
+rs &<br>
+keyscan are done.  This is probably why they leave the out-P3.1<br>
+bit l=<br>
+ow while servicing int 3.1.  You don't want to get a<br>
+second keyscan int ti=<br>
+ll you are done with the current scan.<br>
+<br>
+I don't claim to fully understand h=<br>
+ow the interrupts work,<br>
+and I don't know if the ms code is best way to do =<br>
+it, but<br>
+if it aint broke...<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+the<br>
+he same, the existence of the shadow<br>
+ou last wrote.  It seems like<br>
+ive interrupt, and now<br>
+t low also clears<br>
+y it serves<br>
+<br>
+enture a hypothesis:  Without the toggle of out-P3.4, the in-<br>
+cleared.  Since time16 int has a higher priority than<br>
+e16 handler was catching keyboard ints.  When you<br>
+ut-P3.4 the keyboard ints were now handled by<br>
+<br>
+gain to re-enable the int.<br>
+<br>
+After I wrote my post, I thought on what migh=<br>
+t be happening, and<br>
+formed what I figured was a somewhat fair analysis of =<br>
+how the<br>
+hardware could be working.  I'm no expert of course, but this is h=<br>
+ow<br>
+I'd make it myself, based on what I've seen.  It also matches up with<br>
+=<br>
+some of your own hypothesis, but I didn't give you a thorough<br>
+description =<br>
+of how exactly I had my interrupt routine setup, which<br>
+I'll explain in a m=<br>
+oment, and will hopefully clear up matters a bit.<br>
+<br>
+As for the hardware, I'm=<br>
+thinking that there's a flip-flop in there<br>
+for each interrupt.  When an i=<br>
+nterrupt happens, the flip-flop<br>
+enables, and stays on indefinately until i=<br>
+t's reset.  I figure all of<br>
+these flip-flop outputs are connected to what =<br>
+you read on port 3<br>
+input (so that you can get which interrupt occurred), a=<br>
+s well as<br>
+probably all being OR'd together (and inverted) to the processor=<br>
+'s<br>
+interrupt pin.  During your interrupt routine, you'd then read port 3<br>
+=<br>
+to see which interrupt happened, and "acknowledge" it by setting that<br>
+bit =<br>
+off then on again, which presumably trips that interrupt's flip-<br>
+flop's res=<br>
+et.  If you don't trip the reset of the flip-flop(s), it<br>
+won't go off, and=<br>
+therefore make the interrupt routine execute again<br>
+immediately after havi=<br>
+ng just executed.<br>
+<br>
+If this is all the case, then I think this is why it was=<br>
+"locking up"<br>
+on me when I wasn't toggling the port 3 output bit.  I say "=<br>
+locking<br>
+up" because I had initialization code to fill in the screen with a=<br>
+<br>
+particular character, which was directly underneath the code where I<br>
+set=<br>
+up my interrupt replacement and enabled interrupts.  The screen<br>
+was drawin=<br>
+g only a couple columns or so before just freezing in mid<br>
+draw.  If I wait=<br>
+ed until after the screen drawing code to enable<br>
+interrupts, the screen wo=<br>
+uld completely draw in just fine, of course,<br>
+but then just freeze afterwar=<br>
+ds.  So without toggling that port 3<br>
+bit, it was probably actually just ex=<br>
+ecuting the interrupt function<br>
+over and over, and never getting a chance t=<br>
+o actually return to my<br>
+main code loop long enough to continue.<br>
+<br>
+What I di=<br>
+dn't fully explain about my interrupt routine is that,<br>
+during the initiali=<br>
+zation process, I disabled every interrupt in the<br>
+interrupt mask of port 3=<br>
+except for the time16 one.  No keyboard was<br>
+on at this point.  So, when I=<br>
+was re-enabling interrupts at the end<br>
+of my interrupt routine, it would d=<br>
+o the freezing up that I mentioned<br>
+earlier.  If I waited to re-enable inte=<br>
+rrupts until after I got back<br>
+into my main code loop, then the interrupt w=<br>
+ould occur fairly rapidly<br>
+(it didn't fully lock up like before because my =<br>
+code had a chance to<br>
+do stuff before the interrupt had a chance to be trig=<br>
+gered again,<br>
+which it presumably did immediately upon an EI, since I never=<br>
+toggled<br>
+the p3 bit).  Once I put the port 3 time16 bit toggling into play=<br>
+,<br>
+the interrupt started to only happen once a second, which seems to be<br>
+t=<br>
+he correct interval of that particular interrupt.<br>
+<br>
+I then turned on the key=<br>
+board interrupt in the interrupt mask as<br>
+well, and that's when it started =<br>
+to trigger the interrupt routine<br>
+quickly again.  I was pretty much togglin=<br>
+g every bit off then on<br>
+again, so that I'd trip all the resets (therefore =<br>
+getting both the<br>
+keyboard and time16 in one swoop).  But now I've separate=<br>
+d the two<br>
+interrupts out, by detecting which is occuring and jumping to a =<br>
+<br>
+location to deal with it and toggle only its bit, just like the MS is<br>
+doi=<br>
+ng (and therefore also implementing an interrupt priority in<br>
+effect, by de=<br>
+pending on which I test for first).  That way the code I<br>
+have associated w=<br>
+ith the time16 interrupt only runs at its one second<br>
+interval, and the key=<br>
+board code executes at its own interval.<br>
+<br>
+Actually, I'm not doing it EXAC=<br>
+TLY like the MS; I'm only executing<br>
+unique code for the time16 and keyboar=<br>
+d interrupt.  If one of these<br>
+two doesn't occur, I'm defaulting to togglin=<br>
+g all the rest of the<br>
+interrupt bits in one swoop, because I obviously am =<br>
+not interested in<br>
+those if they happened to occur.  I turned the others of=<br>
+f of course<br>
+in the interrupt mask during initialization, but I figure ther=<br>
+e's<br>
+always a chance one could be pending from how the MS had it all<br>
+confi=<br>
+gured before I took over.  Just clearing all the others if<br>
+time16 or keybo=<br>
+ard doesn't occur prevents another neverending loop,<br>
+like what plagued me =<br>
+initially.<br>
+<br>
+Actually, why don't I just show you the code fragment:<br>
+<br>
+in	a, =<br>
+(#03)<br>
+bit	4, a<br>
+jr	nz, interrupt_time16<br>
+bit	1, a<br>
+jr	nz, interrupt_keyboa=<br>
+rd<br>
+<br>
+ld	a, (p3shadow)	; else, just toggle the bits except<br>
+keyboard and =<br>
+time16<br>
+and	a, #12<br>
+out	(#03), a<br>
+ld	a, (p3shadow)<br>
+out	(#03), a<br>
+jr	interr=<br>
+upt_end<br>
+<br>
+I think I might be able to measure this keyboard interrupt inter=<br>
+val<br>
+by just checking how many keyboard interrupts occur between<br>
+time16's.=<br>
+If I had to make a wild guess, I might say 60 times a<br>
+second, as you sug=<br>
+gested.<br>
+<br>
+is even<br>
+t<br>
+got scraped out by version 2.53yr (caller id????).<br>
+<br>
+Do you suppose they use=<br>
+it for tracking the auto power off aspect?<br>
+<br>
+en time16 was flying?  Oh wait, I bet it<br>
+ight???<br>
+<br>
+I've pretty much stopped using my own keyscan.  Now that I made=<br>
+the<br>
+one work that I ripped out of the Mailstation firmware, and can make =<br>
+<br>
+my own interrupt as well, I see no reason not to just use theirs,<br>
+since I=<br>
+can relocate the variables required by it to wherever I want,<br>
+without clu=<br>
+ttering up C000-FFFF.<br>
+<br>
+But I suppose all the work I put into writing my own=<br>
+version was<br>
+pretty good experience, because it's the first time I've ever=<br>
+worked<br>
+with the raw dealings of rows/columns of a keyboard matrix.<br>
+<br>
+<br>
+t know if the ms code is best way to do it, but<br>
+<br>
+Y=<br>
+eah, there's really nothing particularly wrong with the MS interrupt<br>
+that =<br>
+I currently know of that would make me not want to use it, it's<br>
+pretty muc=<br>
+h solely the fact that its variables are all up in the<br>
+ram.  If I could to=<br>
+tally relocate everything, then it'd be pretty<br>
+nice to have one contiguous=<br>
+chunk to work in.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">I think I might be able to measure this keyboard interrupt interval<br>
+just checking how many keyboard interrupts occur between<br>
+had to make a wild guess, I might say 60 times a<br>
+ed.<br>
+<br>
+So I made two 16-bit variables (didn't think I needed'em this big, =<br>
+<br>
+but I wanted to make sure) called kbdtest and kbdmax, and clear'em to<br>
+0 a=<br>
+t startup.  Everytime the keyboard interrupt happens, I increment<br>
+kbdtest.=<br>
+Everytime the time16 interrupt happens, I copy the contents<br>
+of kbdtest i=<br>
+nto kbdmax, then clear kbdtest.  I display both on the<br>
+screen during my ma=<br>
+in code loop.<br>
+<br>
+kbdtest naturally increments swiftly, but kbdmax settles at =<br>
+64 after<br>
+a second or so and stays there.  That would seem to indicate that=<br>
+<br>
+it's not 60 times a second after all, but just a tad higher.  Not<br>
+sure w=<br>
+hy they chose that value.  Or maybe they were just aiming for<br>
+60 but didn'=<br>
+t care if it was entirely accurate, as long as the<br>
+keyboard got read often=<br>
+.  Then again I could be doing something that<br>
+makes this not entirely accu=<br>
+rate, but I don't know exactly what<br>
+that'd be at the moment.  I even took =<br>
+the call to the keyboard scan<br>
+out of the interrupt to see if that might in=<br>
+fluence the speed at all,<br>
+but it stayed the same.  So, for the moment at l=<br>
+east, I'm assuming<br>
+the keyboard interrupt happens 64 times a second.<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">So I made two 16-bit variables (didn't think I needed'em this big,<br>
+wanted to make sure) called kbdtest and kbdmax, and clear'em<br>
+to<br>
+tartup.  Everytime the keyboard interrupt happens, I<br>
+increment<br>
+Everytime the time16 interrupt happens, I copy the<br>
+contents<br>
+t into kbdmax, then clear kbdtest.  I display both on the<br>
+my main code loop.<br>
+<br>
+Maybe I shoulda waited a little bit before I made th=<br>
+at post, because<br>
+here's yet another with some new info!<br>
+<br>
+I decided to use =<br>
+this same technique on the other interrupts, to see<br>
+if/when/how often they=<br>
+trigger.  So I implemented code to handle<br>
+every interrupt, and turned the=<br>
+m all on.  One by one, I put the code<br>
+to increment kbdtest into the interr=<br>
+upt handlers.  Here's what I<br>
+got(2 and 7 being the new ones):<br>
+<br>
+0 - Didn't =<br>
+do anything<br>
+1 - Triggers 64 times a second, used for keyboard<br>
+2 - Triggers =<br>
+when a key is pressed (minus power button)<br>
+3 - Nothing here<br>
+4 - Triggers ev=<br>
+ery second<br>
+5 - Nada<br>
+6 - Zilch<br>
+7 - Triggers when power button is pressed/dep=<br>
+ressed.  This is<br>
+apparently wired straight to the button, because it somet=<br>
+imes<br>
+triggers multiple times when pressed/released (aka not debounced).<br>
+<br>
+I=<br>
+knew there had to be one connected to the power button, because how<br>
+else =<br>
+would it wake back up when you press it?<br>
+<br>
+Interrupt 2 is what surprised m=<br>
+e most though: an interrupt that only<br>
+activates from the keyboard, yet the=<br>
+y never use it.  I know that to<br>
+do debouncing and such, you'd need a const=<br>
+ant time interval, which is<br>
+probably why they chose to do it in interrupt =<br>
+1.  Since the MS isn't<br>
+particularly cpu intensive, I guess they figured th=<br>
+ey'd just handle<br>
+it all in one swoop each time.  But if one wanted to stre=<br>
+amline the<br>
+interrupts, I reckon you could pull the keyboard routines apart=<br>
+, and<br>
+save some cycles by only doing some of it when a key is down.<br>
+<br>
+I act=<br>
+ually had to edit my post just now.  I initially thought<br>
+interrupt 2 was t=<br>
+riggering constantly (64 times a second) as long as<br>
+a key was being held. =<br>
+But then I had a thought about the keyboard<br>
+rows, and what might happen i=<br>
+f they were off (aka bits set high).  It<br>
+was then that I remembered that t=<br>
+he keyscan was switching these rows<br>
+on and off rapidly (and at a familiar =<br>
+64 times a second via interrupt<br>
+1).  So I decided to stop calling keyscan =<br>
+in the interrupt routine.<br>
+As a result, interrupt 2 stopped triggering 64 =<br>
+times a second when a<br>
+key was being held; instead, it only triggered once =<br>
+per button<br>
+press.  If I turn off the keyboard rows, it doesn't trigger an =<br>
+<br>
+interrupt at all.  If I only turn on, say, just the first row, it<br>
+only tr=<br>
+iggers when I press one of those buttons.  So interrupt 2 is<br>
+entirely depe=<br>
+ndant on which keyboard rows are active.<br>
+<br>
+But if keyscan was toggling all t=<br>
+he rows to check them for<br>
+keypresses, and this was causing nonstop interru=<br>
+pts on interrupt 2 as<br>
+long as the key was held, then this must mean that t=<br>
+oggling a<br>
+keyboard row effectively trips another interrupt 2 if a key in t=<br>
+hat<br>
+row is still being held.  This could be useful.  It's actually kind<br>
+o=<br>
+f useful just letting it increment 64 times a second when keyscan is<br>
+left =<br>
+to run normal, because you could use that as a basis for<br>
+handling key repe=<br>
+at and such.<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody"><br>
+second or so and stays there.  That would seem to indicate that<br>
+60 times a second after all, but just a tad higher.<br>
+Could it be 62.5????  T=<br>
+hat would make time32 exactly in millisec.<br>
+Maybe you could measure total co=<br>
+unt for 10 or even 60 seconds, and<br>
+get aveverage rather than max?  But, I a=<br>
+m ready to just call it<br>
+milliseconds.  "Close enough for government work", =<br>
+as they say.  :-)<br>
+<br>
+Turns out the timers *are* in millisec, too.  Well, they=<br>
+are set in<br>
+millisec, that is.<br>
+<br>
+The call to "Set_a_timer(who, msec, persist=<br>
+)" takes the number<br>
+of msec, and shifts it right 4 bits before sticking it =<br>
+in the<br>
+timer table.<br>
+<br>
+That explains why time32 increments by 16 each int,<br>
+wh=<br>
+ile the timers inc by just 1.<br>
+<br>
+The resolution of each of the 10 timers is l=<br>
+imited to<br>
+multiples of 16 msec,<br>
+and the max count is #fff =3D ~65 sec due t=<br>
+o fact that<br>
+the 16 bit msec param is shifted right by 4 bits.<br>
+(Seems upper =<br>
+4 bits of 16 bit limit are unsettable.)<br>
+<br>
+So, our current understanding is:<br>
+=<br>
+<br>
+- time16 is a 16 bit counter of elapsed seconds since boot,<br>
+unknown if it =<br>
+is ever used.<br>
+<br>
+- time32 is 32 bit counter of elapsed msec since boot,<br>
+units=<br>
+are msec, but resolution is 16 msec.<br>
+<br>
+- the ten event generating timers ar=<br>
+e set in units of<br>
+milliseconds, but resolution is 16 msec.<br>
+Max count is #ff=<br>
+f =3D ~65 sec<br>
+<br>
+<br>
+<br>
+br>> a second or so and stays there.  That would seem to indicate that &lt;=<br>
+br>> it's not 60 times a second after all, but just a tad higher. &lt;br>&lt;p=<br>
+re>Could it be 62.5????  That would make time32 exactly in millisec. &lt;br>Ma=<br>
+ybe you could measure total count for 10 or even 60 seconds, and&lt;br>get ave=<br>
+verage rather than max?  But, I am ready to just call it&lt;br>milliseconds.  =<br>
+"Close enough for government work", as they say.  :-) &lt;br>&lt;br>Turns out the=<br>
+timers *are* in millisec, too.  Well, they are set in&lt;br>millisec, that is=<br>
+.  &lt;br>&lt;br>The call to "Set_a_timer(who, msec, persist)" takes the number&lt;b=<br>
+r>of msec, and shifts it right 4 bits before sticking it in the&lt;br>timer ta=<br>
+ble.&lt;br>&lt;br>That explains why time32 increments by 16 each int, &lt;br>while t=<br>
+he timers inc by just 1.  &lt;br>&lt;br>The resolution of each of the 10 timers i=<br>
+s limited to &lt;br>multiples of 16 msec, &lt;br>and the max count is #fff =3D ~6=<br>
+5 sec due to fact that &lt;br>the 16 bit msec param is shifted right by 4 bits=<br>
+.&lt;br>(Seems upper 4 bits of 16 bit limit are unsettable.)&lt;br>&lt;br>So, our cu=<br>
+rrent understanding is:&lt;br>&lt;br>- time16 is a 16 bit counter of elapsed seco=<br>
+nds since boot,&lt;br>  unknown if it is ever used.&lt;br>&lt;br>- time32 is 32 bit =<br>
+counter of elapsed msec since boot, &lt;br>  units are msec, but resolution is=<br>
+16 msec.&lt;br>&lt;br>- the ten event generating timers are set in units of &lt;br>=<br>
+milliseconds, but resolution is 16 msec.  &lt;br>  Max count is #fff =3D ~65=<br>
+sec&lt;br>&lt;br>--CJ&lt;/pre>&lt;br><br>
+<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+.<br>
+t aveverage rather than max?  But, I am ready to just call it<br>
+s.  "Close enough for government work", as they say.  :-)<br>
+<br>
+Welp, I wante=<br>
+d to check, so I set it on 10 seconds first.  After time<br>
+to settle, kbdmax=<br>
+stayed a consistant 640.  So I did the longer test<br>
+of 60 seconds, and got=<br>
+3840.  I tried another different method as<br>
+well (which included waiting u=<br>
+ntil after the first time16 before<br>
+starting any counters, to ensure everyt=<br>
+hing was in sync), and got the<br>
+same result.  So it seems to confirm the 64=<br>
+times a second I<br>
+initially got.<br>
+<br>
+So then I thought I should test the ti=<br>
+me16 interrupt, just to verify<br>
+that it's in actual exact seconds.  I let i=<br>
+t run for about 14 minutes<br>
+counting (14 minutes just because it ended it a=<br>
+t the hour mark on the<br>
+clock, easier to remember when to check back on it)=<br>
+.  14 minutes =3D<br>
+840 seconds, and this is exactly what my counter said wh=<br>
+en it hit the<br>
+hour mark.  Here it is 8 minutes after, and I checked the co=<br>
+unter<br>
+again, and it's still accurate.  So time16 interrupt is pretty much =<br>
+<br>
+guaranteed to be in seconds, or it would surely have gotten skewed<br>
+from t=<br>
+he clock by now.<br>
+<br>
+So I dunno.  Maybe they don't care about exact millisecon=<br>
+ds on the<br>
+Mailstation, and just do it as close as possible.  I doubt it do=<br>
+es<br>
+anything particularly time critical in the software in which<br>
+microseco=<br>
+nds would matter anyway.<br>
+<br>
+Actually, do you think they might have used this =<br>
+time interval due to<br>
+the modem in some way?  I know that you need exact fr=<br>
+equencies in<br>
+order to communicate serially without an error percentage.  B=<br>
+ut I<br>
+have no idea if the modem chip and cpu run off the same oscillator or=<br>
+<br>
+what.  I don't even know what the oscillator speed is.  Obviously<br>
+it's l=<br>
+ikely to be some high amount if the Mailstation is capable of<br>
+switching up=<br>
+in speed.<br>
+<br>
+There's three different versions of the modem chip, and I dunno=<br>
+which<br>
+is in the Mailstation without possibly pulling it apart yet again. =<br>
+<br>
+One runs at 28.224mhz, one at 52.416mhz, and the other at 56.448mhz.<br>
+<br>
+B=<br>
+ut if we only knew the exact cpu frequency, some math could come<br>
+into play=<br>
+to figure out other things.<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody"><br>
+That's certainly=<br>
+interesting!  I wonder if it is detecting any<br>
+change on keyboard col input=<br>
+port, or just "not #ff" condition.<br>
+<br>
+essed/depressed.  This is<br>
+se it sometimes<br>
+ebounced).<br>
+<br>
+I don't know about that, it sure seems that the isr associated<br>
+=<br>
+with int7 is the caller id handler.<br>
+<br>
+The power button is connected to P9.=<br>
+4.  I suppose it *could*<br>
+generate interupt on P9.4 low, but then where is t=<br>
+he isr???<br>
+<br>
+There doesn't seem to be anything in the isr (labeled<br>
+"caller_id=<br>
+_handler") to turn on power.  In fact, the first<br>
+thing it does is check P2.=<br>
+2, which is wired to the data-ready<br>
+pin on the caller-id chip.  The isr ret=<br>
+s immediately if<br>
+there is no data ready.<br>
+<br>
+ected to the power button, because how<br>
+ou press it?<br>
+<br>
+I think maybe power button sets the power-control flip-flop=<br>
+<br>
+directly, without cpu's help.  I have to find the drawings I<br>
+made (4 years=<br>
+ago, but they are around here somewhere).<br>
+<br>
+I don't really know if the cpu =<br>
+is off, or just in halt state<br>
+when mailstation is "off" (asleep).  If it is=<br>
+halted, it<br>
+would need an int or a reset to get it started again.<br>
+<br>
+Is ther=<br>
+e any possibility that any port bits are getting<br>
+changed accidentally????<br>
+=<br>
+<br>
+I am assuming you are using your own shadow vars, right???<br>
+What do you ini=<br>
+t them to?  (0, or the value of the coresponding<br>
+"real" shadow)????<br>
+<br>
+Are yo=<br>
+u preventing *all* of the original int code from running?<br>
+<br>
+s what surprised me most though: an interrupt that only<br>
+he keyboard, yet they never use it.<br>
+<br>
+Perhaps it *is* used, to wake up fro=<br>
+m a "screensaver" mode<br>
+where unit goes to sleep, but needs to wake up right=<br>
+where you<br>
+left off?  I don't know if the mailstation even has this mode,<br>
+=<br>
+though.  The isr would not need to do anything, just the int<br>
+would restart =<br>
+halted cpu.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">to settle, kbdmax stayed a consistant 640.  So I did the longer test<br>
+60 seconds, and got 3840.  I tried another different method as<br>
+ch included waiting until after the first time16 before<br>
+nters, to ensure everything was in sync), and got the<br>
+t seems to confirm the 64 times a second I<br>
+<br>
+Mebbe we sh=<br>
+ould call the units "almost millisecs"???<br>
+Or, howzabout "bogomillisecs"??=<br>
+?  :-)<br>
+<br>
+erify<br>
+<br>
+Ya took the words right outt=<br>
+a my mouth...<br>
+<br>
+...<br>
+conds on the<br>
+<br>
+Sounds=<br>
+likely.<br>
+<br>
+due to<br>
+<br>
+Doubt that.<br>
+<br>
+ct frequencies in<br>
+age.<br>
+<br>
+Modem is parallel interfaced to cpu.<br>
+<br>
+e modem chip and cpu run off the same oscillator or<br>
+know what the oscillator speed is.  Obviously<br>
+h amount if the Mailstation is capable of<br>
+<br>
+Modem =<br>
+chip has it's own xtal.<br>
+<br>
+hip, and I dunno which<br>
+apart yet again.<br>
+r at 56.448mhz.<br>
+<br>
+Probably the slowest!  (cheaper)<br>
+OK, I looked at mine, t=<br>
+he xtal next to modem chip says<br>
+"524AS9X", and I am gonna jump to conclusio=<br>
+n that means 52.4 MHz.<br>
+<br>
+math could come<br>
+<br>
+I don't think cp=<br>
+u freq has anything to do with modem or timers.<br>
+The RTC has it's own xtal, =<br>
+too.  (rtc stops if you short it out).<br>
+<br>
+X101 (cpu xtal) has number "122AS9Y=<br>
+" which I am assuming means<br>
+12.2 MHz.<br>
+<br>
+X102 (rtc xtal) has no number (that=<br>
+I can see, at least).<br>
+<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+ggers multiple times when pressed/released (aka not debounced).<br>
+t know about that, it sure seems that the isr associated<br>
+caller id handler.<br>
+e it *could*<br>
+=<br>
+<br>
+I stripped everything out and made a standalone interrupt 7 test, if<br>
+you =<br>
+want to try it yourself.  This will make the LED come on when you<br>
+press th=<br>
+e power button:<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/interrupt7test.asm">(URL)</a><br>
+<br>
+I=<br>
+put the description and instructions at the top there.<br>
+<br>
+ly know if the cpu is off, or just in halt state<br>
+" (asleep).  If it is halted, it<br>
+started again.<br>
+<br>
+I tested this finally to see just what happens.  I pulle=<br>
+d the<br>
+powerdown function out and changed it so that it would jump to the<br>
+=<br>
+beginning of my code after the halt.  If the processor was merely<br>
+asleep, =<br>
+then it should jump back to the start of my code and keep on<br>
+trucking.<br>
+<br>
+We=<br>
+ll, it doesn't, unfortunately.  It always resets the MS entirely.<br>
+So it m=<br>
+ust do more than merely wake it back up.  P28.0 must<br>
+completely kill the p=<br>
+ower to the cpu, or at least maybe somehow holds<br>
+it in a state of reset.<br>
+<br>
+=<br>
+However!  We can make our own "sleep" mode.  Upon getting a power<br>
+button p=<br>
+ress during the normal keyscan, we can disable interrupts,<br>
+unmask all of t=<br>
+hem except like 2 (a keypress interrupt), turn off the<br>
+lcd, re-enable inte=<br>
+rrupts, and halt immediately thereafter.  Below<br>
+the halt we just put a jum=<br>
+p to where we want to go when it wakes up.<br>
+I just tried it, and it works =<br>
+like a charm!  It woke right back up<br>
+and went back to my code.  I also tri=<br>
+ed using interrupt 7 (power<br>
+button), but since it's not debounced, and act=<br>
+ivates again when you<br>
+release it, it doesn't work well unless one went to =<br>
+some extra<br>
+trouble in software.<br>
+<br>
+bits are getting<br>
+ing your own shadow vars, right???<br>
+value of the coresponding<br>
+<br>
+I'm still using the MS's=<br>
+shadow vars, actually.<br>
+<br>
+code from running?<br>
+<br>
+Yep, as can be seen in the test app above.<br>
+<br>
+Here's y=<br>
+ou something kind of interesting.  The v2.53 powerdown at<br>
+#1AC0:<br>
+<br>
+di      =<br>
+<br>
+ld a,(p28shadow) ;; set p28.0  either modem reset, or I am a pin off<br>
+=<br>
+on Vcc control bit?????<br>
+set 0,a     ;; Yeah, this makes more sense as "powe=<br>
+r off"<br>
+ld b,a<br>
+out (28),a<br>
+ld de,03E8<br>
+push de<br>
+call Delay(msec) =<br>
+;; delay<br>
+pop de<br>
+ld a,b      ;; reset p28.0<br>
+res 0,a<br>
+out (28),a  =<br>
+<br>
+halt        ;; stop cpu.  interrupts can wake it, I guess.<br>
+ret<br>
+<br>
+And now t=<br>
+he v3.03a powerdown:<br>
+<br>
+di<br>
+ld      a,(p28shadow)<br>
+set     0,a<br>
+ld      b,=<br>
+a<br>
+out     (#28),a<br>
+halt<br>
+ret<br>
+<br>
+No delay, no other bit resets or anyt=<br>
+hing.  Just straight and to the<br>
+point.  Wonder what the delay and other st=<br>
+uff is for, then?<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 24, 2007</p>
+<p class="formattedBody">int7 is the caller id handler.<br>
+P9.4.  I suppose it *could*<br>
+ere is the isr???<br>
+rrupt 7 test, if<br>
+<br>
+OK, I am getting int7 t=<br>
+oo when I run your test.  I wonder if<br>
+anything else triggers int7?  Does th=<br>
+e callerid chip?<br>
+<br>
+The isr sure looks like it is caller-id related.  And it =<br>
+most<br>
+definitely does not turn the power on.  Or off.<br>
+<br>
+I did some poking aro=<br>
+und with continuity checker tonight.<br>
+There are three things that set the po=<br>
+wer flip-flop to the<br>
+"on" state:  Power button, reset button, and a pin on =<br>
+cpu.<br>
+<br>
+The two buttons can pull the /set pin of the f-f to ground<br>
+via two d=<br>
+iodes.  The pin from cpu chip is connected to /set<br>
+thru a 10k resistor.<br>
+<br>
+Here's you something kind of interesting.  The v2.53 powerdown at<br>
+:<br>
+...<br>
+e<br>
+<br>
+Hmmmm... =<br>
+I wonder if they decided it works better that way?<br>
+It almost seems like a =<br>
+waste of time to take the delay out,<br>
+even if it is not needed.<br>
+<br>
+What PCB is=<br>
+in your 3.03a?  What color is your case?  The white<br>
+(or whatever you call =<br>
+that color) ones have a different PCB<br>
+than the brown ones.  Maybe there is =<br>
+some difference in circuit???<br>
+<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 24, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+nything else triggers int7?  Does the callerid chip?<br>
+s like it is caller-id related.  And it most<br>
+power on.  Or off.<br>
+<br>
+I actually made my test program because I honestly did=<br>
+n't know if<br>
+your MS might behave differently.<br>
+<br>
+I've never doubted your ass=<br>
+umption of interrupt 7 being used for<br>
+caller id though, especially after h=<br>
+aving looked at the function the<br>
+interrupt routine is calling.  It's just =<br>
+that the same interrupt<br>
+obviously has a second and unexpected use.  Whethe=<br>
+r they actually<br>
+actively use it though is another story, and at the moment=<br>
+, I'd lean<br>
+towards "no".  Much like with interrupt 2.  It makes me wonder =<br>
+how<br>
+many other aspects of the device have multiple and/or unused<br>
+function=<br>
+s.<br>
+<br>
+The thing is though, I'm fairly sure my model doesn't have caller ID<br>
+(=<br>
+as with all DET1 models, correct?).  So I wonder if the models that<br>
+do hav=<br>
+e caller id still have the power button associated with their<br>
+interrupt 7?=<br>
+<br>
+I wonder if maybe they tied the power button to it on these earlier<br>
+mo=<br>
+dels just for testing purposes?  That, or maybe they actually<br>
+thought they=<br>
+'d use it in early planning stages, until they changed<br>
+their minds, and de=<br>
+cided to use it for caller ID instead.  This is<br>
+the version 2.xx and 3.xx =<br>
+firmware after all.  Who knows what was in<br>
+earlier revisions.<br>
+<br>
+Have you tr=<br>
+ied tracing that interrupt's pin off the cpu to see where<br>
+all it goes?<br>
+<br>
+<br>
+hree things that set the power flip-flop to the<br>
+, reset button, and a pin on cpu.<br>
+<br>
+Well look at that, it does come on when =<br>
+I press reset!  Is the pin on<br>
+the cpu you're referring to the P28.0 one?<br>
+<br>
+=<br>
+<br>
+ost seems like a waste of time to take the delay out,<br>
+eeded.<br>
+<br>
+rown ones.  Maybe there is some difference in circuit???<br>
+<br>
+It's black, th=<br>
+ough I'm not exactly sure which number is my PCB<br>
+version.  I took some pho=<br>
+tos though so that I wouldn't have to keep<br>
+opening it everytime I wanted t=<br>
+o check something.  The middle and<br>
+right ones probably have the info you'r=<br>
+e interested in along the<br>
+bottom.  They're not super quality, but they're =<br>
+high-res enough to<br>
+get most of the part numbers and such if interested.  T=<br>
+hey're almost<br>
+2MB a piece.<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/ms_left.j=">(URL)</a><br>
+pg<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/ms_center.jpg">(URL)</a><br>
+<a target="_blank" href="http://www.fybertech.=">(URL)</a><br>
+net/mailstation/ms_right.jpg<br>
+<br>
+</p>
+<hr><h3 id="14">14: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 25, 2007</p>
+<p class="formattedBody">(as with all DET1 models, correct?).<br>
+<br>
+AFAIK only the eMessage had caller=<br>
+-id function.  DET1 covers<br>
+a whole bunch of different models, so it really =<br>
+is not very<br>
+useful as an identifier.  All the brown & white mailstations,<br>
+a=<br>
+nd the emessage are "DET1".<br>
+<br>
+The first ergonomic case model was called DE=<br>
+T2 (purple mivo 200).<br>
+The 250's are DET2B, the 350 is IWT2B.<br>
+<br>
+Now, everythi=<br>
+ng else (the "AFAIK is still in effect) is a DET1x,<br>
+where the x is a letter=<br>
+.  This includes both old and new 120, and<br>
+both old and new 150.  Also, I t=<br>
+hink one of the older models was<br>
+"DET1-01".  And it makes a difference wher=<br>
+e you look for number.<br>
+The older 120 says DET2 on bottom of unit, but DET1E=<br>
+on the box!<br>
+<br>
+I have a white "mailstation" (came in box with brown picture,=<br>
+and<br>
+a sticker that said "new color!".  It has same PCB as the eMessages,<br>
+w=<br>
+ith caller-id chip, but no caller-id function.  I'm as sure as I<br>
+need to be=<br>
+that it is really a reflashed eMessage.  The oddest<br>
+part is that it has sa=<br>
+me firmware version # (3.03a) as your black<br>
+unit, which doesn't have caller=<br>
+-id chip.  (is yours really very<br>
+dark brown???)<br>
+<br>
+The PCB in brown units (=<br>
+1T0863BMB-33)is different than the white<br>
+(1T0863CMB-32) mainly in that ther=<br>
+e is no caller-id chip.<br>
+<br>
+2.53yr (brown, no chip) still has the caller-id is=<br>
+r.  I took a<br>
+quick look at your 3.03a dump, and it seems to have same isr.<br>
+=<br>
+<br>
+button associated with their<br>
+<br>
+The cpu is same in all of =<br>
+them (except 350), so it seems a sure<br>
+bet.<br>
+<br>
+the power button to it on these earlier<br>
+s?  That, or maybe they actually<br>
+stages, until they changed<br>
+r ID instead.  This is<br>
+o knows what was in<br>
+<br>
+Earliest I have seen is 2.21 (eM=<br>
+essage).<br>
+<br>
+where<br>
+<br>
+I think int is associated with an i/o bit, (or bits,=<br>
+it seems).<br>
+Power button is on P9.4 ,and my best guess is call-id int is<br>
+on=<br>
+P2.2 (callid_data_rdy).<br>
+<br>
+cker tonight.<br>
+e<br>
+look at that, it does come on when I press reset!  Is the pin on<br>
+you're referring to the P28.0 one?<br>
+<br>
+No, P28.0 is an output, and it *clears=<br>
+" power f-f, turning<br>
+power off.<br>
+<br>
+I don't think the signal that turns power=<br>
+on is a port bit,<br>
+rather the "alarm" out from rtc.  Just a guess, though.=<br>
+<br>
+If cpu is off, then ports prolly don't work.  I am assuming<br>
+that rtc insid=<br>
+e cpu is powered, even when rest of chip is<br>
+off.  It has to keep time/date =<br>
+counting, even when off.<br>
+My guess is they use a timer to wake unit up at ma=<br>
+il check<br>
+time.<br>
+<br>
+I think maybe reason it comes on with reset button might =<br>
+<br>
+have to do with reflashing in the box.  Brown units at<br>
+least.  They had h=<br>
+oles in the inner box giving access to<br>
+power jack, par port, and reset but=<br>
+ton.<br>
+<br>
+ersion.  I took some photos though so that I wouldn't have to keep<br>
+ng it everytime I wanted to check something.  The middle and<br>
+probably have the info you're interested in along the<br>
+ot super quality, but they're high-res enough to<br>
+mbers and such if interested.  They're almost<br>
+ww.fybertech.net/mailstation/ms_left.jpg<br>
+tion/ms_center.jpg<br>
+<br>
+Hec=<br>
+k, those are darn nice pics!  Did you use macro lens,<br>
+or a scanner?<br>
+<br>
+That =<br>
+is same board I found in all the brown units I looked<br>
+inside (1T0863BMB-33)=<br>
+.  Same as in 2.53yr.<br>
+<br>
+I listed all the units I opened up in groups databas=<br>
+e section<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/database?method=3D=">(URL)</a><br>
+reportRows&tbl=3D1&sortBy=3D2<br>
+<br>
+(we'll see if that works.  if not, just open=<br>
+the hard way.<br>
+best ordering is sort on "firmware" column).<br>
+<br>
+<br>
+</p>
+<hr><h3 id="15">15: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 26, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+old and new 150.  Also, I think one of the older models was<br>
+And it makes a difference where you look for number.<br>
+ET2 on bottom of unit, but DET1E on the box!<br>
+<br>
+I don't have a box or anythin=<br>
+g.  All I know about mine is from the<br>
+label on the back, with "DET1", whic=<br>
+h I now know is fairly generic<br>
+unfortunately.  It does also say "REN: 0.1B=<br>
+" on the sticker too, if<br>
+that means anything.<br>
+<br>
+tation" (came in box with brown picture, and<br>
+or!".  It has same PCB as the eMessages,<br>
+er-id function.  I'm as sure as I<br>
+d eMessage.  The oddest<br>
+a) as your black<br>
+ly very<br>
+<br>
+I've never considered it dark brown, it truly l=<br>
+ooks black to me, but<br>
+I dunno.  I can't even really capture the color well=<br>
+enough with a<br>
+camera, but I tried: <a target="_blank" href="http://www.fybertech.net/mailstation/">(URL)</a><br>
+=<br>
+ms_front1.jpg<br>
+<br>
+Odd thing happened with the LCD there.  Guess the camera is =<br>
+faster<br>
+than the LCD refresh.<br>
+<br>
+As for the content on the screen, that's w=<br>
+here I'm testing C code.  I<br>
+finally figured out SDCC enough to modify its =<br>
+CRT0.s to work with my<br>
+app loader (since code starts at 0x8000 after loadi=<br>
+ng), and then<br>
+added in my text lcd functionality by replacing their placeh=<br>
+older<br>
+'putchar' with my own (which uses global cursorx and cursory<br>
+variab=<br>
+les accessable from C, as well as being capable of interpreting<br>
+carriage r=<br>
+eturns/line feeds), which is the most basic function of all<br>
+of C's charact=<br>
+er and string drawing functions.  So now I can use<br>
+printf and such to outp=<br>
+ut text, which is so much less time consuming<br>
+than fiddling around in asse=<br>
+mbly.  I've implemented a few basic<br>
+functions in actual C, like for cleari=<br>
+ng the screen and getting<br>
+scancodes, but that really needs to be redone in=<br>
+assembly.  I've<br>
+already done those things in assembly before, it's mostly=<br>
+a matter of<br>
+modifying the code to work with SDCC.  Unfortunately code I m=<br>
+ake now<br>
+is certainly more bulky with all of C's libraries crammed in, and =<br>
+<br>
+things are a bit more noticably slow from the overhead.<br>
+<br>
+One problem I hav=<br>
+e with SDCC is that I have no idea how to align data<br>
+by a particular amoun=<br>
+t of bytes!  In AS80, I have my cga font table<br>
+aligned to a 256 byte area,=<br>
+so that the font drawing code works<br>
+quickly.  But now I have to specifica=<br>
+lly 'org' the code to a location<br>
+in order to make it work.  I really don't=<br>
+know if SDCC can even do<br>
+it, which is a huge downside.  For now, I'm just=<br>
+putting the 2k of<br>
+font data at the very end of page8000 to avoid messing =<br>
+with the<br>
+memory areas C uses, which makes all my binaries 16kb.<br>
+<br>
+Anyhoo, w=<br>
+hen I have more functionality worked in for at least<br>
+handling the keyboard=<br>
+properly with standard C functions, I'll upload<br>
+some stuff.<br>
+<br>
+those are darn nice pics!  Did you use macro lens,<br>
+<br>
+It's a=<br>
+Sony Cybershot 3.2 megapixel that I found on sale a year or<br>
+two ago.  It'=<br>
+s a good camera for the most part, and has a macro mode<br>
+for when you want =<br>
+to get close to things.  But you can't turn off the<br>
+flash without going in=<br>
+to slow exposure, which is pretty useless<br>
+unless you have it on a stand.  =<br>
+So I always manage to kill most up-<br>
+close pictures with the flash, or take =<br>
+a bunch until I get one that<br>
+I'm somewhat satisfied with.  I had to block =<br>
+out some of the light<br>
+with paper just for those I took of the MS board.<br>
+<br>
+I=<br>
+thought about using a scanner actually, but then I figured it'd<br>
+prolly be=<br>
+kind of hard to position it on there without taking the<br>
+whole board out.<br>
+=<br>
+<br>
+://tech.groups.yahoo.com/group/mailstation/<br>
+tbl=3D1&sortBy=3D2<br>
+<br>
+You've sure opened a lot, then!  That's a good list.=<br>
+This is the<br>
+only one I've owned (hence my fear of breaking it).  It's on=<br>
+e of the<br>
+few I've even seen too, for that matter.  I remember seeing one o=<br>
+f<br>
+the fancier new models on display at the store before, but I never<br>
+mess=<br>
+ed with it.  It's just funny how this thing sat under the bed<br>
+with a layer=<br>
+of dust on it for ages before I ever realized the<br>
+breakthroughs that had =<br>
+been made with it here.<br>
+<br>
+</p>
+<hr><h3 id="16">16: Subject: Re: [mailstation] Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 26, 2007</p>
+<p class="formattedBody">If you're running from RAM, instead of 256 byte table, allocate an<br>
+extra 256 bytes before or after.<br>
+<br>
+Them memmove the table data to the aligned location at runtime calculated by:<br>
+<br>
+U = table address<br>
+A = (U + 0xFF) & 0xFF00<br>
+<br>
+You will "waste" 256 bytes using this method. However, either above or<br>
+below the table you will have at least 128 bytes, so you may be able<br>
+to find some other purpose for it.<br>
+<br>
+If you are running from flash, you could allocate 256 bytes and then<br>
+attempt to realloc only as many bytes as a you need to get an aligned<br>
+chunk in there somewhere. Probably the allocator will not change the<br>
+location, but you need to verify that the address does not change.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="17">17: Subject: Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 26, 2007</p>
+<p class="formattedBody">wrote=<br>
+:<br>
+extra 256 bytes before or after.<br>
+igned location at runtime<br>
+calculated by:<br>
+(U + 0xFF) & 0xFF00<br>
+ver, either<br>
+above or<br>
+o you may be<br>
+able<br>
+<br>
+Hey that's a pr=<br>
+etty clever method.  After I wrote my last post, I<br>
+stopped wasting so much=<br>
+space in the binary by moving it to the last<br>
+2k of slot8000 ram during C'=<br>
+s initialization, but that was still<br>
+wasting ram by leaving it in the orig=<br>
+inal position too.  This method<br>
+is much better, and only takes four lines =<br>
+more assembly than the<br>
+previous method to find the new address.  So 8 line=<br>
+s total, plus a<br>
+variable now to store the address.  Not quite as clean as =<br>
+using a<br>
+simple "align 256" in AS80, but it works.<br>
+<br>
+from flash, you could allocate 256 bytes and<br>
+then<br>
+y as many bytes as a you need to get an<br>
+aligned<br>
+. Probably the allocator will not change<br>
+the<br>
+erify that the address does not change.<br>
+<br>
+Yeah it'd be a little bit trick=<br>
+ier if I were using rom, which<br>
+fortunately I'm not at the moment.  But I c=<br>
+ould probably write a<br>
+little app in C or Perl or something to read the sym=<br>
+bols file SDCC<br>
+produces to get the offsets, then shift the font data aroun=<br>
+d to be<br>
+aligned, and then also change a location that pointed to the font =<br>
+<br>
+data position.<br>
+<br>
+I found the other day that I could look at the symbols fil=<br>
+e and use a<br>
+calculator to manually pad the area above the font data, but i=<br>
+t meant<br>
+updating the padding value fairly often while I was working on it.=<br>
+<br>
+But I suppose that once I got all that code squared away, it'd be a<br>
+sim=<br>
+ple method to do the job, without wasting any more bytes than<br>
+necessary.<br>
+<br>
+=<br>
+Actually, now that I think about it, I could probably whip together a<br>
+Perl=<br>
+script that could read the symbols file, then rewrite a one-line<br>
+include =<br>
+file with the number of padding bytes I need to align the<br>
+font data, then =<br>
+have it recompile again.<br>
+<br>
+Anyhoo I'm just rambling now, so thanks for the t=<br>
+ips!<br>
+<br>
+</p>
+<hr><h3 id="18">18: Subject: Re: [mailstation] Re: Replacing the ISR</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 26, 2007</p>
+<p class="formattedBody">On 8/26/07, Jeff &lt;fyberoptic1979@...> wrote:<br>
+<br>
+<br>
+That would work. That would get you to an average case of 128 bytes<br>
+lost instead of 256.  Worst case is 255 I guess.<br>
+<br>
+A word of advice from another Perl programmer: 'use bytes;'<br>
+<br>
+Perl will by a set of defined rules but which to me looks like magic<br>
+spontaneously decide to consider a string as Unicode. Try to unpack<br>
+that beastie, and hilarity ensues. Data::HexDump will show it as it<br>
+is, but unpack will do some translations you don't expect.<br>
+<br>
+So if you are doing a lot of binary manipulation but you don't care<br>
+about unicode, just use bytes; and the problem will not appear.<br>
+<br>
+(I learned this recently... I know, very reasonable engineers will<br>
+ignore this advice right up until it kicks them in the butt... I<br>
+probably would ignore it myself.)<br>
+<br>
+Keep up the good work here... with a reasonable C environment I may<br>
+have to dust off my mailstation too :-) It would be fun to boot ZCN or<br>
+CP/M on the MS. I also have on my "one of these days" projects<br>
+transplanting a MS PCB and display into a Tandy 102 case. The T102's<br>
+ROM chip is based on 8085, a much simpler offshoot of the 8080 than<br>
+the Z80, so it might be possible to port that ROM over.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

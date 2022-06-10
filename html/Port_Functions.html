@@ -1,0 +1,293 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Port Functions (Aug 25, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Aug 29, 2007</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 29, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Port Functions</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 25, 2007</p>
+<p class="formattedBody">So while we have some very detailed info on many of the Mailstation<br>
+ports,=<br>
+there's still a lot we don't know.  So I decided to just poke<br>
+around, and=<br>
+found a bit of stuff that was interesting, and some not<br>
+so much, but coul=<br>
+d lead to more later.  HERE GOES:<br>
+<br>
+These three ports were assumed to contr=<br>
+ol the RTC, but I'm thinking<br>
+they control a hardware timer.<br>
+<br>
+Port #1d<br>
+- S=<br>
+etting bit 2 triggers interrupt 5 (not sure why yet)<br>
+- Setting port to #FF=<br>
+only reads back as #0F<br>
+<br>
+Port #1e<br>
+- Set to #FF returns 0<br>
+<br>
+Port #1f<br>
+- Sett=<br>
+ing bit 1 freezes Mailstation (endless interrupt?)<br>
+<br>
+After finding out that =<br>
+I could make very high-speed interrupt 5's<br>
+happen by fiddling around with =<br>
+#1d and #1f, I looked in the<br>
+Mailstation code, and they used some similar =<br>
+code to what I was doing<br>
+to make it happen:<br>
+<br>
+xor	a<br>
+set	2, a<br>
+out	(#1d), a<br>
+=<br>
+ld	a, #0e<br>
+out	(#1f), a<br>
+ld	a, #0c<br>
+out	(#1f), a<br>
+<br>
+With this, interrupt 5 hap=<br>
+pens repeatedly, and much faster than the<br>
+keyboard interrupt (which happen=<br>
+s 64 times a second), but I couldn't<br>
+measure it because time16 apparently =<br>
+stops working when this is in<br>
+progress.  I tried to measure it inside the =<br>
+keyboard interrupt, but<br>
+it seemed to fluctuate so much that I couldn't get=<br>
+a result.  I'm not<br>
+sure if that's due to the interrupt itself fluctuating=<br>
+, or perhaps<br>
+the cpu not being able to keep up to get a proper measurement=<br>
+.<br>
+<br>
+However, I think that you're supposed to set an interval for this<br>
+someh=<br>
+ow.  Maybe there's a bit somewhere that possibly makes P10-P1C<br>
+set timer l=<br>
+ength instead of RTC?<br>
+<br>
+Port #0b<br>
+- Clearing bit 3 distorts the lcd in var=<br>
+ious ways, and makes it seem<br>
+to draw certain columns in different places t=<br>
+han usual.  Bits 0-2<br>
+seem to affect how it does this.  I have no idea what=<br>
+this is doing<br>
+at the moment, but it makes the LCD pretty much unusable.<br>
+=<br>
+- Clearing bit 7 turns off LCD<br>
+<br>
+Port #0d (CPU clock rate control)<br>
+- Setti=<br>
+ng bits 0-2 makes it run noticably slow.  Variations seem to<br>
+make it simil=<br>
+arly slow.  I'm positive that this is slower than 8mhz.<br>
+Could be 4, or ev=<br>
+en less.  I'd have to come up with some sort of test.<br>
+<br>
+Port #2f<br>
+- Setting=<br>
+bit 2 makes odd speaker noise + LED flicker (I thought I<br>
+clocked somethin=<br>
+g too high and burned up a chip or something at<br>
+first!)<br>
+- Setting bits 4,=<br>
+6 makes time16 interrupt 2x slower (kbdmax =3D 128)<br>
+- Setting bits 5,6 mak=<br>
+es time16 interrupt 4x slower (kbdmax =3D 256)<br>
+- Setting bits 4,5,6 makes =<br>
+time16 interrupt 8x slower (kbdmax =3D 512)<br>
+- When bit 6 is clear, but 4, =<br>
+5, or both are set, time16 interrupt<br>
+doesn't seem to ever occur.<br>
+<br>
+kbdmax i=<br>
+s the variable I used before to detect how many times<br>
+interrupt 1 (keyboar=<br>
+d handler) occurred in between time16's.<br>
+Normally, kbdmax has a value of =<br>
+64 when a time16 interrupt occurs,<br>
+just for reference with the above.<br>
+<br>
+The=<br>
+following info regarding port #2f was found in codeflash page 3,<br>
+in a fun=<br>
+ction at #4349:<br>
+- Bits 6,7 are enabled by firmware when it sets the port<br>
+=<br>
+- Bits 0-2 are cleared by firmware when it sets the port<br>
+- Bit 3 is passed=<br>
+along from p2Fshadow<br>
+<br>
+So basically, 11xxc000, where xx bits controls how m=<br>
+uch to slow down<br>
+time16, while c is unknown to me.  I'm not even sure what=<br>
+use this<br>
+port is, since changing the cpu speed doesn't seem to affect the=<br>
+<br>
+interrupt speeds.<br>
+<br>
+Here's some slightly useless info for the moment, bu=<br>
+t it shows that<br>
+some of these are quite possibly used for something:<br>
+<br>
+Port=<br>
+#0c<br>
+- Setting #00 returns #05<br>
+- setting #FF returns #E3<br>
+<br>
+Port #20<br>
+- Set=<br>
+ting #FF returns #40<br>
+<br>
+Port #29<br>
+- Setting #FF returns #0F<br>
+<br>
+These seem enti=<br>
+rely useless:<br>
+<br>
+Ports #04, #22-27, #2a, #2b, #2e<br>
+- Setting #FF returns #00<br>
+=<br>
+<br>
+And these seem to just not be connected to anything at all:<br>
+<br>
+#30 - #50<br>
+-=<br>
+returns value of port itself<br>
+<br>
+I stopped testing at #50, but I assume all t=<br>
+he rest to #FF do the same<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Port Functions</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 29, 2007</p>
+<p class="formattedBody">Don't mind me, I'm just rambling things in hopes that it might make<br>
+sense =<br>
+to someone smarter!<br>
+<br>
+c1979@...> wrote:<br>
+ious ways, and makes it<br>
+seem<br>
+s than usual.  Bits 0-2<br>
+what this is doing<br>
+able.<br>
+<br>
+Forget what I said here about b=<br>
+its 0-2 affecting what bit 3 does,<br>
+because I don't really believe that for=<br>
+sure now.  Particularly since<br>
+I discovered what bits 0 and 1 are doing, a=<br>
+t least.<br>
+<br>
+When I disable bit 0, keys on keyboard row 8 stop responding.  No=<br>
+w of<br>
+course my determination of them not responding is whether the MS<br>
+key=<br>
+scan function via the interrupt returns anything from them.  Since<br>
+it's fl=<br>
+ipping the rows on and off and such, who knows how that could<br>
+interact wit=<br>
+h what bit 0 is doing here.<br>
+<br>
+When I disable bit 1, keyboard row 9 stops res=<br>
+ponding.  Again, a more<br>
+conclusive test would have to be done as to whethe=<br>
+r it's entirely<br>
+killing that keyboard row, but it certainly stops working =<br>
+in my<br>
+initial test.<br>
+<br>
+Bit 2 doesn't seem to have any effect on the keyboard=<br>
+.<br>
+<br>
+Bit 3 still causes the screen to go wonky.<br>
+<br>
+Bit 7 still causes the LCD g=<br>
+o off.<br>
+<br>
+Then I realized, where does this sound familiar?  Yep, port 2!  I<br>
+=<br>
+thought maybe this was just a mirror of that port.  Bits 0, 1, and 7<br>
+certa=<br>
+inly seem similar in function.  But no, when I tried to enable<br>
+the LED via=<br>
+bit 4, it didn't work.  I even tried a direct test with<br>
+interrupts disabl=<br>
+ed, in case it was flipping the bit around in the<br>
+interrupt too fast to se=<br>
+e if the light was on.  It never came on, no<br>
+matter which way I set the bi=<br>
+t.<br>
+<br>
+So I dunno really.  Reading back port 0x02 while FyOS is running<br>
+shows=<br>
+me 0xac, while reading back 0x0b gives 0xff.  Maybe they're not<br>
+as relate=<br>
+d as I thought.  But it certainly seems to have some similar-<br>
+looking funct=<br>
+ionality at this point.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Port Functions</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 29, 2007</p>
+<p class="formattedBody">use I don't really believe that for sure now.  Particularly since<br>
+overed what bits 0 and 1 are doing, at least.<br>
+ys on keyboard row 8 stop responding.  Now of<br>
+them not responding is whether the MS<br>
+t returns anything from them.  Since<br>
+nd such, who knows how that could<br>
+.<br>
+e<br>
+illing that keyboard row, but it certainly stops working in my<br>
+est.<br>
+still causes the screen to go wonky.<br>
+f.<br>
+=<br>
+ertainly seem similar in function.  But no, when I tried to enable<br>
+ED via bit 4, it didn't work.  I even tried a direct test with<br>
+s disabled, in case it was flipping the bit around in the<br>
+fast to see if the light was on.  It never came on, no<br>
+I set the bit.<br>
+s running<br>
+'re not<br>
+milar-<br>
+<br>
+There is speculation found =<br>
+here<br>
+<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/part%20files/RSD=">(URL)</a><br>
+RD_3SI176_0A.txt<br>
+<br>
+that port #0B is the DDR for port #02.<br>
+<br>
+Keep in mind that=<br>
+you can't necessarily expect to be able to<br>
+read back the last value you se=<br>
+nt to a port.  Sometimes the<br>
+"in" and "out" for a particular port address =<br>
+are even used for<br>
+different functions, such as with port #01, where "out" d=<br>
+rives<br>
+the keyboard rows, but "in" reads the keyboard columns.<br>
+<br>
+That's why t=<br>
+hey keep all those "shadow" vars.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

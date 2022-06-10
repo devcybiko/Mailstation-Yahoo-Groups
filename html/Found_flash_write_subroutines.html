@@ -1,0 +1,61 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Found flash write subroutines (Apr 16, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#2">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: Found flash write subroutines</h3>
+<p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">There are flash access subroutines starting around 01f0 in<br>
+Page001.dat<br>
+<br>
+Disassemble it and search for 555 which is the address for the first<br>
+bus write cycle in the command sequence, and you'll see what's<br>
+obviously flash access code.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Found flash write subroutines</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">More details:<br>
+<br>
+Assuming the code in Page 1 dump starts at 8000,<br>
+<br>
+At 81F0 is a subroutine for programming a single byte of flash<br>
+At 82FC is a subroutine for erasing a sector of flash<br>
+<br>
+A jump table starts at the top of 8000. At<br>
+<br>
+8012 is a jump to 81F0 (byte write)<br>
+8015 is a jump to 82FC (sector erase)<br>
+<br>
+Calls are made to 8012, and 8015 from within Page 1 code at<br>
+<br>
+At 8602 is a call to 8012 (which vectors to byte write).<br>
+At 8756 is a call to 8015 (which vectors to sector erase).<br>
+<br>
+Getting closer to that parallel port flash routine. Even if no<br>
+parallel port flash routine, there's probably a 'reflash from the<br>
+internet' lurking here somewhere...<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Found flash write subroutines</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">Errata: the sector erase code is at 825C, not 82FC.<br>
+<br>
+Sorry...<br>
+<br>
+wrote:<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

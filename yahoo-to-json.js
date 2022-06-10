@@ -99,7 +99,7 @@ async function main$(_opts) {
 
     let items = getItems(lines);
     let threadDictionary = getThreadDictionary(items);
-    let threads = Object.values(threadDictionary).sort((a,b) => a.subject.toLowerCase() > b.subject.toLowerCase());
+    let threads = Object.values(threadDictionary).sort((a,b) => a.topic.toLowerCase() > b.topic.toLowerCase());
     let json = JSON.stringify(threads, null, 2);
     console.log(json);
 }

@@ -1,0 +1,933 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailstation CP/M (Jan 31, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: Ethan Dicks <ethan.dicks@...> Feb 1, 2010</a></li>
+<li><a class="link" href="#2">From: "cyranojones_lalp" <cyranojones_lalp@...> Feb 1, 2010</a></li>
+<li><a class="link" href="#3">From: "FyberOptic" <fyberoptic@...> Feb 2, 2010</a></li>
+<li><a class="link" href="#4">From: "FyberOptic" <fyberoptic@...> Feb 2, 2010</a></li>
+<li><a class="link" href="#5">From: "FyberOptic" <fyberoptic@...> Feb 2, 2010</a></li>
+</ol><hr>
+<hr><h3>Subject: Mailstation CP/M</h3>
+<p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 31, 2010</p>
+<p class="formattedBody"><br>
+Yep, that's Zork 1!<br>
+<br>
+So, how is it working?  Basically, I (mostly) c=<br>
+ompleted my CP/M BIOS<br>
+module, finally emulating a floppy disk with the data=<br>
+flash.  This is the<br>
+same BIOS code that I was using for the core of FyOS be=<br>
+fore, btw, though<br>
+just mostly for the console I/O at the time.  Except now =<br>
+I'm using the<br>
+real CP/M BDOS v2.2 with it, because I thought that would be =<br>
+the easiest<br>
+way to ensure my BIOS module was working properly. I have no co=<br>
+mmand<br>
+processor at the moment, but I didn't need one. I just wanted to<br>
+dire=<br>
+ctly load this one program to see if it worked.  And it does.<br>
+Kinda.<br>
+<br>
+Ther=<br>
+e's still limitations.  First is the obvious, with the text display<br>
+I'm gen=<br>
+erating only supporting 40 x 16 characters.  Zork likely expects<br>
+an 80 char=<br>
+acter display, and I would bet other CP/M apps would as well.<br>
+Second, my B=<br>
+IOS still can't write to "disk".  This was partially due to<br>
+the fact that I=<br>
+wasn't even sure my read routine was going to work<br>
+properly.  Which it did=<br>
+, and only needed one little fix, surpisingly.<br>
+I'm hoping it won't be much=<br>
+effort to do the reverse now for writing.<br>
+Originally I wanted to go to th=<br>
+e trouble of some kind of smart system<br>
+which would cycle the dataflash sect=<br>
+ors to increase their lifetime, but<br>
+then I decided a.) it was too much work=<br>
+, and b.) if the Mailstation<br>
+folks were too lazy to do it, then why should =<br>
+I?<br>
+<br>
+For those who may have not followed some of the other work I've done<br>
+ar=<br>
+ound here in the past, then you should know that this is only possible<br>
+due =<br>
+to a hardware mod I made to my Mailstation.  I've replicated this<br>
+functiona=<br>
+lity in my current test build of the emulator.  Basically, I<br>
+added in a cir=<br>
+cuit to allow the lower 16KB of address space to be<br>
+swapped from codeflash =<br>
+to RAM.  Normally the first 16KB of codeflash is<br>
+permanently in that spot. =<br>
+My toggle lets me put in the second page of<br>
+RAM (since the first page is p=<br>
+ermanently in the uppermost 16KB of<br>
+address space).  This is necessary in o=<br>
+rder to run CP/M and its<br>
+applications natively.<br>
+<br>
+As for the "disk", I took =<br>
+a bit of a clever approach.  My #1 requirement<br>
+was that it couldn't disrupt=<br>
+the normal functionality of the<br>
+Mailstation, and oppositely, the Mailstati=<br>
+on's normal functionality<br>
+couldn't disrupt it.  I am in fact still running =<br>
+the Mailstation<br>
+firmware at power-up, after all.  So, what I did was take a=<br>
+dvantage of<br>
+all the available app space.  Which is apparently 128KB worth. =<br>
+This<br>
+meant that nothing which the Mailstation firmware did should mess up =<br>
+my<br>
+disk image, and nothing my disk image did should mess up Mailstation<br>
+set=<br>
+tings.<br>
+<br>
+The virtual disk has 256-byte sectors (to match the dataflash), 16<br>
+=<br>
+sectors per track, and 32 tracks.  That makes each track 4KB.  I<br>
+reserved 4=<br>
+tracks for system use, which is 16KB, which is conveniently<br>
+the same size =<br>
+as a dataflash page.  This means the system tracks can be<br>
+used as a normal =<br>
+Mailstation app.  And this is exactly how I used them,<br>
+placing a loader app=<br>
+to put the BDOS + BIOS into upper memory, which<br>
+then executes the BIOS col=<br>
+d boot procedure.<br>
+<br>
+Since I wanted to support any version of BDOS that might=<br>
+be attached to<br>
+this BIOS at some point, I decided to handle deblocking int=<br>
+ernally.<br>
+This means that as far as CP/M knows, the disk actually uses 32 1=<br>
+28-byte<br>
+sectors per track.  128 was the common size, and even in the later<br>
+=<br>
+versions is still the size of things like the DMA and BDOS read routines<br>
+us=<br>
+e from what I understand.<br>
+<br>
+Regardless of CP/M version, the disk is configur=<br>
+ed to use 64 directory<br>
+entries, using a 1KB block size.<br>
+<br>
+I wrote a utility =<br>
+on the PC to generate this disk as a 128KB file, using<br>
+a separate text file=<br>
+to determine what files should be inserted into the<br>
+disk (calculating exte=<br>
+nts, writing the directory entries, all the crap<br>
+necessary for CP/M disks).=<br>
+That disk image file can then just be dumped<br>
+into the dataflash.bin that =<br>
+my emulator uses.  Since the first 16KB acts<br>
+as a standalone Mailstation ap=<br>
+p, you can simply launch the OS from the<br>
+Mailstation menu like you would an=<br>
+y other 3rd-party app.<br>
+<br>
+The fact that you're seeing the game text on the sc=<br>
+reen shows that it is<br>
+indeed properly reading files from the virtual disk, =<br>
+because zork1.com<br>
+loads all of that from zork1.dat.  That's part of why I w=<br>
+anted to use it<br>
+as a test.  The executable was small, and I knew what to ex=<br>
+pect from it.<br>
+<br>
+I haven't tried this on the Mailstation hardware yet, mostly=<br>
+due to the<br>
+fact that it will erase my loader app.  Before I go writing any=<br>
+thing<br>
+into my datflash, I'm going to wait until I have both a command<br>
+proce=<br>
+ssor and a standalone loader utility which I can run from there.<br>
+But I hav=<br>
+e no reason to think it wouldn't run, because the disk routine<br>
+is the only =<br>
+new part.  All the console I/O functions have been run on<br>
+the hardware befo=<br>
+re.<br>
+<br>
+I'd still like to finish my own original BDOS code, since I think it's=<br>
+<br>
+still technically stealing to use this one even though it's 30 years<br>
+old. =<br>
+But then again, it's probably stealing to be using this copy of<br>
+Zork too. =<br>
+And my BIOS module is currently using a ripped out version of<br>
+the Mailstat=<br>
+ion's keyboard routines, as well as the original CGA font<br>
+(which I'm sure i=<br>
+s copyrighted or something).  Oh well!<br>
+<br>
+Anyhoo, this is turning into a huge=<br>
+post, but my work is finally coming<br>
+along into something I can actually sh=<br>
+ow results from, so I thought I'd<br>
+share what I have so far!<br>
+<br>
+<br>
+">&lt;/P>&lt;P>&lt;BR>&lt;/P><br>
+<br>
+<br>
+asically, I (mostly) completed my CP/M BIOS module, finally emulating a flo=<br>
+ppy disk with the dataflash.  This is the same BIOS code that I was using f=<br>
+or the core of FyOS before, btw, though just mostly for the console I/O at =<br>
+the time.  Except now I'm using the real CP/M BDOS v2.2 with it, because I =<br>
+thought that would be the easiest way to ensure my BIOS module was working =<br>
+properly. I have no command processor at the moment, but I didn't need one.=<br>
+I just wanted to directly load this one program to see if it worked.  And =<br>
+it does.  Kinda.&lt;/P><br>
+<br>
+with the text display I'm generating only supporting 40 x 16 characters.  Z=<br>
+ork likely expects an 80 character display, and I would bet other CP/M apps=<br>
+would as well.  Second, my BIOS still can't write to "disk".  This was par=<br>
+tially due to the fact that I wasn't even sure my read routine was going to=<br>
+work properly.  Which it did, and only needed one little fix, surpisingly.=<br>
+I'm hoping it won't be much effort to do the reverse now for writing.  Or=<br>
+iginally I wanted to go to the trouble of some kind of smart system which w=<br>
+ould cycle the dataflash sectors to increase their lifetime, but then I dec=<br>
+ided a.) it was too much work, and b.) if the Mailstation folks were too la=<br>
+zy to do it, then why should I?&lt;/P><br>
+<br>
+some of the other work I've done around here in the past, then you should =<br>
+know that this is only possible due to a hardware mod I made to my Mailstat=<br>
+ion.  I've replicated this functionality in my current test build of the em=<br>
+ulator.  Basically, I added in a circuit to allow the lower 16KB of address=<br>
+space to be swapped from codeflash to RAM.  Normally the first 16KB of cod=<br>
+eflash is permanently in that spot.  My toggle lets me put in the second pa=<br>
+ge of RAM (since the first page is permanently in the uppermost 16KB of add=<br>
+ress space).  This is necessary in order to run CP/M and its applications n=<br>
+atively.&lt;/p><br>
+<br>
+#1 requirement was that it couldn't disrupt the normal functionality of the=<br>
+Mailstation, and oppositely, the Mailstation's normal functionality couldn=<br>
+'t disrupt it.  I am in fact still running the Mailstation firmware at powe=<br>
+r-up, after all.  So, what I did was take advantage of all the available ap=<br>
+p space.  Which is apparently 128KB worth.  This meant that nothing which t=<br>
+he Mailstation firmware did should mess up my disk image, and nothing my di=<br>
+sk image did should mess up Mailstation settings.&lt;/p><br>
+<br>
+has 256-byte sectors (to match the dataflash), 16 sectors per track, and 32=<br>
+tracks.  That makes each track 4KB.  I reserved 4 tracks for system use, w=<br>
+hich is 16KB, which is conveniently the same size as a dataflash page.  Thi=<br>
+s means the system tracks can be used as a normal Mailstation app.  And thi=<br>
+s is exactly how I used them, placing a loader app to put the BDOS + BIOS i=<br>
+nto upper memory, which then executes the BIOS cold boot procedure.&lt;/p><br>
+<br>
+is BIOS at some point, I decided to handle deblocking internally.  This mea=<br>
+ns that as far as CP/M knows, the disk actually uses 32 128-byte sectors pe=<br>
+r track.  128 was the common size, and even in the later versions is still =<br>
+the size of things like the DMA and BDOS read routines use from what I unde=<br>
+rstand.&lt;/p><br>
+<br>
+4 directory entries, using a 1KB block size.&lt;/p><br>
+<br>
+he PC to generate this disk as a 128KB file, using a separate text file to =<br>
+determine what files should be inserted into the disk (calculating extents,=<br>
+writing the directory entries, all the crap necessary for CP/M disks).  Th=<br>
+at disk image file can then just be dumped into the dataflash.bin that my e=<br>
+mulator uses.  Since the first 16KB acts as a standalone Mailstation app, y=<br>
+ou can simply launch the OS from the Mailstation menu like you would any ot=<br>
+her 3rd-party app.&lt;/p><br>
+<br>
+screen shows that it is indeed properly reading files from the virtual dis=<br>
+k, because zork1.com loads all of that from zork1.dat.  That's part of why =<br>
+I wanted to use it as a test.  The executable was small, and I knew what to=<br>
+expect from it.&lt;/p><br>
+<br>
+et, mostly due to the fact that it will erase my loader app.  Before I go w=<br>
+riting anything into my datflash, I'm going to wait until I have both a com=<br>
+mand processor and a standalone loader utility which I can run from there. =<br>
+But I have no reason to think it wouldn't run, because the disk routine is=<br>
+the only new part.  All the console I/O functions have been run on the har=<br>
+dware before.&lt;/p><br>
+<br>
+ince I think it's still technically stealing to use this one even though it=<br>
+'s 30 years old.  But then again, it's probably stealing to be using this c=<br>
+opy of Zork too.  And my BIOS module is currently using a ripped out versio=<br>
+n of the Mailstation's keyboard routines, as well as the original CGA font =<br>
+(which I'm sure is copyrighted or something).  Oh well!&lt;/p><br>
+<br>
+s is turning into a huge post, but my work is finally coming along into som=<br>
+ething I can actually show results from, so I thought I'd share what I have=<br>
+so far!&lt;/p><br>
+<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Mailstation CP/M</h3>
+<a href="#0">(top)</a><p class="from">From: Ethan Dicks &lt;ethan.dicks@...></p>
+<p class="date">Feb 1, 2010</p>
+<p class="formattedBody">On 1/31/10, FyberOptic &lt;fyberoptic@...> wrote:<br>
+<br>
+Well done!<br>
+<br>
+<br>
+There are versions of the CP/M Z-machine floating around (I found them<br>
+in one of the massive repositories a couple of years back) that came<br>
+with an Infocom-written customizer front-end.  You might look for CP/M<br>
+Zork or Starcross or Planetfall that happen to have a .ASM file<br>
+included beyond just the usual .COM and .DAT file.  They mostly let<br>
+you select your terminal type (ADM3, VT100, etc), but there might be<br>
+something in there for screen size.<br>
+<br>
+Overall, though, Infocom did support 40 column machines (Apple II,<br>
+C-64, etc.)  It's up to the Z-machine where to wrap, etc.  The<br>
+appearance of the status line depends on matching up the column width,<br>
+and there is at least one puzzle clue that I know of that is easy to<br>
+spot with an 80-column screen but hard to spot at 40 columns.<br>
+<br>
+<br>
+Yep.  I've done similar sorts of things with the Z-machine for the<br>
+6502.  It's not large and you know how it's going to behave (lots of<br>
+disk reads for game text and game data).<br>
+<br>
+In order to get that opening screen, lots of things have to be working<br>
+right.  I had a long-standing bug with my port of the 6502 engine to a<br>
+new platform - for me, the opening screen was fine, but it got<br>
+squirrely with the first line of user input.  At least it was at an<br>
+obvious blocking point, so somewhat easy to create test-cases for.<br>
+<br>
+Smashing work.  I can't wait to see a photograph of it running on the<br>
+real hardware someday.<br>
+<br>
+-ethan<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Mailstation CP/M</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Feb 1, 2010</p>
+<p class="formattedBody"><br>
+<br>
+Hey, that pretty cool!!!=<br>
+<br>
+ght that would be the easiest<br>
+operly. I have no command<br>
+<br>
+Is the "console command processor" (CCP) a separate prog???<br>
+Or is it pa=<br>
+rt of the BDOS???  I don't remember.<br>
+<br>
+I do recall that the BIOS was suppose=<br>
+d to be the only<br>
+part that needs to be customized.<br>
+<br>
+Perhaps you are closer =<br>
+than you think!<br>
+<br>
+Did you cold boot CP/M, or just preload cp/m & Zork, and<br>
+s=<br>
+tart from there (0x0100)?<br>
+<br>
+This was<br>
+tine was going to work<br>
+<br>
+Might it be useful if the bank-switchi=<br>
+ng was not one way,<br>
+and you could call routines from the ms firmware?<br>
+Then =<br>
+you could use ms firmware to access the dataflash, and<br>
+even use the built i=<br>
+n keyboard code.<br>
+<br>
+I guess you would need to give back the ram at C000 to<br>
+ge=<br>
+t that to work, but I don't see that as a real problem.<br>
+You get a pretty bi=<br>
+g stack out of the deal, too!<br>
+<br>
+Most CP/M systems never had full 64K RAM.  M=<br>
+ine<br>
+did have 64K, but a big chunk was dedicated to screen<br>
+RAM (I forget th=<br>
+e actual size, but it did have a graphic<br>
+mode, I want to say it used 24k fo=<br>
+r screen, but I would<br>
+need to look it up somewhere).<br>
+<br>
+take advantage of<br>
+worth.<br>
+<br>
+There is a lot more space available in the mailstation's<br>
+"file" =<br>
+area.  I think there is even one or two "filenames"<br>
+available (where filena=<br>
+me is just a byte, from 0 to 0x2f.<br>
+Using the space that way would let your =<br>
+cp/m files coexist<br>
+with the other mailstation files.<br>
+<br>
+s on the Mailstation hardware yet, mostly due<br>
+erase my loader app.  Before I go writing anything<br>
+going to wait until I have both a command<br>
+der utility which I can run from<br>
+<br>
+What if you combined your load=<br>
+er, your cpm boot code, & cpm system<br>
+tracks into a single app?  Or just use=<br>
+2 app pages?  For that<br>
+matter, if there is any space left in your system p=<br>
+age, you<br>
+could still use it as part of cpm's non-system tracks.  An<br>
+app doe=<br>
+sn't need to use the whole 16K, they just need to<br>
+start at begining of one.=<br>
+<br>
+<br>
+Your own, but "ori=<br>
+ginal" might not be the right word!  :-)<br>
+<br>
+cally stealing to use<br>
+<br>
+There goe=<br>
+s your "innocent" defense.<br>
+"Anything you say may be used..."<br>
+<br>
+How do you in=<br>
+terpret this:<br>
+<a target="_blank" href="http://www.cpm.z80.de/license.html">(URL)</a><br>
+Does it mean we can just u=<br>
+se it now???  Or does it only apply<br>
+to that site?????<br>
+<br>
+'s probably stealing to be using this copy of<br>
+<br>
+Gosh, and now yo=<br>
+u even confessed!  In public!!!<br>
+<br>
+ripped out version of<br>
+e original<br>
+<br>
+I won=<br>
+der if they have net access in prisons these days?  :-)<br>
+<br>
+I have a putchar t=<br>
+hat uses the ms font, and a getchar that<br>
+calls ms keyboard code.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Mailstation CP/M</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Feb 2, 2010</p>
+<p class="formattedBody"><br>
+Couple of updates to point out here.  One is obvious, the other maybe<br>
+not=<br>
+so much unless you know what you look for!<br>
+<br>
+Let's start with the font.  It=<br>
+'s now 4x6.  The reason I used an 8x8 font<br>
+originally is because it fit per=<br>
+fectly into the restraints of the<br>
+hardware.  The screen being 320x128 meant=<br>
+you could divide both<br>
+dimensions evenly by 8, getting 40x16 characters on =<br>
+the screen.  I had<br>
+the font data aligned to a 256-byte page in memory, and =<br>
+formatted the<br>
+data so that each character row could be pulled out by simply=<br>
+<br>
+incrementing the high byte of the memory address.  The low byte was set<br>
+to=<br>
+which ASCII character you wanted (since there were 256 characters in<br>
+the f=<br>
+ont).  No multiplication or anything was necessary to get the<br>
+character off=<br>
+set into the font data.  And since each byte of LCD data<br>
+represented 8 pixe=<br>
+ls, it was an easy matter to write an entire row of<br>
+character data to the s=<br>
+creen at a time, then just increment a couple of<br>
+pointers, and repeat 7 mor=<br>
+e times.  This made drawing characters pretty<br>
+speedy.  What took the most t=<br>
+ime is calculating all the junk necessary<br>
+to translate X/Y coordinates into=<br>
+the wacky backwards way the<br>
+Mailstation LCD hardware works.<br>
+<br>
+Well 40x16 is=<br>
+n't really enough for many circumstances, particularly in<br>
+width.  Not even =<br>
+a CP/M directory listing.  So I did some math on<br>
+various sizes.  A 5x7 font=<br>
+would give me a 64x18 display, with a few<br>
+pixels left over at the bottom. =<br>
+Not much more vertically, but 24 more<br>
+horizontally was good.  So I looked =<br>
+around for some fonts on the<br>
+internet, and ended up on this page<br>
+sher.dk/rockbox/fonts/misc/> .  It has a bunch of Linux fonts,<br>
+but best of =<br>
+all, has images available of all the character sets.  There<br>
+was a nice 5x7 =<br>
+font, but I also noticed the 4x6 one.  More math showed<br>
+that a 4x6 font wou=<br>
+ld give me 80x21!  That's almost a full CRT display's<br>
+worth, just a few shy=<br>
+vertically.  And the more I thought about how I<br>
+would implement a font whi=<br>
+ch wasn't 8 pixels wide, the more I realized<br>
+that using one with an even wi=<br>
+dth would be easiest.  A 4x6 font means a<br>
+single byte of LCD data can hold =<br>
+exactly two character columns of row<br>
+data.  Imagine the nightmare of trying=<br>
+to calculate your position on the<br>
+screen if every character was 5 pixels w=<br>
+ide.  Five bits of one character<br>
+would be in one byte, then the next charac=<br>
+ter would have 3 bits in the<br>
+last byte and 2 bits in the next byte, etc.  I=<br>
+t hurts my brain to even<br>
+think about it!<br>
+<br>
+The other thing I noticed is that=<br>
+most of those fonts, including the 4x6<br>
+one I wanted, are public domain.  A=<br>
+wesome.<br>
+<br>
+So I formatted the image of the font characters into something I c=<br>
+ould<br>
+work with and insert into my assembly.  I didn't go with 256 character=<br>
+s<br>
+this time because I'm honestly not sure if all the IBM ASCII characters<br>
+t=<br>
+hat were in the CGA font are even present in this one.  If they are,<br>
+they'r=<br>
+e so small that it's hard to distinguish which are which.  I left<br>
+the first=<br>
+32 characters blank as well.  No more smiley face characters!<br>
+I might sti=<br>
+ll extend it to 256 later, but CP/M was primarily 7-bit ASCII<br>
+anyway.  I on=<br>
+ly included the upper 128 of the CGA font before because it<br>
+could be used f=<br>
+or drawing lines and borders and things.<br>
+<br>
+It took a bit of figuring things =<br>
+out and code reworking, but I converted<br>
+my putchar object file to work with=<br>
+the new font data/size.  And<br>
+conveniently, changes were only made to that =<br>
+object file, which means I<br>
+can recompile my BIOS to use the 8x8 font again =<br>
+as easy as specifying a<br>
+different object file when linking.    The new one =<br>
+probably isn't as<br>
+fast due to extra math involved, but the increased displa=<br>
+y size is worth<br>
+it in most cases.<br>
+<br>
+Anyway, I'll stop rambling about fonts. =<br>
+It looks small in the emulator<br>
+unless I 2X, but I think on the real hardwa=<br>
+re it'll be okay.<br>
+<br>
+The other thing you might not have noticed on the scree=<br>
+n there is that I<br>
+actually loaded Zork via the command processor.  I got a =<br>
+directory<br>
+listing beforehand too, though there's only three files on the vi=<br>
+rtual<br>
+disk.<br>
+<br>
+I've had some quirks out of this.  I can launch stuff, but whe=<br>
+n the<br>
+application exits and the warm boot happens, the CCP never reloads<br>
+pr=<br>
+operly again.  I haven't been able to figure it out yet, unless it<br>
+and/or t=<br>
+he BDOS are storing values which are messing it up, or<br>
+something's getting =<br>
+overwritten when Zork runs.  I dunno yet.  I suppose<br>
+I could totally re-rea=<br>
+d the BDOS/BIOS too.  Maybe that's even what<br>
+you're supposed to do.<br>
+<br>
+Part o=<br>
+f the problem might be that I didn't use any of the original tools<br>
+used to =<br>
+build a CP/M system.  I've manually converted the assembly code<br>
+over to wor=<br>
+k with AS-Z80, and am linking everything together as best I<br>
+can figure it s=<br>
+hould work based on CP/M manuals.  I had to increase the<br>
+default tiny BDOS =<br>
+stack too because my BIOS calls were overflowing it<br>
+(since I doubt most BIO=<br>
+Ses needed as much bloaty hardware translations<br>
+as this one).  I think the =<br>
+CCP is normally part of the whole mess that<br>
+gets loaded off the system trac=<br>
+ks in v2.2, but I was trying to take more<br>
+of a CP/M 3 approach.  I'm pullin=<br>
+g the .COM off the disk, but just<br>
+loading it at an abnormal location (under=<br>
+the BDOS) instead of at 0x100.<br>
+I probably should rename it to .SYS just to=<br>
+avoid confusion.<br>
+<br>
+CP/M 3 actually loads its CCP at 0x100, but puts a loade=<br>
+r module up<br>
+under the BDOS for executing programs (using the memory-residen=<br>
+t module<br>
+functionality of v3).  The reason I didn't go all-out in supportin=<br>
+g the<br>
+CP/M 3 BDOS though is because the BIOS would need a bunch more stuff<br>
+=<br>
+added to it.  Which I'd still like to do eventually and all, but for the<br>
+ti=<br>
+me being the plan has just been "make it work".  CP/M 2.2 was the<br>
+easiest/q=<br>
+uickest way to reach that goal.  And I still have some fiddling<br>
+to do.<br>
+<br>
+So=<br>
+yeah, a lot of blabbing just to mention a new font and CCP.  But<br>
+maybe fol=<br>
+ks are interested in the technical junk too.  Either way, Zork<br>
+fits on the =<br>
+screen fine now!<br>
+<br>
+<br>
+ybe not so much unless you know what you look for!&lt;br>&lt;br>Let's start with =<br>
+the font.  It's now 4x6.  The reason I used an 8x8 font originally is becau=<br>
+se it fit perfectly into the restraints of the hardware.  The screen being =<br>
+320x128 meant you could divide both dimensions evenly by 8, getting 40x16 c=<br>
+haracters on the screen.  I had the font data aligned to a 256-byte page in=<br>
+memory, and formatted the data so that each character row could be pulled =<br>
+out by simply incrementing the high byte of the memory address.  The low by=<br>
+te was set to which ASCII character you wanted (since there were 256 charac=<br>
+ters in the font).  No multiplication or anything was necessary to get the =<br>
+character offset into the font data.  And since each byte of LCD data repre=<br>
+sented 8 pixels, it was an easy matter to write an entire row of character =<br>
+data to the screen at a time, then just increment a couple of pointers, and=<br>
+repeat 7 more times.  This made drawing characters pretty speedy.  What to=<br>
+ok the most time is calculating all the junk necessary to translate X/Y coo=<br>
+rdinates into the wacky backwards way the Mailstation LCD hardware works.&lt;b=<br>
+r>&lt;br>Well 40x16 isn't really enough for many circumstances, particularly i=<br>
+n width.  Not even a CP/M directory listing.  So I did some math on various=<br>
+sizes.  A 5x7 font would give me a 64x18 display, with a few pixels left o=<br>
+ver at the bottom.  Not much more vertically, but 24 more horizontally was =<br>
+good.  So I looked around for some fonts on the internet, and ended up &lt;a h=<br>
+ref=3D"<a target="_blank" href="http://rasher.dk/rockbox/fonts/mis">(URL)</a>c/">on this page</a>.  It has a bu=<br>
+nch of Linux fonts, but best of all, has images available of all the charac=<br>
+ter sets.  There was a nice 5x7 font, but I also noticed the 4x6 one.  More=<br>
+math showed that a 4x6 font would give me 80x21!  That's almost a full CRT=<br>
+display's worth, just a few shy vertically.  And the more I thought about =<br>
+how I would implement a font which wasn't 8 pixels wide, the more I realize=<br>
+d that using one with an even width would be easiest.  A 4x6 font means a s=<br>
+ingle byte of LCD data can hold exactly two character columns of row data. =<br>
+Imagine the nightmare of trying to calculate your position on the screen i=<br>
+f every character was 5 pixels wide.  Five bits of one character would be i=<br>
+n one byte, then the next character would have 3 bits in the last byte and =<br>
+2 bits in the next byte, etc.  It hurts my brain to even think about it!&lt;br=<br>
+x6 one I wanted, are public domain.  Awesome.&lt;br>&lt;br>So I formatted the ima=<br>
+ge of the font characters into something I could work with and insert into =<br>
+my assembly.  I didn't go with 256 characters this time because I'm honestl=<br>
+y not sure if all the IBM ASCII characters that were in the CGA font are ev=<br>
+en present in this one.  If they are, they're so small that it's hard to di=<br>
+stinguish which are which.  I left the first 32 characters blank as well.  =<br>
+No more smiley face characters!  I might still extend it to 256 later, but =<br>
+CP/M was primarily 7-bit ASCII anyway.  I only included the upper 128 of th=<br>
+e CGA font before because it could be used for drawing lines and borders an=<br>
+d things.&lt;br>&lt;br>It took a bit of figuring things out and code reworking, b=<br>
+ut I converted my putchar object file to work with the new font data/size. =<br>
+And conveniently, changes were only made to that object file, which means =<br>
+I can recompile my BIOS to use the 8x8 font again as easy as specifying a d=<br>
+ifferent object file when linking.    The new one probably isn't as fast du=<br>
+e to extra math involved, but the increased display size is worth it in mos=<br>
+t cases.&lt;br>&lt;br>Anyway, I'll stop rambling about fonts.  It looks small in =<br>
+the emulator unless I 2X, but I think on the real hardware it'll be okay.&lt;b=<br>
+r>&lt;br>&lt;br>The other thing you might not have noticed on the screen there is=<br>
+that I actually loaded Zork via the command processor.  I got a directory =<br>
+listing beforehand too, though there's only three files on the virtual disk=<br>
+.&lt;br>&lt;br>I've had some quirks out of this.  I can launch stuff, but when th=<br>
+e application exits and the warm boot happens, the CCP never reloads proper=<br>
+ly again.  I haven't been able to figure it out yet, unless it and/or the B=<br>
+DOS are storing values which are messing it up, or something's getting over=<br>
+written when Zork runs.  I dunno yet.  I suppose I could totally re-read th=<br>
+e BDOS/BIOS too.  Maybe that's even what you're supposed to do.&lt;br>&lt;br>Part=<br>
+of the problem might be that I didn't use any of the original tools used t=<br>
+o build a CP/M system.  I've manually converted the assembly code over to w=<br>
+ork with AS-Z80, and am linking everything together as best I can figure it=<br>
+should work based on CP/M manuals.  I had to increase the default tiny BDO=<br>
+S stack too because my BIOS calls were overflowing it (since I doubt most B=<br>
+IOSes needed as much bloaty hardware translations as this one).  I think th=<br>
+e CCP is normally part of the whole mess that gets loaded off the system tr=<br>
+acks in v2.2, but I was trying to take more of a CP/M 3 approach.  I'm pull=<br>
+ing the .COM off the disk, but just loading it at an abnormal location (und=<br>
+er the BDOS) instead of at 0x100.  I probably should rename it to .SYS just=<br>
+to avoid confusion.&lt;br>&lt;br>CP/M 3 actually loads its CCP at 0x100, but put=<br>
+s a loader module up under the BDOS for executing programs (using the memor=<br>
+y-resident module functionality of v3).  The reason I didn't go all-out in =<br>
+supporting the CP/M 3 BDOS though is because the BIOS would need a bunch mo=<br>
+re stuff added to it.  Which I'd still like to do eventually and all, but f=<br>
+or the time being the plan has just been "make it work".  CP/M 2.2 was the =<br>
+easiest/quickest way to reach that goal.  And I still have some fiddling to=<br>
+do.&lt;br>&lt;br>&lt;br>So yeah, a lot of blabbing just to mention a new font and C=<br>
+CP.  But maybe folks are interested in the technical junk too.  Either way,=<br>
+Zork fits on the screen fine now!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Mailstation CP/M</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Feb 2, 2010</p>
+<p class="formattedBody">e:<br>
+ork 1!<br>
+<br>
+Thanks!<br>
+<br>
+machine floating around (I found them<br>
+a couple of years back) that came<br>
+t-end.  You might look for CP/M<br>
+en to have a .ASM file<br>
+They mostly let<br>
+here might be<br>
+<br>
+You know, that'd be pr=<br>
+etty handy to have.  One of the things I want to do to all of this is make =<br>
+it work on both modified and unmodified Mailstations.  I'll detect if the h=<br>
+ardware mod is present, and if not, the CP/M system area will start at 0x40=<br>
+00 instead of 0x0000, and apps will load at 0x4100 rather than 0x0100.  Of =<br>
+course, this means only apps compiled to run at that starting address will =<br>
+work.  But if one has the original source to something, it makes it a lot e=<br>
+asier.  Disassembling something and trying to find all the memory accesses =<br>
+to the system area is a huge chore.  I've tried!<br>
+<br>
+But yeah, I could compile=<br>
+a separate version of the Z-machine to run using the other start address, =<br>
+if I can find what you're talking about.  Maybe for executables that use th=<br>
+e higher starting address I can use an .EXE extension, and write a custom c=<br>
+ommand processor (or modify this one) which knows to load them at the diffe=<br>
+rent location.  That way unmodified .COM programs can launch at the traditi=<br>
+onal 0x0100, if one has the hardware for it.<br>
+<br>
+And of course, recompiling wo=<br>
+uld also let me do your original point, to specify the display width depend=<br>
+ing on which font I want to use.<br>
+<br>
+t 40 column machines (Apple II,<br>
+re to wrap, etc.  The<br>
+p the column width,<br>
+that is easy to<br>
+mns.<br>
+<br>
+Well, who knows where this copy of Zork even came from.  It might hav=<br>
+e been for a specific machine.  I've found lots of software during my diggi=<br>
+ng around which is computer-dependent, despite CP/M being so open-ended.  A=<br>
+ll the different displays available was probably the biggest reason.  Espec=<br>
+ially for computers which had graphical hardware rather than just character=<br>
+output.<br>
+<br>
+I think this copy was probably suited to a 64 character-wide scre=<br>
+en.  I would have had that with the 5x7 font I wanted to switch to, but now=<br>
+I'm up to 80 characters with this 4x6 font.  That should be fine for any C=<br>
+P/M app!<br>
+<br>
+o be working<br>
+ngine to a<br>
+<br>
+vious blocking point, so somewhat easy to create test-cases for.<br>
+<br>
+It's funn=<br>
+y you had that problem, because my very first problem after getting the ope=<br>
+ning screen was an issue when I input text.  But I was using a clunky way o=<br>
+f dumping the .COM file into memory rather than properly loading it off the=<br>
+disk, and I think I as clipping the end of it off.  Once I upgraded to usi=<br>
+ng BIOS commands to pull sectors off until EOF, it worked okay.<br>
+<br>
+hing work.  I can't wait to see a photograph of it running on the<br>
+rdware someday.<br>
+<br>
+Thanks again.  I'll be sure to take one!<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Mailstation CP/M</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Feb 2, 2010</p>
+<p class="formattedBody">p@...> wrote:<br>
+???<br>
+<br>
+Depends on the CP/M=<br>
+version.  From what I understand, the CCP/BDOS/BIOS were one big clump in =<br>
+the system tracks before version 3, and all loaded into upper memory by the=<br>
+loader also on the system tracks.  With version 3, the CCP became a .COM f=<br>
+ile.  Though v3 also uses a stripped down BDOS and BIOS in the system track=<br>
+s, which it uses to then load the full versions off of the data area of the=<br>
+disk.<br>
+<br>
+Even though I'm using v2.2 of the CCP now, I'm loading it off the d=<br>
+ata area of the disk rather than being part of the system tracks, though st=<br>
+ill placing it into an area below the BDOS.  I originally decided on this m=<br>
+ethod because my BIOS was getting a bit pudgy from having to have the font =<br>
+data in it, not to mention all the code in general for handling the virtual=<br>
+text display and virtual disk which a normal CP/M system wouldn't have had=<br>
+(I think a normal BIOS was supposed to just be 2KB), and I didn't want to =<br>
+waste too much disk space with system tracks.  I started out with 2 tracks =<br>
+(8KB), realized that wasn't enough, went to 3, then realized it would just =<br>
+make sense to use a full four for 16KB, giving me some growing room.  I thi=<br>
+nk I might could cram it in there now though, especially since the new font=<br>
+I'm using takes less space.<br>
+<br>
+sed to be the only<br>
+<br>
+That's true.  The t=<br>
+hing is though, there are tools used for actually creating/modifying a CP/M=<br>
+system.  Tools which run on the system itself, already running that versio=<br>
+n of CP/M you're going to modify.  I obviously didn't have that luxury, so =<br>
+I had to get by with modifying the BDOS and CCP assembly files to work with=<br>
+SDCC's AS-Z80 assembler.  I'm linking the BDOS against the BIOS myself, al=<br>
+ong with my loader app in front of all of that.  It seems to be fine, surpr=<br>
+isingly, aside from the CCP part.  It works at boot, but doesn't work after=<br>
+the warm boot when an app exits, even though the same code is called.  I h=<br>
+aven't been able to figure out why yet.<br>
+<br>
+you think!<br>
+<br>
+Let's hope!<br>
+<br>
+& Zork, and<br>
+<br>
+My original test involved lit=<br>
+erally dumping the zork.com directly off the dataflash and into memory and =<br>
+executing it.  The BDOS and BIOS were already in place in upper memory thou=<br>
+gh via the OS loader app, and this file dumping was happening in the BIOS a=<br>
+s part of the startup, so it was practically the same as loading it off a d=<br>
+isk, even if a bit of a kludge.  It was reading zork1.dat off the disk in a=<br>
+ny case.<br>
+<br>
+After I saw that the disk routines were working, I went on to act=<br>
+ually loading zork1.com off of the disk using BDOS commands, reading 128 by=<br>
+tes at a time until I hit EOF, then executing 0x0100.<br>
+<br>
+Now I'm still doing =<br>
+something similar at startup, except with CCP.COM, but loading it into high=<br>
+er memory underneath the BDOS.  It's compiled to base at that address too, =<br>
+so I ought to name it like CCP.SYS now probably so that it can't be execute=<br>
+d from the command line.<br>
+<br>
+I did originally make the CCP.COM load at 0x0100,=<br>
+but it was incapable of launching apps at that location, which is what pro=<br>
+mpted me to shift it upwards where it belongs for this version.  CP/M 3's C=<br>
+CP loads at 0x0100 though, but loads apps via a resident loader module whic=<br>
+h it loads up high using the RSX functions in the v3 BDOS.  The transient p=<br>
+ortion of the CCP then gets overwritten by the new app.  I like this approa=<br>
+ch, and will probably use it if I ever write my own CCP.  Though if I rewri=<br>
+te the BDOS too, I'll just write the app loading capability directly into t=<br>
+here via a custom function call.<br>
+<br>
+ching was not one way,<br>
+=<br>
+e built in keyboard code.<br>
+at C000 to<br>
+u get a pretty big stack out of the deal, too!<br>
+<br>
+My hardware mod can actuall=<br>
+y switch slot0000 back to codeflash by toggling P28.3 back to 0, but that w=<br>
+ould put the original interrupt code and everything back into place.  I cou=<br>
+ld still get around it with the interrupt jump trick using the other interr=<br>
+upt mode, but as you mentioned, I'd have to waste some ram to do it.  I onl=<br>
+y really wanted to have to use this method for people who won't have a hard=<br>
+ware mod, since it's such a kludge.<br>
+<br>
+I wrote my own routine though which re=<br>
+ads any 256-byte dataflash sector into a buffer.  I probably could have rip=<br>
+ped that function out of the Mailstation disassembly too, but I prefer to w=<br>
+rite as much of my own code as possible.  I started rewriting the keyboard =<br>
+routines before, but debouncing and key repeat were giving me issues, so I =<br>
+ended up just going with the borrowed code so that I could move forward at =<br>
+the time.  Not to mention, making the keyboard work again was fairly boring=<br>
+, to be honest.  They're still separate and compatible object files though,=<br>
+I can just swap them in and out of the BIOS module, so maybe one day I can=<br>
+have all original code in the BIOS.  The font I'm using is public domain n=<br>
+ow, too!<br>
+<br>
+Speaking of switching banks though, I've considered it for some o=<br>
+f the larger functions (and the font, for example) into one of the other RA=<br>
+M pages, and just bank-switch it in when needed during BIOS calls.  CP/M 3 =<br>
+supports bank-switching, even, but I don't have a full understanding of how=<br>
+it works yet.  Not that I need v3 though to take advantage of such a thing=<br>
+if I wanted.  But so far RAM hasn't been a problem for the things I've tri=<br>
+ed.<br>
+<br>
+" area.  I think there is even one or two "filenames"<br>
+lename is just a byte, from 0 to 0x2f.<br>
+your cp/m files coexist<br>
+<br>
+That's the th=<br>
+ing, I knew that the Mailstation uses a file system of some kind in its OS,=<br>
+but I have no idea how it works.  So I just avoided that whole area where =<br>
+it stores emails and things.<br>
+<br>
+How much do you know about it?  Like, where=<br>
+exactly in dataflash does it start, what format do the files/directory ent=<br>
+ries use, etc etc?  Anything you've figured out might be useful for getting=<br>
+more usable space!<br>
+<br>
+Eventually I also want to finish the code which would =<br>
+let me have a drive B which works across the parallel port cable to a serve=<br>
+r app on the PC side.  That would let a person copy and move files onto the=<br>
+ir Mailstation flash disk via the OS.  At least, once I actually implement =<br>
+disk writing, that is!<br>
+<br>
+ot code, & cpm system<br>
+For that<br>
+could still use it as part of cpm's non-system tracks.  An<br>
+ed to use the whole 16K, they just need to<br>
+<br>
+=<br>
+I'm actually using a fair amount of the 16KB of system tracks for my OS loa=<br>
+der + BDOS + BIOS.  The CCP I compiled is a little less than 2KB though, wh=<br>
+ich is smaller than I originally expected one to be, so I might be able to =<br>
+fit that into the system tracks too, which would save a bit of space on the=<br>
+data area of the disk.<br>
+<br>
+I've thought of different ways of including a trad=<br>
+itional loader app.  One is to include it in the OS loader, where maybe you=<br>
+hold a key when you launch the app in the Mailstation menu and it falls ba=<br>
+ck on that mode to let you load things on the parallel port like before.  O=<br>
+r maybe putting a key combo you can press any time the OS is loaded.  And t=<br>
+hen of course is the other method of just making it a .COM file on the disk=<br>
+.  It's one of the next things on the list to do though so I'll figure some=<br>
+thing out.<br>
+<br>
+e.html<br>
+that site?????<br>
+<br>
+Well, considering that's where I downloaded most of the st=<br>
+uff from, I guess that means it's okay!  I dunno.  That's one reason I alwa=<br>
+ys like writing as much of my own code as possible, like with the BDOS.  It=<br>
+'d perform the same interface functions for CP/M applications, but is still=<br>
+different on the inside.  And be another member in the ocean of OS clones~=<br>
+!<br>
+<br>
+<br>
+I'll plead insan=<br>
+ity when they drag me away to jail.  They'll surely believe it when they re=<br>
+alize I was rewriting a 30 year old operating system for a 10 year old devi=<br>
+ce.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

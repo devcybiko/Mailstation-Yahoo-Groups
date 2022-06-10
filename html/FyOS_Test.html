@@ -1,0 +1,473 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">FyOS Test (Aug 27, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Aug 28, 2007</a></li>
+<li><a class="link" href="#2">From: "Jeff" <fyberoptic1979@...> Sep 5, 2007</a></li>
+<li><a class="link" href="#3">From: "david_zmk" <David_zmk@...> Nov 5, 2007</a></li>
+<li><a class="link" href="#4">From: "david_zmk" <David_zmk@...> Nov 6, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Nov 12, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: FyOS Test</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 27, 2007</p>
+<p class="formattedBody">This is far from an actual OS just yet, but I made considerable<br>
+strides no=<br>
+w that I have full I/O in C, and made a pretty decent<br>
+command-line interfa=<br>
+ce to do some various tasks.  I haven't touched<br>
+up the source to everythin=<br>
+g just enough yet to release that, but I<br>
+thought I'd let folks test the bi=<br>
+nary to see if there's anything I<br>
+might need to do before I release anythi=<br>
+ng else.  Plus I just think<br>
+it's kind of neat to play with!<br>
+<br>
+So let me jus=<br>
+t get to the link, first of all:<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/fyos_=">(URL)</a><br>
+001.bin<br>
+<br>
+You need a loader app already, which is outside of the scope of th=<br>
+is<br>
+particular post.  I might write up some documentation on that aspect<br>
+a=<br>
+nd include a loader app when I release the full source.  But for the<br>
+time =<br>
+being, this assumes you're using something or other that gets a<br>
+binary fil=<br>
+e into ram at 0x8000, and executes it.  It also expects to<br>
+have interrupts=<br>
+enabled when it starts.<br>
+<br>
+Now I know there's a few different firmware versi=<br>
+ons floating around<br>
+out there, but one of the neater aspects is that I wro=<br>
+te support into<br>
+CRT0 initialization to detect the firmware version and dyn=<br>
+amically<br>
+fill in the shadow vars (I only use p2 and p3 shadow for now).  T=<br>
+his<br>
+means it SHOULD support v2.53, v2.54, and v3.03 just fine, despite<br>
+ea=<br>
+ch being different.  But I've only tested it on v3.03, because<br>
+that's the =<br>
+only MS I have.<br>
+<br>
+When it loads up, you get some info where it shows the fir=<br>
+mware<br>
+version, tells you if it's satisfied with that version (and what<br>
+fa=<br>
+llback it used if not), then shows some other stuff.  One is where<br>
+I was t=<br>
+esting to verify globals were being initialized, which<br>
+probably isn't need=<br>
+ed anymore.  The shadow byte addresses should help<br>
+you verify if it's usin=<br>
+g the proper ones.  And cgafont_addr is just<br>
+for reference, and probably i=<br>
+sn't really needed anymore either.<br>
+<br>
+Then you get a > (unfortunately no blin=<br>
+king cursor yet), where you<br>
+type in commands.  To get a list, use "help". =<br>
+Case insensitive.<br>
+<br>
+You have:<br>
+<br>
+CLS - Clears the screen.<br>
+EXIT - Launches ori=<br>
+ginal page4000 loader (in case you want to reload<br>
+it or other code, which =<br>
+I do often for testing).<br>
+HELP - Gets help on individual commands.<br>
+HEXTOINT =<br>
+- Displays hex strings as integers.  Was used to test a<br>
+function I wrote t=<br>
+o do this, but I left the command in anyway.<br>
+PEEK - Displays memory locatio=<br>
+ns in hex.<br>
+POKE - Writes a byte to a memory location.<br>
+RESET - Resets FyOS t=<br>
+o initial screen.<br>
+REBOOT - Resets the Mailstation to 0x0000.<br>
+POWERDOWN - Tu=<br>
+rns off the Mailstation via firmware function 0x0A6B.<br>
+<br>
+The screen will scro=<br>
+ll downwards when you reach the bottom, just like<br>
+any other text screen.  =<br>
+Text wraps around the right edge.  Backspace<br>
+goes past the left edge to th=<br>
+e previous line (unless at line 0).  The<br>
+text I/O is really pretty nifty i=<br>
+f I do say so myself.<br>
+<br>
+Not all of the code is optimized yet, some of which =<br>
+still being<br>
+written in C functions.  Some of the assembly could be written=<br>
+in a<br>
+better manner, as well.  But hey, it works.  I'd rather focus on<br>
+fu=<br>
+nctionality than speed at the moment.<br>
+<br>
+I should point out that I am NOT usi=<br>
+ng a custom interrupt here.  I'm<br>
+not using custom keyboard functions or an=<br>
+y of that.  This is working<br>
+purely off the Mailstation firmware, which is =<br>
+why it was important to<br>
+use the proper shadow vars.  To get a blinking cur=<br>
+sor though, I may<br>
+have to hook the interrupt sometime.<br>
+<br>
+I can't think of a=<br>
+nything else in particular to mention about it, so<br>
+I hope it works on othe=<br>
+r Mailstations!<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: FyOS Test</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 28, 2007</p>
+<p class="formattedBody">Welp, I finished a whole bunch of documenation, commented my source<br>
+files,=<br>
+and included the tools I use (short of SDCC itself), all in<br>
+one zip file.=<br>
+If you have a PC and a Mailstation, then you should be<br>
+able to use this =<br>
+I hope!<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstation/fyos_c_002.zip">(URL)</a><br>
+<br>
+Check out the=<br>
+readme.txt first.<br>
+<br>
+It's actually v0.02 of FyOS included this time, instea=<br>
+d of simply the<br>
+source to v0.01.  I made a bunch of changes to the code, a=<br>
+nd since<br>
+the FyOS command interpreter basically makes for a big example of=<br>
+how<br>
+to use this stuff, I figured it only made sense to go ahead and<br>
+incl=<br>
+ude the newest.  I included a binary version too if you want to<br>
+get right =<br>
+to playing with it.<br>
+<br>
+Version 0.02 has a lot of optimizations (particularly =<br>
+in screen<br>
+scrolling and clearing), as well as some additional commands, li=<br>
+ke to<br>
+poke and peek values into ports now (since before you could only do =<br>
+<br>
+memory locations).  There's also an interactive scancode viewer.<br>
+<br>
+I includ=<br>
+ed the binary to v0.01 too if anyone wants to compare the<br>
+two.  This might=<br>
+give you an idea of how writing code in C will<br>
+perform as opposed to asse=<br>
+mbly.  Screen scrolling and clearing is<br>
+particularly noticable between the=<br>
+two.<br>
+<br>
+Unfortunately, it's starting to get pretty fat already!  I'm going t=<br>
+o<br>
+have to figure out an alternative storage method.  I have some things<br>
+i=<br>
+n mind though.<br>
+<br>
+But yeah, FyOS aside, you should be able to just write you=<br>
+r own apps<br>
+fairly easily now I hope.  There's hardly any difference in wri=<br>
+ting<br>
+for the Mailstation as to just a normal console window in DOS or<br>
+Lin=<br>
+ux, to be honest.  printf/getchar/gets are the most used functions<br>
+for con=<br>
+sole interaction that I know of, and they work fine with no<br>
+setup necessar=<br>
+y by the user.  Only thing you truly have to worry<br>
+about is your code and =<br>
+data sizes, since the MS can only hold so much.<br>
+<br>
+As always, let me know if =<br>
+you have any problems or questions.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: FyOS Test</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 5, 2007</p>
+<p class="formattedBody">Not posted here lately, but I've been working nonetheless!  I made a<br>
+ton o=<br>
+f internal changes, so I went from v0.02 to just making this<br>
+v0.1.  The so=<br>
+urce is still messy though so I'm only going to release<br>
+a binary as a prev=<br>
+iew.  It not only needs more comments, but still<br>
+needs some work to make i=<br>
+t easier to access from outside code.  In<br>
+other words, by the time I relea=<br>
+se the source next time, it'll likely<br>
+have an actual programming interface=<br>
+similar to CP/M's BDOS<br>
+functionality.<br>
+<br>
+<a target="_blank" href="http://www.fybertech.net/mailstati=">(URL)</a><br>
+on/fyos_01_ldr.bin<br>
+<br>
+The big internal changes are:<br>
+<br>
+- Interrupt has been f=<br>
+ully replaced.  This means the firmware's<br>
+keyboard routines were ripped ou=<br>
+t to be loaded from elsewhere, and to<br>
+also use variables in different loca=<br>
+tions.  This was necessary<br>
+because...<br>
+<br>
+- I added in key repeat.<br>
+<br>
+- And a=<br>
+n actual blinking cursor.<br>
+<br>
+- Replacing the interrupt meant I was no long=<br>
+er tied to using the<br>
+firmware's p2shadow and p3shadow.  In other words, th=<br>
+is should run on<br>
+any version of the firmware, since I'm no longer using an=<br>
+y firmware<br>
+routines.  And I created my own shadow vars.<br>
+<br>
+- The entire thi=<br>
+ng now runs from the upper 16K of ram.  The command<br>
+interpreter starts at =<br>
+0xc000, and the "BDOS" starts at 0xe400.  The<br>
+command interpreter is prett=<br>
+y fat right now, since it's all written<br>
+in C.  It was all I could do to ma=<br>
+ke it fit in that space, and I had<br>
+to remove a couple of the help commands=<br>
+to do that!  The "BDOS" is<br>
+all assembly.<br>
+<br>
+Since the code starts at 0xc00=<br>
+0 (though initially executed at<br>
+0xe400), I tacked it onto the end of a tin=<br>
+y loader.  So you can still<br>
+load the binary at the normal 0x8000, and once=<br>
+it runs, it'll take<br>
+care of moving the code into the right place and exec=<br>
+uting it.<br>
+<br>
+I have to say, the addition of a blinking cursor makes it look m=<br>
+uch<br>
+more alive now than it has nearly the entire time I've worked on all<br>
+=<br>
+this.  It was certainly worth the effort involved.  For all intents<br>
+and pu=<br>
+rposes, it's now about as close to a true text console as one<br>
+can get.<br>
+<br>
+I =<br>
+don't know how many people actually have tried any of the other<br>
+versions, =<br>
+but I hope you like this one!  And if you don't know how to<br>
+load it, there=<br>
+'s instructions and software in the v0.02 zip to let<br>
+you do so.<br>
+<br>
+Also, in=<br>
+a funny twist, it seems that there's a perfect sequence of<br>
+bytes somewher=<br>
+e in my code/data which makes the Mailstation think it<br>
+was shut down prope=<br>
+rly when you hit the reset button on the back.<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: FyOS Test</h3>
+<a href="#0">(top)</a><p class="from">From: "david_zmk" &lt;David_zmk@...></p>
+<p class="date">Nov 5, 2007</p>
+<p class="formattedBody">Hi, a number of times i read that you have storage problems with the<br>
+mailst=<br>
+ation, maybe my suggestion is not applicable or already<br>
+considered but, why=<br>
+not use the 8 megabits flash memory that the<br>
+mailstation uses to save e-ma=<br>
+ils and CFG files, to store the FS and/or<br>
+the program data? it's not a HUGE=<br>
+amount of memory but, 1MB is 1MB.<br>
+<br>
+Zim_256<br>
+com, "Jeff" &lt;fyberoptic1979@...> wrote:<br>
+e been working nonetheless!  I made a<br>
+from v0.02 to just making this<br>
+so I'm only going to release<br>
+ore comments, but still<br>
+outside code.  In<br>
+me, it'll likely<br>
+BDOS<br>
+r.bin<br>
+y replaced.  This means the firmware's<br>
+to be loaded from elsewhere, and to<br>
+ations.  This was necessary<br>
+<br>
+t I was no longer tied to using the<br>
+n other words, this should run on<br>
+no longer using any firmware<br>
+s.<br>
+d<br>
+command interpreter is pretty fat right now, since it's all written<br>
+C.  It was all I could do to make it fit in that space, and I had<br>
+ove a couple of the help commands to do that!  The "BDOS" is<br>
+y.<br>
+0xe400), I tacked it onto the end of a tiny loader.  So you can still<br>
+oad the binary at the normal 0x8000, and once it runs, it'll take<br>
+f moving the code into the right place and executing it.<br>
+, the addition of a blinking cursor makes it look much<br>
+an it has nearly the entire time I've worked on all<br>
+nly worth the effort involved.  For all intents<br>
+bout as close to a true text console as one<br>
+ow many people actually have tried any of the other<br>
+you like this one!  And if you don't know how to<br>
+uctions and software in the v0.02 zip to let<br>
+a funny twist, it seems that there's a perfect sequence of<br>
+ere in my code/data which makes the Mailstation think it<br>
+roperly when you hit the reset button on the back.<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: FyOS Test</h3>
+<a href="#0">(top)</a><p class="from">From: "david_zmk" &lt;David_zmk@...></p>
+<p class="date">Nov 6, 2007</p>
+<p class="formattedBody">Or you can try using a IDE device for storage, like a CF card (A bit<br>
+diffic=<br>
+ult because of the connector) or a notebook HDD.<br>
+<br>
+Take a look at:<br>
+<a target="_blank" href="http://ww=">(URL)</a><br>
+w.z80.de/gide/<br>
+<br>
+Documentation in:<br>
+<a target="_blank" href="http://www.z80.de/gide/GIDE.txt">(URL)</a><br>
+<br>
+Zim_256<br>
+=<br>
+.1.  The source is still messy though so I'm only going to release<br>
+inary as a preview.  It not only needs more comments, but still<br>
+some work to make it easier to access from outside code.  In<br>
+ds, by the time I release the source next time, it'll likely<br>
+ctual programming interface similar to CP/M's BDOS<br>
+<br>
+big internal changes are:<br>
+This means the firmware's<br>
+ed from elsewhere, and to<br>
+This was necessary<br>
+=<br>
+meant I was no longer tied to using the<br>
+dow.  In other words, this should run on<br>
+since I'm no longer using any firmware<br>
+shadow vars.<br>
+am.  The command<br>
+t 0xe400.  The<br>
+all written<br>
+, and I had<br>
+BDOS" is<br>
+though initially executed at<br>
+ny loader.  So you can still<br>
+once it runs, it'll take<br>
+and executing it.<br>
+r makes it look much<br>
+I've worked on all<br>
+For all intents<br>
+console as one<br>
+y have tried any of the other<br>
+And if you don't know how to<br>
+re in the v0.02 zip to let<br>
+wist, it seems that there's a perfect sequence of<br>
+y code/data which makes the Mailstation think it<br>
+y when you hit the reset button on the back.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: FyOS Test</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Nov 12, 2007</p>
+<p class="formattedBody">Hi, a number of times i read that you have storage problems with the<br>
+station, maybe my suggestion is not applicable or already<br>
+why not use the 8 megabits flash memory that the<br>
+e e-mails and CFG files, to store the FS and/<br>
+or<br>
+ot a HUGE amount of memory but, 1MB is 1MB.<br>
+<br>
+There were a couple of prob=<br>
+lems with using the flash memory.  At<br>
+least in my mind.  The codeflash was=<br>
+the larger one, and I didn't<br>
+really want to mess with it for the time bei=<br>
+ng.  Especially since<br>
+it's broken up into 64KB sectors, meaning you have t=<br>
+o erase the whole<br>
+chunk to change anything in it.  The dataflash is only 5=<br>
+12KB, but has<br>
+256 byte sectors, which is much better for storing data.  Ho=<br>
+wever,<br>
+they chose to use one with far less write cycles than even the<br>
+cod=<br>
+eflash.  So after some extended use, you'd eventually start<br>
+wearing it dow=<br>
+n to the point that it wouldn't work anymore.<br>
+<br>
+So that leads me to the pr=<br>
+oblem of making some sort of file system<br>
+out of it that limits how much it=<br>
+writes to particular sectors.  For<br>
+my little Fonera router thing that I r=<br>
+eflashed a while back, it uses<br>
+JFFS to deal with the flash memory, to writ=<br>
+e to it in kind of a<br>
+circular loop, to extend the flash's life as long as =<br>
+possible.  But<br>
+the problem is that that method is more memory-intensive an=<br>
+d slow,<br>
+and I think that's the last thing the Mailstation needs to contend=<br>
+<br>
+with.  The Fonera has much more horsepower to deal with it.<br>
+<br>
+I considered=<br>
+compact flash once (which is nearly identical to IDE),<br>
+but that would req=<br>
+uire an actual hardware mod, and I've always wanted<br>
+to keep this stuff as =<br>
+casual hobbyist friendly as possible.  Plus I<br>
+didn't particularly want to =<br>
+risk the Mailstation itself for modding.<br>
+That's why I thought of trying t=<br>
+o use SD over the parallel port of<br>
+the thing.  That'd be slow, but it woul=<br>
+d work.  It's just a matter of<br>
+making some little adapter.  Such a thing w=<br>
+ould also have to adapt<br>
+the 5v to 3.3v.  And I'm lazy and never did it!<br>
+<br>
+I=<br>
+n the end though, it will probably come down to some sort of<br>
+internal flas=<br>
+h storage.  I'll try to do some reading on what other<br>
+people have done wit=<br>
+h other devices and see if I can get some idears,<br>
+to avoid wearing the fla=<br>
+sh down as much as possible.  It's just one<br>
+of those things where I'm stil=<br>
+l at the stage where it's daunting to<br>
+think about.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

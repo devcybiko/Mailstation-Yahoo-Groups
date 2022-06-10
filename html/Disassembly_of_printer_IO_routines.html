@@ -1,0 +1,49 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Disassembly of printer I/O routines (Apr 15, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Disassembly of printer I/O routines</h3>
+<p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 15, 2004</p>
+<p class="formattedBody">Printer I/O routines<br>
+<br>
+1a08  3e00      ld      a,#00<br>
+1a0a  d32c      out     (#2c),a<br>
+1a0c  db2d      in      a,(#2d)<br>
+1a0e  6f        ld      l,a<br>
+1a0f  2600      ld      h,#00<br>
+1a11  b4        or      h<br>
+1a12  c9        ret<br>
+<br>
+1a13  210200    ld      hl,#0002<br>
+1a16  39        add     hl,sp<br>
+1a17  3eff      ld      a,#ff<br>
+1a19  d32c      out     (#2c),a<br>
+1a1b  7e        ld      a,(hl)<br>
+1a1c  d32d      out     (#2d),a<br>
+1a1e  c9        ret<br>
+<br>
+1a1f  db21      in      a,(#21)<br>
+1a21  e6f8      and     #f8<br>
+1a23  6f        ld      l,a<br>
+1a24  2600      ld      h,#00<br>
+1a26  b4        or      h<br>
+1a27  c9        ret<br>
+<br>
+Just have to figure out what code calls 1a08<br>
+<br>
+It's not in the first bank.<br>
+<br>
+dz80, find and grep should prove helpful...<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

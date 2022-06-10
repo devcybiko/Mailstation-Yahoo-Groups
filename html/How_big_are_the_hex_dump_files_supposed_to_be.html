@@ -1,0 +1,578 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">How big are the hex dump files supposed to be? (Apr 16, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Neil Morrison" <neilsmorr@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#3">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#4">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#6">From: "Neil Morrison" <neilsmorr@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#8">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#9">From: "Neil Morrison" <neilsmorr@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#10">From: "jhogerhuis" <jhoger@...> Apr 16, 2004</a></li>
+<li><a class="link" href="#11">From: "jhogerhuis" <jhoger@...> Apr 17, 2004</a></li>
+<li><a class="link" href="#12">From: "Neil Morrison" <neilsmorr@...> Apr 17, 2004</a></li>
+<li><a class="link" href="#13">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#14">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#15">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#16">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#17">From: "Neil Morrison" <neilsmorr@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#18">From: "John R. Hogerhuis" <jhoger@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#19">From: "Neil Morrison" <neilsmorr@...> Apr 18, 2004</a></li>
+<li><a class="link" href="#20">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 18, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: How big are the hex dump files supposed to be?</h3>
+<p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">The ROM dump hex files encode 32K of binary data each.<br>
+<br>
+Neil's conversion is coming up with 16K binaries, I'm coming up with<br>
+32K (the addresses go to 7FFF.<br>
+<br>
+How big are they supposed to be?<br>
+<br>
+The MBM 29F080A is a 32 64K sectors. Would that mean these flash<br>
+images should actually have 32 64K size files and not 32K (as the<br>
+are) or 16K?<br>
+<br>
+->&lt;-  confused...<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">I'm going off the notes on <a target="_blank" href="h">(URL)</a>ttp://www.linux-hacker.net Home / Other<br>
+I-Appliances / MailStation / MS/Z80 hacking which describe the bank<br>
+setup:-<br>
+<br>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+There are 4 slots, of 16k each, at #0000, #4000, #8000, & #C000.<br>
+Only slot #4000 & slot #8000 have been observed to be swappable, with<br>
+codeflash swapping into #4000, and ram into #8000. Also, it seems<br>
+everything except the ram uses #4000 slot. (LCD, dataflash, Modem,<br>
+caller ID)<br>
+<br>
+slot #0000 is always codeflash page #00<br>
+slot #4000 is codeflash pages #01 to #3f (Or LCD, dataflash, Modem,<br>
+caller ID)<br>
+slot #8000 is ram pages #1 to #7<br>
+slot #C000 is always ram page #00<br>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+<br>
+It seems to me that this is logical but I'm willing to accept<br>
+corrections. Don't forget that there is a lot of text material in the<br>
+roms along with all the graphics which are used, so any 'code' in<br>
+there is irrelevant. I may try to write an 'emulator' which runs<br>
+through the roms and maps out the actual code used and the calls<br>
+made.<br>
+<br>
+Also, see "U202 - M5M51008-70 ----- 128 kbyte static ram (cpu data)"<br>
+which implies that this ram may be bank switched in the C000 space!<br>
+<br>
+Anyone got a service manual for the Mivo 100?<br>
+<br>
+Neil<br>
+<br>
+From: "jhogerhuis" &lt;jhoger@...><br>
+<br>
+with<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">Well, there is real live code above 4000 in the page 0 hex file. It<br>
+disassembles fine and doesn't look like data. In fact, I found some code<br>
+there which calls the sector erase function I discovered.<br>
+<br>
+The slots are just chunks of the CPU's address space where blocks of<br>
+flash and RAM are mapped in via I/O port accesses. The way the hex files<br>
+are broken up is an independent issue. Personally I'd like just to see<br>
+the raw 1Meg dump, and then I'd feel better.<br>
+<br>
+I have what's there all disassembled and I can grep for IO. That's how I<br>
+found the flash byte write, sector erase and parallel port I/O.<br>
+<br>
+Actually, I just looked at the data sheet again, and it seems they just<br>
+have a typo. They say on page 4 that there are 32 64K sectors, but it's<br>
+a lie. The picture contradicts, as does the math since then we'd have a<br>
+2M chip instead of 1M. Okay, I feel better now...<br>
+<br>
+Service manual type information is probably considered by Cidco as a<br>
+trade secret and would likely only be available under NDA, but if it's<br>
+out there great. My guess is we're on our own. The port map and memory<br>
+map from linux-hacker has been very helpful.<br>
+<br>
+They are selling these units possibly at break-even or slight loss in<br>
+order to get follow on email subscribers. So unless we're ready to<br>
+partner with them they probably don't have much incentive to give out<br>
+the info.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">BTW, in my disassembly I am seeing call's to addresses in the 8000<br>
+range, so this information from linux-hacker is not completely<br>
+correct. Sometimes at least, code is mapped into the 8000 slot.<br>
+<br>
+<br>
+wrote:<br>
+Other<br>
+bank<br>
+with<br>
+Modem,<br>
+the<br>
+data)"<br>
+space!<br>
+the<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">In fact, this may be useful in that it is conceivable that code runs<br>
+from RAM while reprogramming the flash.<br>
+<br>
+The pages I saw making calls to 8000 addresses are:<br>
+<br>
+Page 0x00,<br>
+Page 0x11,<br>
+Page 0x12,<br>
+Page 0x13,<br>
+Page 0x14,<br>
+Page 0x15<br>
+<br>
+I should be able to figure out soon which code page(s) is(are) being<br>
+mapped to 8000. It's probably either 1 or 0 though.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">I suspect that the machine may run with 32K of ram in the top half of<br>
+memory, the top 16K being fixed, and that the 512K of flash rom is<br>
+used as a sort of disk drive, being banked in and out of somewhere.<br>
+<br>
+We have 128K of ram, 512K of flash rom and 1MB of flash rom all being<br>
+mapped into 64K.<br>
+<br>
+Neil<br>
+<br>
+From: "jhogerhuis" &lt;jhoger@...><br>
+<br>
+runs<br>
+being<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">From: "jhogerhuis" &lt;jhoger@...><br>
+<br>
+<br>
+Could be when you want to swap rom you jump to the ram and call the<br>
+routine that swaps rom banks then jump to the rom. You can't really<br>
+be 'in' the rom when it switches because of timing. I note there are<br>
+routines that jump to 0000 where there are a series of NOP's.<br>
+Possibly a delay?<br>
+<br>
+If most all of the calls and jumps are to 0000 - 7FFF then that would<br>
+clinch it. I wouldn't be surprised if there is a little software in<br>
+ram here and there for special purposes.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">The first #0F43 bytes of page #01 are copied to RAM at #8000,<br>
+then jumped to.<br>
+<br>
+This is the reflash code.  Since it has to erase the ROM before<br>
+loading the new code, it (reflash) can't run from ROM.  So, while<br>
+the code may be ORG'ed #8000, the rom holding that code is<br>
+mapped into the #4000-7FFF slot.<br>
+<br>
+The rest of page #01 is ORG'ed to the #4000 slot.  (At #4F44,<br>
+it is re-ORG'ed to #4F44.)<br>
+<br>
+The code that copies reflash to RAM, then jumps to that copy,<br>
+is at #1BC0.<br>
+<br>
+The call to #1BC0 is in page #03 (which just happens to also be<br>
+mapped to the #4000-7FFF slot.  IOW, page #03 in slot #4000<br>
+makes a call to #1BC0 in page #00, which swaps page #01 into<br>
+slot #4000, copies part of it to RAM in slot #8000, then jumps to<br>
+that ram.  One of the first things this code running from RAM<br>
+does, is erase the codeflash chip.<br>
+<br>
+The SECTORS that it erases are 64K, or 4 pages each.<br>
+There IS at least one typo in the Fujitsu data sheet.  Under the<br>
+heading "FLEXIBLE SECTOR-ERASE ARCHITECTURE", it says<br>
+"Thirty two 64 K byte sectors".  There are just sixteen 64 Kbyte<br>
+sectors.  16 x 64k x 8 bits = 8 Megabits, and the 29F080 is<br>
+an eight megabit chip.<br>
+<br>
+You can split the files up any way you find convenient (the rom<br>
+is really just a 1 Megabyte block of data).  I think that for<br>
+disassembly, 16k files are best.<br>
+<br>
+There are two pages in each of the 32 hex-dump files, where a<br>
+page is defined as the chunks that are bank-switched.<br>
+<br>
+Also, the RAM is eight pages of 16 kBytes each.<br>
+(8 x 16kBytes = 128 kBytes)<br>
+<br>
+Cyrano Jones<br>
+<br>
+Modem,<br>
+flash<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">Quite possible. I'll have to look into that. Anyway the calls are to<br>
+the following addresses (these are ones that had more than one<br>
+'call' to them):<br>
+<br>
+8003<br>
+8009<br>
+800c<br>
+8018<br>
+8021<br>
+8024<br>
+8027<br>
+802a<br>
+802d<br>
+8036<br>
+8048<br>
+804e<br>
+805a<br>
+8060<br>
+8124<br>
+8128<br>
+8228<br>
+83c1<br>
+86e4<br>
+<br>
+There are about 50 more but each of them is only ever called once.<br>
+There might be interesting ones in there as well, but these ones are<br>
+more likely to be general utility functions.<br>
+<br>
+Do you get the feeling this group is dead except for what we're<br>
+doing?<br>
+<br>
+<br>
+the<br>
+really<br>
+are<br>
+would<br>
+in<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+<br>
+But surely you should treat it as 64 * 32K where the lower 16K is the<br>
+page000 section in each case?<br>
+<br>
+<br>
+Which means that for disassembly you need an "ORG 4000h" at the start<br>
+and again half way through? I found it easier to deal with in 16K<br>
+sections.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 16, 2004</p>
+<p class="formattedBody">Curious, did you just figure this out or did you already know<br>
+this...<br>
+My impression was that no one has gotten this far, but<br>
+maybe I'm looking in the wrong places.<br>
+<br>
+Anyway, that's fantastic. Do you know where the parallel<br>
+port monitor which starts the reflash is at? Also,<br>
+do you know if there is a way through the internet<br>
+connection to reflash? That's my immediate goal, is<br>
+to flash the device non-invasively.<br>
+<br>
+Thanks!<br>
+<br>
+wrote:<br>
+8000<br>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+#C000.<br>
+swappable,<br>
+seems<br>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+in<br>
+in<br>
+runs<br>
+calls<br>
+up<br>
+(as<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "jhogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 17, 2004</p>
+<p class="formattedBody">Do you know what the entry point is to the routine in Page 3 that<br>
+calls 1bc0? And who calls it?<br>
+<br>
+And by first 0f43 bytes of Page #1 you mean the beginning of the<br>
+second half (4000 on) of file Page00.hex, correct?<br>
+<br>
+I'm trying to figure out first what sequence of interactions on the<br>
+parallel port and/or keyboard lead to entering the reflash<br>
+procedure. After that is nailed down then I will dive in to the<br>
+reflash itself, assuming no one has already done this.<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 17, 2004</p>
+<p class="formattedBody">Couple of questions.<br>
+<br>
+Where does the 512K Flash ROM map into? 4000? 8000? When does this<br>
+happen? At shutdown?<br>
+<br>
+Is the printer port fully bi-directional? If so, I assume you could<br>
+configure it as a serial port using software.<br>
+<br>
+Neil<br>
+<br>
+From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody"><br>
+You are right, you can't switch the bank you are currently executing<br>
+code from.  But you can switch the others.  Rom page #00, which is<br>
+always located in slot #0000 (#0000-3FFF) has the routines that<br>
+handle the bank-switching for slot #4000 (#4000-7FFF), and also<br>
+for slot #8000 (#8000-BFFF).<br>
+<br>
+The difficulty with bank switching is that it takes two instructions<br>
+minimum to jump to a page that is not already banked in.  One<br>
+to select the new page, and another to jump (or call) to it.  If you<br>
+try to switch the page you are currently executing from, and you set<br>
+the page register with a new page number, the CPU is whisked<br>
+away to the new page before it can fetch the jump instuction from<br>
+the old page.<br>
+<br>
+The mailstation handles this by making any inter-page calls to<br>
+pages #01 thru #3F (in slot #4000) indirectly, going through<br>
+fixed page #00 (in slot #0000).  Code in page #00 handles<br>
+saving the old page number for slot #4000, setting the new page<br>
+number, calling the routine in the new page, and on return<br>
+restoring the old page number.<br>
+<br>
+There is a routine at #19AE, with parameters DE=newpage,<br>
+and HL=address_in_that_page, that handles this.  There is<br>
+also a set of what might be called "page jumps", starting at #003C,<br>
+that load DE with a page number, and then jump to #19AE.  You can<br>
+think of these as "worm holes" to the higher pages, where HL<br>
+holds the address you want to be at on the other side.<br>
+<br>
+Also, starting at #059F there is a really long jump table.<br>
+Some of the routines that this table jumps to are in page #00,<br>
+and there is just a regular jump to the actual routine.  But<br>
+most of the routines are in other pages, so there is a<br>
+"LD HL,nnnn" and then a jump through one of page-jump<br>
+worm holes.<br>
+<br>
+From the calling routines perspective (slot #4000), a call to this<br>
+jump table is just a call to a routine located in slot #0000,<br>
+even though the actual code will run from slot #4000.<br>
+<br>
+There is also a second bank switch routine, that is almost<br>
+the same as the one at #19AE.  This one is at #1952, and it<br>
+takes it's page & address parameters on the stack.  This one<br>
+has an entry in the above mentioned "really long jump table",<br>
+at #05ED.  To call an arbitrary page via this method, you<br>
+just push the page number and the address on the stack,<br>
+after pushing any other params the called routine needs,<br>
+and then "CALL #05ED".  I don't know why there are two<br>
+ways to do it.<br>
+<br>
+There are other routines in page #00/slot #0000 that access<br>
+the  dataflash, LCD, and modem, by swapping them into<br>
+slot #4000, and the ram using slot #8000.<br>
+<br>
+<br>
+Yeah, that is a bit of a mystery why the code doesn't start<br>
+right at #0000.  The z80 "restart's" vector to this space,<br>
+could be that they left it open in case they ever wanted to use<br>
+them???<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="14">14: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody"><br>
+4000<br>
+<br>
+<br>
+My guess is whenever its needed.  But I also wondered if maybe<br>
+it is cached in ram to save wear & tear on the flash???<br>
+<br>
+<br>
+The data lines are, and I think the control bits are too.  Don't know about<br>
+the status bits.  I have seen no evidence of the mailstation using<br>
+a serial port, but if you meant writing new code to bit bang it,<br>
+sure.  For rs232, you might need to clip the voltages to protect<br>
+the cpu.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="15">15: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody"><br>
+#03:451C<br>
+<br>
+<br>
+#06:45F9<br>
+<br>
+<br>
+Yes.<br>
+<br>
+I think I see where the confusion comes from.  I hadn't noticed that the hex<br>
+files were named "page00.hex" etc.<br>
+<br>
+The mailstation switchable "slots" are 16k each, and the "pages" that<br>
+are switched in/out of those slots are 16k each.  Since virtually<br>
+nothing was known about the inards of the mailstation when the<br>
+dump was made (almost 3 years ago???) you should not infer any<br>
+meaning from the sizes/filenames, except the order that the files<br>
+map to the rom.<br>
+<br>
+Once again, each of the hex files contains two of the switchable<br>
+pages.  (just making sure we are all on the same "page".)   :^)<br>
+((Sorry!  I couldnt help it!!!))<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="16">16: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody"><br>
+Actually, rogblake posted this quite a while ago.<br>
+<br>
+<br>
+look here:<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.pl?Action=ShowPost&Board=mswhatever&Post=53&Idle=0&Sort=0&Order=">(URL)</a><br>
+Descend&Page=0&Session=<br>
+<br>
+I don't know if above link will come through ok.  If it<br>
+doesn't, just look up the thread "just deals mailstations"<br>
+on linux-hacker.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+<hr><h3 id="17">17: Subject: Re: [mailstation] How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody">From: "Cyrano Jones" &lt;cyranojones_lalp@...><br>
+<br>
+<br>
+That would make sense. You have 128K of battery backed banked ram to<br>
+work with and so you can consider the 512K flash rom to be a solid<br>
+state disk drive. I gather from other linx hacker comments that the<br>
+"sector size" for this rom is 2K but perhaps they map in 16K blocks<br>
+to work with.<br>
+<br>
+could<br>
+know about<br>
+<br>
+I see strings in the rom like "38400192009600..." which I suspect are<br>
+for some display purpose and not just modem strings to process.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="18">18: Subject: Re: [mailstation] Re: How big are the hex dump files supposed to</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody">AFAIK flash gets neither worn nor torn by reading, just by writing.<br>
+Right (yes, I've been wrong before...)?<br>
+<br>
+And even then the real age of a sector I'd think would be how many times<br>
+it has been erased (you don't erase a sector every time you write to<br>
+it).<br>
+<br>
+I wonder if that custom Z80 has a UART, even if unused? Microcontrollers<br>
+often have built in serial ports.<br>
+<br>
+<br>
+On Sun, 2004-04-18 at 06:10, Cyrano Jones wrote:<br>
+...<br>
+<br>
+</p>
+<hr><h3 id="19">19: Subject: Re: [mailstation] How big are the hex dump files supposed tobe?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody">From: "John R. Hogerhuis" &lt;jhoger@...><br>
+<br>
+<br>
+Sounds reasonable.<br>
+<br>
+times<br>
+to<br>
+Microcontrollers<br>
+<br>
+Could be. If we can provide a real or simulated serial port we could<br>
+connect the machine to other computers, maybe even to a PDD 1 or 2.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="20">20: Subject: Re: How big are the hex dump files supposed to be?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 18, 2004</p>
+<p class="formattedBody"><br>
+I guess maybe cached was not the right word.  What I meant was<br>
+more like a ramdisk, where files would only write through to flash<br>
+if the ramdisk was full, or on powerdown.<br>
+<br>
+That way, when you download, read, then delete a message, it<br>
+might never touch the flash.  I'm not saying this is likely,<br>
+just a possibility.<br>
+<br>
+The ram is powered, whenever the powerpak is plugged in, or<br>
+batteries are installed.  And it seems to make a difference to the<br>
+mailstation if it is turned off with the power button, or the cord<br>
+pulled.  When shut off properly, it comes back on right to the<br>
+main menu.  But if you pull the power cord while it is on, it says<br>
+"scanning memory", and goes to a "reset system data" menu.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1012 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Hex Editor Usage (Jul 25, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "iwireless2001" <waynem@...> Jul 25, 2007</a></li>
+<li><a class="link" href="#2">From: "Jeff" <fyberoptic1979@...> Jul 25, 2007</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 26, 2007</a></li>
+<li><a class="link" href="#4">From: "Jeff" <fyberoptic1979@...> Jul 26, 2007</a></li>
+<li><a class="link" href="#5">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#6">From: "Jeff" <fyberoptic1979@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#7">From: "Neil Morrison" <neilsmorr@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 27, 2007</a></li>
+<li><a class="link" href="#9">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 31, 2007</a></li>
+<li><a class="link" href="#10">From: "Jeff" <fyberoptic1979@...> Jul 31, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Hex Editor Usage</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 25, 2007</p>
+<p class="formattedBody">Hiya folks.  I got a Mailstation a few years ago, but at the time,<br>
+develop=<br>
+ment was still barely in the hardware discovery phase, with no<br>
+hope in sig=<br>
+ht of ever running homebrew code or reflashing the<br>
+device.  I figured all =<br>
+efforts were about dead, and stopped keeping<br>
+up with it.  I also messed ar=<br>
+ound with the thing using my own POP<br>
+account for a bit, but then got tired=<br>
+of it altogether and stashed it<br>
+away.<br>
+<br>
+Well I got to thinking about a pro=<br>
+ject I'm planning involving a<br>
+microcontroller and graphical LCD, and happe=<br>
+ned to remember having<br>
+the Mailstation stashed away, so I dug it back out =<br>
+to muck around<br>
+with, deciding to see what people have been up to since I l=<br>
+ast<br>
+checked.<br>
+<br>
+Quite a bit, apparently!  Not only do they know a lot about =<br>
+the<br>
+components and memory layout and such, but apparently there's a<br>
+coupl=<br>
+e different methods of running homebrew code.  Pretty great work<br>
+there, gu=<br>
+ys.<br>
+<br>
+I'm not keen on totally reflashing my MS at this point though,<br>
+partia=<br>
+lly cause I don't want to risk messing it up with no hopes of<br>
+reflashing i=<br>
+t due to the tiny board components, so I decided to try<br>
+using the hex edit=<br>
+or functionality to enter code manually.  I'm a bit<br>
+confused on how to use=<br>
+it, however.<br>
+<br>
+For the record, I have an old black DET1, and a demo unit at=<br>
+that.<br>
+Following the instructions in the spew.txt, I got to the hex viewe=<br>
+r.<br>
+It then says in order to enter hex edit mode, you use "G710304x",<br>
+alo=<br>
+ng with control-s to edit.  A few things about this, though:<br>
+<br>
+- Firstly, ho=<br>
+w does the hex editor addressing work in order for me to<br>
+know what device/=<br>
+page/sector/whatever of ram/codeflash/dataflash?<br>
+<br>
+- I noticed that unless I=<br>
+use the "G710304x" first, I can't edit at<br>
+all.  Why is this?  And is the =<br>
+"x" significant?  I found that even if<br>
+I put an x after a normal address (=<br>
+0000 for example), I still can't<br>
+edit without using that particular addres=<br>
+s above beforehand.<br>
+<br>
+- Is it even possible for me to modify ram from there?=<br>
+It'd be nice<br>
+if I could enter code there to test without updating the fl=<br>
+ash over<br>
+and over.  And in the event that you can enter code into the ram =<br>
+from<br>
+the hex editor, does it still exist once the MS starts up?<br>
+<br>
+- Less im=<br>
+portantly, I don't have a control key.  I found simply<br>
+pressing "s" enters=<br>
+and exits edit mode, though.  I guess it makes no<br>
+difference, but thought=<br>
+it worth mentioning.<br>
+<br>
+I think that's all I meant to ask.  At first, I tho=<br>
+ught I might just<br>
+carefully remove the guts (storing'em away just in case)=<br>
+and reuse<br>
+the keyboard and LCD along with something like an 8052 variant,=<br>
+but<br>
+if there's some chance I can put my own code into the thing and get<br>
+=<br>
+some functionality out of what's already there, that'd be pretty<br>
+cool.  I =<br>
+think I read elsewhere here that it has like 9 or 10 pages<br>
+of flash free, =<br>
+so that's quite a bit for development purposes.  128k<br>
+of ram is pretty dec=<br>
+ent, too.<br>
+<br>
+Oh also, in the Yahoo icon apps, what return address would I jum=<br>
+p to<br>
+in order to get back to the menu?  Preferably the application menu,<br>
+=<br>
+but either is fine.  The spew.txt example jumps to 0000, which<br>
+apparently =<br>
+resets the device.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "iwireless2001" &lt;waynem@...></p>
+<p class="date">Jul 25, 2007</p>
+<p class="formattedBody">Hiya folks.  I got a Mailstation a few years ago, but at the time,<br>
+opment was still barely in the hardware discovery phase, with<br>
+no<br>
+n sight of ever running homebrew code or reflashing the<br>
+ed all efforts were about dead, and stopped keeping<br>
+messed around with the thing using my own POP<br>
+n got tired of it altogether and stashed<br>
+it<br>
+inking about a project I'm planning involving a<br>
+hical LCD, and happened to remember having<br>
+so I dug it back out to muck around<br>
+ave been up to since I last<br>
+only do they know a lot about the<br>
+but apparently there's a<br>
+ode.  Pretty great<br>
+work<br>
+shing my MS at this point though,<br>
+essing it up with no hopes of<br>
+ents, so I decided to try<br>
+de manually.  I'm a<br>
+bit<br>
+e record, I have an old black DET1, and a demo unit at that.<br>
+the instructions in the spew.txt, I got to the hex<br>
+viewer.<br>
+s in order to enter hex edit mode, you use "G710304x",<br>
+l-s to edit.  A few things about this, though:<br>
+hex editor addressing work in order for me<br>
+to<br>
+ctor/whatever of ram/codeflash/dataflash?<br>
+e the "G710304x" first, I can't edit at<br>
+x" significant?  I found that even<br>
+if<br>
+(0000 for example), I still can't<br>
+dress above beforehand.<br>
+m there?  It'd be<br>
+nice<br>
+ting the flash over<br>
+into the ram<br>
+from<br>
+s up?<br>
+<br>
+no<br>
+=<br>
+meant to ask.  At first, I thought I might<br>
+just<br>
+uts (storing'em away just in case) and reuse<br>
+with something like an 8052 variant, but<br>
+t my own code into the thing and get<br>
+ready there, that'd be pretty<br>
+it has like 9 or 10 pages<br>
+opment purposes.<br>
+128k<br>
+he Yahoo icon apps, what return address would I jump<br>
+to<br>
+back to the menu?  Preferably the application menu,<br>
+The spew.txt example jumps to 0000, which<br>
+.<br>
+<br>
+First off your using one of the first Mailstations ever made, and it =<br>
+<br>
+does not have a lot of ROM or RAM in it.  The Hex editor "is" editing<br>
+the=<br>
+entire memory in the unit !!!  If I remember there is NO flash<br>
+memory in =<br>
+that unit.<br>
+<br>
+The code that you put in is the "Password" to get into the Hex =<br>
+editor<br>
+as per what the manufacturer picked for that unit. That is why it i=<br>
+s<br>
+that particular code and nothing else !!<br>
+<br>
+Good luck with your project !!=<br>
+<br>
+Wayne<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 25, 2007</p>
+<p class="formattedBody">wrote:<br>
+<br>
+it<br>
+does not have a lot of ROM or RAM in it.  The Hex editor "is"<br>
+editing<br>
+the entire memory in the unit !!!  If I remember there is NO flash<br>
+y in that unit.<br>
+the Hex<br>
+editor<br>
+is why it<br>
+is<br>
+ith your project !!<br>
+<br>
+Naw it's pretty much the standard hardware =<br>
+as anyone elses of this<br>
+model.  The only thing different about it being a =<br>
+display model that<br>
+I'm aware of is that I can specify my own POP and SMTP =<br>
+servers in the<br>
+settings.  I double-checked all the chips before, it's got =<br>
+the same<br>
+128KB EPROM, 512KB EEPROM, 1MB Flash, and 128KB SRAM that I've se=<br>
+en<br>
+others list as their models having.<br>
+<br>
+Plus I've flashed some test code i=<br>
+n with the "Yahoo icon" method to<br>
+see if it'd work, and it saves it.<br>
+<br>
+Anyh=<br>
+oo if that's really just a code and not some particular memory<br>
+location, t=<br>
+hen it still leaves me wondering how to use the hex<br>
+editor.  I initially t=<br>
+hought it was only editing code, but then I<br>
+found that one can also access=<br>
+their emails from here as well, so I<br>
+really have no idea which chips I'm =<br>
+accessing at any particular<br>
+location.<br>
+<br>
+I'm also curious if someone could g=<br>
+ive me the entire series of<br>
+identifier bytes that belong to one of the cus=<br>
+tom apps.  I'd kind of<br>
+like to figure out the icon format if possible, eve=<br>
+n though I'm sure<br>
+others have tried and might have had more skill at figur=<br>
+ing it out<br>
+than me.  I've messed with my share of graphics data for other =<br>
+stuff<br>
+though so I thought I'd like to take a look just in case.  Even more=<br>
+<br>
+helpful along with that data would also be an image of the icon<br>
+itself t=<br>
+o compare against.<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 26, 2007</p>
+<p class="formattedBody">ation, then it still leaves me wondering how to use the hex<br>
+nitially thought it was only editing code, but then I<br>
+also access their emails from here as well, so I<br>
+ich chips I'm accessing at any particular<br>
+<br>
+It's just a back do=<br>
+or they left, not a real address.<br>
+<br>
+The first thing you get to is just a h=<br>
+ex-viewer.<br>
+The viewer has a hidden command "^s" that puts you<br>
+in edit mo=<br>
+de, but only if the edit-mode has been<br>
+enabled.  The menu says ^s, but you=<br>
+are right,<br>
+just s works, too.  By the way, the ctrl key is<br>
+labeled "Fn".=<br>
+<br>
+When you enter &lt;ctrl-s>  (or just &lt;s>), the viewer<br>
+checks a flag to see =<br>
+if you are allowed to edit, and<br>
+if so, kicks you over to edit mode.  If yo=<br>
+u are<br>
+not allowed to edit, you just stay in viewer mode.<br>
+<br>
+The only way to g=<br>
+et that flag set is to first enter<br>
+"go" mode, where there is a hidden comm=<br>
+and "x".<br>
+Whenever you feed an "x" to go mode, it will check<br>
+the value in=<br>
+the address buffer.  If that buffer<br>
+does not have the value "710304", the=<br>
+"x" command<br>
+does nothing.<br>
+<br>
+But if the secret number is in that buffer<br>
+(d=<br>
+isplayed in middle of screen), then it sets the<br>
+edit-enable flag.  Bet the=<br>
+y thought no one would<br>
+ever figure *that* out!  ;^)<br>
+<br>
+After setting flag, y=<br>
+ou need to go back to viewer<br>
+mode.  Easiest way to get back is with &lt;back>=<br>
+key.<br>
+If you hit enter instead, it will try to put you<br>
+at an address way=<br>
+past the end of the dataflash.<br>
+I think it rounds down to the highest pos=<br>
+sible<br>
+address.  Then you will need to "go" again, to<br>
+get to where you wan=<br>
+t to edit.  If you leave with<br>
+r<br>
+sector you were previously viewing.<br>
+<br>
+If you have successfully set the ed=<br>
+it-enable<br>
+flag, you can now toggle between editor and viewer<br>
+with ^s (I c=<br>
+an't remember if plain &lt;s> works to<br>
+leave edit mode).  You have to leave e=<br>
+dit mode<br>
+to move to another sector, but you only need to<br>
+set the enable f=<br>
+lag once.<br>
+<br>
+This viewer/editor only works with the dataflash.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 26, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+iest way to get back is with &lt;back> key.<br>
+<br>
+That's useful to know, I always=<br>
+hit enter then had to jump back with<br>
+another goto.<br>
+<br>
+or only works with the dataflash.<br>
+<br>
+Do we know how much of the dataflash =<br>
+can be used for our own<br>
+purposes?  Or more to the point, is anything in th=<br>
+ere truly vital to<br>
+the functionality of the MS?  Could one "break" the MS =<br>
+by writing<br>
+junk data to a particular place?  If so, I would assume one cou=<br>
+ld<br>
+just reset the MS and that'd fix it, but I dunno what all a reset<br>
+actu=<br>
+ally performs.<br>
+<br>
+In a related question, how much of the ram is important?  I=<br>
+s any of<br>
+it used for servicing interrupt(s) and such, with the risk of<br>
+cr=<br>
+ashing it if one started using particular pages?<br>
+<br>
+I still don't know what t=<br>
+he interrupt routines of the MS are even<br>
+doing though, or what mode it run=<br>
+s in or any of that, or as to<br>
+whether one could write their own routines f=<br>
+or handling them.<br>
+<br>
+I mostly want to just load stuff in via the parallel por=<br>
+t into a<br>
+section of ram, to avoid constant rewriting to the dataflash.  I =<br>
+<br>
+figure one could do this fairly easily without erasing all the<br>
+existing c=<br>
+odeflash like mailbug seems to do.  I also don't see why it<br>
+wouldn't be po=<br>
+ssible at this point to totally commandeer the hardware<br>
+away from the main=<br>
+MS code, using the ram and such for our own<br>
+purposes and just never retur=<br>
+ning to the MS code.  If interrupts were<br>
+a problem, one could probably jus=<br>
+t disable them (well, except NMI,<br>
+assuming it's used) and manually strobe =<br>
+for keyboard input.<br>
+<br>
+Out of curiosity, what's the 128KB EPROM for, when ass=<br>
+umedly the code<br>
+is all in the 1MB of flash?<br>
+<br>
+Anyway I have lots of quest=<br>
+ions, not sure how many have been answered<br>
+somewhere that I haven't notice=<br>
+d, but hopefully I'm not being a<br>
+nuisance.  hehe<br>
+<br>
+And thanks for the help =<br>
+so far!<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody"><br>
+I think dataflash pages 0 thru 7 are available for apps.<br>
+<br>
+the point, is anything in there truly vital to<br>
+MS?  Could one "break" the MS by writing<br>
+?<br>
+<br>
+Pages 8 thru 63 of the dataflash are used by the mailstation<br>
+code, fo=<br>
+r storing email, settings, etc.<br>
+<br>
+reset the MS and that'd fix it, but I dunno what all a reset<br>
+rforms.<br>
+<br>
+Running the flash test will erase almost everything in dataflash,<br>
+=<br>
+except the serial number, IIRC.  My hunch is you could fix<br>
+anything you br=<br>
+eak by running flash test.<br>
+<br>
+important?  Is any of<br>
+the risk of<br>
+<br>
+Darn go=<br>
+od question!  We don't really know what pages of the<br>
+RAM might be unused.  =<br>
+I think that all of the RAM used by<br>
+int's is in RAM page 0 (which is always=<br>
+found in slotC000).<br>
+<br>
+he MS are even<br>
+as to<br>
+<br>
+The=<br>
+re are int's for keyboard, modem, caller ID, some timers,<br>
+and prob the RTC.=<br>
+<br>
+Both INT & NMI are vectored to service routine in codeflash,<br>
+so to writ=<br>
+e your own, you would need to modify codeflash.<br>
+IOW, if you are writting an=<br>
+app that runs from dataflash,<br>
+you would just let mailstation handle its in=<br>
+terrupts.  But your<br>
+app can set timers, and then receive timer events.  I'=<br>
+m<br>
+pretty sure that when your app is active, it will get<br>
+keyboard and modem =<br>
+events by default.<br>
+<br>
+port into a<br>
+.  I<br>
+xisting codeflash like mailbug seems to do.<br>
+<br>
+The newest version that I was=<br>
+working on last fall (which<br>
+got pushed onto back burner, and is unfortunat=<br>
+ely still there)<br>
+will work without erasing any of the codeflash.  You will<br>
+=<br>
+have to edit about 10 bytes or so of the dataflash by<br>
+hand (with the mailst=<br>
+ation's native hex editor).<br>
+<br>
+ble at this point to totally commandeer the hardware<br>
+MS code, using the ram and such for our own<br>
+rning to the MS code.<br>
+<br>
+Absolutely!    And you could just reboot the mails=<br>
+tation<br>
+to exit your app.  (Jump to #0000)<br>
+<br>
+em, one could probably just disable them (well, except NMI,<br>
+s used) and manually strobe for keyboard input.<br>
+<br>
+I don't see any problem wi=<br>
+th letting the mailstation<br>
+handle the interupts either, and using the built=<br>
+in keyboard<br>
+routines.<br>
+<br>
+I don't know yet just how to get an app in the me=<br>
+nu,<br>
+except by putting it into the dataflash, but for<br>
+testing purposes, you=<br>
+could run it from RAM using mailbug.<br>
+<br>
+B EPROM for, when assumedly the code<br>
+<br>
+It h=<br>
+olds the code run by the modem chip.  There is also a RAM chip<br>
+for the mode=<br>
+m.<br>
+<br>
+<br>
+ance.  hehe<br>
+<br>
+AFAICR, there really hasn't been *any* frequently asked questi=<br>
+on<br>
+in this group!  The documentation has not really been organized<br>
+very wel=<br>
+l.  There is some in the file section, some in msg archive,<br>
+and some on the=<br>
+linux-hacker.net BBS.  And, I still have a lot I need<br>
+to get around to pos=<br>
+ting.  Too many projects, too little time.<br>
+<br>
+r!<br>
+<br>
+No problem!<br>
+<br>
+I do intend to resurect mailbug sometime "real soon now", =<br>
+but<br>
+even if I worked full time on it, it might take a week or two<br>
+just to r=<br>
+emember where I was at last fall.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+<br>
+I think you've just answered=<br>
+a question I had.  When perusing the I-<br>
+Appliance board when I first got b=<br>
+ack into this, I found the very<br>
+useful ports list for the MS, which listed=<br>
+the codeflash as having 64<br>
+pages, and the dataflash as 32 pages.  In anot=<br>
+her post, I found<br>
+somebody pointing out that the smaller chip had less pos=<br>
+sible write<br>
+cycles than the larger one, which didn't make any sense to use=<br>
+it as<br>
+the dataflash since it was the one getting written to all the time.=<br>
+<br>
+You seem to be confirming that the smaller 512KB chip is indeed<br>
+codefla=<br>
+sh, with the larger 1MB chip being dataflash.  Correct?<br>
+<br>
+t's for keyboard, modem, caller ID, some timers,<br>
+Both INT & NMI are vectored to service routine in codeflash,<br>
+your own, you would need to modify codeflash.<br>
+n app that runs from dataflash,<br>
+interrupts.  But your<br>
+.  I'm<br>
+nd modem events by default.<br>
+<br>
+I'm assuming the timers are set/triggered via =<br>
+MS code?  In the ports<br>
+list, "p3.4 =3D increment time16" makes me think th=<br>
+at on every<br>
+increment of some time value (16th of a second?) the interrupt=<br>
+gets<br>
+triggered, from which the MS interrupt code keeps track of these<br>
+in=<br>
+crements, and checks to see if any software timers were set/<br>
+triggered.<br>
+<br>
+<br>
+onto back burner, and is unfortunately still there)<br>
+sing any of the codeflash.  You will<br>
+the dataflash by<br>
+<br>
+That =<br>
+sounds pretty useful if you ever get back around to working on<br>
+it.  I know=<br>
+how it goes about things getting pushed back for other<br>
+projects and such,=<br>
+though.<br>
+<br>
+<br>
+hehe I hear ya.<br>
+<br>
+do intend to resurect mailbug sometime "real soon now", but<br>
+ked full time on it, it might take a week or two<br>
+was at last fall.<br>
+<br>
+Last fall I had my head buried in the workings of th=<br>
+e original<br>
+Nintendo, and was making an add-on board for it to load my own =<br>
+code<br>
+into a ram/flash cartridge, though the add-on unfortunately never got=<br>
+<br>
+finished due to the seeming jungle of wires required to assemble it.<br>
+An=<br>
+other of those "I'll finish it sometime" projects, which are more<br>
+exciting=<br>
+on paper than when trying to actually complete them!<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">IIRC, one memory map I saw shows an 8K (or 16K?) page which is empty -<br>
+coul=<br>
+d take a Basic interpreter.<br>
+<br>
+Neil<br>
+<br>
+ano Jones"<br>
+ataflash can be used for our own<br>
+ges 0 thru 7 are available for apps.<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 27, 2007</p>
+<p class="formattedBody">for storing email, settings, etc.<br>
+question I had.  When perusing the I-<br>
+ack into this, I found the very<br>
+ed the codeflash as having 64<br>
+another post, I found<br>
+ss possible write<br>
+e to use it as<br>
+the time.<br>
+eed<br>
+<br>
+No, =<br>
+I was just typing when I should have been sleeping (or<br>
+maybe I *was* asleep=<br>
+???).<br>
+<br>
+Make that "pages 8 thru 31 of the dataflash are used by the<br>
+mailstat=<br>
+ion..."<br>
+<br>
+The codeflash is 64 16k pages, and the dataflash 32 16k pages.<br>
+<br>
+Th=<br>
+e dataflash is eraseable in 256 byte sectors, while<br>
+the codeflash is erased=<br>
+in 64K byte sectors.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 31, 2007</p>
+<p class="formattedBody"><br>
+/triggered via MS code?  In the ports<br>
+makes me think that on every<br>
+ond?) the interrupt gets<br>
+ps track of these<br>
+ere set/<br>
+<br>
+; Use the set timer function from ms firmware<br>
+Set_a=<br>
+_timer    EQU #070D  ;Set_a_timer(who, msec, persist)<br>
+<br>
+; Now we can set a t=<br>
+imer like this<br>
+ld   hl,#0001     ; persist =3D true<br>
+push hl<br>
+=<br>
+ld   hl,500       ; 500 millisec<br>
+push hl<br>
+ld   hl,#00ff     ;=<br>
+who =3D current app<br>
+push hl<br>
+call Set_a_timer  ; Set_a_timer(wh=<br>
+o, msec, persist)<br>
+pop  hl<br>
+pop  hl<br>
+pop  hl<br>
+<br>
+; Then in your=<br>
+event handler, look for events with sig =3D #05,<br>
+; they should arrive eve=<br>
+ry half second.<br>
+<br>
+There are 10 timers that can be set at same time, but<br>
+as=<br>
+far as I can see, each app can only use one, because<br>
+they would all send =<br>
+the same event (sig =3D #05).  It<br>
+would be hard to distinguish between two =<br>
+timers, if<br>
+you did set two.<br>
+<br>
+I used the notation "time16" to distinguish a=<br>
+16 bit<br>
+timebase from another 32 bit timebase (which I called<br>
+"time32", o=<br>
+ddly enough).  The above 10 timers are in<br>
+addition to both time16 and time=<br>
+32.<br>
+<br>
+Time32 is advanced by 16 every keyscan interrupt.<br>
+Each of the 10 tim=<br>
+ers is also incremented by the same<br>
+keyscan interrupt.  I was wondering wh=<br>
+y time32 would<br>
+count by 16's, and I thought maybe I figured it out.<br>
+1/60=<br>
+=3D .0166666, so I thought that maybe this was a<br>
+60hz interrupt, with clo=<br>
+se to 16 ms period.<br>
+<br>
+But now I see that the timers are advanced by just 1, =<br>
+<br>
+and if the units on the timers are milliseconds (I<br>
+think I verified this?=<br>
+??), then there must be<br>
+interrupt every milisecond.<br>
+<br>
+n that I was working on last fall (which<br>
+nd is unfortunately still there)<br>
+odeflash.  You will<br>
+by<br>
+etty useful if you ever get back around to working on<br>
+goes about things getting pushed back for other<br>
+gh.<br>
+<br>
+I spent=<br>
+some time over weekend looking over my files<br>
+and trying to refresh my mem=<br>
+ory.  I found a version 0.0.4<br>
+which I don't know is usable or not, and a 0=<br>
+.0.5 (windows<br>
+version), which is definitely not done.<br>
+<br>
+I remember I had t=<br>
+o uninstall the dos version of freepascal<br>
+(or at least I thought I needed =<br>
+to) to get the windows<br>
+version working.  I never got the windows version w=<br>
+orking,<br>
+but instead got a related IDE (Lazarus) working.  Lazarus<br>
+is a cr=<br>
+oss-platform (win, linux, mac) open-source clone<br>
+of Borland's Delphi.<br>
+<br>
+I h=<br>
+ave never used Delphi (or Lazarus) before, so I guess<br>
+you know what soaked=<br>
+up all my time last fall!  :-)<br>
+<br>
+I was getting tired of waiting for the pro=<br>
+ject to rebuild,<br>
+and the docs said the long wait was due to the fact they =<br>
+<br>
+were using the gnu linker.<br>
+<br>
+They had a developer version (as opposed to la=<br>
+st stable<br>
+release) that had a much faster linker, and I tried to<br>
+get it g=<br>
+oing, but I never got it to work with a<br>
+particular widget (color text) tha=<br>
+t I really needed.<br>
+<br>
+About there is where I stopped work on it, for various =<br>
+<br>
+other reasons (Partly 'coz I was also playing with<br>
+AVR's at the time).<br>
+<br>
+=<br>
+Over the weekend, I also looked for my mailstation<br>
+hardware, and I just co=<br>
+uld not find the units I was<br>
+working with, or even my laplink cable!  I mo=<br>
+ved<br>
+a couple months ago, and all these damn boxes<br>
+look the same!!!<br>
+<br>
+do intend to resurect mailbug sometime "real soon now", but<br>
+worked full time on it, it might take a week or two<br>
+ere I was at last fall.<br>
+s of the original<br>
+d my own code<br>
+y never got<br>
+mble it.<br>
+more<br>
+<br>
+Tha=<br>
+t sounds pretty cool!  I bet others might want<br>
+something like that, if not=<br>
+to develop games, then<br>
+at least to load rom files!  ;^)<br>
+<br>
+Mailbug actually=<br>
+started life as pacbug, a similar<br>
+tool for arcade Pac Man hardware (I gue=<br>
+ss I don't<br>
+have much imagination when it comes to naming software).<br>
+<br>
+And In another branch of this thread "Neil Morrison" wrote:<br>
+<br>
+ow how much of the dataflash can be used for our own<br>
+<br>
+e memory map I saw shows an 8K (or 16K?) page which is empty -<br>
+a Basic interpreter.<br>
+<br>
+Yeah, I think the last page of the codeflash is unus=<br>
+ed,<br>
+at least in 2.22r, 2.53yr & 2.54.  Not real sure about<br>
+the others, but=<br>
+I'll bet it's empty in all, coz the<br>
+functionality of all models is pretty =<br>
+similar.<br>
+I think the earlier 2.xx models actually have *more*<br>
+functional=<br>
+ity than the 3.xx & 4.xx models<br>
+<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: Hex Editor Usage</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 31, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+EQU #070D  ;Set_a_timer(who, msec, persist)<br>
+<br>
+I keep seeing references to fu=<br>
+nctions from the MS firmware, yet the<br>
+only list I've ever seen (on I-Appli=<br>
+ance) is a half-completed one<br>
+from page 1 of the codeflash (the jump table=<br>
+for mostly the flash<br>
+update routines).  But even this list is lacking thi=<br>
+ngs like<br>
+bytesend, which you used in Spew.  Is there a more complete list =<br>
+of<br>
+various useful functions (and hopefully with their required<br>
+parameters=<br>
+), or did you simply figure out most of these yourself?<br>
+I've started goin=<br>
+g through disassembled code for the jump table I<br>
+mentioned, to find a byte=<br>
+recieve function and possibly other useful<br>
+things, but a list would obviou=<br>
+sly save me from rediscovering what<br>
+others have surely painstakingly done =<br>
+already.<br>
+<br>
+#05,<br>
+<br>
+After looking back o=<br>
+ver your Hello World app, I came to realize why<br>
+exactly the initial jump i=<br>
+n the icon header was called<br>
+"eventhandler", since it's obviously called e=<br>
+very time an event<br>
+happens, not just to start the app.  It seems rather we=<br>
+ll designed<br>
+for handling such third-party apps.  Seems kind of a shame tha=<br>
+t more<br>
+were never officially made for it.<br>
+<br>
+tall the dos version of freepascal<br>
+o get the windows<br>
+ing,<br>
+ross-platform (win, linux, mac) open-source clone<br>
+<br>
+at soaked up all my time last fall!  :-)<br>
+<br>
+My first compilable language was =<br>
+Turbo Pascal, which I learned the<br>
+ins and outs of by pouring over the exce=<br>
+llent built-in help.  I've<br>
+never found another language since that made it=<br>
+so easy to learn just<br>
+with the stuff they included.  I never had Turbo C =<br>
+until long after I<br>
+learned C, but I remember C never came as easy to me as=<br>
+Pascal had.<br>
+<br>
+I messed with FreePascal once because I was pleased to see th=<br>
+e<br>
+language revived (having never really used Delphi or ever having any<br>
+re=<br>
+al urge to).  But it's just not the same when I can't write<br>
+plain'ol DOS a=<br>
+pps.<br>
+<br>
+<br>
+code<br>
+=<br>
+got =<br>
+<br>
+it. =<br>
+<br>
+more =<br>
+<br>
+t sounds pretty cool!  I bet others might want<br>
+ot to develop games, then<br>
+actually started life as pacbug, a similar<br>
+are (I guess I don't<br>
+are).<br>
+<br>
+The cartridge aspect I did complete, using a flash eeprom to r=<br>
+eplace<br>
+the code rom on a real cartridge (as many others have done).  The<br>
+=<br>
+thing about NES carts though is that there's tons of variations,<br>
+mostly di=<br>
+fferent takes on paging different sections of code and<br>
+graphics, so withou=<br>
+t adding some real brains like an FPGA to handle<br>
+all the varieties, you en=<br>
+d up basically building a board that might<br>
+support a couple different cart=<br>
+ridge types, and you're limited to the<br>
+games that would run on those.  I t=<br>
+hink there have been a couple of<br>
+hardcore guys that have made almost truly=<br>
+universal flash carts<br>
+though.<br>
+<br>
+In some cases you can modify the original =<br>
+rom images to run on a cart<br>
+even if it was designed for a different type. =<br>
+While most cartridges<br>
+had two separate rom chips, one for code and one fo=<br>
+r character data<br>
+(aka tiles/sprites), I chose to use a cartridge type that=<br>
+uses SRAM<br>
+in place of character rom, and uses a simple paging mechanism f=<br>
+or the<br>
+code rom.  This worked natively for various games, but for others<br>
+=<br>
+that wanted an actual character rom chip, I could write a loader into<br>
+the =<br>
+rom code which ran before the game did, copy the character rom<br>
+data from s=<br>
+omewhere in the code rom into the SRAM in the cart, then<br>
+jump back to the =<br>
+original starting point for the game.<br>
+<br>
+The board I was making would have =<br>
+implemented basically a BIOS into<br>
+the NES, starting up to that instead of =<br>
+running whatever cartridge<br>
+might be inside.  From there I would have been =<br>
+able to transfer code<br>
+to a ram cart, update the flash in my current cart, =<br>
+and be able to<br>
+disable all this to switch control over to the cartridge it=<br>
+self.<br>
+That's where the complexity came in, due to the various signals I h=<br>
+ad<br>
+to intercept to/from the cartridge.  I probably could just use<br>
+somebod=<br>
+y like ExpressPCB to make a board for me to avoid soldering<br>
+all the wires,=<br>
+but I need to at least test the design one day.<br>
+<br>
+Also, as for transferring=<br>
+code to the NES, I found that one can get<br>
+by with using a controller port=<br>
+, and get a decent 4-5KB/s.  Perfectly<br>
+fine for the size of data I'd be de=<br>
+aling with, to avoid further<br>
+complexity of adding in some other form of tr=<br>
+ansfer.<br>
+<br>
+least in 2.22r, 2.53yr & 2.54.  Not real sure about<br>
+l bet it's empty in all, coz the<br>
+milar.<br>
+ality than the 3.xx & 4.xx models<br>
+<br>
+After dumping the dataflash, there se=<br>
+ems to be a ton of it not used.<br>
+I think the really only important parts a=<br>
+re the last two sectors, one<br>
+of which contains the serial number, and the =<br>
+other some unknown<br>
+bytes.  Other than that, it mostly seems to be third-pa=<br>
+rty apps at<br>
+the top of it all, and then your email somewhere around the mi=<br>
+ddle.<br>
+Since email is kind of unnecessary now, I don't see why one couldn'=<br>
+t<br>
+use that entire area for other storage, assuming the MS never writes<br>
+an=<br>
+ything in there at some other time.<br>
+<br>
+I also had a thought in regards to sim=<br>
+ply using it as a word<br>
+processor.  One could still type stuff as emails, b=<br>
+ut then write a<br>
+little app to transfer the emails out via the parallel por=<br>
+t.  The<br>
+whole dataflash took several seconds to transfer, but obviously th=<br>
+at<br>
+wouldn't be required just for the emails.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

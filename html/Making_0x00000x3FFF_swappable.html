@@ -1,0 +1,70 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Making 0x0000-0x3FFF swappable? (Sep 6, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Making 0x0000-0x3FFF swappable?</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Sep 6, 2007</p>
+<p class="formattedBody">How hard do you suppose it would be to make the first 16KB of address<br>
+spac=<br>
+e swappable, like the middle two "slots" can do?  I haven't gone<br>
+over the =<br>
+circuits hardly at all so I don't know really what does what<br>
+at the moment=<br>
+.  But if it wasn't too elaborate, and one could take<br>
+advantage of some sp=<br>
+are port or something like that, it might be<br>
+worth trying.  Even if I had =<br>
+to hard-wire the page of ram it went to,<br>
+that'd be okay too.  And I know t=<br>
+here's some undocumented pins on the<br>
+CPU still.<br>
+<br>
+In FyOS, I've written in =<br>
+compatibility for almost all of CP/M's BDOS<br>
+function calls except file ope=<br>
+rations.  Eventually I want to get that<br>
+too.  But the point is, most CP/M =<br>
+apps naturally expect to run from<br>
+0x0100.  They call 0x0005 for BDOS funct=<br>
+ions.  These two aspects<br>
+alone aren't TOO bad; I mean, with a little work,=<br>
+one could relocate<br>
+a program to run at 0x4000 instead (which I've been do=<br>
+ing to one for<br>
+testing purposes)<br>
+<br>
+But obviously there's much more than sim=<br>
+ple relocation most times,<br>
+since various apps can have hard-coded memory l=<br>
+ocations and routines<br>
+that do things in places that'd require digging real=<br>
+ly deep in the<br>
+code, and truly learning what every aspect of the code is d=<br>
+oing.  A<br>
+very time consuming and outright confusing chore at times.<br>
+<br>
+So, o=<br>
+bviously, I opt to take the easy way out if possible!  I'm not<br>
+calling any=<br>
+firmware functions at all, so I don't need anything from<br>
+the first 16KB o=<br>
+f address space once FyOS is running.  If I could<br>
+just swap ram there, it =<br>
+would be a much more functional system.  So<br>
+I'm mostly wondering if anyone=<br>
+has examined the hardware enough to<br>
+determine if this is very possible?<br>
+<br>
+=<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

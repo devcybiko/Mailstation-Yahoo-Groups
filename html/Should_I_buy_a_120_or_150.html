@@ -1,0 +1,158 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Should I buy a 120 or 150? (Apr 30, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Apr 30, 2005</a></li>
+<li><a class="link" href="#3">From: "mikewarns" <mikewarns@...> May 2, 2005</a></li>
+<li><a class="link" href="#4">From: "Neil Morrison" <neilsmorr@...> May 2, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: Should I buy a 120 or 150?</h3>
+<p class="from">From: "mikewarns" &lt;mikewarns@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody">If I want to hack it, that is.  My Office Max has a pile of both so,<br>
+after comparing appearance (identical), features (identical), and<br>
+price (identical), I bought a 150 on its merits of having a bigger box<br>
+and a higher model number.  It's going off to Mom, anyway, if it<br>
+passes the ease of use and setup tests (ie: my brother can set it up,<br>
+a critical test since this is the guys who has caused Mom to not be on<br>
+the internet because he can't manage to pull a busted modem and pop in<br>
+a new one), but I want one for my own self to, you know, PLAY with.<br>
+<br>
+I searched this forum and found few clues to the difference beyond<br>
+suspicions that it is in the software.  Is one model better for<br>
+hacking than the other?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Should I buy a 120 or 150?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody">On Sat, 2005-04-30 at 04:01 +0000, mikewarns wrote:<br>
+<br>
+I have a 150 and a DET-1. The 150 can probably be loaded with new<br>
+software througn reflash on the parallel port since it uses the same<br>
+protocol as the older units. Unfortunately there's nothing safe to flash<br>
+to the 150 just yet. For the DET-1 there is though. Same goes for the<br>
+120 from what I understand.  The problem at the moment isn't really the<br>
+model # on the unit, it's the version of firmware that's installed on<br>
+it. Some things have moved around in newer versions relative to where<br>
+mboot expects things to be.<br>
+<br>
+Soon hopefully.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Should I buy a 120 or 150?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Apr 30, 2005</p>
+<p class="formattedBody"><br>
+At this point, it is known that the current mboot.rom<br>
+does *not* work with the NEW 150's.  I expect it also<br>
+does not work with the old 150's, or the 120 (old & new)<br>
+or the 200 or 250.  And if it doesn't work, and you flash<br>
+it anyhow, you will need a soldering iron and a prom<br>
+programmer to fix it.  I expect that the flood of<br>
+these models from Officemax will mean a new version<br>
+sometime in the near (???) future, that works with the<br>
+120 & 150 (I bought a pile of them myself.)<br>
+<br>
+For now, it works with the real-old brown non-ergonomic case<br>
+models, in particular firmware versions 2.22r, 2.53yr,<br>
+and 2.54.  I think also one of the 3.somethin' models<br>
+is known to work.  I would only use it with one of<br>
+the firmware versions known to work, and wait for<br>
+a new mboot.rom for any un-tried firmware versions.<br>
+<br>
+Now, maybe you are wondering what I mean, "old & new"?<br>
+Well, I opened up a few of them, and there are at least<br>
+two different circuit boards in both the 120 & 150.<br>
+<br>
+The major difference I can see is that the newer 120/150's<br>
+have a different LCD.  It has a distinctly blue tint to it<br>
+(the dark pixels), where the older one was black.  And it<br>
+is not just the color, it has fewer conductors in it's cable.<br>
+<br>
+The cpu/ram/codeflash/dataflash looks to be the same in<br>
+all that I have opened.  The modem circuitry is definitely<br>
+different from old to new.<br>
+<br>
+The old 120 & old 150 use identical hardware, as far as<br>
+I can tell.<br>
+<br>
+The new 120 & new 150 are also identical (almost), but diferent<br>
+from the older.<br>
+<br>
+The only differnce I can see between the new 120 & the<br>
+new 150, is the part# on the main PCB, and where the<br>
+Underwriters Lab logo is placed.<br>
+<br>
+And of course, the firmware is different in all four.<br>
+<br>
+From my small sample, it appears that the old 120's are in the<br>
+thinner boxes (approx 2.5" thick), the case is violet<br>
+(or purple???), and they say "MIVO 200 CIDCO MODEL DET2"<br>
+on the bottom of case.  Box sez "DET1E", same as new 120 box.<br>
+(I think they reflashed mivo 200's, and called<br>
+them "mailstation 120".)  Black LCD.<br>
+<br>
+The new 120's are in the bigger box (approx 5" thick),<br>
+and the case is dark grey (top is same color as the<br>
+bottom), and it says "MAILSTATION 120 EARTHLINK MODEL DET1E"<br>
+on bottom.  And they have the new blue LCD.<br>
+<br>
+I only have one "old 150", and I think it was in a thin box<br>
+(this is the one I got fall 2003, free after rebate at officemax).<br>
+Black LCD, says "MIVO 150 CIDCO MODEL DET1B" on bottom.<br>
+(hardware essentially the same as Mivo 200 or the old 120.)<br>
+<br>
+All the 150's I saw at officemax this month were in big boxes,<br>
+and the couple I opened were "new" models, with blue LCD.<br>
+On bottom: "MAILSTATION 150 EARTHLINK MODEL DET1D".<br>
+<br>
+<br>
+Bottom line is that there are only slight differences in<br>
+the hardware between *any* of the models up to 200.<br>
+It's just a matter of finding time to get around to the<br>
+newer models.  If you want to start playing today, you<br>
+should use one of the oldest models.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Should I buy a 120 or 150?</h3>
+<a href="#0">(top)</a><p class="from">From: "mikewarns" &lt;mikewarns@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody"><br>
+The 120s my Officemax has are in a shallower box while the 150s are in<br>
+a deeper box.  By all appearances, I cannot begin "playing" today,<br>
+whichever I buy for myself, but more people appear to have 120s so I'm<br>
+assuming that will be the first to get the new mboot.rom.  Therefore,<br>
+since there doesn't appear to be any compelling reason to buy a 150, on<br>
+my way home from work I will buy a couple shallow-box 120s, one for<br>
+playing and one for family email since my wife objects to anybody in<br>
+the house actually using any of our computers ("You just waste time!").<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: [mailstation] Should I buy a 120 or 150?</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody">From: "mikewarns" &lt;mikewarns@...><br>
+<br>
+....<br>
+<br>
+Isn't that the purpose of computers?<br>
+<br>
+BTW, it is possible to reprogram the MailStation at least in part by email,<br>
+so if we could figure out that trick ..... !<br>
+<br>
+N<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

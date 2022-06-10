@@ -1,0 +1,490 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">safeboot.rom (May 2, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "mikewarns" <mikewarns@...> May 2, 2005</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> May 2, 2005</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> May 2, 2005</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> May 2, 2005</a></li>
+<li><a class="link" href="#5">From: "Cyrano Jones" <cyranojones_lalp@...> Jun 6, 2005</a></li>
+<li><a class="link" href="#6">From: "kat_skan" <kat_skan@...> Jun 7, 2005</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> Jun 7, 2005</a></li>
+<li><a class="link" href="#8">From: "kat_skan" <kat_skan@...> Jun 7, 2005</a></li>
+<li><a class="link" href="#9">From: "kat_skan" <kat_skan@...> Jun 7, 2005</a></li>
+<li><a class="link" href="#10">From: "Cyrano Jones" <cyranojones_lalp@...> Jun 8, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: safeboot.rom</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody">I've been working on a new mboot for the unknown<br>
+firmware mailstations today, and I just flashed<br>
+the first version of "safeboot.rom" into a 150 v4.05D.<br>
+<br>
+I have control of the 150 now, and can load code<br>
+and execute it.  I can't display anything on the LCD,<br>
+but I expected there to be some differences, since it<br>
+is a different display that the older ones had.<br>
+<br>
+I loaded my scancode.hex program, and it blinks the<br>
+mail LED when I press keys.  :-)<br>
+<br>
+I haven't really studied it yet, but large parts of<br>
+the page #00 rom code look identical to the older models.<br>
+The code in the LCD routine area is definitely different.<br>
+<br>
+I have to quit for now, but I might get back to this later<br>
+tonight.  I want to test it on some other models, and<br>
+maybe make some changes, but I don't expect it will be<br>
+long before I can upload a new version.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "mikewarns" &lt;mikewarns@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody"><br>
+Okay, I guess I'll buy two 150s on my way home.  I'm nothing if not<br>
+adaptable!  :-)<br>
+<br>
+Thanks, Cyrano!  I appreciate you doing this work so I don't have to<br>
+learn how to do it myself.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody">On Mon, 2005-05-02 at 21:08 +0000, Cyrano Jones wrote:<br>
+<br>
+Awesome :-)<br>
+<br>
+Given that you're going to be inundated with folks buying 120's and<br>
+150's this is a big step!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody"><br>
+Ok, I lied.  I'm still messing with it.  My curiosity<br>
+once again won, and I flashed the clunky first version<br>
+into a violet/purple 120 (old) v4.04E.  It works!!!<br>
+And the LCD works same as in old brown model.  :-)<br>
+<br>
+I also flashed a dark grey 120 (new) v4.05E, and it works<br>
+similar to the "new" 150.  No display yet.<br>
+<br>
+Now where is that 250, I know I left it around<br>
+here somewhere....<br>
+Maybe later.<br>
+<br>
+In case anyone just got here, don't flash the mboot.rom<br>
+from mailbug ver 0.0.2a into any of the 120/150/250 models,<br>
+it will not work.<br>
+<br>
+And to prevent any misunderstanding, there is NO software<br>
+to flash yet, just the debugger.  And for the time being,<br>
+any new software will likely be programmed in z80 assembler.<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2005</p>
+<p class="formattedBody"><br>
+Gosh, I don't really know which to advise right now.  I expect<br>
+both will work fine soon, but for now the "new" LCD requires some<br>
+additional work before we can use it.  But the newer one might look<br>
+better???  Or at least it looks bluer!<br>
+<br>
+<br>
+:-)  :-)  :-)<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jun 6, 2005</p>
+<p class="formattedBody"><br>
+I have uploaded mailbug Version 0.0.3, and it<br>
+works with the new LCD in the latest models.<br>
+I have not tried it on the older models, but<br>
+I expect it works with them too.  I actually have<br>
+only installed the current "sboot.rom" on one<br>
+unit, a "new" 120 with ver 4.05e firmware.<br>
+<br>
+If anyone installs it, please post to list<br>
+what model/firmware version of mailstation, and<br>
+if there was any problem (I don't expect any).<br>
+<br>
+I still have not seen the code inside of the 200 or 250,<br>
+but I am going on the assumption that it is similar enough<br>
+that sboot.rom will work with them, but you never know.<br>
+<br>
+I would suggest that if wrecking a mailstation<br>
+would ruin your whole day (or make you want to<br>
+sue someone), that you probably should not be<br>
+flashing *anything* into it.<br>
+<br>
+I am uploading as separate files this time, mainly<br>
+so I can upload the part that is ready, and the<br>
+rest later.<br>
+<br>
+I have a draft of a user manual almost ready, but I<br>
+haven't uploaded it yet.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "kat_skan" &lt;kat_skan@...></p>
+<p class="date">Jun 7, 2005</p>
+<p class="formattedBody">look<br>
+<br>
+Well, I've got another 120/4.05e that's now displaying "Welcome to<br>
+Mbug!" and cheerfully ignoring the power button, so I guess I can<br>
+report it works on the platform you already know it works on. Seems<br>
+like Mailbug has a tendency to just lock up whenever anything unusual<br>
+happens, though. The first time I tried reading the SN I had the lpt<br>
+port disabled in the BIOS, and Mailbug hung with a timeout error.<br>
+Second time was actually after it finished sboot.rom. That locked it<br>
+with no message of any kind.<br>
+<br>
+Now I just need to figure out how to get my own code on the thing. If<br>
+I understand things correctly, I need to:<br>
+* Create a new project by copying the mbug directory<br>
+* Use as80 to assemble my .rom<br>
+* Set the (w)orkfile and (l)oad it into RAM<br>
+* (g)oto the address where I loaded the .rom<br>
+<br>
+Am I missing anything? And would you mind pointing out any good things<br>
+to avoid doing while I figure out how everything works?<br>
+<br>
+This looks like it'll be fun. Thanks for getting this working with the<br>
+newer firmware.<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jun 7, 2005</p>
+<p class="formattedBody"><br>
+Great!<br>
+<br>
+I'd actually be happy to hear from anyone who uses it,<br>
+whichever mailstation they are using, known to work already, or not.<br>
+<br>
+<br>
+Speaking of having the port enabled, I tried (under win 98)<br>
+disabling the win 98 LPT1 driver, thinking the direct port<br>
+access might conflict.  It didn't work at all.  Apparently<br>
+win 98 is trapping the port writes, and using it's driver<br>
+to do the actual i/o.  You need the driver in win 98 too<br>
+(but only if you are running under win98, of course.  Driver is<br>
+probably already enabled if you have a parallel port.)<br>
+<br>
+There are a number of things that will get you caught in<br>
+timeout hell.  This is an area that I know needs work.<br>
+I am aware that new users will probably stumble into it,<br>
+where I manage too avoid it, just because I know these<br>
+roads a little better.<br>
+<br>
+A real old joke comes to mind,<br>
+patient: "Doctor, it hurts when I do *this*"<br>
+doctor: "don't do *that*!"<br>
+(that'll be a $100)<br>
+<br>
+I don't know if I can detect that the port is not enabled,<br>
+but I will take a look at what happens after writing sboot.rom,<br>
+and see if I can see the hangup.  I know that in the very first<br>
+version of sboot, there definitely was a problem there, but I<br>
+thought it was fixed.  But, I have only gone through the<br>
+whole procedure once with current sboot.<br>
+<br>
+It probably is a good idea to use the "reboot" command<br>
+(3 on pc keyboard) after writing sboot.rom (after leaving<br>
+the "update mode").  Which brings up a question, do you<br>
+remember if you ever got a prompt back after sboot was<br>
+done flashing?<br>
+<br>
+Also, do you remember if the mail LED on mailstation<br>
+was lit after flashing sboot?  The mail LED will be lit<br>
+whenever sboot is waiting for a command, and off after<br>
+sboot exec's mbug.<br>
+<br>
+The problem might be that the flash code is waiting<br>
+for the *mailstation* code to reboot (and we erased it,<br>
+and sboot is what we should look for after the flash).<br>
+<br>
+I probably should change it so you are bounced out of the<br>
+update mode automatically after flashing sboot, because<br>
+*nothing* in the update mode menu will work after you've<br>
+erased the original mailstaion code.<br>
+<br>
+After sboot is flashed, the bootup sequence should go<br>
+like this:<br>
+<br>
+1)After any reboot (pc keybd, ms reset button, or jp #0000)<br>
+sboot waits for a command, with LED on.<br>
+<br>
+Then, if you give mailbug a command that requires mbug be<br>
+running, mailbug will load mbug into ms RAM, and then<br>
+execute it.  (keyboard command "4" will explicitly load mbug).<br>
+This is accomplished with a sequence of commands to sboot:<br>
+<br>
+2)Mailbug issues a "load" command to sboot, which sboot<br>
+executes, with LED off.<br>
+<br>
+3)After receiving the first block of mbug code, and writing<br>
+it to ms RAM, sboot waits for another command with LED on.<br>
+<br>
+4)Mailbug issues another "load" command to sboot, which sboot<br>
+executes, with LED off.  For no real good reason, the load<br>
+is done 1024 bytes per command, so it takes two loads to<br>
+send the entire mbug.<br>
+<br>
+5)After receiving the second block of mbug code, and<br>
+writing it to ms RAM, sboot waits for another command<br>
+with LED on.<br>
+<br>
+6)Mailbug issues an "exec" command, which sboot executes,<br>
+with LED off.<br>
+<br>
+7)Previous command put mbug in control, so LED stays off.<br>
+From sboot's perspective, command never finished, but<br>
+that's ok, mailbug expects mbug to be in control now.<br>
+Any further commands will be handled by mbug.<br>
+<br>
+The three commands happen so fast you will not see the<br>
+LED flicker, it looks like LED just turns off.<br>
+You can think of the LED as saying "welcome to sboot",<br>
+as opposed to mbug's "welcome to mbug" message that is<br>
+displayed on the LCD.<br>
+<br>
+Sboot only knows how to "load" and "exec".<br>
+<br>
+Mbug not only knows "load" & "exec", but also "unload",<br>
+"iopoke", "iopeek", and a few more (like the breakpoint<br>
+commands that will work again one day, I promise).<br>
+<br>
+<br>
+This is an area open to personal tastes.  You can<br>
+put your files anywhere you want.  The "project"<br>
+directory sets the default path, and also sets<br>
+where the disassembler will look for comment files,<br>
+and where dump files will be written.  You can put<br>
+all your programs in one project if you want, and<br>
+you can even put them in the same project as your<br>
+firmware files (assuming you even have the firmware<br>
+files).<br>
+<br>
+You don't *need* any of the files from mbug directory in<br>
+your project dir, but you might want to copy the<br>
+assembler there, just so it's easy to find.  I really<br>
+hate ever setting something like that in the "path"<br>
+environment variable.  So I either copy as80 to the<br>
+project dir, or use the path in any command invoking it.<br>
+<br>
+<br>
+That's right.<br>
+<br>
+4000 would be a good place to org your asm files.<br>
+<br>
+Then, assuming slot4000 was holding the RAM page you want,<br>
+(I suggest ram pg #01,) l4000 followed by g4000.<br>
+<br>
+Ram pg #01 will be in slot4000 when mbug starts.<br>
+If you don't do anything that changes it, you can use<br>
+"4000" as the address.  If you are not sure what is in<br>
+slot4000, then use "1014000" (shorter way of saying "0101:4000")<br>
+<br>
+<br>
+Hmmmm....<br>
+Erasing the bootcode would be something to avoid. :-)<br>
+Other than that, nothing comes to mind.  Any questions<br>
+are welcomed.<br>
+<br>
+<br>
+More fun than a barrel of rubik cubes!!!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "kat_skan" &lt;kat_skan@...></p>
+<p class="date">Jun 7, 2005</p>
+<p class="formattedBody">lpt<br>
+it<br>
+<br>
+It's DOS, but there were two different mechanisms to disable the<br>
+parallel port in the BIOS. One's a hardware setting, and the other a<br>
+security option. I had the latter set for a while and didn't notice.<br>
+I wonder if in that case the lpt port looks like it's there and is<br>
+just inaccessable. Tonight I'll see if I get different results if the<br>
+hardware itself is disabled.<br>
+<br>
+<br>
+Actually, I tried this specificly because the manual said it wouldn't<br>
+work. I figured reading the serial number would be a reasonably safe<br>
+way to determine mailbug's failure mode.<br>
+<br>
+<br>
+Would it be any easier to just make the procedure more feedbackey? I<br>
+couldn't really tell whether mailbug was actually hung, or stuck in a<br>
+loop waiting for something that would never happen, or just on the<br>
+fourth of five attempts of an operation with a fairly long timeout.<br>
+<br>
+<br>
+When it finished writing it stayed in update mode, so I tried reading<br>
+the SN again and had to reboot. I pulled the power to the mailstation<br>
+at the same time, but in retrospect I should have tried communicating<br>
+with it once mailbug was back up to see whether the software got into<br>
+an unworkable state there, or if the problem was contained to the PC.<br>
+<br>
+<br>
+It looked like the mailstation did reboot after the update. The<br>
+display went blank, at any rate. I'm pretty sure the mail LED lit up,<br>
+but I can't remember now whether that was after the update or after I<br>
+power-cycled.<br>
+<br>
+<br>
+It also might be helpful to automatically do something benign that<br>
+would demonstrate that mailbug is still able to communicate with the<br>
+mailstation now that sboot's in control. After the mailstation<br>
+reboots, could mailbug (v)erify sboot automatically?<br>
+<br>
+<br>
+I assume I'll at least need mbug.rom if I want to use anything that<br>
+requires it to be loaded. Or will mailbug find it even if I'm not<br>
+using the default project?<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "kat_skan" &lt;kat_skan@...></p>
+<p class="date">Jun 7, 2005</p>
+<p class="formattedBody"><br>
+Okay, here's my initial list of things mailbug doesn't like very much.<br>
+<br>
+On an unflashed Mailstation, get (S)erial number produced the<br>
+following error when I had the cable unplugged, when I had the lpt<br>
+hardware disabled, and when I had the lpt port locked using the<br>
+security features of the BIOS.<br>
+<br>
+sendtribble: timeout waiting for ms to drop busy. (1)<br>
+<br>
+Pressing Esc recovered. Seems I neglected to try that when I was<br>
+messing around yesterday.<br>
+<br>
+On the Mailstation that's running sboot, (S) produced a similar error<br>
+and the email LED shut off. Esc still recovered, and I could r(3)boot<br>
+from the main menu.<br>
+<br>
+sendtribble: timeout waiting for ms to send. (6)<br>
+mailstation did not ACK the dataflash command<br>
+<br>
+(S) with mbug loaded was slightly more fun. I got the same error as<br>
+when I tried it against sboot, and Esc still recovered, but when I<br>
+tried to r(3)boot I got this:<br>
+<br>
+Hmmmm... The mailstation's "busy" signal is stuck high.<br>
+That often means the laplink cable is not connected<br>
+or that the mailstation is not powered<br>
+receivetribble: timeout waiting for ms to strobe. 2 (3)<br>
+receivetribble: timeout waiting for ms to strobe. 3 (3)<br>
+getack2 sees the bail flag, and exits(false) while waiting for: $<br>
+*** Soft reset failed ***<br>
+Hit mailstation reset button now. (or hit key to skip)<br>
+<br>
+Power-cycling the mailstation and lo(4)ding mbug recovered.<br>
+<br>
+I'll let you know if I manage to break it in a more interesting way.<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: safeboot.rom</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jun 8, 2005</p>
+<p class="formattedBody"><br>
+I guess the manual was right!  :-)<br>
+<br>
+The reason it doesn't work, is that mailbug's serial number read<br>
+function is interacting with the stock mailstation's serial<br>
+number read function.  After you reflash, it is no longer<br>
+a mailstation.  Some of the low level mailstation code is still<br>
+there, even the code that does the serial number read is still<br>
+there.  But it is no longer active, because the event loop that<br>
+waits for the update commands is *gone*.<br>
+<br>
+I'll see what I can do to make it more obvious what's happening.<br>
+<br>
+<br>
+Most of the time, mailbug will timeout anytime it waits<br>
+more than about a second.  And any timeout will display<br>
+an error message.  There are a few cases where<br>
+it is normal to wait more than a second, and if it is<br>
+waiting one of those places, it could look hung.<br>
+(Waiting for a command to complete in "update mode" is<br>
+one of those places.)<br>
+<br>
+I think that all of those "long waits" can be aborted by just<br>
+hitting &lt;esc> key.  But, you don't get a message to that effect,<br>
+something I need to fix.<br>
+<br>
+<br>
+Ok, I just tried it.  There is a message on the screen:<br>
+These functions require the original mailstation code be running,<br>
+and a parallel laplink cable between the pc and the mailstation.<br>
+This likely will not work anymore after you reflash, since<br>
+the original mailstation code is erased when reflashing.<br>
+<br>
+but maybe it has scrolled off the top after you reflash?<br>
+<br>
+Just for kicks, I ignored message, and hit &lt;s> (serial<br>
+num read).  The program will wait forever for the sn<br>
+read to finish.  &lt;esc> key aborts it ok, and then I<br>
+hit &lt;q> to leave the update mode.<br>
+<br>
+Back in normal mode, I had to &lt;3> (reboot), because<br>
+sending the &lt;s> (sn read cmnd) to sboot left it in<br>
+the middle of receiving a command.  The shortest<br>
+command sboot takes is 3 bytes, and the sn read only<br>
+sends 1 byte before it waits for a response.<br>
+<br>
+I looked at the mailbug code, and for some reason I had<br>
+used the "read with no timeout" function when asking<br>
+the mailstation to enter the dataflash mode, in addition<br>
+to the wait after reboot.  I changed the wait on entering<br>
+dataflash mode it to "read with timeout", and now trying<br>
+to read sn on a mailstation with sboot gives 3 timeout errors<br>
+(takes 3 seconds) and then you get the prompt back.<br>
+<br>
+I hope there was not a reason it was that way, that I<br>
+just don't remember.  It seems to work better now, so<br>
+I will leave it changed.  (I wrote the dataflash code<br>
+over a year ago now, before I even started the codeflash<br>
+routines.)<br>
+<br>
+<br>
+That's a real good idea.  Thanks!<br>
+And I suppose it may be good to verify on entry<br>
+that the mailstation responds to the "update commands",<br>
+so we know there it is not already reflashed.<br>
+<br>
+<br>
+Right, mailbug will find it, regardless of project dir.<br>
+<br>
+I have been in habit of using &lt;3> &lt;4> sequence (from the main mode)<br>
+to verify communication with mbug.  Actually just &lt;4> will verify<br>
+mbug is still there.  The &lt;3> will put you back to boot code<br>
+(either sboot or mboot) and force mbug to reload.  But it<br>
+happens so fast, I usually just do both &lt;3> &lt;4>.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

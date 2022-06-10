@@ -1,0 +1,455 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Attempt to use Netzero account with hacked MS failing (Jun 23, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#2">From: Milt Cram <w8nue@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#3">From: Milt Cram <w8nue@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#4">From: "Richard Herndon" <k5fni@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#6">From: "Neil Morrison" <neilsmorr@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#7">From: "Richard Herndon" <k5fni@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#8">From: "John R. Hogerhuis" <jhoger@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#9">From: "Richard Herndon" <k5fni@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#10">From: "John R. Hogerhuis" <jhoger@...> Jun 24, 2005</a></li>
+<li><a class="link" href="#11">From: "John R. Hogerhuis" <jhoger@...> Jun 25, 2005</a></li>
+<li><a class="link" href="#12">From: "Richard Herndon" <k5fni@...> Jun 25, 2005</a></li>
+<li><a class="link" href="#13">From: "Neil Morrison" <neilsmorr@...> Jun 25, 2005</a></li>
+</ol><hr>
+<hr><h3>Subject: Attempt to use Netzero account  with hacked MS failing</h3>
+<p class="from">From: "Richard Herndon" &lt;k5fni@...></p>
+<p class="date">Jun 23, 2005</p>
+<p class="formattedBody">Okay, I'm back with another question. Assistance pliz.<br>
+<br>
+I got through getting my own account set up okay (with my local<br>
+ISP...he was sitting in the room while I set it up...we didn't have<br>
+problems). I set up an account for my son (with NetZero), who will be<br>
+the eventual recipient of the test machine. I filled out the material<br>
+on the question screen (with appropriate x's where I don't want to<br>
+say):<br>
+==<br>
+User Name: xxx<br>
+Dial-Up No: xxxxxxxxxxxxxx<br>
+Reply-To: xxx@...<br>
+E-Mail Address xxx@...<br>
+E-mail Password: xxxxxxxxxxxx<br>
+POP3 Server: pop.netzero.net<br>
+SMTP Server: smtp.netzero.net<br>
+ISP Account: xxx<br>
+ISP Password: xxxxxxxxxxxx<br>
+Primary DNS: 0.0.0.0<br>
+==<br>
+I dial up the long distance number (there aren't any local to Ganado<br>
+TX &lt;G>) and get the obvious modem sounds, logging on report, then it<br>
+hangs up and says that the service is unavailable or busy.<br>
+<br>
+I don't think it is busy. I'm concerned that I don't know the DNS<br>
+numbers to plug in above. (Do I need them?)<br>
+I'm also concerned that I just used the email prefix (in my case just<br>
+three letters where I've shown xxx above) for the ISP Account and User<br>
+Name information should go.<br>
+<br>
+Are these correct? I'm in the dark and can't really ask the free ISP<br>
+any questions. Has anyone here actually set up a free NetZero account<br>
+and been successful? If so, PLEASE help me out.<br>
+<br>
+Trying desperately to get my adult son to communicate frequently by<br>
+email, as I know he leads a busy life and doesn't always just sit by<br>
+the phone for my calls. &lt;g><br>
+<br>
+Thanks in advance,<br>
+Rick K5FNI<br>
+Ganado TX<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Attempt to use Netzero account  with hacked MS</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">pop.netzero.net<br>
+<br>
+and<br>
+<br>
+smtp.netzero.net<br>
+<br>
+are DNS names, so presumably you will need a DNS address to resolve<br>
+them. So I think you need to put one.<br>
+<br>
+Until you find it, you can try replacing the DNS names the actual IP<br>
+addresses for the pop and smtp servers:<br>
+<br>
+smtp.netzero.net 64.136.29.92<br>
+pop.netzero.net  64.136.28.166<br>
+<br>
+<br>
+On Fri, 2005-06-24 at 03:40 +0000, Richard Herndon wrote:<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Attempt to use Netzero account  with hacked MS failing</h3>
+<a href="#0">(top)</a><p class="from">From: Milt Cram &lt;w8nue@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">Richard Herndon wrote:<br>
+<br>
+Rick,<br>
+<br>
+You do need the DNS numbers for the Mailstation to work.  You should be<br>
+able to determine them by normally logging onto NetZero with your PC.<br>
+Then, while logged on, run IPCONFIG on the PC.  The data that then<br>
+appears on your screen should include the DNS number for NetZero.  This<br>
+should work unless NetZero is providing a "dynamic" DNS, which changes<br>
+each time you log in..<br>
+<br>
+Also, the ISP account and password should be the same as the email<br>
+address and password, since you have only one account with NetZero.<br>
+<br>
+Also, be aware that Mailstation is limited to 8k bytes per email.<br>
+Consequently, no images--just text.<br>
+<br>
+Hope this helps.  If you need additional info, email me back, or contact<br>
+Curt-W4QBU (we both have Mailstation 120s).<br>
+<br>
+Milt W8NUE<br>
+Austin TX<br>
+<br>
+No virus found in this outgoing message.<br>
+Checked by AVG Anti-Virus.<br>
+Version: 7.0.323 / Virus Database: 267.8.0/27 - Release Date: 6/23/2005<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: [mailstation] Attempt to use Netzero account  with hacked MS failing</h3>
+<a href="#0">(top)</a><p class="from">From: Milt Cram &lt;w8nue@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">Richard Herndon wrote:<br>
+<br>
+Rick,<br>
+<br>
+One additional note for my previous response.<br>
+<br>
+When running IPCONFIG, use the /all switch (i.e. ipconfig/all) to get<br>
+the DNS numbers.<br>
+<br>
+Milt W8NUE<br>
+<br>
+No virus found in this outgoing message.<br>
+Checked by AVG Anti-Virus.<br>
+Version: 7.0.323 / Virus Database: 267.8.0/27 - Release Date: 6/23/2005<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Attempt to use Netzero account  with hacked MS failing-More help</h3>
+<a href="#0">(top)</a><p class="from">From: "Richard Herndon" &lt;k5fni@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody"><br>
+John, et al:<br>
+<br>
+I'm gonna have to quit doing stuff in the middle of the night with no<br>
+sleep. ;)<br>
+<br>
+I REALLY signed him up with Juno.com instead of NetZero.net. &lt;sigh><br>
+I tried to follow your instructions, but got no results. Here's what I<br>
+did:<br>
+1. I fixed the account setup in the MailStation from NetZero to Juno,<br>
+though I didn't know I'd have to erase all I had in there to do so.<br>
+It now reads:<br>
+==<br>
+User Name: xxx<br>
+Dial-Up No: xxxxxxxxxxxxxx<br>
+Reply-To: xxx@n...<br>
+E-Mail Address xxx@n...<br>
+E-mail Password: xxxxxxxxxxxx<br>
+POP3 Server: pop.juno.com<br>
+SMTP Server: smtp.juno.com<br>
+ISP Account: xxx<br>
+ISP Password: xxxxxxxxxxxx<br>
+Primary DNS: 0.0.0.0<br>
+==<br>
+<br>
+2. I tried to get the DNS entry for the POP3 server at Juno.com from<br>
+your instructions: I printed the results before connecting to Juno.com<br>
+and after and they didn't vary. I am using DSL with a WiFi<br>
+modem/router. I guess the command can't get through the router beyond<br>
+my ISP's DNS address. ?? Maybe someone else can get the address for<br>
+me. Sorry that I am unable to comply here. Lack of knowledge excels.<br>
+;)<br>
+<br>
+3. I filled in the info as shown above and tried to send a test<br>
+message with the same results. Now it is possible that the thing is<br>
+actually busy, but the other time I tried it was VERY late at night.<br>
+This time it is mid-morning in Austin, where I'm calling to. Another<br>
+reason I don't think it is busy is that the device said it was<br>
+"Logging In" and the bar graph went across and the modem shut up like<br>
+it had actually connected and gotten beyond the handshaking stage.<br>
+<br>
+I'm tapping my fingers on the keys and trying to have patience. It has<br>
+just been many years since I've actually had to mess with the vagaries<br>
+and frustrations of modem comms. &lt;g> First, cable modem, then DSL have<br>
+both really spoiled me to just being confident that I can just march<br>
+in here and &lt;zip> the machine is connected.<br>
+<br>
+Thanks in advance for your help and patience.<br>
+<br>
+73,<br>
+Rick K5FNI<br>
+Ganado TX<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Attempt to use Netzero account  with hacked</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">On Fri, 2005-06-24 at 15:44 +0000, Richard Herndon wrote:<br>
+<br>
+<br>
+Well the IP addresses I gave will probably only work for the service you<br>
+signed up for, so ignore the previous IP addresses.<br>
+<br>
+To get the DNS entry for Juno you can follow Milt's instructions. Just<br>
+follow their instructions to get it to log in to juno from windows, and<br>
+then run either ipconfig from command prompt (under Windows NT, W2K, or<br>
+XP) or winipcfg from Windows 95, 98 or ME. This will give you the DNS<br>
+address. If you have the DNS address you don't need to resolve the smtp<br>
+and pop addresses by hand.<br>
+<br>
+The point of this is, smtp.juno.com and pop.juno.com are DNS names. For<br>
+the mailstation to be able to send (smtp) or receive (pop) mail, it will<br>
+have to talk to actual servers and their actual IP addresses.<br>
+smtp.juno.com and pop.juno.com are not IP addresses. They are DNS names,<br>
+and normally can be traded in to the DNS server for IP addresses. But in<br>
+the example above, your DNS server IP is 0.0.0.0 so there is no chance<br>
+of sending mail in this configuration.<br>
+<br>
+Now it is possible that the Mailstation could talk to the smtp server<br>
+and pop server if it has the raw IP addresses. But it might not. Best<br>
+thing is to put the DNS IP. Second best is to try again with JUNO's mail<br>
+server addresses.<br>
+<br>
+If you just want to do a test without the DNS number, you might try<br>
+resolving the pop.juno.com and smtp.juno.com on your desktop PC. Just<br>
+open a ms-dos prompt and type<br>
+<br>
+ping pop.juno.com<br>
+<br>
+that will give you their pop Ip address<br>
+<br>
+and<br>
+<br>
+ping smtp.juno.com<br>
+<br>
+I got:<br>
+<br>
+PING pop.juno.com (64.136.20.167): 56 data bytes<br>
+...<br>
+PING smtp.juno.com (64.136.21.93): 56 data bytes<br>
+...<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] Attempt to use Netzero account  with hacked MS failing</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">From: "Richard Herndon" &lt;k5fni@...><br>
+<br>
+<br>
+I suspect neither NetZero nor Juno will work. I used NetZero for a while,<br>
+but it needed a Windows computer so it could put it's banner on the screen.<br>
+Also, it was very difficult to get on as even if you had unused time there<br>
+was some sort of limit on how many free users could be on the service at<br>
+once. YMMV.<br>
+<br>
+<a target="_blank" href="http://www.netzero.net/signup/requirements.html">(URL)</a><br>
+<br>
+<a target="_blank" href="http://www.juno.com/signup/requirements.html">(URL)</a><br>
+<br>
+I'd look around locally for a cheap dial up ISP and make your best deal. If<br>
+you tell them you need 5 minutes per day max for email only they may make<br>
+you a good offer.<br>
+<br>
+Neil<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Attempt to use Netzero account  with hacked MS failing-More help</h3>
+<a href="#0">(top)</a><p class="from">From: "Richard Herndon" &lt;k5fni@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody"><br>
+John H. replies today:<br>
+<br>
+John,<br>
+<br>
+Using both your values for the DNS, entered one at a time netted me<br>
+zero results different from last time.<br>
+<br>
+I did find an additional error pointed out to me by the firmware: the<br>
+user name I entered was erroneously entered by me as the email<br>
+address. The firmware notified me to take out the @ and try again. I<br>
+just put in my son's name this time.<br>
+<br>
+Still no worky.<br>
+<br>
+I'm still appealing to someone who has had a free service work for<br>
+them with a Mailstation to get back with me here and tell me what you<br>
+did. Several folks said in the last month or so that they were going<br>
+to try a free service. Where are they? Hayelp.<br>
+<br>
+John, the one problem I have with entering the two numbers is that I<br>
+don't know which to use or if there is supposed to be some general DNS<br>
+address entered. Obviously, neither works okay for Juno. &lt;sigh><br>
+<br>
+I'm close to wit's end.<br>
+<br>
+Maybe I should try another service?<br>
+<br>
+73,<br>
+Rick K5FNI<br>
+Ganado TX<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: [mailstation] Re: Attempt to use Netzero account  with hacked</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">On Fri, 2005-06-24 at 20:54 +0000, Richard Herndon wrote:<br>
+<br>
+No, I didn't give you a DNS IP address. Both of those are mail server<br>
+addresses. You need to replace each mail server with the associated<br>
+address.<br>
+<br>
+Where you have configured pop.juno.com instead try 64.136.20.167<br>
+<br>
+Where you have configured smtp.juno.com instead try 64.136.21.93<br>
+<br>
+<br>
+Gotta get it all right at once.<br>
+<br>
+<br>
+You just have to follow directions ;-)  And I need to learn to give<br>
+better ones.<br>
+<br>
+Now, as I said Milt may be giving you better advice here: just get the<br>
+actual DNS address! To do this, you need to connect to Juno from a<br>
+Windows desktop as he described. Then you can find out from Windows what<br>
+the DNS server IP address after you connect to it.<br>
+<br>
+Juno, netzero etc. may or may not work. But the MS probably does require<br>
+a valid DNS address, so until you've done a valid test with all<br>
+necessary parameters there's no reason to give up.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Attempt to use Netzero account  with hacked MS failing-More help</h3>
+<a href="#0">(top)</a><p class="from">From: "Richard Herndon" &lt;k5fni@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">wrote:<br>
+<br>
+John, I did this with no different results.<br>
+<br>
+<br>
+Now what?<br>
+<br>
+<br>
+Still looking for the above folks. I'll be patient and hope they read<br>
+their mail in the next few days.<br>
+<br>
+<br>
+As I reported earlier today, I do not seem to be able to do the<br>
+requested search on my machine, possibly due to it being behind a<br>
+WiFi/router. I seem to get the same DNS address whether or not I'm<br>
+logged in to Juno. Can someone else try this both ways and let me know<br>
+the address they find when logged in to Juno? With sugar on it?<br>
+<br>
+Thanks,<br>
+Rick<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: [mailstation] Re: Attempt to use Netzero account  with hacked</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 24, 2005</p>
+<p class="formattedBody">On Fri, 2005-06-24 at 23:51 +0000, Richard Herndon wrote:<br>
+<br>
+Hmm... are you dialing up from your machine?<br>
+<br>
+What OS are you running?<br>
+<br>
+You need to<br>
+<br>
+a) Connect to Juno via dialup<br>
+b) Run winipcfg (Win98) or ipconfig (NT)<br>
+c) Look for your dial up adapter... it will either be in the dump<br>
+printed by opconfig, or a drop-down selection from Win98.<br>
+<br>
+You should be able to find the DNS name there.<br>
+<br>
+I don't have a Windows box with a modem, or I'd do it for you myself.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: [mailstation] Re: Attempt to use Netzero account  with hacked</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Jun 25, 2005</p>
+<p class="formattedBody">On Fri, 2005-06-24 at 20:54 +0000, Richard Herndon wrote:<br>
+<br>
+OK, I was able to set up an account and connect to Juno from my laptop.<br>
+The DNS servers for Juno are 64.136.20.120 and 64.136.28.120<br>
+<br>
+Unfortunately though I cannot get a MS (Black DET-1) to send or receive<br>
+mail through Juno. It dials, but gives the same error that you<br>
+described.<br>
+<br>
+Now, I connected again to Juno, and set up Outlook Express to collect<br>
+mail. The only thing I can get from Juno is an initial message that<br>
+<br>
+"Access to Juno email using an off-line email program, such as Outlook<br>
+Express, is not available to Free members."<br>
+<br>
+Since the MS can't use a webmail facility, there is no way to make use<br>
+of Juno with the Free account.  Is that what you're using? If so, I<br>
+think you'll need to find another service, and probably have to pay a<br>
+little bit. Or you could use Juno, but you have to sign for one of the<br>
+paid accounts. But I don't see much point to that... you are better off<br>
+finding a low price provider on the web.<br>
+<br>
+That said, if you pay a little bit it's more likely they'll be willing<br>
+to help you get the thing set up.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: Attempt to use Netzero account  with hacked MS failing-More help</h3>
+<a href="#0">(top)</a><p class="from">From: "Richard Herndon" &lt;k5fni@...></p>
+<p class="date">Jun 25, 2005</p>
+<p class="formattedBody">wrote:<br>
+<br>
+<br>
+No, I was using my XP Home machine and logging in via the Web.<br>
+<br>
+<br>
+I do own a Win95b Omnibook 800CT that has a PCMCIA modem. I'll try<br>
+that. I guess you finally did give better instructions. &lt;g> I was just<br>
+flailing away with the XP box and not understanding why it didn't work<br>
+as it 'should'. Does winipcfg command work with Win95b?<br>
+<br>
+Thanks for all your assistance. I've been leaving this thread on the<br>
+group, so any others having as much trouble as I'm having will see the<br>
+path we're taking to get to a (hopeful) resolution.<br>
+<br>
+Rick<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: [mailstation] Attempt to use Netzero account with hacked MS failing-More help</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jun 25, 2005</p>
+<p class="formattedBody"><a target="_blank" href="http://www.lights.com/pickalink/freeisp/">(URL)</a><br>
+<br>
+<a target="_blank" href="http://www2.vcn.bc.ca/freenets">(URL)</a><br>
+<br>
+have info on free ISP's. I don't believe that Juno supports anything below<br>
+Windows now.<br>
+<br>
+Neil<br>
+<br>
+From: "Richard Herndon" &lt;k5fni@...><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

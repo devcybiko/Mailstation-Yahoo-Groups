@@ -1,0 +1,80 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">New theory on CPU speed (Jan 28, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: New theory on CPU speed</h3>
+<p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 28, 2010</p>
+<p class="formattedBody">Since the topic of clock speed came up a few days ago, I<br>
+have been wonderin=<br>
+g about it myself.  I never was very<br>
+happy with the idea that the cpu was r=<br>
+unning at 8, 10, or<br>
+12 MHz, because (for one reason) I did not see any poin=<br>
+t<br>
+to it.  IOW, if the cpu can run at 12 MHz, why not run<br>
+it at 12 MHz?<br>
+<br>
+A=<br>
+t first I thought the lower speed might be for the sake of<br>
+power-dissipati=<br>
+on.  (Assuming it is a CMOS<br>
+cpu, since power dissipation in CMOS is essent=<br>
+ially directly<br>
+proportional to clock speed).<br>
+<br>
+But, since cpu goes to sleep=<br>
+when there is nothing to do,<br>
+and it would be awake for shorter periods at =<br>
+12 MHz,<br>
+the power dissipation would be essentially the same at<br>
+any of the 3=<br>
+speeds.<br>
+<br>
+Another reason I was uncomfortable with 8/10/12 speeds<br>
+is that AF=<br>
+AIK it is quite difficult to divide by 1.2<br>
+or 1.5, as opposed to dividing b=<br>
+y an integer.<br>
+<br>
+But there is one really good reason to run a cpu<br>
+slower:  m=<br>
+emory access time!<br>
+<br>
+But if that is the reason, rather than slow the<br>
+whole =<br>
+cpu down, it makes A LOT more sense to slow<br>
+just the memory-access cycles =<br>
+with wait-states.<br>
+<br>
+So, perhaps port 0x0d is just setting the<br>
+number of wai=<br>
+t states?<br>
+<br>
+I have not researched this idea very far, but<br>
+perhaps the appare=<br>
+nt speeds of "10 & 8 MHz"<br>
+are accomplished as "1 or 2 wait-states"?<br>
+<br>
+This s=<br>
+eems much more plausible than dividing<br>
+the actual clock by non-integer amou=<br>
+nt.<br>
+<br>
+It is also possible that they allow setting<br>
+different wait-states for =<br>
+various devices<br>
+(codeflash, dataflash, RAM, LCD, modem).<br>
+<br>
+CJ<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

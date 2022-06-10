@@ -1,0 +1,79 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">mailbug 0.0.4 (Aug 13, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: mailbug 0.0.4</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 13, 2007</p>
+<p class="formattedBody">I uploaded a bunch of stuff: mailbug 0.0.4, bootapp, new version<br>
+of helloap=<br>
+p, and some comment files for mailbugs disassembler.<br>
+Also a file called cru=<br>
+nch.dat, which has tags for data and code.<br>
+(Comments and crunch.dat are for=<br>
+2.53yr.)<br>
+<br>
+New in 0.0.4 is mainly ability to load splash screen in stock<br>
+ma=<br>
+ilstation, and ability to embed bootapp.rom file in<br>
+the splash screen.  It =<br>
+has to be named bootapp.rom, and it<br>
+needs to be in mbug subdir.<br>
+<br>
+Splash scr=<br>
+een files need to be in monochrome .bpm format.<br>
+Max size is 320x128.  I see=<br>
+m to remember having trouble<br>
+with smaller images, but that might be fixed n=<br>
+ow???<br>
+Filenames need to be "splashX.bmp", where X is a number.<br>
+You need a f=<br>
+ile named "splash6.bmp" if you want to load<br>
+bootapp, 'coz I hardcoded it to=<br>
+embed bootapp.rom in<br>
+that image file.  Splash image files go in subdir "mi=<br>
+sc".<br>
+<br>
+0.0.4 also has the "inhale" function, but it is not in menu.<br>
+Command =<br>
+is "&lt;", and I don't remember exactly how you get it<br>
+to sync with "spew", yo=<br>
+u might need to run both at almost<br>
+exact same time to avoid timeouts.  boot=<br>
+app makes this<br>
+obsolete, though.  You can just "save" rom image after<br>
+load=<br>
+ing bootapp.<br>
+<br>
+One other notable new feature of 0.0.4 is a symbol table.<br>
+The=<br>
+symbol data is stored as a comment with a special tag<br>
+that tells disassemb=<br>
+ler it is a symbol, and value is simply<br>
+the address where that comment is f=<br>
+ound.  Disassembler<br>
+will plug symbol in whenever it sees that address.<br>
+<br>
+Unf=<br>
+ortunately, it plugs symbol in whenever a constant<br>
+has that value, too, eve=<br>
+n if it is just coincidence.<br>
+Makes for some odd looking disassembled code=<br>
+in places!<br>
+<br>
+There are some new commands relating to symbols, I don't<br>
+thin=<br>
+k they are documented anywhere yet (but I need to<br>
+hit the sack now).<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

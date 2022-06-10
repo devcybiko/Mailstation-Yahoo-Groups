@@ -1,0 +1,218 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Adding a third app? (Jul 30, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Jul 30, 2007</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 30, 2007</a></li>
+<li><a class="link" href="#3">From: "Jeff" <fyberoptic1979@...> Jul 31, 2007</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 1, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Adding a third app?</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 30, 2007</p>
+<p class="formattedBody">Going by spew.txt, changing the data at 0x20000 can let you add new<br>
+app en=<br>
+tries to the MS.  You do so by changing the first digit of this<br>
+series of =<br>
+bytes:<br>
+<br>
+02 00 02 00 01 00 01 5e   1c 18 01 01 01 20 a7 19<br>
+<br>
+Well this works =<br>
+fine for one or two extra apps.  But upon trying to<br>
+add a third app, I ran=<br>
+across a problem.  I get three icons, but my<br>
+third icon is now the same a=<br>
+s my first one (on mine this is the Hello<br>
+World app).  And running this th=<br>
+ird one doesn't work, it simply<br>
+returns to the main menu.  The first two a=<br>
+pps run fine though.<br>
+<br>
+Has anyone deciphered this series of bytes to know wh=<br>
+at they're for?<br>
+Or is there the possibility that the MS just simply can't=<br>
+handle more<br>
+than 2 apps?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Adding a third app?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 30, 2007</p>
+<p class="formattedBody">I forgot to mention that if you clear out all the bytes except the<br>
+first o=<br>
+ne where you specify your number of apps, all the app icons<br>
+end up the sam=<br>
+e (your first app's), and none of them will execute<br>
+(aka just returning to=<br>
+the main menu).  Could be a piece to the<br>
+puzzle.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Adding a third app?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 30, 2007</p>
+<p class="formattedBody">Or is there the possibility that the MS just simply can't handle more<br>
+an 2 apps?<br>
+<br>
+I was looking into my notes on the app directory (pg #08),<br>
+and=<br>
+I found out a bit more since I wrote the instructions<br>
+in "spew.asm" file.=<br>
+<br>
+The first 4 bytes in page #08 are a header, where the<br>
+first byte is a =<br>
+count of the number of apps in dataflash.<br>
+After the 4 byte header, there =<br>
+are six byte records, one<br>
+for each loaded app.  I don't know what all the =<br>
+bytes<br>
+mean, but the second byte is the dataflash page number<br>
+where you pu=<br>
+t the app, and the 6th byte is an app number.<br>
+<br>
+I think there is a max of 5=<br>
+extra apps.<br>
+<br>
+App number prob should be at least #18, but I don't know<br>
+fo=<br>
+r sure.  I don't know what would happen if you used the<br>
+number of some oth=<br>
+er app (built in apps have numbers, too).<br>
+<br>
+I think the highest the app nu=<br>
+mber is allowed to be is #1D,<br>
+or maybe #1E.  (there is an internal app tab=<br>
+le with 30 rows,<br>
+but I don't remember right now if the first is app 00 or 0=<br>
+1.)<br>
+<br>
+Going by the data you posted, the first dataflash app is<br>
+#18, so I am =<br>
+gonna guess that the last internal app is #17.<br>
+AFAICT, just about every dif=<br>
+ferent screen type is a<br>
+different "app", even if the screens seem to be pa=<br>
+rt of<br>
+what you would normally call the same "app".<br>
+<br>
+0308:4000  nn  &lt;-- nu=<br>
+m of recs<br>
+0308:4001  ??<br>
+0308:4002  ??  &lt;--?????<br>
+0308:4003  ??<br>
+0308:4004=<br>
+xx 00 xx xx xx 18  &lt;-- data for 1st loaded app<br>
+0308:400A  xx 01 xx xx xx=<br>
+19  &lt;-- data for 2nd loaded app<br>
+0308:4010  xx 02 xx xx xx 1a  &lt;-- data fo=<br>
+r 3rd loaded app<br>
+0308:4006  xx 03 xx xx xx 1b  &lt;-- data for 4th loaded app=<br>
+<br>
+0308:4000  xx 04 xx xx xx 1c  &lt;-- data for 5th loaded app<br>
+=<br>
+^^          ^^<br>
+||          ||<br>
+page         who<br>
+=<br>
+<br>
+My notes say 0308:4002 is "hex editor state", but I'm<br>
+not sure that's rig=<br>
+ht.  Just leave it whatever it is.<br>
+<br>
+I filled in typical values above for th=<br>
+e page & app<br>
+numbers, but I don't see any reason they need to be<br>
+consecut=<br>
+ive.  The xx's are not "dont care", I just<br>
+don't know what they are for.  =<br>
+Seems to work if<br>
+you just leave them 00.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Adding a third app?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Jul 31, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+t byte is a count of the number of apps in dataflash.<br>
+header, there are six byte records, one<br>
+ow what all the bytes<br>
+mber<br>
+<br>
+I ha=<br>
+d a thought earlier.  Since obviously the data for the tv<br>
+listings and wha=<br>
+tnot had to be updated when you dialed in for your<br>
+mail, do you suppose pa=<br>
+rt of those six byte records could specify a.)<br>
+whether (or where) the MS s=<br>
+hould execute code while the connection is<br>
+open for the app to fetch its o=<br>
+wn data, and/or b.) for the MS to then<br>
+parse the data it received after th=<br>
+e connection is complete?  I don't<br>
+have any of the actual Yahoo apps to po=<br>
+ke around in, but I figure the<br>
+data has to be parsed or at least stored so=<br>
+mewhere for these apps to<br>
+find.<br>
+<br>
+r the page & app<br>
+consecutive.  The xx's are not "dont care", I just<br>
+are for.  Seems to work if<br>
+<br>
+This worked like a=<br>
+charm, by the way.  Thanks!<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Adding a third app?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 1, 2007</p>
+<p class="formattedBody"><br>
+had a thought earlier.  Since obviously the data for the tv<br>
+d whatnot had to be updated when you dialed in for your<br>
+pose part of those six byte records could specify a.)<br>
+the MS should execute code while the connection is<br>
+fetch its own data, and/or b.) for the MS to then<br>
+ived after the connection is complete?<br>
+<br>
+I suppose anything is possible.  =<br>
+My hunch is that the<br>
+mailstation passively receives the data, rather than<br>
+=<br>
+fetching it.  I would think, since it is binary data,<br>
+that it would be at l=<br>
+east base64 or uuencoded.<br>
+<br>
+o poke around in, but I figure the<br>
+red somewhere for these apps to<br>
+<br>
+If by data you mean the TV listin=<br>
+gs, or weather, it is<br>
+stored right in the app itself, as one big graphic im=<br>
+age.<br>
+<br>
+I don't know if they reload the whole 16k page each time<br>
+they update =<br>
+data, or just the image data (what I named<br>
+icon2 in helloapp, maybe not the=<br>
+best name).<br>
+<br>
+<br>
+This worked like a charm, by the way.  Thanks!<br>
+<br>
+Great!  Is the foldertab d=<br>
+isplaying right???<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Page switching routines was: How big are the hex dump files supposed to be? (Apr 27, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Page switching routines was: Re: How big are the hex dump files supposed to be?</h3>
+<p class="from">From: "jmareksr" &lt;jimmarek@...></p>
+<p class="date">Apr 27, 2004</p>
+<p class="formattedBody">Maybe you have analyzed the other differences since you posted this<br>
+note, but I have noticed one important one: The code at 1952 executes<br>
+completely in the alternate register set, which means that you can<br>
+use it to pass parameters in the registers.<br>
+<br>
+That is, you could push the page number and program address on the<br>
+stack and setup some registers and call 05ED. The registers will be<br>
+preserved through the code at 1952 and will arrive at the called<br>
+routine intact. Any return values are also preserved. This mechanism<br>
+makes the presence of the page switching logic almost transparent.<br>
+<br>
+Jim<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Re-engineering the mailstation (Apr 28, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> Apr 28, 2007</a></li>
+<li><a class="link" href="#2">From: Eddy Wright <eddy@...> Apr 28, 2007</a></li>
+<li><a class="link" href="#3">From: "Neil Morrison" <neilsmorr@...> Apr 29, 2007</a></li>
+<li><a class="link" href="#4">From: "wayne" <waynem@...> Apr 30, 2007</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> May 1, 2007</a></li>
+<li><a class="link" href="#6">From: "wayne" <waynem@...> May 1, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Re-engineering the mailstation</h3>
+<p class="from">From: "donhamilton2002" &lt;donhamilton2002@...></p>
+<p class="date">Apr 28, 2007</p>
+<p class="formattedBody">Hello all,<br>
+<br>
+Warning: rambling ahead.<br>
+<br>
+I have been clearing out stuff in my =<br>
+shop and have found the two<br>
+mailstations I hacked a few years ago.<br>
+<br>
+My firs=<br>
+t thought was to give this units away to someone.<br>
+<br>
+My second thought was to=<br>
+re-engineer these units in someway.<br>
+<br>
+Plastic cases are a problem for one o=<br>
+ff projects.<br>
+<br>
+The mailstation is old technology and I would like to bring i=<br>
+t up to a<br>
+more recent processor.<br>
+<br>
+The LCD display and keyboard are as good =<br>
+as any.<br>
+<br>
+The builtin battery pack is very usefull.<br>
+<br>
+The modem is a waste. I=<br>
+am sure people in this group will look for a<br>
+hotspot before using a modem.=<br>
+<br>
+So, my thought is desiging a card that would replace the main board in<br>
+th=<br>
+e mailstation.<br>
+<br>
+[ Idea 1 ]<br>
+<br>
+A full 32-bit cpu with a couple of megs of memo=<br>
+ry (flash/ram), an<br>
+ethernet interface would be nice, but we would be talkin=<br>
+g about a<br>
+$100/$200+ retrofit.<br>
+<br>
+Someone to layout the board, get them manu=<br>
+factured, put parts on them.<br>
+<br>
+[ Idea 2 ]<br>
+<br>
+A 32 bit single chip cpu with eno=<br>
+ugh memory would make a reasonable<br>
+development platform.<br>
+<br>
+Maybe one of the =<br>
+larger single chip cpus for NXP.<br>
+<br>
+Has anyhone measured out the main board i=<br>
+n the MS ?<br>
+<br>
+The back panel has only a few openings but it may be enough.<br>
+<br>
+A=<br>
+dd a compact flash for an 802.11 interface, an SPI interface for SD<br>
+cards.<br>
+=<br>
+<br>
+[ Idea 3 ]<br>
+<br>
+Finding a low cost cpu board that we can build a carrier to pl=<br>
+ug it<br>
+into the MS plastic.<br>
+<br>
+Ok, what do you think.<br>
+<br>
+Some summer project to =<br>
+keep us from mowing the lawn :-).<br>
+<br>
+don<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Apr 28, 2007</p>
+<p class="formattedBody">The mailstation case and keyboard are not worth saving.<br>
+<br>
+One thought is to start with a TRS-80 Model 100 or Tandy 102 case.<br>
+Much more room to work. Has a built-in 4 AA battery holder.<br>
+<br>
+I think a MS display would fit in there.<br>
+<br>
+The keyboard is much better than the MS's<br>
+<br>
+If the CPU is fast enough, you could run VirtualT and have a<br>
+supercharged Model 100 :-)<br>
+<br>
+I will donate a case and KB if you design a PCB.<br>
+<br>
+As far as CPU I would go for low power, long battery life.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: Eddy Wright &lt;eddy@...></p>
+<p class="date">Apr 28, 2007</p>
+<p class="formattedBody">I have a couple of MS's that I thought of doing something similar. I<br>
+wasn't able to find out how to drive the LCD with another processor. I<br>
+decoded the keyboard and was able to make a functional serial terminal<br>
+by using a different display. But my alternate display didn't fit the<br>
+case at all. I used a Mega32 AVR microcontroller to drive the LCD and<br>
+read the keyboard. It had more than enough power to act as a serial<br>
+terminal...<br>
+<br>
+Anyone have success trying to drive the LCD?<br>
+<br>
+Eddy<br>
+<a target="_blank" href="http://www.wrighthobbies.net">(URL)</a><br>
+<br>
+John R. Hogerhuis wrote:<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Apr 29, 2007</p>
+<p class="formattedBody">IMO these are desirable as is. All we need are solid methods to<br>
+rewrite the=<br>
+ROM to provide the functions we want. The internal fax<br>
+modem is fine as is=<br>
+.<br>
+<br>
+If you want a WiFi computer, a laptop is now so cheap it isn't worth<br>
+the=<br>
+work needed to re engineer these.<br>
+<br>
+My 2 cents.<br>
+<br>
+Neil<br>
+<br>
+ahoogroups.com, "donhamilton2002"<br>
+l,<br>
+shop and have found the two<br>
+y first thought was to give this units away to someone.<br>
+ght was to re-engineer these units in someway.<br>
+blem for one off projects.<br>
+ld like to bring it up to a<br>
+nd keyboard are as good as any.<br>
+ll.<br>
+a<br>
+hat would replace the main board in<br>
+A full 32-bit cpu with a couple of megs of memory (flash/ram), an<br>
+et interface would be nice, but we would be talking about a<br>
+trofit.<br>
+on them.<br>
+would make a reasonable<br>
+r single chip cpus for NXP.<br>
+the MS ?<br>
+<br>
+=<br>
+d a carrier to plug it<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: RE: [mailstation] Re: Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "wayne" &lt;waynem@...></p>
+<p class="date">Apr 30, 2007</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+Content-Transfer-Encoding: 7bit<br>
+<br>
+My 2 cents:<br>
+You have to find something that is worthwhile to be sold to the general<br>
+public or else it is NOT going to<br>
+be built in a Mass big enough to get the price down to reasonable !!<br>
+<br>
+The Mailstation concept is still doable !!!  A lot of people out there do<br>
+not have a computer, do not understand<br>
+how a computer runs, and do not want to put up with the hassles of owning<br>
+and maintaining one. This especially<br>
+goes for the Senior Citizens in this country.<br>
+BUT THEY STILL NEED TO BE ABLE TO COMMUNICATE WITH THE WORLD !!!<br>
+<br>
+I have set up several Mailstations for some of my Senior relatives, and<br>
+although they were leery to use it, they<br>
+now don't know how they would survive without it.  The world has gone from<br>
+written letters to electronic ones, and<br>
+the electronic ones are there is minutes.<br>
+<br>
+The Mailstation just needs to be updated, and allowed to be used on ANY<br>
+email server unit. This would allow<br>
+the user to then search and find the best service for them and connect the<br>
+unit to it.<br>
+<br>
+The new unit should be patterned after the Model 350, which allows the<br>
+downloading of pictures and larger<br>
+emails.  Since memory has come a long way since the Mailstation's inception,<br>
+it is now efficient to include<br>
+larger memory in the unit.<br>
+<br>
+Some of the faster, laptop CPU's would work with their lower power<br>
+consumption.  Even a older Pentium chip<br>
+would still be faster than what the original Mailstation had in it.<br>
+<br>
+Biggest problem would be watching to not step on any patents that still<br>
+might be used in the device.<br>
+<br>
+The option of a plug-in WIFI card is a good one, let the option slot take<br>
+either a Modem, WIFI, or Ethernet<br>
+plug in card. That way whichever service is going to be used can be<br>
+accommodated easily and without having to<br>
+load all that extra circuitry into the unit and not use it. That would also<br>
+keep the cost down for the unit.<br>
+<br>
+Just my thoughts,<br>
+Wayne<br>
+Iwireless<br>
+tempe, az.<br>
+From: mailstation@yahoogroups.com [mailto:mailstation@yahoogroups.com]On<br>
+Behalf Of Neil Morrison<br>
+Sent: Saturday, April 28, 2007 10:52 PM<br>
+To: mailstation@yahoogroups.com<br>
+Subject: [mailstation] Re: Re-engineering the mailstation<br>
+<br>
+IMO these are desirable as is. All we need are solid methods to<br>
+rewrite the ROM to provide the functions we want. The internal fax<br>
+modem is fine as is.<br>
+<br>
+If you want a WiFi computer, a laptop is now so cheap it isn't worth<br>
+the work needed to re engineer these.<br>
+<br>
+My 2 cents.<br>
+<br>
+Neil<br>
+<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+w3c.org/TR/1999/REC-html401-19991224/loose.dtd"><br>
+<br>
+work content --><br>
+/HEAD><br>
+olor=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>My 2<br>
+cents:&lt;/SPAN=<br>
+=3D984493200-01052007>You<br>
+have to find something that is worthwhile to be =<br>
+sold to the general public or<br>
+else it is NOT going to&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+=<br>
+052007>be<br>
+built in a Mass big enough to get the price down to reasonable<br>
+=<br>
+!!&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+AN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DIV><br>
+=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>The<br>
+Mai=<br>
+lstation concept is still doable !!!&nbsp; A lot of people out there do not=<br>
+<br>
+have a computer, do not understand&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+Arial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>how a<br>
+comp=<br>
+uter runs, and do not want to put up with the hassles of owning and<br>
+mainta=<br>
+ining one. This especially&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+r=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>goes<br>
+for the Senior =<br>
+Citizens in this country.&nbsp; &lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+l color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>BUT<br>
+THEY STILL=<br>
+NEED TO BE ABLE TO COMMUNICATE WITH THE&nbsp;&lt;/SPAN>&lt;/FONT>&lt;FONT<br>
+face=3DA=<br>
+rial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>WORLD<br>
+!!!&lt;/=<br>
+SPAN>&lt;/FONT>&lt;FONT face=3DArial color=3D#0000ff size=3D2>&lt;SPAN<br>
+class=3D9844=<br>
+93200-01052007>&nbsp;&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+0000ff size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DIV=<br>
+01052007>I have<br>
+set up several Mailstations for some of my Senior relative=<br>
+s, and although they<br>
+were leery to use it, they&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+FONT face=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007=<br>
+don't know how they would survive without it.&nbsp; The world has gon=<br>
+e from<br>
+written letters to electronic ones, and&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+ONT face=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>=<br>
+the<br>
+electronic ones are there is minutes.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+ace=3DArial color=3D#0000ff size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SP=<br>
+AN>&lt;/FONT>&nbsp;&lt;/DIV><br>
+AN class=3D984493200-01052007>The<br>
+Mailstation just needs to be updated, an=<br>
+d allowed to be used on ANY email server<br>
+unit. This would allow&lt;/SPAN>&lt;/FO=<br>
+NT>&lt;/DIV><br>
+4493200-01052007>the<br>
+user to then search and find the best service for the=<br>
+m and connect the unit to<br>
+it.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+color=3D#0000ff size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&n=<br>
+bsp;&lt;/DIV><br>
+84493200-01052007>The<br>
+new unit should be patterned after the Model 350, wh=<br>
+ich allows the downloading<br>
+of pictures and larger&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+class=3D984493200-01052=<br>
+007>emails.&nbsp; Since memory has come a long way since<br>
+the Mailstation's=<br>
+inception, it is now efficient to include&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+ace=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>large=<br>
+r<br>
+memory in the unit.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+#0000ff size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DI=<br>
+V><br>
+-01052007>Some<br>
+of the faster, laptop CPU's would work with their lower pow=<br>
+er consumption.&nbsp;<br>
+Even a older Pentium chip&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+FONT face=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007=<br>
+still be faster than what the original Mailstation had in<br>
+it.&lt;/SPA=<br>
+N>&lt;/FONT>&lt;/DIV><br>
+cla=<br>
+ss=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DIV><br>
+color=3D#0000ff size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>Biggest problem =<br>
+would be watching to not step on any<br>
+patents that still might be used in t=<br>
+he device.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DIV><br>
+T face=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>Th=<br>
+e<br>
+option of a plug-in WIFI card is a good one, let the option slot take ei=<br>
+ther a<br>
+Modem, WIFI, or Ethernet&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+l color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>plug<br>
+in card. =<br>
+That way whichever service is going to be used can be accommodated<br>
+easily =<br>
+and without having to&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>load<br>
+all that extra circu=<br>
+itry into the unit and not use it. That would also keep the<br>
+cost down for =<br>
+the unit.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>&lt;/SPAN>&lt;/FONT>&nbsp;&lt;/DIV><br>
+T face=3DArial color=3D#0000ff size=3D2>&lt;SPAN class=3D984493200-01052007>Ju=<br>
+st<br>
+my thoughts,&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+f size=3D2>&lt;SPAN<br>
+class=3D984493200-01052007>Wayne&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+class=3D984493200-01052=<br>
+007>Iwireless&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+ize=3D2>&lt;SPAN class=3D984493200-01052007>tempe,<br>
+az.&lt;/SPAN>&lt;/FONT>&lt;/DIV><br>
+LOCKQUOTE><br>
+face=3DTahoma<br>
+size=3D2>-----Original Message-----&lt;BR>&lt;B>From:&lt;/B> mails=<br>
+tation@yahoogroups.com<br>
+[mailto:mailstation@yahoogroups.com]&lt;B>On Behalf =<br>
+Of &lt;/B>Neil<br>
+Morrison&lt;BR>&lt;B>Sent:&lt;/B> Saturday, April 28, 2007 10:52 PM&lt;B=<br>
+R>&lt;B>To:&lt;/B><br>
+mailstation@yahoogroups.com&lt;BR>&lt;B>Subject:&lt;/B> [mailstation=<br>
+] Re:<br>
+Re-engineering the mailstation&lt;BR>&lt;BR>&lt;/FONT>&lt;/DIV><br>
+rp-text><br>
+to&lt;BR>rewrite<br>
+the ROM to provide the functions we want. The internal fax=<br>
+is.&lt;BR>&lt;BR>If you want a WiFi computer, a laptop is=<br>
+now so cheap it isn't<br>
+worth&lt;BR>the work needed to re engineer these.&lt;BR=<br>
+cents.&lt;BR>&lt;BR>Neil&lt;BR>&lt;BR>--- In &lt;A<br>
+href=3D"mailto:mailstat=<br>
+ion%40yahoogroups.com">mailstation@&lt;WBR>yahoogroups.&lt;WBR>com&lt;/A>,<br>
+"donha=<br>
+milton2002"&lt;BR>&lt;donhamilton2002@&lt;WBR>...> wrote:&lt;BR>>&lt;BR>><br>
+H=<br>
+ello all,&lt;BR>> &lt;BR>> Warning: rambling ahead.&lt;BR>> &lt;BR>> I have=<br>
+<br>
+been clearing out stuff in my shop and have found the two&lt;BR>> mails=<br>
+tations<br>
+I hacked a few years ago.&lt;BR>> &lt;BR>> My first thought was =<br>
+to give this<br>
+units away to someone.&lt;BR>> &lt;BR>> My second thought w=<br>
+as to re-engineer<br>
+these units in someway.&lt;BR>> &lt;BR>> Plastic cases=<br>
+are a problem for one<br>
+off projects.&lt;BR>> &lt;BR>> The mailstation is=<br>
+old technology and I would<br>
+like to bring it up to a&lt;BR>> more recent=<br>
+processor.&lt;BR>> &lt;BR>> The<br>
+LCD display and keyboard are as good as=<br>
+any.&lt;BR>> &lt;BR>> The builtin<br>
+battery pack is very usefull.&lt;BR>>=<br>
+people in this group will look=<br>
+for a&lt;BR>> hotspot before using a<br>
+modem.&lt;BR>> &lt;BR>> So, my tho=<br>
+ught is desiging a card that would replace<br>
+the main board in&lt;BR>> the=<br>
+mailstation.&lt;BR>> &lt;BR>> [ Idea 1 ]&lt;BR>><br>
+cpu with a couple of megs of memory (flash/ram),<br>
+an&lt;BR>> ethernet in=<br>
+terface would be nice, but we would be talking about<br>
+a&lt;BR>> $100/$200=<br>
++ retrofit. &lt;BR>> &lt;BR>> Someone to layout the board,<br>
+get them manu=<br>
+factured, put parts on them.&lt;BR>> &lt;BR>> [ Idea 2 ]&lt;BR>><br>
+; A 32 bit single chip cpu with enough memory would make a<br>
+reasonable&lt;BR=<br>
+larger sin=<br>
+gle chip cpus for NXP.&lt;BR>> &lt;BR>> Has anyhone measured out the<br>
+mai=<br>
+n board in the MS ?&lt;BR>> &lt;BR>> The back panel has only a few openings=<br>
+<br>
+but it may be enough.&lt;BR>> &lt;BR>> Add a compact flash for an 802.1=<br>
+1<br>
+interface, an SPI interface for SD&lt;BR>> cards.&lt;BR>> &lt;BR>> [ I=<br>
+dea 3<br>
+]&lt;BR>> &lt;BR>> Finding a low cost cpu board that we can build =<br>
+a carrier to<br>
+plug it&lt;BR>> into the MS plastic.&lt;BR>> &lt;BR>> Ok, w=<br>
+hat do you<br>
+think.&lt;BR>> &lt;BR>> Some summer project to keep us from m=<br>
+owing the lawn<br>
+:-).&lt;BR>> &lt;BR>> don&lt;BR>>&lt;BR>&lt;BR>&lt;/P>&lt;/DIV>&lt;!--En=<br>
+d group email -->&lt;/BLOCKQUOTE>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">May 1, 2007</p>
+<p class="formattedBody">IIRC one or more of these already has a wireless modem (not WiFi though).<br>
+<br>
+=<br>
+Neil<br>
+<br>
+<br>
+e option of a plug-in WIFI card is a good one, let the option slot<br>
+take<br>
+ither a Modem, WIFI, or Ethernet<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: RE: [mailstation] Re: Re-engineering the mailstation</h3>
+<a href="#0">(top)</a><p class="from">From: "wayne" &lt;waynem@...></p>
+<p class="date">May 1, 2007</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+Content-Transfer-Encoding: 7bit<br>
+<br>
+Your thinking of the Model 350. This has a 900 Mhz. wireless connection to<br>
+it's<br>
+plug-in modem unit, so the Model 350 can be used remotely in the room and<br>
+not<br>
+have to be used where the telephone line plugs in.  It is not compatible<br>
+with<br>
+the 2 Gig WIFI stuff.  And changing the wireless unit out in the Model 350<br>
+would<br>
+mean that you would have to get the unit type accepted again by the FCC.<br>
+<br>
+Easiest way is to use an "Option slot" for these. That way it would take<br>
+anyone's<br>
+unit, (Which is already FCC type accepted), and you would not have to mess<br>
+around<br>
+with it.  It would also keep the cost down by not requiring each unit to<br>
+have all three<br>
+hookup cards, (WIFI, Ethernet, Modem) inside the main unit.  I don't see any<br>
+situation<br>
+where you would be using more than one connection type at one time ??<br>
+<br>
+You could go with the Linux software, since it is considered "Freeware", and<br>
+you would<br>
+not have to pay Microsoft any royalties for anything.  But it would require<br>
+more time<br>
+compiling an Operating system for this specific use.  Actually, Linux uses<br>
+less space<br>
+to run than Windows does, and works with more stuff.  The Boot up Kernel can<br>
+be "Edited"<br>
+so as to just allow it to install and access only the drivers and devices<br>
+that you needed it too.<br>
+Unlike Windows, which loads everything under the sun on your system. A lot<br>
+of which is<br>
+not needed for your specific applications.  Linux will run well with even a<br>
+386 cpu and small memory.<br>
+<br>
+The Sendmail program is a tried and true mail program for Linux. There are<br>
+lots of other<br>
+programs for specific uses available for "Free" for Linux at the CPAN web<br>
+site.<br>
+<br>
+Wayne<br>
+Iwireless<br>
+<br>
+From: mailstation@yahoogroups.com [mailto:mailstation@yahoogroups.com]On<br>
+Behalf Of Neil Morrison<br>
+Sent: Monday, April 30, 2007 10:41 PM<br>
+To: mailstation@yahoogroups.com<br>
+Subject: [mailstation] Re: Re-engineering the mailstation<br>
+<br>
+IIRC one or more of these already has a wireless modem (not WiFi though).<br>
+<br>
+Neil<br>
+<br>
+<br>
+take<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+w3c.org/TR/1999/REC-html401-19991224/loose.dtd"><br>
+<br>
+work content --><br>
+/HEAD><br>
+717-01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>Your<br>
+thinking of =<br>
+the Model 350. This has a 900 Mhz.&nbsp;wireless connection to<br>
+it's&lt;/FONT>=<br>
+r=3D#0000ff<br>
+size=3D2>plug-in modem unit, so the Model 350 can be used remo=<br>
+tely in the room and<br>
+not&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>have<br>
+to be used where=<br>
+the telephone line plugs in.&nbsp;&nbsp;It is not compatible<br>
+with&lt;/FONT>&lt;=<br>
+/SPAN>&lt;/DIV><br>
+=3D#0000ff size=3D2>the 2<br>
+Gig WIFI stuff.&nbsp; And changing the&nbsp;wire=<br>
+less unit out in the Model 350<br>
+would&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>mean<br>
+tha=<br>
+t you would have to get the unit type accepted again by the<br>
+FCC.&lt;/FONT>&lt;/S=<br>
+PAN>&lt;/DIV><br>
+SPAN class=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff<br>
+size=3D=<br>
+2>Easiest way is to use an "Option slot" for these. That way&nbsp;it would =<br>
+<br>
+take anyone's&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+ONT face=3DArial color=3D#0000ff size=3D2>unit,<br>
+(Which is already&nbsp;FCC=<br>
+type accepted), and you would not have to mess<br>
+around&lt;/FONT>&lt;/SPAN>&lt;/DIV>=<br>
+<br>
+ize=3D2>with<br>
+it.&nbsp; It would also keep the cost down by not requiring e=<br>
+ach unit to have<br>
+all three&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+7-01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>hookup<br>
+cards, (WIFI=<br>
+, Ethernet, Modem) inside the main unit.&nbsp; I don't see any<br>
+situation&lt;/=<br>
+FONT>&lt;/SPAN>&lt;/DIV><br>
+color=3D#0000ff size=3D2>where<br>
+you would be using&lt;/FONT>&nbsp;&lt;FONT face=<br>
+=3DArial color=3D#0000ff size=3D2>more than<br>
+one connection type at&nbsp;on=<br>
+e time ??&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+ace=3DArial color=3D#0000ff<br>
+size=3D2>&lt;/FONT>&lt;/SPAN>&nbsp;&lt;/DIV><br>
+class=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>You=<br>
+<br>
+could go with the Linux software, since it is considered "Freeware", and =<br>
+you<br>
+would&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+face=3DArial color=3D#0000ff size=3D2>not<br>
+have to pay Microsoft any royalt=<br>
+ies for anything.&nbsp; But it would require<br>
+more time&lt;/FONT>&lt;/SPAN>&lt;/DIV>=<br>
+<br>
+=<br>
+size=3D2>compiling an Operating system for this specific use.&nbsp; Actuall=<br>
+y,<br>
+Linux uses less space&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>to run<br>
+than Windows d=<br>
+oes, and works with more stuff.&nbsp; The Boot up Kernel can be<br>
+"Edited"&lt;/=<br>
+FONT>&lt;/SPAN>&lt;/DIV><br>
+color=3D#0000ff size=3D2>so as<br>
+to just allow it to install and access onl=<br>
+y the drivers and devices that you<br>
+needed it too.&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+=3D2>Unlike<br>
+Windows, which loads everything under the sun on your system. =<br>
+A lot of which<br>
+is&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+7>&lt;FONT face=3DArial color=3D#0000ff size=3D2>not<br>
+needed for your specific=<br>
+applications.&nbsp; Linux will run well with even a 386<br>
+cpu and small mem=<br>
+ory.&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+=3DArial color=3D#0000ff<br>
+size=3D2>&lt;/FONT>&lt;/SPAN>&nbsp;&lt;/DIV><br>
+ass=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff size=3D2>The<br>
+S=<br>
+endmail program is a tried and true mail program for Linux. There are lots =<br>
+of<br>
+other&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+ace=3DArial color=3D#0000ff<br>
+size=3D2>programs for specific uses available =<br>
+for "Free" for Linux at the CPAN web<br>
+site.&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+class=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff<br>
+size=3D2>&lt;/F=<br>
+ONT>&lt;/SPAN>&nbsp;&lt;/DIV><br>
+Arial color=3D#0000ff<br>
+size=3D2>Wayne&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff<br>
+size=3D2>Iwireles=<br>
+s&lt;/FONT>&lt;/SPAN>&lt;/DIV><br>
+ial color=3D#0000ff<br>
+size=3D2>&lt;/FONT>&lt;/SPAN>&nbsp;&lt;/DIV><br>
+=3D682481717-01052007>&lt;FONT face=3DArial color=3D#0000ff<br>
+size=3D2>&lt;/FONT>&lt;=<br>
+/SPAN>&nbsp;&lt;/DIV><br>
+tr align=3Dleft>&lt;FONT face=3DTahoma<br>
+size=3D2>-----Original Message-----&lt;=<br>
+BR>&lt;B>From:&lt;/B> mailstation@yahoogroups.com<br>
+[mailto:mailstation@yahoogro=<br>
+ups.com]&lt;B>On Behalf Of &lt;/B>Neil<br>
+Morrison&lt;BR>&lt;B>Sent:&lt;/B> Monday, April =<br>
+30, 2007 10:41 PM&lt;BR>&lt;B>To:&lt;/B><br>
+mailstation@yahoogroups.com&lt;BR>&lt;B>Subjec=<br>
+t:&lt;/B> [mailstation] Re:<br>
+Re-engineering the mailstation&lt;BR>&lt;BR>&lt;/FONT>&lt;/=<br>
+DIV><br>
+reless modem (not WiFi<br>
+though).&lt;BR>&lt;BR>Neil&lt;BR>&lt;BR>--- In &lt;A<br>
+href=3D"=<br>
+mailto:mailstation%40yahoogroups.com">mailstation@&lt;WBR>yahoogroups.&lt;WBR>com=<br>
+"wayne" &lt;waynem@...> wrote:&lt;BR>&lt;BR>> The option of a plug=<br>
+-in WIFI<br>
+card is a good one, let the option slot&lt;BR>take&lt;BR>> either =<br>
+a Modem, WIFI,<br>
+or Ethernet&lt;BR>> plug in card. &lt;BR>&lt;BR>&lt;/P>&lt;/DIV>&lt;!--E=<br>
+nd group email -->&lt;/BLOCKQUOTE>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

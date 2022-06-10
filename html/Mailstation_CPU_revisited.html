@@ -1,0 +1,773 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Mailstation CPU revisited (Jan 21, 2010)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "cyranojones_lalp" <cyranojones_lalp@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#2">From: "lwoodzw" <lwoodzw@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#3">From: "FyberOptic" <fyberoptic@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#4">From: "FyberOptic" <fyberoptic@...> Jan 22, 2010</a></li>
+<li><a class="link" href="#5">From: "Neil Morrison" <neilsmorr@...> Jan 23, 2010</a></li>
+</ol><hr>
+<hr><h3>Subject: Mailstation CPU revisited</h3>
+<p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 21, 2010</p>
+<p class="formattedBody">I've jump around between Mailstation and semi-Mailstation-related ideas lat=<br>
+ely, and one of them would involve precise timing.  So I was looking at the=<br>
+cycles it takes for the Z80 to execute particular instructions, which even=<br>
+tually led me to taking another look at the Mailstation's "delay" function.=<br>
+<br>
+In the commented disassembly of page 0 for that function, it shows timi=<br>
+ngs of:<br>
+@8MHz, 10634 * 0.125 usec =3D 1.33 msec<br>
+@12MHz 10634 * 0.083 us=<br>
+ec =3D 0.886 msec<br>
+<br>
+Seems to me that if they ran at around like 10mhz, the=<br>
+y would have been much closer to 1ms.  Then I got to wondering if anyone ha=<br>
+d actually proven that the Mailstation can run exactly at these 8 and 12mhz=<br>
+speeds, or if these were simply assumptions.  Has anyone physically tested=<br>
+this somehow to be sure that these are the exact mhz?  That would be impor=<br>
+tant to know.  I would love to just test this myself (among other things on=<br>
+the Mailstation) but I simply have no fancy equipment beyond a multimeter.=<br>
+Oscilloscopes, logic analyzers, etc, all cost way more than I can afford,=<br>
+unfortunately.<br>
+<br>
+Looking at the group here, it seems some Mailstations use =<br>
+a "122AS9Y" crystal.  Mine uses a "122AP98".  12.2mhz?  No way of knowing w=<br>
+ithout having the manufacturer's codes.<br>
+<br>
+I was going to test it with softwa=<br>
+re, but then I came upon another realization.  What if the clock cycles for=<br>
+this chip aren't the same as the Z80?  Various Z80 microcontroller version=<br>
+s I've seen tend to need less clock cycles per instruction.  So this would =<br>
+seem to make testing either the CPU speed or instruction timing via softwar=<br>
+e impossible without knowing one or the other.<br>
+<br>
+I seem to recall someone th=<br>
+inking it was a Rabbit brand chip for the CPU once upon a time.  I've looke=<br>
+d at the lowest Z80-compatible chip they still sell, the Rabbit 2000, and w=<br>
+hile it has some similar hardware features, it's fairly different in most o=<br>
+ther respects.  But it too has the reduced clocks per instruction.  Persona=<br>
+lly I have no reason to think it's from Rabbit than from any other company,=<br>
+based on the part number.<br>
+<br>
+This had me remembering that a lot of these Z80=<br>
+microcontrollers are actually Z180/64180 compatibles, and I got to wonderi=<br>
+ng if anyone had ever actually tested the Mailstation hardware for this or =<br>
+were just basing their Z80 assumption on the disassembly.  So I made a quic=<br>
+k test, loading HL with some values, then doing the Z180 "mlt" instruction =<br>
+on HL, and printing both values to the screen.  The values were the same, m=<br>
+eaning the instruction didn't work.  I even disassembled my binary and it s=<br>
+howed for sure that I had used the right opcode.  So I think if there was s=<br>
+till any doubt, this seems to prove that Z180 capability doesn't exist as f=<br>
+ar as I can figure.<br>
+<br>
+Something else that came to mind is that this chip mig=<br>
+ht actually have some flash memory in it for all we know, like all these ot=<br>
+her Z80 microcontrollers tend to.  I have a Dallas 8052 microcontroller tha=<br>
+t works like this, where the flash can be disabled by pulling a certain pin=<br>
+high or low if you want to use external memory instead.  There could be a =<br>
+code/dataflash loader, diagnostics, or even just be totally empty.<br>
+<br>
+Of cour=<br>
+se, I'm basing my assumptions on more modern chips, where as this thing is =<br>
+10 years old now, and those extra features would have been much more expens=<br>
+ive back then.  So who knows what it has in it, short of someone with a mic=<br>
+roscope pulling it apart and visually identifying things!<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Mailstation CPU revisited</h3>
+<a href="#0">(top)</a><p class="from">From: "cyranojones_lalp" &lt;cyranojones_lalp@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">semi-Mailstation-<br>
+cise<br>
+xecute particular instructions, which eventually<br>
+r look at the Mailstation's "delay"<br>
+assembly of page 0 for that function,<br>
+34 * 0.125 usec =3D 1.33 msec<br>
+=<br>
+been much closer to 1ms.<br>
+<br>
+The mailstation resets to 8 MHz iirc.<br>
+At 0000:=<br>
+1B37 it shifts to 10 MHz.  (I imagine it is<br>
+really 10/12ths of 12.2 MHz + =<br>
+or - crystal tolerance<br>
++ or - temperature drift.)<br>
+<br>
+I seem to recall (but I'=<br>
+d have to check, and I don't<br>
+have time right now) that my mbug code ran ms=<br>
+at 12 MHz.<br>
+<br>
+The numbers are just rough estimates. I ran some tests<br>
+where =<br>
+I counted up the T states a delay would take,<br>
+assuming standard z80 timing.=<br>
+I don't recall exactly,<br>
+but I probably ran it for 1 or maybe 10 minutes, =<br>
+and it<br>
+came out that it was running at pretty close to 8 MHz.<br>
+<br>
+This was at =<br>
+the time that it was assumed (via Cidco<br>
+press releases) that it was a 27 MH=<br>
+z z80.<br>
+<br>
+I wrote bit-banged routines for mbug, assuming 8 MHz.<br>
+<br>
+Later, I dis=<br>
+covered that during ms init, it shifted gears<br>
+to 10 MHz (I suppose I really=<br>
+should say "approximately",<br>
+but it is 10 MHz to us non-Vulcans.)<br>
+<br>
+The wa=<br>
+y I found it was single stepping thru the init,<br>
+till mbug quit responding, =<br>
+right after an "out" to<br>
+port 0x0d.  I wrote a test to set that port in my =<br>
+own code,<br>
+and tested the delay time again.<br>
+<br>
+A little experimentation showe=<br>
+d you could set it to 12 MHz<br>
+(again, "approximately").<br>
+<br>
+From the "datasheet=<br>
+" in file area (it's under partfiles,<br>
+or something like that, where the res=<br>
+t of the datasheets<br>
+are filed):<br>
+<br>
+Port #0D: CPU clock rate.  Resets to 8MHz=<br>
+.<br>
+#f0=3D8MHz<br>
+#30=3D10MHz<br>
+#00=3D12MHz.<br>
+(might be bits 4 & 6 only. bits=<br>
+0-3 dontcare or somthinelse)<br>
+<br>
+The keyboard matrix data is there, too, alon=<br>
+g with LCD.<br>
+I forgot to tell you when you asked a week or so ago.<br>
+Or I shou=<br>
+ld say, I started to reply, but I went to bed<br>
+in middle, and by next day t=<br>
+here was new message that<br>
+I started to reply to...  I think 3 or 4 unfinish=<br>
+ed<br>
+replies to your posts got eaten when sdl locked up<br>
+X windows.<br>
+<br>
+I would =<br>
+guess that since 0 sets clock to ~12 MHz, that<br>
+the undivided clock is ~12 M=<br>
+Hz.<br>
+<br>
+ilstation can run exactly at these 8 and 12mhz speeds,<br>
+simply assumptions.<br>
+<br>
+I guess it depends on your standard of "proven".<br>
+(Cl=<br>
+ose enough for government work, as they say!!!)<br>
+<br>
+sted this somehow to be sure<br>
+e important to know.<br>
+<br>
+I seem to recall rogblake (on linux-hacker board) sai=<br>
+d<br>
+he scoped it.<br>
+<a target="_blank" href="http://www.linux-hacker.net/cgi-bin/UltraBoard/UltraBoard.p=">(URL)</a><br>
+l?Action=3DShowPost&Board=3Dmswhatever&Post=3D12<br>
+<br>
+But he only said it was a=<br>
+lot less... uh, I'll paste it:<br>
+<br>
+"Also, I don't know where the 27 MHz comes=<br>
+in, since probing<br>
+around yielded a clock of about half that. Maybe they =<br>
+have a<br>
+PLL or frequency doubler in the CPU?"<br>
+<br>
+He was talking about an art=<br>
+icle that was on zilog's<br>
+website, but it has been gone for years.  Fortuna=<br>
+tely, a lot<br>
+of what has EVER been on the web is available FOREVER<br>
+thanks =<br>
+to The Wayback Machine.<br>
+<br>
+As long as you know what URL it was at.<br>
+<br>
+<a target="_blank" href="http://=">(URL)</a><br>
+web.archive.org/web/20020927112922/<a target="_blank" href="http://www.zilog.com/about/relatednews/0=">(URL)</a><br>
+22100.html<br>
+<br>
+n the Mailstation) but I simply have no fancy equipment<br>
+ter.  Oscilloscopes, logic analyzers, etc,<br>
+afford, unfortunately.<br>
+<br>
+I don't have those myself, but I have found I rarel=<br>
+y needed<br>
+more than rat-shack meters,and a logic probe.  And the logic<br>
+probe=<br>
+is indispensable IMO.<br>
+<br>
+tions use a<br>
+way of knowing without having the manufacturer's codes.<br>
+<br>
+I am ready to jump=<br>
+to conclusion it is 12.2 MHz.<br>
+<br>
+The only one I have handy (already opened u=<br>
+p) has<br>
+at x101 "122AS99".  x102 is the smaller, and I assume<br>
+it is the rtc =<br>
+xtal (yes, datasheet in file area sez<br>
+the one connected to cpu pins 126 & 1=<br>
+27 is rtc) has<br>
+no number that I can see.<br>
+<br>
+The modem xtal x601 sez "524AP99"=<br>
+and I recall 52 MHz<br>
+was... ok I'll pull up datasheet, the datasheet sez<br>
+th=<br>
+at the xtal is one of 28.224 MHz, 52.416 MHz,<br>
+or 56.448 MHz, depending on =<br>
+chip version.  I can't<br>
+find correlation between numbers on chip and datashe=<br>
+et,<br>
+but, once again, I am ready to jump to conclusion<br>
+that the 524 stamped =<br>
+on my xtal means 52.4 MHz,<br>
+and therefore my modem chip is the 52 MHz, uh<br>
+52=<br>
+.416 MHz version.<br>
+<br>
+I am also gonna jump to conclusion that the 99 in<br>
+the xt=<br>
+al numbers means they were made in 1999,<br>
+coz that's just the kind of guy I =<br>
+am, always jumping<br>
+to conclusions!  That, and I know that they often stamp=<br>
+<br>
+date codes on electronic parts.<br>
+<br>
+ut then I came upon another realization.  What if the clock cycles for this=<br>
+chip aren't the same as the Z80?  Various Z80 microcontroller versions I'v=<br>
+e seen tend to need less clock cycles per instruction.  So this would seem =<br>
+to make testing either the CPU speed or instruction timing via software imp=<br>
+ossible without knowing one or the other.<br>
+<br>
+I also have wondered about that=<br>
+, but I see no evidence of<br>
+it, and plenty of evidence points to normal z80.=<br>
+<br>
+On a related idea, I noticed that the c code uses very few<br>
+op-codes.  The=<br>
+page 00 code uses some z80 opcodes, such as<br>
+indexed addressing mode, but i=<br>
+t is also not as obviously<br>
+c compiler generated, as the higher pages all se=<br>
+em to be.<br>
+<br>
+I don't believe any higher pages ever use index regs.<br>
+<br>
+So, I won=<br>
+der if maybe they used just 8080 opcodes, and the<br>
+compiler was really an 80=<br>
+80 compiler?<br>
+<br>
+It really does not matter, though!  And I am not gonna<br>
+take =<br>
+a lot of my time to check it out.<br>
+<br>
+as a Rabbit brand chip for the CPU once upon a time.  I've looked at the lo=<br>
+west Z80-compatible chip they still sell, the Rabbit 2000, and while it has=<br>
+some similar hardware features, it's fairly different in most other respec=<br>
+ts.  But it too has the reduced clocks per instruction.  Personally I have =<br>
+no reason to think it's from Rabbit than from any other company, based on t=<br>
+he part number.<br>
+<br>
+I can't count how many hours I have spent researching<br>
+that=<br>
+damn cpu, but it is way more than 10, prob more<br>
+like 50!  The only eviden=<br>
+ce for "rabbit" is some guy<br>
+once posted on linux-hacker that "maybe" the RS=<br>
+in RSDRD<br>
+meant Rabbit Semi.  He did not do any research to<br>
+back up his spe=<br>
+culation.  But then I started getting<br>
+google hits on other embedded system=<br>
+boards, where<br>
+idiots were posting that it WAS a rabbit part.  But the<br>
+only=<br>
+research *they* did was to skim linux-hacker board.<br>
+<br>
+It's scary how easy r=<br>
+umor turns to fact on the net.<br>
+<br>
+Now, I spent quite a bit of my time looking=<br>
+at the<br>
+rabbit parts, and came to conclusion only similarity<br>
+was z80 code. =<br>
+And then a year or two later some asshole<br>
+posts that he checked, and some =<br>
+pins lined up with<br>
+something or other on a rabbit part.  So I spent an<br>
+hou=<br>
+r or so once again, seeing if I had missed something.<br>
+<br>
+And the conclusion I=<br>
+came to was it was too bad<br>
+that they let just anybody post stuff on the ne=<br>
+t.<br>
+<br>
+It really is odd how some people will just throw<br>
+guesses out, as if the=<br>
+y had some inside knowledge,<br>
+as if that is somehow advancing the effort.<br>
+<br>
+=<br>
+ally Z180/64180 compatibles, and I got to wondering if anyone had ever actu=<br>
+ally tested the Mailstation hardware for this or were just basing their Z80=<br>
+assumption on the disassembly.  So I made a quick test, loading HL with so=<br>
+me values, then doing the Z180 "mlt" instruction on HL, and printing both v=<br>
+alues to the screen.  The values were the same, meaning the instruction did=<br>
+n't work.  I even disassembled my binary and it showed for sure that I had =<br>
+used the right opcode.  So I think if there was still any doubt, this seems=<br>
+to prove that Z180 capability doesn't exist as far as I can figure.<br>
+<br>
+At le=<br>
+ast you tested your hypothesis yourself.  :-)<br>
+<br>
+o mind is that this chip might actually have some flash memory in it for al=<br>
+l we know, like all these other Z80 microcontrollers tend to.  I have a Dal=<br>
+las 8052 microcontroller that works like this, where the flash can be disab=<br>
+led by pulling a certain pin high or low if you want to use external memory=<br>
+instead.  There could be a code/dataflash loader, diagnostics, or even jus=<br>
+t be totally empty.<br>
+<br>
+I HIGHLY doubt it.  If it really was a standard part, =<br>
+it might,<br>
+but my hunch is that it is a semi-custom asic, made on<br>
+a plain ol=<br>
+d gate array, that just did not have the capability<br>
+to create flash cells f=<br>
+rom the gates.  Almost anyone (with<br>
+the right skills) who is willing to buy=<br>
+in the quantity<br>
+necessary to justify the up-front engineering costs, can<br>
+o=<br>
+rder up a semi-custom asic.  And I am not talking about<br>
+CPLD's, I mean the =<br>
+kind where the gates are connected up<br>
+in the final metalization layers of t=<br>
+he production process.<br>
+<br>
+I suspect that is the reason Parallax's "Propeller"=<br>
+<br>
+CPU does not have flash onboard, but I am just guessing.<br>
+And in case anyon=<br>
+e is thinking of propagating that<br>
+as fact, I'll repeat: I AM JUST GUESSING.=<br>
+<br>
+s thing is 10 years old now, and those extra features would have been much =<br>
+more expensive back then.  So who knows what it has in it, short of someone=<br>
+with a microscope pulling it apart and visually identifying things!<br>
+<br>
+Right=<br>
+.  I imagine there may be stuff in there we will never know<br>
+about.  All (or=<br>
+most) of my research into this ms has been<br>
+exploring how it is used in th=<br>
+e ms code.  If they did not<br>
+use a feature, I probably won't know about it.<br>
+=<br>
+<br>
+I know some peoples idea of how to hack the ms involved<br>
+(what I call crazy=<br>
+) ideas of keeping a database of all possible<br>
+key combos, and just brute fo=<br>
+rce trying them!!!!<br>
+<br>
+This is just insane, IMO.  But I never liked the "sear=<br>
+ch<br>
+for the hidden rooms" aspect of games, such as Doom.  I<br>
+mean, blowing th=<br>
+e hell out of the bad guys is FUN, but<br>
+feeling around every nook and cranny=<br>
+to find hidden<br>
+rooms - B-O-R-I-N-G!!!!!!<br>
+<br>
+I'd sooner disassemble it, and f=<br>
+ind the rooms that way.<br>
+That would actually be a lot more fun!!!<br>
+<br>
+CJ<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Mailstation CPU revisited</h3>
+<a href="#0">(top)</a><p class="from">From: "lwoodzw" &lt;lwoodzw@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">Hah -- someone just asked me today if I had ever heard of the "RSDRD" so=<br>
+I went to look it up...  and found this post.<br>
+<br>
+As someone who has worked o=<br>
+n the processor designs for Rabbit Semiconductor since 1999, I can _guarant=<br>
+ee_ you that the MailStation CPU is not a Rabbit processor :v)<br>
+<br>
+-Lynn<br>
+=<br>
+<br>
+...> wrote:<br>
+chip for the CPU once upon a time.  I've looked at the<br>
+tible chip they still sell, the Rabbit<br>
+lar hardware features,<br>
+ut it<br>
+e no reason to think it's from Rabbit than from<br>
+on the part number.<br>
+<br>
+ing<br>
+only evidence for "rabbit" is some guy<br>
+"maybe" the RS in RSDRD<br>
+<br>
+ther embedded system boards, where<br>
+it part.  But the<br>
+.<br>
+t quite a bit of my time looking at the<br>
+ion only similarity<br>
+ole<br>
+er on a rabbit part.  So I spent an<br>
+ad missed something.<br>
+that they let just anybody post stuff on the net.<br>
+w some people will just throw<br>
+wledge,<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Mailstation CPU revisited</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">=<br>
+I went to look it up...  and found this post.<br>
+d on the processor designs for Rabbit Semiconductor since 1999, I can _guar=<br>
+antee_ you that the MailStation CPU is not a Rabbit processor :v)<br>
+-Lynn<br>
+<br>
+I've gotta give props to you folks at Rabbit, because it was in fa=<br>
+ct me who emailed earlier to ask about it!  Not only did I not expect such =<br>
+a quick response via email, but I didn't expect to have the question passed=<br>
+on to someone who was involved in ASIC design there.  So many companies th=<br>
+ese days give you unhelpful stock responses to everything, so it's a pleasa=<br>
+nt surprise when you find one which actually takes the time to try and help=<br>
+.  I certainly appreciated it.<br>
+<br>
+I was going to actually mention here about =<br>
+the response I got via email and how you guys had tried to help, but I thin=<br>
+k this takes care of that!<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Mailstation CPU revisited</h3>
+<a href="#0">(top)</a><p class="from">From: "FyberOptic" &lt;fyberoptic@...></p>
+<p class="date">Jan 22, 2010</p>
+<p class="formattedBody">p@...> wrote:<br>
+8MHz<br>
+dontcare or somthinelse)<br>
+MHz, that<br>
+<br>
+Some of the Z80 microcontroll=<br>
+ers have a divider as well as multiplier.  Usually just 2x on the latter.  =<br>
+I wonder if one of the upper four bits enables that, combined with the divi=<br>
+der value?  If you had 12 * 2, then divided by 3, you'd get 8 (going by the=<br>
+rounded-off mhz values listed above, that is).  I mention that since the a=<br>
+ssumed 8mhz speed is the only one listed which sets bit 7.  Not that that m=<br>
+eans anything at this point, but it's worth pointing out.<br>
+<br>
+Many times divid=<br>
+ers are even numbers, so I dunno.  Not that it's hard to do odd, though.  O=<br>
+nly takes a couple flip-flops to divide by 3.<br>
+<br>
+In my tinkering before, I fo=<br>
+und that setting bits 0-2 made the Mailstation run noticeably slower.  I do=<br>
+n't remember what method I used to determine this, nor would you ever reall=<br>
+y know if it was the CPU speed causing it, or maybe repeated interrupts (li=<br>
+ke a watchdog timer or something) bringing it to a crawl (by running the in=<br>
+terrupt routine), or what.  It'd take more research, which I'll get to one =<br>
+of these days I guess!<br>
+<br>
+t to bed<br>
+ed to reply to...  I think 3 or 4 unfinished<br>
+aten when sdl locked up<br>
+<br>
+I copy/paste the reply text into m=<br>
+y text editor and type my response there.  I think I've actually lost some =<br>
+responses to this group before myself.  Between possible browser crashes, p=<br>
+ower outages, or whatever crazy event might take place, I'd rather just typ=<br>
+e it once, since obviously some of these posts can be rather long.<br>
+<br>
+He was talking about an article that was on zilog's<br>
+been gone for years.  Fortunately, a lot<br>
+b is available FOREVER<br>
+<br>
+I've tried t=<br>
+o see what was once on that badcluster.ar website via the Wayback Machine, =<br>
+but never had any luck.  I've always wondered what Mailstation info might h=<br>
+ave been posted there.<br>
+<br>
+d I rarely needed<br>
+logic<br>
+<br>
+I don't have the logic probe, but it m=<br>
+ight be worth spending money on sometime, since they can apparently differe=<br>
+ntiate between active and pulsing.  That would be handy, rather than the po=<br>
+or man's method of sticking a meter on it.<br>
+<br>
+nclusion it is 12.2 MHz.<br>
+has<br>
+c xtal (yes, datasheet in file area sez<br>
+& 127 is rtc) has<br>
+<br>
+I thought the post was h=<br>
+ere, but apparently it was an actual email response and not just a Yahoo gr=<br>
+oup notification.<br>
+<br>
+Anyhow, a fellow named Steve has tested the crystals wit=<br>
+h his scope.  I haven't seen him post here before, but the info is certainl=<br>
+y appreciated!<br>
+<br>
+Here's what he found:<br>
+<br>
+I just checked the crystals in my Ci=<br>
+dco DET1-01 with my scope.<br>
+X101: 122AS96 12.2MHz<br>
+X102: 32.8kHz<br>
+X601: turned=<br>
+off (for modem?)<br>
+<br>
+<br>
+ne of 28.224 MHz, 52.416 MHz,<br>
+I can't<br>
+nce again, I am ready to jump to conclusion<br>
+al means 52.4 MHz,<br>
+MHz version.<br>
+<br>
+I looked up how to know which chip needed which crystal befo=<br>
+re, but danged if I can remember now.<br>
+<br>
+My modem crystal is "524AS97"<br>
+<br>
+It's =<br>
+worth pointing out that the chip in my Mailstation is the "SP" variety, whi=<br>
+ch means it has speakerphone capability.  Seems kind of a waste, because I'=<br>
+m fairly sure there's no microphone.<br>
+<br>
+ion that the 99 in<br>
+hat's just the kind of guy I am, always jumping<br>
+nd I know that they often stamp<br>
+<br>
+If that'=<br>
+s the case, mine is from 97.  And my CPU crystal would be from 98.  Seems a=<br>
+reasonable-enough conclusion for me!<br>
+<br>
+software, but then I came upon another realization.  What if the clock cycl=<br>
+es for this chip aren't the same as the Z80?  Various Z80 microcontroller v=<br>
+ersions I've seen tend to need less clock cycles per instruction.  So this =<br>
+would seem to make testing either the CPU speed or instruction timing via s=<br>
+oftware impossible without knowing one or the other.<br>
+ndered about that, but I see no evidence of<br>
+ints to normal z80.<br>
+<br>
+Well now that it's pretty much certain to be 12.2mh=<br>
+z, I think it should be easy now to deduce opcode timing to ensure that it =<br>
+uses the traditional speeds.  It's just another one of those "whenever I ge=<br>
+t around to it" things!<br>
+<br>
+uses very few<br>
+=<br>
+erated, as the higher pages all seem to be.<br>
+pages ever use index regs.<br>
+opcodes, and the<br>
+s not matter, though!  And I am not gonna<br>
+it out.<br>
+<br>
+I've also noticed that some seems to be actual assembly and other=<br>
+code seems much more generated.  Though for curiosity's sake I went and to=<br>
+ok a peek at your 8080 assumption, and you may be right.  There's lots if u=<br>
+se of the index registers throughout the later pages (as seen when I do a g=<br>
+rep for it), but when I actually took a quick look at where some of them we=<br>
+re, they didn't appear in functions which started out being "localized".  S=<br>
+o they may very well have used an 8080 C compiler.  That, or never turned o=<br>
+n Z80 extensions for whatever they used.<br>
+<br>
+This is related to why I wanted t=<br>
+o check for sure on Z180 support.  I thought they might have just written t=<br>
+he OS with a Z80-based compiler, which would have been why no Z180 opcodes =<br>
+were ever found in it.  But apparently that's not the case, unfortunately. =<br>
+I sure would like having those multiplication instructions!<br>
+<br>
+ount how many hours I have spent researching<br>
+more than 10, prob more<br>
+<br>
+I've done a little digging on a few=<br>
+occasions, though not nearly as much as you apparently, but without any lu=<br>
+ck.  But I sent Rabbit an email today, and it turns out they weren't involv=<br>
+ed (as witnessed by one of their own responding here too, even!), so I thin=<br>
+k we put that assumption to rest.  I thought about contacting Zilog too, ev=<br>
+en, but I have a feeling I won't have as much luck with an answer as I did =<br>
+with Rabbit.<br>
+<br>
+t might,<br>
+old gate array, that just did not have the capability<br>
+lls from the gates.  Almost anyone (with<br>
+to buy in the quantity<br>
+ts, can<br>
+, I mean the kind where the gates are connected up<br>
+ion layers of the production process.<br>
+<br>
+Well you seem to know way more ab=<br>
+out the production of that sort of stuff than me so I'll take your word for=<br>
+it.  It would make sense anyway, since as I mentioned before, those things=<br>
+would have been a lot more expensive back then.  It probably would have be=<br>
+en cheaper to make a custom chip than to use a stock one with wasted resour=<br>
+ces, especially considering the price of flash memory back then.<br>
+<br>
+That said=<br>
+, I would love to get into CPLDs and such some day.  Or hell even older thi=<br>
+ngs like GAL chips for that matter.  Problem with this sort of stuff for me=<br>
+though is in the cost of the device programmers and all.  But it'd sure be=<br>
+nice to have a single chip taking care of all the address decoding for an =<br>
+entire project!<br>
+<br>
+CPU does not have flash onboard, but I am just guessing.<br>
+ne is thinking of propagating that<br>
+NG.<br>
+<br>
+So are you saying that's definitely the reason Parallax's chip doesn't=<br>
+have flash onboard?  ;)<br>
+<br>
+ere we will never know<br>
+has been<br>
+a feature, I probably won't know about it.<br>
+f how to hack the ms involved<br>
+base of all possible<br>
+=<br>
+rooms" aspect of games, such as Doom.  I<br>
+he bad guys is FUN, but<br>
+en<br>
+rooms that way.<br>
+<br>
+It takes al=<br>
+l kinds, I always say.  Those are the kinds of folks who would put bombs on=<br>
+every bush and rock in Zelda trying to find secret passages.  But as it tu=<br>
+rned out, that kind of mindset wasn't a bad thing for something like that!<br>
+=<br>
+<br>
+I always liked to find ways to "break" things, or rather to get them to do=<br>
+what they're not supposed to.  On the subject of video games, I remember t=<br>
+rying forever to bust outside of the track in Stunt Race FX on SNES (if you=<br>
+'ve ever heard of it).  For all I knew, it was impossible.  But finally, on=<br>
+e day, I found the perfect spot on one of the tracks to do it, by driving b=<br>
+ackwards up one of the downward slopes and jumping/slamming into the invisi=<br>
+ble barrier.  I must have gone over a spot they didn't block off, but I got=<br>
+past it either way.  Of course, it was totally useless to drive around out=<br>
+side the track, but you weren't supposed to be able to do it!<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Mailstation CPU revisited</h3>
+<a href="#0">(top)</a><p class="from">From: "Neil Morrison" &lt;neilsmorr@...></p>
+<p class="date">Jan 23, 2010</p>
+<p class="formattedBody">charset="iso-8859-1"<br>
+<br>
+Possibly the original design was based on an 8080 and they didn't bother to=<br>
+change it. Or their development system only emitted 8080 code.<br>
+<br>
+All the TR=<br>
+S-80 computers used a Z80 but the BASIC code for the interpreters was 8080 =<br>
+because that's what Microsoft's system emitted.<br>
+<br>
+Some I/O was done in Z-80 =<br>
+because it was hand written.<br>
+<br>
+Neil<br>
+<br>
+From: FyberOptic<br>
+<br>
+I've also noticed t=<br>
+hat some seems to be actual assembly and other code seems much more generat=<br>
+ed. Though for curiosity's sake I went and took a peek at your 8080 assumpt=<br>
+ion, and you may be right. There's lots if use of the index registers throu=<br>
+ghout the later pages (as seen when I do a grep for it), but when I actuall=<br>
+y took a quick look at where some of them were, they didn't appear in funct=<br>
+ions which started out being "localized". So they may very well have used a=<br>
+n 8080 C compiler. That, or never turned on Z80 extensions for whatever the=<br>
+y used.<br>
+<br>
+This is related to why I wanted to check for sure on Z180 support.=<br>
+I thought they might have just written the OS with a Z80-based compiler, w=<br>
+hich would have been why no Z180 opcodes were ever found in it. But apparen=<br>
+tly that's not the case, unfortunately. I sure would like having those mult=<br>
+iplication instructions!<br>
+<br>
+charset="iso-8859-1"<br>
+<br>
+<br>
+=<br>
+=3DMailContainerBody<br>
+style=3D"PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PAD=<br>
+DING-TOP: 15px; BACKGROUND-COLOR: #fff"<br>
+leftMargin=3D0 topMargin=3D0 Canva=<br>
+sTabStop=3D"true" name=3D"Compose message area"><br>
+ze=3D2>Possibly the original design was based on an 8080<br>
+and they didn't b=<br>
+other to change it. Or their development system only emitted<br>
+8080 code.&lt;/F=<br>
+ONT>&lt;/DIV><br>
+face=3DArial size=3D2>All the TRS-80 computers used a Z80 but the BASIC<br>
+co=<br>
+de for the interpreters was 8080 because that's what Microsoft's system<br>
+em=<br>
+itted.&lt;/FONT>&lt;/DIV><br>
+IV>&lt;FONT face=3DArial size=3D2>Some I/O was done in Z-80 because it was han=<br>
+d<br>
+written.&lt;/FONT>&lt;/DIV><br>
+V><br>
+0pt Tahoma"><br>
+OUND: #f5f5f5"><br>
+beroptic@...<br>
+href=3D"mailto:fyberoptic@...">FyberOptic&lt;/A> &lt;/D=<br>
+IV><br>
+be actual<br>
+assembly and other code seems much more generated. Though for c=<br>
+uriosity's sake I<br>
+went and took a peek at your 8080 assumption, and you ma=<br>
+y be right. There's lots<br>
+if use of the index registers throughout the late=<br>
+r pages (as seen when I do a<br>
+grep for it), but when I actually took a quic=<br>
+k look at where some of them were,<br>
+they didn't appear in functions which s=<br>
+tarted out being "localized". So they may<br>
+very well have used an 8080 C co=<br>
+mpiler. That, or never turned on Z80 extensions<br>
+for whatever they used.&lt;BR=<br>
+on Z180 support. I =<br>
+thought they might have just written the OS with a Z80-based<br>
+compiler, whi=<br>
+ch would have been why no Z180 opcodes were ever found in it. But<br>
+apparent=<br>
+ly that's not the case, unfortunately. I sure would like having those<br>
+mult=<br>
+iplication instructions!&lt;BR>&lt;/DIV>&lt;/DIV>&lt;/DIV>&lt;/BODY>&lt;/HTML><br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

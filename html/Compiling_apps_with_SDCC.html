@@ -1,0 +1,154 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Compiling apps with SDCC (Dec 14, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: Compiling apps with SDCC</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Dec 14, 2007</p>
+<p class="formattedBody">; SDCC crt0.s for a mailstation app<br>
+<br>
+.module  crt0<br>
+<br>
+.globl	_eventhandler=<br>
+<br>
+.globl	_graphics<br>
+.globl	_strings<br>
+.globl	_dunno<br>
+.globl	_install<br>
+=<br>
+<br>
+.area	_CODE<br>
+jp		_eventhandler<br>
+.dw		_graphics<br>
+.dw		_strings<br>
+.d=<br>
+w		_dunno<br>
+jp		_install<br>
+<br>
+.area	_HOME<br>
+.area   _GSINIT<br>
+_gsinit::<br>
+.area   _=<br>
+GSFINAL<br>
+ret<br>
+<br>
+.area	_DATA<br>
+.area   _BSS<br>
+.area   _HEAP<br>
+<br>
+; Rather than d=<br>
+isturb the simplicity of the above code,<br>
+; I will put the comments down he=<br>
+re.<br>
+;<br>
+; ".module crt0" simply defines a name for the linker to use<br>
+; if it=<br>
+needs to report where an undefined symbol was used.<br>
+;<br>
+; ".globl somesymbol=<br>
+" tells the assembler that somesymbol<br>
+; will not be resolved until link ti=<br>
+me.<br>
+;<br>
+; ".area SOMEAREA" lets the linker group similar types of<br>
+; code or =<br>
+data from the various modules, into single<br>
+; contiguous areas in memory.  =<br>
+<br>
+;<br>
+; This first code area will be the entrypoint to our code.<br>
+; It is man=<br>
+datory that crt0.o be the first module linked<br>
+; for this reason.<br>
+;<br>
+; Here=<br>
+we just make a jump to "eventhandler", and<br>
+; leave a couple of pointers to=<br>
+resource data.  The<br>
+; mailstation firmware expects these to be at the hea=<br>
+d of<br>
+; any app.  I added a jump to an install routine, just so<br>
+; it too c=<br>
+an have a fixed address.<br>
+;<br>
+; We mention all the areas that our program will=<br>
+use to<br>
+; force the linker to place them in a particular order.<br>
+; The _CO=<br>
+DE & _DATA segments will be pegged to particular<br>
+; addresses by the link c=<br>
+ommand. _HOME, _GSINIT, & _GSFINAL<br>
+; will be in ROM, after the code segmen=<br>
+t.  _BSS & _HEAP<br>
+; will be in RAM, after the data segment<br>
+;<br>
+; The compiler=<br>
+will place any code for initializing globals<br>
+; into the _GSINIT section. =<br>
+Here, we place a label as the<br>
+; first thing in _GSINIT, and a "ret" as th=<br>
+e last thing,<br>
+; allowing the globals defined in all modules to be run<br>
+; w=<br>
+ith a single call to _gsinit.<br>
+;<br>
+; Just what is crt0?<br>
+;<br>
+; crt0.o is a module=<br>
+that is automatically linked by SDCC<br>
+; when you link your code.  I imagin=<br>
+e historically it<br>
+; contained code to run a crt terminal.  Now SDCC uses i=<br>
+t<br>
+; to link any sort of startup code you may need for your<br>
+; program.  Ty=<br>
+pically this would be:<br>
+;<br>
+;  1) init stack pointer.<br>
+;  2) set up interrupt=<br>
+s.<br>
+;  3) init the globals.<br>
+;  4) call your "main" function.<br>
+;  5) imple=<br>
+ment any exit code needed.<br>
+;<br>
+; We don't do any of that!  :-)<br>
+;<br>
+; Since we a=<br>
+re going to run under the mailstations<br>
+; existing OS, we can skip 1 & 2, '=<br>
+coz they are done<br>
+; for us by ms firmware.<br>
+;<br>
+; We skip number 3 because =<br>
+our code is just an event<br>
+; handler, and we do not want our globals re-ini=<br>
+t'ed on<br>
+; every event.  We will let our code call gsinit itself,<br>
+; when i=<br>
+t receives a "sig_init" from the mailstation's OS.<br>
+;<br>
+; As for 4 & 5, we don=<br>
+'t need any exit code, we just<br>
+; return to the ms OS after each event we p=<br>
+rocess.<br>
+; Since we don't need to come back here, rather than<br>
+; call the =<br>
+"main" func, we just jump to it.  This has<br>
+; the added advantage of leavin=<br>
+g the stack-frame as is,<br>
+; so we can access the passed event directly.<br>
+;<br>
+;=<br>
+Voil=E0!<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

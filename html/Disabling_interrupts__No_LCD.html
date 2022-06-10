@@ -1,0 +1,1721 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Disabling interrupts = No LCD? (Aug 3, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Jeff" <fyberoptic1979@...> Aug 4, 2007</a></li>
+<li><a class="link" href="#2">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 5, 2007</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 5, 2007</a></li>
+<li><a class="link" href="#4">From: "Jeff" <fyberoptic1979@...> Aug 5, 2007</a></li>
+<li><a class="link" href="#5">From: "Jeff" <fyberoptic1979@...> Aug 5, 2007</a></li>
+<li><a class="link" href="#6">From: "Jeff" <fyberoptic1979@...> Aug 5, 2007</a></li>
+<li><a class="link" href="#7">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 6, 2007</a></li>
+<li><a class="link" href="#8">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 6, 2007</a></li>
+<li><a class="link" href="#9">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 6, 2007</a></li>
+<li><a class="link" href="#10">From: "Jeff" <fyberoptic1979@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#11">From: "Jeff" <fyberoptic1979@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#12">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 8, 2007</a></li>
+<li><a class="link" href="#13">From: "Jeff" <fyberoptic1979@...> Aug 14, 2007</a></li>
+<li><a class="link" href="#14">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 15, 2007</a></li>
+<li><a class="link" href="#15">From: "Jeff" <fyberoptic1979@...> Aug 16, 2007</a></li>
+<li><a class="link" href="#16">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 18, 2007</a></li>
+<li><a class="link" href="#17">From: "Jeff" <fyberoptic1979@...> Aug 20, 2007</a></li>
+<li><a class="link" href="#18">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 22, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: Disabling interrupts = No LCD?</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 3, 2007</p>
+<p class="formattedBody">After finally realizing the simplest of bugs which was keeping my app<br>
+to t=<br>
+ransfer code from the pc to mailstation ram from working (didn't<br>
+realize 1=<br>
+6-bit dec didn't set the zero flag, doh), I've finally<br>
+gotten to mucking a=<br>
+round much more.  Particularly since it doesn't<br>
+require typing in hex code=<br>
+anymore!<br>
+<br>
+But I found something strange.  Basically, with interrupts disab=<br>
+led,<br>
+whenever I have the LCD set to accept the current column with the cas=<br>
+<br>
+bit in port 2, and then write my column, the lcd goes blank.  When I<br>
+wri=<br>
+te to it without cas, it just kind of flickers I think.  But<br>
+commenting ou=<br>
+t that simple 'di' instruction makes everything work<br>
+like a charm again.<br>
+<br>
+=<br>
+More tinkering seems to reveal that I can still update the screen and<br>
+ever=<br>
+ything behind the scenes, then when I reenable interrupts again<br>
+afterwards=<br>
+, the screen shows up again properly, with all the data I<br>
+set while it was=<br>
+"off".<br>
+<br>
+Anyone know why the lcd goes away without'em enabled?<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 4, 2007</p>
+<p class="formattedBody"><br>
+I thought this was LCD-related enough to reply to my own topic.  The<br>
+circl=<br>
+ed emoticon is coincidentally pretty much the expression I had once<br>
+I was f=<br>
+inished writing the code both to convert the original CGA 8x8<br>
+font into an =<br>
+assembly include file (thanks to Perl). =A0That, as well<br>
+as all the other h=<br>
+ours of code on the PC and Mailstation side today in<br>
+order to easily transf=<br>
+er code back and forth, to allow me to start<br>
+writing LCD routines for a tex=<br>
+t mode (to use less ram for a video buffer<br>
+than in "graphics" mode).<br>
+<br>
+Anyho=<br>
+o, I got a chuckle out of it, nonetheless!<br>
+<br>
+<br>
+rcled emoticon is coincidentally pretty much the expression I had once I wa=<br>
+s finished writing the code both to convert the original CGA 8x8 font into =<br>
+an assembly include file (thanks to Perl). =A0That, as well as all the othe=<br>
+r hours of code on the PC and Mailstation side today in order to easily tra=<br>
+nsfer code back and forth, to allow me to start writing LCD routines for a =<br>
+text mode (to use less ram for a video buffer than in "graphics" mode).&lt;BR>=<br>
+://www.fybertech.com/lab/mailstation-O_o.jpg">&lt;BR>&lt;BR><br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 5, 2007</p>
+<p class="formattedBody">After finally realizing the simplest of bugs which was keeping my app<br>
+transfer code from the pc to mailstation ram from working (didn't<br>
+ze 16-bit dec didn't set the zero flag, doh),<br>
+<br>
+Computers can be awfully ni=<br>
+t-picky, can't they?  :-)<br>
+<br>
+more.  Particularly since it doesn't<br>
+<br>
+I'm working on an app that will load other apps, if I get<br>
+enough time th=<br>
+is weekend....<br>
+<br>
+ts disabled,<br>
+th the cas<br>
+When I<br>
+<br>
+e a charm again.<br>
+<br>
+Are you using the port 2 shadow var????  And, it just occ=<br>
+ured<br>
+to me as I typed that, I don't know if we know it's address in<br>
+3.03a. =<br>
+Port 2.7 needs to be "1" to keep the LCD on.<br>
+<br>
+eveal that I can still update the screen and<br>
+s, then when I reenable interrupts again<br>
+again properly, with all the data I<br>
+<br>
+While ints=<br>
+are disabled, the mailstation gears pretty much stop<br>
+turning.  After you =<br>
+reenable them, it won't be long till ms writes<br>
+something to port #02, and i=<br>
+t will use the shadow that has<br>
+bit 7 set???  Just a guess.<br>
+<br>
+why the lcd goes away without'em enabled?<br>
+<br>
+I don't particulary recall this =<br>
+behavior, and I do think I<br>
+have had display on while ints were disabled.<br>
+<br>
+-=<br>
+-CJ<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 5, 2007</p>
+<p class="formattedBody">I thought this was LCD-related enough to reply to my own topic.  The<br>
+cled emoticon is coincidentally pretty much the expression I had once<br>
+<br>
+He l=<br>
+ooks as if he has been staring at tiny pixels for too long, kinda<br>
+bleary ey=<br>
+ed???<br>
+<br>
+x8<br>
+as all the other hours of code on the PC and Mailstation side today in<br>
+der to easily transfer code back and forth, to allow me to start<br>
+LCD routines for a text mode (to use less ram for a video buffer<br>
+"graphics" mode).<br>
+<br>
+I uploaded a rendering of the ms fonts and icons.<br>
+http:/=<br>
+/tech.groups.yahoo.com/group/mailstation/files/Mailbug/253yr/<br>
+<br>
+The fonts ar=<br>
+e probably mostly the same, if not exactly, for<br>
+all versions????   There's=<br>
+both an eMessage icon, and Mailstation<br>
+icon in this 2.53yr rom.<br>
+<br>
+I also r=<br>
+ecently uploaded some assembler code to<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group=">(URL)</a><br>
+/mailstation/files/Mailbug/include/<br>
+<br>
+There is code for the "tribble link" i=<br>
+nterface, and another<br>
+file with a bunch of equ's for the ms firmware routi=<br>
+nes<br>
+that I have been using, and some scrolling text output code, too.<br>
+<br>
+Hey,=<br>
+how did you embed the graphic???  I didn't think we could<br>
+post html to the=<br>
+list?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 5, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+=<br>
+Port 2.7 needs to be "1" to keep the LCD on.<br>
+<br>
+led, the mailstation gears pretty much stop<br>
+them, it won't be long till ms writes<br>
+use the shadow that has<br>
+<br>
+I'm not using t=<br>
+he shadow bit (which is at 0xDBA5 on 3.03a), but I<br>
+made sure to set all th=<br>
+e bits correctly when writing to port 2.  The<br>
+LCD bit is kept on at all ti=<br>
+mes.  As I said before, the screen<br>
+doesn't actually go off until I attempt=<br>
+to write the current column<br>
+to the LCD during cas.  Until I do that, the =<br>
+LCD is still on, even<br>
+after I setup port 2 and cas, and even with interrup=<br>
+ts disabled.<br>
+It's just when writing the column that makes it turn off whe=<br>
+n the<br>
+interrupts are disabled.  When I remove only the "di" instruction<br>
+f=<br>
+rom my code, it all works just fine again.  This is why it doesn't<br>
+make se=<br>
+nse to me.<br>
+<br>
+I thought about trying to use my trick to steal the interrupt r=<br>
+outine<br>
+and just immediately ei/reti without handling anything, just to see=<br>
+<br>
+if it's something in there causing it.  Maybe I'll also try using the<br>
+sh=<br>
+adow bit, just in case.  Anything's worth a shot.<br>
+<br>
+Also, speaking of the LC=<br>
+D, it seems the list I had been using of<br>
+Mailstation devices (from I-Appli=<br>
+ance) isn't quite accurate.  It says<br>
+device 2 is the right half of the LCD=<br>
+, and the left half is device<br>
+4.  It appears to be the opposite, from my e=<br>
+xperience.  I also<br>
+checked the disassembled code of the three firmware ver=<br>
+sions I know<br>
+of, and it seems to be the same across the board.  Device 2 i=<br>
+s the<br>
+left half, updated from the buffer at 0xC010, and device 4 is the<br>
+r=<br>
+ight half, updated from 0xCA10.<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 5, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+ch.groups.yahoo.com/group/mailstation/files/Mailbug/253yr/<br>
+re probably mostly the same, if not exactly, for<br>
+e's both an eMessage icon, and Mailstation<br>
+<br>
+Ah =<br>
+that's a nice list.  It makes me ponder trying to replace the big<br>
+CIDCO lo=<br>
+go with one of my own.  Though it seems I don't start up my<br>
+Mailstation no=<br>
+rmally enough to see that logo most times.  I almost<br>
+always end up doing a=<br>
+"hard" restart, either by pulling the<br>
+batteries, or jumping to 0x0000.  I=<br>
+n the test code I've been working<br>
+with, for example, after it does its mai=<br>
+n task, it goes into a loop<br>
+where it just constantly checks for new keyboa=<br>
+rd scancodes.  If it<br>
+detects #1 (the Back button), the loop ends, and it j=<br>
+umps to 0x0000.<br>
+I'm not really sure yet how to "properly" restart the Mai=<br>
+lstation via<br>
+software, to get the logo and all.  I always end up at the sc=<br>
+reen<br>
+asking me if I want to erase the flash memory.  I assume during<br>
+shut=<br>
+down, the Mailstation is setting some value to designate that it<br>
+was turne=<br>
+d off properly via the power button, and when you turn it on<br>
+next, it's ch=<br>
+ecking if that was set.<br>
+<br>
+to<br>
+includ=<br>
+e/<br>
+with a bunch of equ's for the ms firmware routines<br>
+g, and some scrolling text output code, too.<br>
+<br>
+More code to look through is =<br>
+always useful!<br>
+<br>
+we could<br>
+<br>
+Well when I'm typing a message here =<br>
+on the Yahoo Groups page, there's<br>
+something along the top just above the "=<br>
+To:" field that says "New!<br>
+Compose your message with Rich-Text Editor (Bet=<br>
+a)".  I realized I<br>
+couldn't embed images here, so I clicked that.  It take=<br>
+s you to a<br>
+different text entry form, with a checkbox at the bottom below =<br>
+the<br>
+message body area.  When clicked, it puts your messages into raw html =<br>
+<br>
+mode.  I went in there just long enough to add my img tag.<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 5, 2007</p>
+<p class="formattedBody">Welp, I tried using the shadow byte, and crazily enough, it worked<br>
+fine wi=<br>
+th interrupts disabled.<br>
+<br>
+The values I was originally writing straight to po=<br>
+rt 2 were 0x93 to<br>
+start CAS (turning bit 3 off), then writing my column ad=<br>
+dress,<br>
+followed up by writing 0x9B to port 2 to toggle CAS back.<br>
+<br>
+Assuming=<br>
+this is still all accurate:<br>
+7-lcd_on, 6-callid_data, 5-not_modem_power, 4-=<br>
+yougotmail_LED, 3-<br>
+LCD_cas, 2-callid_data_rdy, 1-keyrow_9, 0-keyrow_8<br>
+<br>
+The =<br>
+0x93 I wrote is 10010011.  lcd_on is obviously enabled.  I was<br>
+also turnin=<br>
+g on the LED to know when I got to this point.  Bits 0 and<br>
+1 are high beca=<br>
+use that's where the interrupt routine keeps them, and<br>
+only pulls them low=<br>
+when reading from that row of the keyboard<br>
+matrix.  0x9B is 10011011, wit=<br>
+h the only difference being the CAS bit.<br>
+<br>
+Oh ho!  I just found something! =<br>
+Instead of the values I had been<br>
+writing, I decided to write 0xF7 (111101=<br>
+11) to start CAS, wrote my<br>
+address, then wrote 0xFF (11111111).  It worked=<br>
+fine!  I then traced<br>
+it down to exactly which bit needed to be on:  bit 5=<br>
+.  If bit 5 is<br>
+not on when you write your column address during cas, the L=<br>
+CD goes<br>
+off.  Why do you suppose that is??<br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 6, 2007</p>
+<p class="formattedBody"><br>
+lso, speaking of the LCD, it seems the list I had been using of<br>
+ion devices (from I-Appliance) isn't quite accurate.  It says<br>
+s the right half of the LCD, and the left half is device<br>
+to be the opposite, from my experience.<br>
+<br>
+I made a "datasheet" for the cpu=<br>
+, and updated it with your info,<br>
+and also formated it a bit nicer.<br>
+<br>
+<a target="_blank" href="http://=">(URL)</a><br>
+tech.groups.yahoo.com/group/mailstation/files/part%20files/RSDRD_3SI176_0A.=<br>
+txt<br>
+<br>
+I added some info on the RTC ports, and fixed another mistake<br>
+while I =<br>
+was at it (+6 volt good and +5 volt good were reversed<br>
+on the pinout).<br>
+<br>
+Th=<br>
+ere are two bits that relate to battery state, I think one is<br>
+"battery gett=<br>
+ing low", and other "battery is almost dead".<br>
+They might be reversed, I'm=<br>
+not sure which is which.<br>
+<br>
+-CJ<br>
+<br>
+</p>
+<hr><h3 id="8">8: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 6, 2007</p>
+<p class="formattedBody"><br>
+almost<br>
+<br>
+Wh=<br>
+y noy just return?  If you are running your app from the<br>
+menu, then I gues=<br>
+s your whole prog runs when it receives<br>
+the "init" event.  So, to prevent i=<br>
+t from running again<br>
+for every event the ms sends (I think there will be at=<br>
+least<br>
+3 or 4???) you would want to check the sig param, and<br>
+just return i=<br>
+mmediately on any other sig.<br>
+<br>
+test code I've been working<br>
+ask, it goes into a loop<br>
+d scancodes.  If it<br>
+jumps to 0x0000.<br>
+<br>
+Why not check for a "back key" event, and handle it, to=<br>
+o?<br>
+<br>
+<br>
+king me if I want to erase the flash memory.  I assume during<br>
+the Mailstation is setting some value to designate that it<br>
+f properly via the power button, and when you turn it<br>
+ing if that was set.<br>
+<br>
+If jp #0000 gives that menu even with batteries in, t=<br>
+hen you<br>
+probably do need to set a state var, and it is prob that first<br>
+var =<br>
+that is saved in the routine called "Init" on your disassembly.<br>
+I'd tell yo=<br>
+u the location, but it might be different on your 3.03a.<br>
+<br>
+Try setting that =<br>
+var to #5A before reboot.  The "moreinit"<br>
+routine checks for that value, an=<br>
+d sets a different "app mode"<br>
+depending if that var was #5A.  I don't know =<br>
+what the difference<br>
+is, though.  Maybe it is whether or not you get that me=<br>
+nu (seems<br>
+like a good guess).<br>
+<br>
+If that doesn't work, I just don't know what=<br>
+else is involved.<br>
+<br>
+When I run code from mailbug, I end with a ret.  If all=<br>
+goes<br>
+well, mbug gets control again, and I can issue more commands.<br>
+Otherwi=<br>
+se, I hit the reset button (I leave a jeweler's screwdriver<br>
+sticking out of=<br>
+the reset hole, 'coz I need to hit it often!)<br>
+<br>
+I rarely have batteries ins=<br>
+talled, and I thought that was why<br>
+I was seeing that message all the time.<br>
+=<br>
+<br>
+Another thought I just had was that the mailstation does not boot<br>
+up from =<br>
+scratch when you turn it on with power button.  That's<br>
+because it doesn't r=<br>
+eally shut off when you push power button.<br>
+It just goes to sleep.  So, when=<br>
+you push button to "turn it on"<br>
+you are really just waking it up.  Maybe i=<br>
+t always asks that<br>
+question when it boots up from #0000?<br>
+<br>
+essage with Rich-Text Editor (Beta)".  I realized I<br>
+s here, so I clicked that.  It takes you to a<br>
+with a checkbox at the bottom below the<br>
+d, it puts your messages into raw<br>
+<br>
+Cool!  I've used the rich=<br>
+-text mode, just never noticed that<br>
+checkbox!<br>
+<br>
+<br>
+</p>
+<hr><h3 id="9">9: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 6, 2007</p>
+<p class="formattedBody">Welp, I tried using the shadow byte, and crazily enough, it worked<br>
+with interrupts disabled.<br>
+to port 2 were 0x93 to<br>
+olumn address,<br>
+<br>
+_modem_power, 4-yougotmail_LED, 3-<br>
+, 0-keyrow_8<br>
+d.  I was<br>
+s 0 and<br>
+, and<br>
+matrix.  0x9B is 10011011, with the only difference being the CAS bit.<br>
+<br>
+Bot=<br>
+h those values are turning the modem on, too.  Bit 5 is<br>
+active-low.<br>
+<br>
+o!  I just found something!  Instead of the values I had been<br>
+decided to write 0xF7 (11110111) to start CAS, wrote my<br>
+rote 0xFF (11111111).  It worked fine!  I then traced<br>
+which bit needed to be on:  bit 5.  If bit 5 is<br>
+our column address during cas, the LCD goes<br>
+t is??<br>
+<br>
+Maybe there is a bus conflict if the modem is on when you are<br>
+tryin=<br>
+g to talk to LCD???  Just why it goes away if int's are<br>
+enabled is a bit o=<br>
+f a mystery.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="10">10: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+<br>
+p/mailstation/files/part%20files/<br>
+RSDRD_3SI176_0A.txt<br>
+o on the RTC ports, and fixed another mistake<br>
+good and +5 volt good were reversed<br>
+its that relate to battery state, I think one is<br>
+nd other "battery is almost dead".<br>
+which is which.<br>
+<br>
+Hey awesome, I was wondering if anyone had dis=<br>
+covered what any more<br>
+of the ports were for yet.  Those RTC ones should be=<br>
+of use for<br>
+something or another.<br>
+<br>
+</p>
+<hr><h3 id="11">11: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+nu, then I guess your whole prog runs when it receives<br>
+So, to prevent it from running again<br>
+nk there will be at least<br>
+m, and<br>
+<br>
+for a "back key" event, and handle it, too?<br>
+<br>
+I pretty much have tried to=<br>
+avoid depending on all Mailstation<br>
+functions as much as possible, particu=<br>
+larly its whole message loop<br>
+system.  The only thing I'm currently dependi=<br>
+ng on with code I'm<br>
+working on is getkeycodefrombuffer, until I write a ro=<br>
+utine to handle<br>
+scanning the keyboard matrix myself.  Seems easy enough, I=<br>
+just<br>
+haven't gotten around to it, from trying to deal with text output<br>
+f=<br>
+irst.<br>
+<br>
+I've gotten routines in place for a decent text-mode interface, with=<br>
+<br>
+a 640-byte buffer to hold 40x16 characters.  I can either write to<br>
+the m=<br>
+emory buffer and then run a routine to update it all at once, or<br>
+I can upd=<br>
+ate it one character at a time (which also writes to the<br>
+buffer, but is be=<br>
+tter for printing strings instead of updating the<br>
+whole display).  It also=<br>
+tracks the cursor x/y position to know where<br>
+to put the next character.<br>
+<br>
+=<br>
+I just need a routine to map scancodes to keys, track whether shift/<br>
+caps l=<br>
+ock is on, etc, and I'll have my own basic i/o routines to work<br>
+with.<br>
+<br>
+Act=<br>
+ually I just remembered, I just recently started using a second<br>
+Mailstatio=<br>
+n function:  powerdownmode.  I tried emulating what it's<br>
+doing, but someti=<br>
+mes the thing just resets instead of fully staying<br>
+off.  Haven't figured t=<br>
+hat out yet.  It certainly appears like bit 1<br>
+of port 28 seems to play an =<br>
+important part in shutting down, though.<br>
+But now, Back resets me to #0000=<br>
+, while the power button turns it<br>
+off.  Pushing any other button prints it=<br>
+s scan code (and status of up/<br>
+down/shift/capslock below), and prints the a=<br>
+scii representation of<br>
+the scancode on the screen (and incrementing the cu=<br>
+rsor position<br>
+along the way).  This will be neater when it's actually disp=<br>
+laying<br>
+the corresponding letter to the key I'm pressing!<br>
+<br>
+As mentioned bef=<br>
+ore I think, I was trying to stray from using<br>
+Mailstation code when possib=<br>
+le so that I never have to rely on any of<br>
+it in the event that I replace i=<br>
+t.  Relying on Mailstation code also<br>
+means relying on where it locates thi=<br>
+ngs in ram, and trying to avoid<br>
+writing over any of it.<br>
+<br>
+gives that menu even with batteries in, then you<br>
+a state var, and it is prob that first<br>
+called "Init" on your disassembly.<br>
+t be different on your 3.03a.<br>
+t.  The "moreinit"<br>
+pp mode"<br>
+<br>
+a good guess).<br>
+<br>
+Yeah this was something I found out when reading over that =<br>
+nice<br>
+disassembled/commented page 0.  I can't try it until I find out the<br>
+=<br>
+v3.03a location though, as you mentioned.  But if I'm possibly<br>
+messing up =<br>
+"important" Mailstation ram at some point, I wonder if<br>
+it's really safe to=<br>
+let it think the system is still okay by slipping<br>
+the #5a in myself, or i=<br>
+f I should just intentionally let it reboot<br>
+completely.<br>
+<br>
+I actually think =<br>
+it's faster anyway, since the Cidco logo takes a<br>
+second go to away, where =<br>
+as I just need to tap enter to get past the<br>
+other one.<br>
+<br>
+ode from mailbug, I end with a ret.  If all goes<br>
+again, and I can issue more commands.<br>
+I leave a jeweler's screwdriver<br>
+ed to hit it often!)<br>
+<br>
+I saw that button when I was messing with it the othe=<br>
+r day, but<br>
+wasn't sure just what exactly it might do if I press it.  I did=<br>
+n't<br>
+want to go and erase the dataflash or anything.<br>
+<br>
+atteries installed, and I thought that was why<br>
+all the time.<br>
+not boot<br>
+=<br>
+goes to sleep.  So, when you push button to "turn it on"<br>
+ust waking it up.  Maybe it always asks that<br>
+rom #0000?<br>
+<br>
+I've used the same set of batteries in it since I first started=<br>
+<br>
+mucking around, and I only once saw a low battery warning at startup,<br>
+an=<br>
+d that was when I forgot and left it running for a few minutes in<br>
+an app I=<br>
+was testing (since no auto-shutoff).  It's surprisingly good<br>
+on batteries=<br>
+, especially considering it never truly goes off.  I<br>
+still haven't replace=<br>
+d them, either.<br>
+<br>
+This also means the ram retains its contents, which could =<br>
+be a useful<br>
+method of code storage.  A ram drive, of sorts.  Would let you=<br>
+avoid<br>
+writing to the flash unless necessary.<br>
+<br>
+</p>
+<hr><h3 id="12">12: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 8, 2007</p>
+<p class="formattedBody"><br>
+'ve gotten routines in place for a decent text-mode interface, with<br>
+0-byte buffer to hold 40x16 characters.  I can either write to<br>
+y buffer and then run a routine to update it all at once, or<br>
+e it one character at a time (which also writes to the<br>
+tter for printing strings instead of updating the<br>
+so tracks the cursor x/y position to know where<br>
+r.<br>
+<br>
+That's sounds pretty cool.  :-)<br>
+<br>
+I have wondered myself if the lcd buff=<br>
+er provids any real benefit,<br>
+or if it was just there to let the progrmmers =<br>
+defer thinking about<br>
+how to get image on the screen (possibly defer to ano=<br>
+ther team?).<br>
+I don't see any particular timing issue.<br>
+<br>
+For that matter, t=<br>
+he ms code doesn't even copy directly from<br>
+the font data to lcd buffer.  E=<br>
+ach character is copied to a<br>
+"char buffer", and then copied to the lcd buf=<br>
+fer.  Seems like<br>
+it would be much more efficient to just copy from font di=<br>
+rectly<br>
+to lcd, and skip both buffers!<br>
+<br>
+codes to keys, track whether<br>
+y own basic i/o<br>
+<br>
+Keyboard events have both scanco=<br>
+de and ascii fields.<br>
+Why reinvent the wheel?   :-)   :-)   :-)<br>
+<br>
+y I just remembered, I just recently started using a second<br>
+function:  powerdownmode.  I tried emulating what it's<br>
+mes the thing just resets instead of fully staying<br>
+that out yet.  It certainly appears like bit 1<br>
+an important part in shutting down, though.<br>
+<br>
+If you look at the code for=<br>
+"powerdownmode", it is bit 0<br>
+that shuts it off.  Oh wow!  I was just look=<br>
+ing at the<br>
+disassembly.  I thought you were saying "powerdown" which<br>
+is a=<br>
+t 1AC0 in 2.53yr.<br>
+<br>
+"powerdownmode" is just a wrapper that sets bootstate to=<br>
+5A,<br>
+and then calls "powerdown"!!!  I didn't even remember that<br>
+was there=<br>
+, but I must have seen it, 'coz I named it!  There<br>
+is just too much to rem=<br>
+ember about this thing.  :-)<br>
+<br>
+And, unlike "powerdown" , which might float a=<br>
+round in<br>
+different versions, "powerdownmode" has one of those handles<br>
+in =<br>
+that real long jump table.<br>
+<br>
+So, I bet you can call powerdownmode at #0A6B =<br>
+in all versions.<br>
+I seem to recall that jumptable is at same address in th=<br>
+e<br>
+versions I looked at.<br>
+<br>
+But what I started to say was, if you look at the=<br>
+code for<br>
+"powerdown" @1AC0 in the 2.53 disassembly, you'll see that<br>
+it i=<br>
+s toggling P28.0<br>
+<br>
+P28.0 is connected to the power control flip-flop (74c74 =<br>
+chip)<br>
+via a 600 ohm resistor.  I don't completely understand circuit,<br>
+ther=<br>
+e are several caps and resistors, and 2 stages of D type<br>
+flip-flop, but the=<br>
+gist of it seems to be that a pulse on<br>
+P28.0 sets the flip-flop to the "p=<br>
+oweroff" state, after a<br>
+short delay.  I think the delay is there to give c=<br>
+pu time to<br>
+execute up to the "halt" inst before removing power from the<br>
+c=<br>
+odeflash chip.  (I'm talking about RC time-constant delay<br>
+of pulse, NOT th=<br>
+e delay loop in the code.  That delay loop<br>
+is just timing the pusle width.=<br>
+)  I don't know if the cpu<br>
+loses power here or not.<br>
+<br>
+I made a mistake when=<br>
+I identified callid dataclock as<br>
+P28.2, it is really P28.1.  The  "xor 02=<br>
+" instruction<br>
+is flipping bit 1, but my brain seems to have trouble<br>
+grasp=<br>
+ing that, and wants to call it bit 2.  That led to<br>
+all the P28 bits being =<br>
+jogged over 1 bit.  I changed the<br>
+datasheet in groups file section, eventu=<br>
+ally I need to<br>
+update linux-hacker, too.<br>
+<br>
+00, while the power button turns it<br>
+s its scan code (and status of up/<br>
+the ascii representation of<br>
+g the cursor position<br>
+ually displaying<br>
+<br>
+So, =<br>
+what is ascii code for F1 key???  We had a rather<br>
+short thread on that sub=<br>
+ject 2 years ago (holy crap,<br>
+2 years???).  I came to conclusion nobody her=<br>
+e really<br>
+cared about pursuing "getchar()".<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/gr=">(URL)</a><br>
+oup/mailstation/message/392<br>
+<br>
+The "moreinit"<br>
+pp mode"<br>
+ce<br>
+like a good guess).<br>
+ver that nice<br>
+d out the<br>
+<br>
+'s really safe to let it think the system is still okay by slipping<br>
+#5a in myself, or if I should just intentionally let it reboot<br>
+y.<br>
+<br>
+I was just now looking to see where "powerdownmode" is<br>
+called.  It is =<br>
+from keyscan, which I guess makes some<br>
+sense, if you think of powerbutton =<br>
+as a special "key".<br>
+I'm not really sure offhand what happens at poweron, =<br>
+<br>
+though.  Does it continue from the "halt", or start<br>
+over at #0000?  I nee=<br>
+d to look at databook, and it's<br>
+not handy right now.<br>
+<br>
+How much ram do you =<br>
+need?  The lcd buffer is 5k, and you<br>
+reduced yours to 640 bytes, so you go=<br>
+t 4.4k right there.<br>
+The modem buffer is where I have been sticking the mb=<br>
+ug<br>
+code.  That should be safe, as long as modem is not used.<br>
+<br>
+Did you see =<br>
+the RAM "disassembly"?  It's not really<br>
+disassembly, but I put some notes=<br>
+in the comment file<br>
+for rampage #00.  (ms always has rampage #00 mapped<br>
+=<br>
+into slotC000.)<br>
+<br>
+I also tagged the data types by hand for the vars that =<br>
+<br>
+are known.<br>
+<a target="_blank" href="http://tech.groups.yahoo.com/group/mailstation/files/Mailbug/2=">(URL)</a><br>
+53yr/ms253yr_80.html<br>
+<br>
+Then there is the stack.  You can allocate space for=<br>
+<br>
+*any* routine that needs local vars, by just calling<br>
+the same routine th=<br>
+at the compiled c code uses.  I<br>
+named it "localize" in the disassembly, be=<br>
+cause it<br>
+was creating a local context for each function.<br>
+In addition to al=<br>
+locating stack for local vars,<br>
+it also saves all the regs for you.<br>
+<br>
+You =<br>
+just load DE with number of bytes you need for<br>
+locals, and call localize. =<br>
+Then you can access your<br>
+locals relative to the stack pointer.<br>
+<br>
+The fir=<br>
+st local byte is at sp+8.  Any params are at<br>
+sp+8+n+4  (iow, last local ad=<br>
+dr + 5).<br>
+<br>
+The cleanup is automatic, your code just needs to "return".<br>
+<br>
+saw that button when I was messing with it the other day, but<br>
+e just what exactly it might do if I press it.  I didn't<br>
+erase the dataflash or anything.<br>
+<br>
+It just asserts the CPU's reset pin, so p=<br>
+retty much<br>
+the same as power cycle, or "jp 0000" .  I think reset<br>
+also se=<br>
+ts i/o ports to initial state (0 for most???),<br>
+but they all get init befor=<br>
+e use anyway, no matter<br>
+which of the 3 methods you use.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="13">13: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 14, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+efit,<br>
+<br>
+don't see any particular timing issue.<br>
+<br>
+Well from my experience, it would p=<br>
+robably be slower to write<br>
+directly to the lcd all the time, because of th=<br>
+e math involved to<br>
+translate pixel coordinates.  You have to figure out wh=<br>
+ich lcd device<br>
+to swap into the slot, which column you need to activate, t=<br>
+hen which<br>
+row inside of there to write the bit to, and then which bit insi=<br>
+de<br>
+the byte is the particular pixel you're wanting to change.  You then<br>
+h=<br>
+ave to pretty much do these calculations for all the pixels you're<br>
+writing=<br>
+, because you don't know when one will cross into another<br>
+column, or even =<br>
+into the other lcd device.<br>
+<br>
+The math to just draw this stuff on a buffer wi=<br>
+th standard x/y<br>
+coordinates would be simpler, and then doing one big incre=<br>
+mental pass<br>
+across the lcd columns/devices after you've drawn all you need=<br>
+to the<br>
+buffer would likely take less time in the long run.<br>
+<br>
+This is parti=<br>
+ally why I chose an 8x8 font size to work with in what<br>
+I've been messing w=<br>
+ith, because it's always aligned to a particular<br>
+lcd column.  I just have =<br>
+figure out which column the character needs<br>
+to be written to, and then the=<br>
+starting row inside of there, and dump<br>
+8 bytes of font data in.<br>
+<br>
+r that matter, the ms code doesn't even copy directly from<br>
+to lcd buffer.  Each character is copied to a<br>
+opied to the lcd buffer.  Seems like<br>
+just copy from font directly<br>
+<br>
+I didn't qu=<br>
+ite get this at first either, but then I realized that it<br>
+probably makes s=<br>
+ense for when they're wanting to modify the text in<br>
+some way.  Particularl=<br>
+y to invert the color.  You wouldn't really<br>
+want to try and invert the fon=<br>
+t once it hit the actual lcd buffer,<br>
+cause you might invert bits to other =<br>
+graphical data around/underneath<br>
+the character you just wrote.<br>
+<br>
+oard events have both scancode and ascii fields.<br>
+?   :-)   :-)   :-)<br>
+<br>
+Well, I did finish my routines to scan the matrix, det=<br>
+ect changes,<br>
+and put the scancodes of those changes into a buffer.  But th=<br>
+en I<br>
+found that certain letters on my keyboard are twitchy and sometimes<br>
+=<br>
+trigger too many presses/depresses.  I then realized that all the<br>
+extra st=<br>
+uff the MS code was doing was likely debouncing the keys.<br>
+Since I'm almos=<br>
+t tired of just writing keyboard routines for now (and<br>
+have gotten distrac=<br>
+ted away from it lately as well), I'm thinking I<br>
+might just pull all their=<br>
+routines I need out for now and put them in<br>
+my own code to possibly be re=<br>
+written later, so that I can move onto<br>
+more interesting stuff.<br>
+<br>
+The proble=<br>
+m with just leaving them in the Mailstation code is the<br>
+page swapping requ=<br>
+ired to get to them.  One of those "wormhole"<br>
+functions in page 0 might he=<br>
+lp keep it from being a problem in some<br>
+respects, but if I ever tried to h=<br>
+ijack the interrupt for example, it<br>
+could be a problem yet again.  So I'd =<br>
+prefer to just keep my own<br>
+pages activated when possible, by just copying =<br>
+out their code.<br>
+<br>
+r<br>
+I came to conclusion nobody here really<br>
+.<br>
+<br>
+Back in =<br>
+my DOS days I seem to remember that pressing any of those<br>
+sorts of keys (s=<br>
+uch as the arrows) would produce two bytes out of a<br>
+getchar type of functi=<br>
+on.  The first byte was a particular value to<br>
+indicate an extended key, an=<br>
+d the following byte would indicate which<br>
+button.<br>
+<br>
+I wrote a brief C progr=<br>
+am just now using getch() (not getchar, since<br>
+it waits for enter to be pre=<br>
+ssed) to see the values, and pushing F1<br>
+gets me 0,59 for example.  Pushing=<br>
+up gets 224,72.  F1-F10 always<br>
+return a 0 first, and F11-F12 and the othe=<br>
+r buttons (arrows, home/end/<br>
+etc) always return a 224 first, it seems.<br>
+<br>
+<br>
+rs to 640 bytes, so you got 4.4k right there.<br>
+I have been sticking the mbug<br>
+dem is not used.<br>
+<br>
+Well my intention was to preferably have the entire up=<br>
+per 32K as ram<br>
+for my own use (OS, running applications, etc).  That'd bas=<br>
+ically<br>
+make a 32k machine, while using slot4000 for paging the lcd/datafla=<br>
+sh/<br>
+ram (for a ramdrive perhaps) for I/O.  It also works out well to<br>
+start=<br>
+the OS code at the 32k point, because then if I ever tried to<br>
+convert any=<br>
+CP/M apps, for example, I'd mostly only need to toggle<br>
+the upper address =<br>
+bit in any spots where they accessed memory.<br>
+<br>
+I only wish I knew more about=<br>
+when an NMI interrupt hit, because if<br>
+it rarely or never happens aside fr=<br>
+om like modem use (which I'll<br>
+never use), then I could use all the page 0 =<br>
+ram without worry, by<br>
+just turning off maskable interrupts, or hijacking t=<br>
+he routine.<br>
+<br>
+</p>
+<hr><h3 id="14">14: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 15, 2007</p>
+<p class="formattedBody">...<br>
+<br>
+e, it would probably be slower to write<br>
+, because of the math involved to<br>
+<br>
+Yeah, I realized that about half a seco=<br>
+nd after I sent that.<br>
+<br>
+I just meant I don't think there is any need to sync=<br>
+hronize<br>
+writes with any video-like timing (retrace), or any wait states<br>
+gen=<br>
+erated.<br>
+<br>
+When painting whole screen, it can be faster to use buffer,<br>
+partic=<br>
+ularly if you are doing graphic stuff, like line drawing.<br>
+<br>
+But if you are d=<br>
+isplaying text, I don't think the overhead of<br>
+accessing the LCD directly i=<br>
+s that big a deal, compared to<br>
+copying the whole screen, particularly if yo=<br>
+u are just updating<br>
+a small area, such as a "writeln".  You would just hav=<br>
+e the<br>
+X coord overhead once per char, (with your 8x8 font).<br>
+<br>
+If you were u=<br>
+sing proportional font, you could buffer two 8x8<br>
+or 8x11 pixel areas, and =<br>
+copy each to LCD after curor moves past.<br>
+That would save the 5KB used for =<br>
+current LCD buffer.<br>
+<br>
+Also, scrolling the LCD would be faster directly on =<br>
+LCD.  And<br>
+clearing screen, too.  (But the question may be moot, see below.=<br>
+)<br>
+<br>
+e font data to lcd buffer.  Each character is copied to a<br>
+", and then copied to the lcd buffer.  Seems like<br>
+e efficient to just copy from font directly<br>
+ers!<br>
+it<br>
+<br>
+t to try and invert the font once it hit the actual lcd buffer,<br>
+u might invert bits to other graphical data around/underneath<br>
+ter you just wrote.<br>
+<br>
+I think I figured out an even better reason for what a=<br>
+t first<br>
+seemed like a lot of needless copying, not only in LCD routines, bu=<br>
+t<br>
+a lot of other places:  The bank switching!!!<br>
+<br>
+Since they chose a banking=<br>
+scheme where the codeflash, dataflash,<br>
+and LCD (and modem, too) all use sl=<br>
+ot4000, you can't copy<br>
+directly between two of them!  Same problem as my or=<br>
+iginal<br>
+helloapp had with the foldertabtext.  :-)<br>
+<br>
+both scancode and ascii fields.<br>
+:-)<br>
+,<br>
+ound that certain letters on my keyboard are twitchy and sometimes<br>
+er too many presses/depresses.  I then realized that all the<br>
+the MS code was doing was likely debouncing the keys.<br>
+<br>
+Yes.  Debouncing. =<br>
+And probably key repeat.  All free!!!  ;^)<br>
+<br>
+...<br>
+aving them in the Mailstation code is the<br>
+to them.  One of those "wormhole"<br>
+from being a problem in some<br>
+e interrupt for example, it<br>
+to just keep my own<br>
+their code.<br>
+<br>
+I'd have to check to be sure, but I think the keyboard code mi=<br>
+ght<br>
+all be in page 00?<br>
+<br>
+And, even if you do want to use a function from one=<br>
+of the higher<br>
+pages, you don't need to do the bankswitching, you just cal=<br>
+l them<br>
+through the handles in page 00, and the bankswitching is done for<br>
+yo=<br>
+u, including puting your page back before they return.<br>
+<br>
+But, as we have see=<br>
+n recently, it does pay to be aware of the<br>
+fact that slot4000 is not fixed!=<br>
+!!  :-)<br>
+<br>
+<br>
+I seem to remember that pressing any of those<br>
+arrows) would produce two bytes out of a<br>
+first byte was a particular value to<br>
+following byte would indicate which<br>
+<br>
+I think pascal (well, turbo=<br>
+& freepascal, at least) rets a 0 for<br>
+the first byte of extended codes.  I =<br>
+just could not find any docs<br>
+for c that said what it returned.  Maybe it i=<br>
+s not part of c, but<br>
+rather part of your particular OS spec???<br>
+<br>
+a brief C program just now using getch() (not getchar, since<br>
+r enter to be pressed) to see the values, and pushing F1<br>
+r example.  Pushing up gets 224,72.  F1-F10 always<br>
+F11-F12 and the other buttons (arrows, home/end/<br>
+4 first, it seems.<br>
+<br>
+I didn't even know the right name.  I have been away fr=<br>
+om c for<br>
+quite a while.  (hey, "away from c", does that make me a landlubbe=<br>
+r???)<br>
+<br>
+I used it in school a bit, and again when I started using Linux,<br>
+but=<br>
+I was not impressed with it's compile speed (gcc).  Perl was<br>
+a lot more fu=<br>
+n!!!<br>
+<br>
+I have recently been re-learning c, though (winavr).  I think my<br>
+com=<br>
+puter is faster now, and maybe my programs are smaller, too.<br>
+<br>
+ram do you need?  The lcd buffer is 5k, and you<br>
+ytes, so you got 4.4k right there.<br>
+een sticking the mbug<br>
+not used.<br>
+er 32K as ram<br>
+sically<br>
+flash/<br>
+=<br>
+nvert any CP/M apps, for example, I'd mostly only need to toggle<br>
+er address bit in any spots where they accessed memory.<br>
+<br>
+I see.  You are go=<br>
+nna need to change the isr, then, either with your<br>
+nifty method, or reflash=<br>
+ing codeflash page 00 (unless your os can work<br>
+around the ram that existing=<br>
+isr uses).<br>
+<br>
+ecause if<br>
+ll<br>
+just turning off maskable interrupts, or hijacking the routine.<br>
+<br>
+My hunch i=<br>
+s there is no NMI, but I could be wrong.<br>
+<br>
+I had thought about reflashing =<br>
+page 00 to put a hook into isr so I<br>
+could borrow it.  Find a free RAM loca=<br>
+tion (maybe move stack down<br>
+4 or 8 bytes) and init it to "jp oldisr" (with =<br>
+a patch to init in<br>
+page 00).  Then patch the existing jp oldisr in page 00=<br>
+to jump to<br>
+that new jp in ram.<br>
+<br>
+But what I really need more than the ISR =<br>
+is to borrow one of the<br>
+"restarts", for the breakpoint mechanism.  Not exa=<br>
+ctly rocket science.<br>
+just haven't got "a round tuit".<br>
+<br>
+Probably 'coz I sp=<br>
+end too much timewatching stuff like this:<br>
+<a target="_blank" href="http://menino.com/question-is-m=">(URL)</a><br>
+oot.mov<br>
+<br>
+<br>
+</p>
+<hr><h3 id="15">15: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 16, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+t<br>
+one of the higher<br>
+st call them<br>
+e for<br>
+<br>
+Yeah t=<br>
+he keyboard stuff is in page 0, but the problem is that it<br>
+still uses piec=<br>
+es of ram way up in the C000-FFFF range.  So I pulled<br>
+all the keyboard rou=<br>
+tines out of the disassembled listing, fixed them<br>
+up and re-labeled them s=<br>
+o that they'd assemble again, and created the<br>
+variables in memory where I =<br>
+wanted.  But I'm having problems with<br>
+it.<br>
+<br>
+The topmost function the inte=<br>
+rrupt calls seems to be the one at<br>
+0x2FE3 (keyscan).  So I'm calling that,=<br>
+then calling my pulled<br>
+version of getkeycodefrombuffer, and looping these=<br>
+if it doesn't find<br>
+a key (which is how I did it with the built-in routine=<br>
+s before, just<br>
+minus the call to the 0x2FE3 one, since that's done in inte=<br>
+rrupt).  I<br>
+can get the power and back buttons, since it handles them separ=<br>
+ately,<br>
+but it either doesn't read anything else, or reads a bunch of<br>
+gibb=<br>
+erish for a moment and then stops reading anything (aside from<br>
+back and po=<br>
+wer).<br>
+<br>
+I'm calling my pulled init_keyboard and clearing a couple of the<br>
+va=<br>
+riables the functions use before I get there, but I dunno, maybe<br>
+I'm missi=<br>
+ng something.  There might be some initialization called at<br>
+startup in pag=<br>
+e 6 of codeflash that I don't know about.  I don't have<br>
+any commented vers=<br>
+ions of that page, so it's tough to go through.<br>
+I'm almost tempted to jus=<br>
+t forget it and write my own debouncing code<br>
+for what I already have.  See=<br>
+ms like it might be easier at this point<br>
+than trying to debug that entire =<br>
+mess, unless you have any ideas.<br>
+<br>
+n when I started using Linux,<br>
+peed (gcc).  Perl was<br>
+<br>
+I use Perl a lot myself since it=<br>
+'s so easy to use, and generally<br>
+works fine cross-platform for testing and=<br>
+debugging and such<br>
+(depending on the modules).  For C, I got that Dev-C++=<br>
+thing before<br>
+for Windows, but ended up not really caring for the GUI, so =<br>
+I just<br>
+setup the environment variables to it so that it's pretty much just=<br>
+<br>
+back to basic gcc/g++ and 'make' from the command line.  I keep it<br>
+all i=<br>
+nstalled since it has a package system in the GUI that lets me<br>
+update it a=<br>
+nd other libraries fairly easily.<br>
+<br>
+could be wrong.<br>
+<br>
+The keyboard routines seem to get called from an NMI (s=<br>
+ince NMI and<br>
+maskable interrupts apparently go to the same place), but I f=<br>
+ound<br>
+that I never get keyboard input (using the mailstation's built-in<br>
+fu=<br>
+nctions) with interrupts disabled.  So you could be right, there<br>
+may just =<br>
+never be one, or never one unless using the modem or some<br>
+such thing that =<br>
+I'll never do.<br>
+<br>
+into isr so I<br>
+ck down<br>
+<br>
+hat new jp in ram.<br>
+<br>
+I'm kind of afraid of trying anything like that, but=<br>
+it seems like<br>
+the best way to deal with doing anything with the thing in =<br>
+the long<br>
+run.  I fear that I'll write code, but not take into account some=<br>
+<br>
+sort of initialization aspect that the MS does, and then when my code<br>
+go=<br>
+es on there, it'll just be a brick.<br>
+<br>
+I'm also not exactly sure what process=<br>
+I'd go about using to flash<br>
+any of it.<br>
+<br>
+</p>
+<hr><h3 id="16">16: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 18, 2007</p>
+<p class="formattedBody">(keyscan).  So I'm calling that, then calling my pulled<br>
+eycodefrombuffer, and looping these if it doesn't find<br>
+ow I did it with the built-in routines before, just<br>
+e 0x2FE3 one, since that's done in interrupt).  I<br>
+back buttons, since it handles them separately,<br>
+ad anything else, or reads a bunch of<br>
+ops reading anything (aside from<br>
+<br>
+That looks like right=<br>
+address in 2.53yr.  I was wondering if<br>
+calling in a loop might not give e=<br>
+nough settling time for row<br>
+select?  I can't look at it right now (won't be=<br>
+home till tues),<br>
+but does ms scan whole matrix each time 2fe3 is called?<br>
+=<br>
+Or just one row???  I seem to remember wondering why<br>
+row address was set w=<br>
+hen it was, and extra settling time<br>
+was my only guess as to why.  If that =<br>
+is prob, maybe doing<br>
+a 1ms delay in your loop would help.<br>
+<br>
+y pulled init_keyboard and clearing a couple of the<br>
+ons use before I get there, but I dunno, maybe<br>
+here might be some initialization called at<br>
+sh that I don't know about.<br>
+<br>
+As far as I could see (I looked at keyboard =<br>
+code last night,<br>
+before I left) the keyscan vars are not init to anything b=<br>
+eyond<br>
+the zeroing of ram in init.  The page 6 init relating to keyboard<br>
+is =<br>
+mostly for the reading of buffer, andconverting to key events.<br>
+They also en=<br>
+able keyboard int, which you wouldn't need, and<br>
+make a call to keyboard ini=<br>
+t, which you probably do need.  I<br>
+am not sure what param is for, but they p=<br>
+ush #0000 on stack<br>
+before calling keyboard init.  I think keyboard init is =<br>
+neccesary<br>
+for initing keybuffer.<br>
+<br>
+of that page, so it's tough to go through.<br>
+<br>
+That is next one I will post=<br>
+.  There are some mistakes I was correcting,<br>
+and alway seems there is new d=<br>
+etails to add.  The most interesting<br>
+stuff in page 6 is the event loop, and=<br>
+related queue, and event<br>
+generating.<br>
+<br>
+Also, the app table is init there, a=<br>
+long with the widget stuff.<br>
+<br>
+I did some experiments the other night, settin=<br>
+g bootstate =3D 5a<br>
+before jp 0, and it worked (didn't get the "memory testi=<br>
+ng", or<br>
+"reset system data" menu.  AFAICT, the ram gets completely<br>
+zeroed e=<br>
+ither way, only difference is what app/screen you get to<br>
+on bootup (splash,=<br>
+or mem test).  Seems the "ram valid" is<br>
+only used to determine if it will =<br>
+look at "bootstate" or not.<br>
+<br>
+I wonder if the memory test is for the flash??=<br>
+?  Seems like it must<br>
+be, if they are gonna init the ram either way???<br>
+<br>
+'m kind of afraid of trying anything like that, but it seems like<br>
+st way to deal with doing anything with the thing in the long<br>
+ar that I'll write code, but not take into account some<br>
+zation aspect that the MS does, and then when my code<br>
+ll just be a brick.<br>
+<br>
+But think of the rush you get when it works!!! :-)<br>
+<br>
+A =<br>
+bricked mailstation is a pretty low price to pay, and you might<br>
+get it righ=<br>
+t the first try.  If only *all* the mistakes we make<br>
+could be limited to th=<br>
+e cost of a new mailstation!!!<br>
+<br>
+d go about using to flash<br>
+<br>
+I started writing patch, but did n=<br>
+ot finish yet.  Basic approach<br>
+would be:<br>
+<br>
+1) create patch.<br>
+1.5) save rom =<br>
+image to file, if you don't already have one.<br>
+2) load rom image into RAM ta=<br>
+rget of mailbug.<br>
+3) apply the patch.<br>
+4) save image to file (you need pa=<br>
+ges 0, 1, 2, & 3, 'coz you have to<br>
+erase that much).<br>
+5) using MBUG target, =<br>
+erase pgs 0, 1, 2, 3.<br>
+5.5) don't reboot mailstation!!!!!!<br>
+6) still using mb=<br>
+ug target, write patched image to codeflash.<br>
+7) successfully reboot your pa=<br>
+tched mailstation.<br>
+8) stand up, raise two fists in air, and sing chourus of=<br>
+"I've Got the<br>
+Power".<br>
+9) remember to *not* spike your mailstation in endzo=<br>
+ne!<br>
+<br>
+(OK, I usually do step 8 while still seated.)<br>
+<br>
+<br>
+</p>
+<hr><h3 id="17">17: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 20, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+efore I left) the keyscan vars are not init to anything beyond<br>
+g of ram in init.  The page 6 init relating to keyboard<br>
+reading of buffer, andconverting to key events.<br>
+d int, which you wouldn't need, and<br>
+ou probably do need.  I<br>
+0 on stack<br>
+ary<br>
+<br>
+I ended up disassembling it a second time=<br>
+since I thought I might<br>
+have messed up during my labeling process, but it=<br>
+turned out to just<br>
+be some minor issues elsewhere.  I was declaring my 'k=<br>
+eybuffer'<br>
+variable as just 32 bytes instead of 64, and had to set 'keycols=<br>
+tate'<br>
+and 'keycolstate2' to #FF during init.<br>
+<br>
+So basically my entire key=<br>
+board initialization is:<br>
+- Activate all keyboard rows (MS appears to do it)=<br>
+<br>
+- Set 'flagz', 'keyscanstate', and 'anotherkeyvar' to 0 (I don't see<br>
+MS d=<br>
+oing this, but I figure it's best to do it)<br>
+- Set 'keycolstate' and 'keycol=<br>
+state2' to #FF (if set to 0, they<br>
+trigger a power button press)<br>
+- call ini=<br>
+t_keyboard<br>
+<br>
+This lets all of the keyboard routines I pulled out of the firm=<br>
+ware<br>
+work properly, using my own variables as well, so that none of the<br>
+a=<br>
+ctual firmware code or variables are needed anymore.<br>
+<br>
+For anyone that might=<br>
+be interested, here's some variable locations<br>
+in the v3.03a firmware that=<br>
+I jotted down along the way:<br>
+<br>
+flagz			equ	#D631<br>
+kbd_last_up_keycode	equ	#D=<br>
+A46<br>
+keybuffer		equ	#E5AF<br>
+keybuffin		equ	#E5EF<br>
+keybuffout		equ	#E5F0<br>
+keycols=<br>
+tate		equ	#E5F1<br>
+keycolstate2		equ	#E5F2<br>
+anotherkeyvar		equ	#E5F3<br>
+keyscansta=<br>
+te		equ	#E5F4<br>
+keytable3		equ	#E5F5<br>
+keytable2		equ	#E5FF<br>
+keytable1		equ	#E60=<br>
+9<br>
+<br>
+p2shadow		equ	#DBA5<br>
+p3shadow		equ	#DBA6<br>
+<br>
+but did not finish yet.  Basic approach<br>
+<br>
+om image into RAM target of mailbug.<br>
+age to file (you need pages 0, 1, 2, & 3, 'coz you have to<br>
+h).<br>
+tation!!!!!!<br>
+.<br>
+wo fists in air, and sing chourus of "I've Got<br>
+to *not* spike your mailstation in endzone!<br>
+while still seated.)<br>
+<br>
+I have to admit that I haven't used mailbug yet s=<br>
+ince it apparently<br>
+needs DOS.  But I can pull my laptop out and try it on =<br>
+there if I<br>
+decide to patch, since it boots to a few different OS's.<br>
+<br>
+Out=<br>
+of curiosity, what process are you using to initiate a code<br>
+flash?  Is it=<br>
+like a trigger over the parallel port, or are you<br>
+loading some software o=<br>
+nto the MS and doing it with internal<br>
+functions?<br>
+<br>
+I noticed my MS did some=<br>
+thing weird the other day when the power was<br>
+fluctuating some during a cod=<br>
+e transfer (my power jack and AC adapter<br>
+are a bit wiggly).  It prompted m=<br>
+e to do a firmware update, but then<br>
+failed almost immediately.  I'm fairly=<br>
+sure there's no way I could<br>
+accidently screw it up in such a manner thoug=<br>
+h, since it does I CRC<br>
+check and stuff I think from what I've seen in the =<br>
+code.<br>
+<br>
+And yes, alas, I finally went to an AC adapter.  Those batteries I=<br>
+<br>
+had been using finally spewed their last scancode to the screen,<br>
+until i=<br>
+t started to gripe at me nonstop about them being low and<br>
+force itself off=<br>
+again when I'd try to start it up.<br>
+<br>
+</p>
+<hr><h3 id="18">18: Subject: Re: Disabling interrupts = No LCD?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 22, 2007</p>
+<p class="formattedBody">ard rows (MS appears to do it)<br>
+rkeyvar' to 0 (I don't see<br>
+t)<br>
+igger a power button press)<br>
+<br>
+The vars are all set to=<br>
+0 in "init".<br>
+<br>
+In 2.53yr disassembly, look at 0000:3890, a call to "memfi=<br>
+ll"<br>
+that zeroes #C000 thru #FBFF.<br>
+<br>
+"flagz" is also explicitly set to 0 at =<br>
+0000:1B75.<br>
+<br>
+I'm gonna make a guess that the reason you need to set<br>
+"keycols=<br>
+tate" & "keycolstate2" to #FF is because the<br>
+real vars are set that way (at=<br>
+least the bits that matter)<br>
+when you press the power button to turn ms on.=<br>
+iow,<br>
+your keyscan is init after the power has already been<br>
+turned on.  Th=<br>
+e real keyscan would have seen that<br>
+button press and flipped some bits in t=<br>
+he real state vars.<br>
+Or, maybe all it is seeing is the button release, since=<br>
+that<br>
+will happen after the init code runs.  It can't really see<br>
+button dow=<br>
+n transition, can it?  ;^)<br>
+<br>
+ed out of the firmware<br>
+that none of the<br>
+=<br>
+<br>
+:-)<br>
+<br>
+...<br>
+<br>
+rently<br>
+<br>
+<br>
+I use win 9=<br>
+8.  Mailbug 0.0.4 won't work with NT, 2000, or XP, due<br>
+to the restriction o=<br>
+n port access.  Mailbug 0.0.5 uses the same DLL<br>
+you used, and I imagine it =<br>
+will work with XP and friends, when it<br>
+is done.  But it won't even compile =<br>
+now, and I don't know what<br>
+I broke.  It is nowhere near done anyways, ther=<br>
+e is a LOT that needs<br>
+changing to make it a real windows app.  I have not =<br>
+had any time to<br>
+tinker with it lately.<br>
+<br>
+I compiled 0.0.4 (and earlier) as d=<br>
+os app, because freepascal<br>
+did not allow port access in windows, even if yo=<br>
+u were running<br>
+on win 98.  I don't know if anyone is actually running it un=<br>
+der<br>
+dos.  (I really don't think anyone is running it, period.)  It<br>
+may not=<br>
+run under dos without changing the default paths & filenames<br>
+to 8.3 form. =<br>
+But I would go with win 98.<br>
+<br>
+g to initiate a code<br>
+, or are you<br>
+l<br>
+<br>
+This does not use the native reflash mode at all.<br>
+<br>
+Mailbug=<br>
+just accesses the addresses in the pattern that unlocks the<br>
+flash, writes =<br>
+a byte, and watches for the write to complete.  Same<br>
+as if the flash was R=<br>
+AM.  Earlier versions loaded the flash<br>
+algorithm into ms RAM, and sent it t=<br>
+he data to flash.<br>
+<br>
+I removed the actual flash code from the ms side due to =<br>
+the<br>
+fact that it was too easy to change flash by sending nonsense<br>
+bytes.  T=<br>
+his happens more often than you might think, when<br>
+the ms and mailbug are no=<br>
+t in sync.<br>
+<br>
+It is a bit slower now, but not a big deal IMO.  I realize<br>
+ther=<br>
+e are ways that would make it safer without incurring<br>
+as big a speed penalt=<br>
+y, but this way struck me as a particularly<br>
+easy way to make it safer.<br>
+<br>
+I noticed my MS did something weird the other day when the power was<br>
+ctuating some during a code transfer (my power jack and AC adapter<br>
+bit wiggly).  It prompted me to do a firmware update, but then<br>
+lmost immediately.  I'm fairly sure there's no way I could<br>
+rew it up in such a manner though, since it does I CRC<br>
+think from what I've seen in the code.<br>
+<br>
+Actually, it is pretty easy to s=<br>
+crew it up this way!  :-)<br>
+<br>
+It sounds like your ms app that was interfacing =<br>
+with your PC<br>
+was canceled by a power-on reset, and the PC kept sending byte=<br>
+s<br>
+which then were received by the native reflash monitor.<br>
+<br>
+That checksum =<br>
+calc happens *after* it erases and rewrites the<br>
+codeflash.  And for that m=<br>
+atter, it just displays the checksum<br>
+for the operator to read, it has no id=<br>
+ea of right or wrong<br>
+checksum.<br>
+<br>
+dapter.  Those batteries I<br>
+code to the screen,<br>
+eing low and<br>
+<br>
+Hmmmm.=<br>
+..  I tried running on batteries for a while, myself, in<br>
+last week or so. =<br>
+One problem was I had to dig up my reset-button<br>
+poker, coz I couldn't jus=<br>
+t pull plug to reset.  No big deal.<br>
+But there was another issue which escap=<br>
+es me right now (It's way<br>
+past bedtime!), but something was not acting righ=<br>
+t, and I<br>
+determined it was because the battery was low.  I think that I<br>
+w=<br>
+as leaving it running for long periods with code that did not<br>
+know how to g=<br>
+o to sleep, and drained batteries extra fast.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">AS80 Bug (Aug 6, 2007)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#3">From: "Jeff" <fyberoptic1979@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#4">From: "Jeff" <fyberoptic1979@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#5">From: "John R. Hogerhuis" <jhoger@...> Aug 7, 2007</a></li>
+<li><a class="link" href="#6">From: "Jeff" <fyberoptic1979@...> Aug 14, 2007</a></li>
+</ol><hr>
+<hr><h3>Subject: AS80 Bug</h3>
+<p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 6, 2007</p>
+<p class="formattedBody">Since I sometimes don't know for sure if a particular parameter can<br>
+be use=<br>
+d with a certain Z80 instruction, I just try it anyway, and<br>
+then see if it=<br>
+compiles.  If I get an error, I just check the<br>
+datasheet, and then learn =<br>
+from my mistake.  Well it seems that<br>
+there's a little bug in AS80 which ca=<br>
+uses a minor issue if you try a<br>
+particular invalid command.<br>
+<br>
+Basically, if=<br>
+you try to use "add hl, ix", you end up with "add ix,<br>
+ix".  Same is true =<br>
+for "add hl, iy", getting "add iy, iy".  I<br>
+couldn't figure out what was wr=<br>
+ong with some of my code, and testing<br>
+it in a Z80 simulator revealed what =<br>
+was going on.  I manually checked<br>
+the opcode bytes too to make sure the si=<br>
+mulator might not be screwy,<br>
+but sure enough, AS80 was generating improper=<br>
+instructions in those<br>
+two cases.<br>
+<br>
+Now of course, you can't actually add i=<br>
+x to hl, as the datasheet<br>
+would indicate, so my code was in error.  But it=<br>
+obviously should<br>
+have errored out instead of continuing on, and using a d=<br>
+ifferent<br>
+instruction even.<br>
+<br>
+I tried this both in versions 1.11 (found he=<br>
+re in the Files section),<br>
+and 1.41 (the newest on his site), same thing.  =<br>
+So I contacted the<br>
+author about it, and he said he'd fix it.  But I figure=<br>
+d I'd point it<br>
+out for anyone else here using that one, in case they might=<br>
+make the<br>
+same mistake I did.<br>
+<br>
+Speaking of bugs, I also found that v1.41 =<br>
+is now giving me errors<br>
+when including a file of "db" strings (for the fon=<br>
+t I'm including<br>
+with the code), yet if I assemble the same code with v1.11=<br>
+, it works<br>
+fine.  So I dunno what's going on there.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">Since I sometimes don't know for sure if a particular parameter can<br>
+sed with a certain Z80 instruction, I just try it anyway, and<br>
+f it compiles.  If I get an error, I just check the<br>
+learn from my mistake.  Well it seems that<br>
+which causes a minor issue if you try a<br>
+Basically, if you try to use "add hl, ix", you end up with "add ix,<br>
+.  Same is true for "add hl, iy", getting "add iy, iy".  I<br>
+re out what was wrong with some of my code, and testing<br>
+lator revealed what was going on.  I manually checked<br>
+oo to make sure the simulator might not be screwy,<br>
+was generating improper instructions in those<br>
+urse, you can't actually add ix to hl, as the datasheet<br>
+so my code was in error.  But it obviously should<br>
+ad of continuing on, and using a different<br>
+<br>
+Yeah!<br>
+=<br>
+<br>
+I was trying to imagine just how this kind of mistake could<br>
+happen.  I me=<br>
+an, does as80 actually have "add hl,ix" in a table<br>
+of opcodes???  I'll bet =<br>
+it doesn't.<br>
+<br>
+All of the ix & iy instructions use same opcode as the<br>
+corespo=<br>
+nding hl instruction, except there is an extra byte<br>
+in front that tells cpu=<br>
+to use ix or iy instead of hl.<br>
+<br>
+So, probably when as80 sees an ix anywhere=<br>
+in an instruction,<br>
+it emits the ix prefix byte, and then converts the ix t=<br>
+o hl,<br>
+and assembles it as an hl instruction.  But it needs to check<br>
+if ix i=<br>
+s allowed in that position first!!!<br>
+<br>
+A "DD" in front means use ix instead o=<br>
+f hl, and "FD" means<br>
+use iy.  I don't think there are any valid instruction=<br>
+s with<br>
+both hl and ix, or hl and iy, and I guess that also means you<br>
+can't=<br>
+have both ix and iy either.  And not all insts that can<br>
+use hl can substit=<br>
+ute ix (or iy).<br>
+<br>
+"ex de,hl" is valid, but "ex de,ix" is not.  AS80 does<br>
+c=<br>
+atch that!  So much for my earlier theory...<br>
+<br>
+ns 1.11 (found here in the Files section),<br>
+ite), same thing.  So I contacted the<br>
+fix it.<br>
+<br>
+That's great!  And it's good to know it is still being maintaine=<br>
+d.<br>
+<br>
+I remember finding a bug in a 6805 assembler that I downloaded<br>
+directly=<br>
+from Motorola.  I was finding lots of "lost clusters"<br>
+on my hard drive, bu=<br>
+t I had no idea why.  Windows would crash<br>
+for some totally unrelated reason=<br>
+, and when it rebooted and<br>
+checked the disk, it told me it was finding lost=<br>
+clusters.<br>
+Most of the time, it was not the program that crashed that<br>
+had l=<br>
+ost them, or even any program that I used that day.<br>
+<br>
+Of course, windows wou=<br>
+ld crash quite often, and not find any<br>
+lost clusters.<br>
+<br>
+After many frustrati=<br>
+ng weeks, a pattern emerged: I had used<br>
+the motorola assembler recently.  I=<br>
+tested theory by using<br>
+chkdsk before and after, and sure enough, EVERY TIM=<br>
+E I ran<br>
+it, I had lost clusters.<br>
+<br>
+Oh wow!  I found a bug in Motorola's asse=<br>
+mbler!!!  I<br>
+called them up (this was a long time ago) and told the<br>
+"tech su=<br>
+pport" guy.  Turns out they knew about it already.<br>
+Turns out they knew abou=<br>
+t it for quite a while.  Like 3 or<br>
+4 years.  Turns out, they even had docu=<br>
+mented it, deep down<br>
+in a part of the doc that most people would never nee=<br>
+d to read.<br>
+<br>
+I guess I'll just have to imagine how good it felt to hear<br>
+bac=<br>
+k that he was gonna fix your bug.  :-)<br>
+<br>
+(Oh yeah, right around that time Ph=<br>
+ilips had a design contest<br>
+where you could get their software and chip pro=<br>
+grammer for like<br>
+$30 bucks.  I haven't used any Motorola parts since.  Are<br>
+=<br>
+they even in business anymore?)<br>
+<br>
+yone else here using that one, in case they might make the<br>
+I did.<br>
+rs<br>
+with the code), yet if I assemble the same code with v1.11, it works<br>
+e.  So I dunno what's going on there.<br>
+<br>
+What kind of error?  Does it work if=<br>
+you paste the file in,<br>
+rather than include it?  Or, is it a difference in =<br>
+handling<br>
+of the "db" itself?<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">On 8/6/07, Jeff &lt;fyberoptic1979@...> wrote:<br>
+<br>
+Clearly you've never used a Forth assembler :-)<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">Jones" &lt;cyranojones_lalp@...> =<br>
+wrote:<br>
+e motorola assembler recently.  I tested theory by using<br>
+d after, and sure enough, EVERY TIME I ran<br>
+<br>
+I=<br>
+can only assume that they wrote the assembler in assembly as well,<br>
+becaus=<br>
+e it seems kind of unlikely to have such a problem from using<br>
+higher level=<br>
+language, as far as I can tell.<br>
+<br>
+Sounds like that was back in the pre-Win2=<br>
+K days though, when Windows<br>
+would actually let you destroy and mess up thi=<br>
+ngs without stopping<br>
+you.  These days most everything's all sandboxed (in =<br>
+the case of old<br>
+DOS apps), or usually only accessable via the Windows API.=<br>
+But<br>
+luckily people sometimes come up with ways to still interface with<br>
+=<br>
+hardware, such as the DLLs to write to I/O ports, letting me talk<br>
+directly=<br>
+to the parallel port and such.<br>
+<br>
+There's still a charm about being able to =<br>
+still have that level of<br>
+hardware control, though, which is why I still ke=<br>
+ep Win98, as well as<br>
+Linux, on my laptop (and XP for when I actually want =<br>
+to use Windows<br>
+productively).  I was working on some raw floppy drive cont=<br>
+roller<br>
+routines in assembly once and was using Win98 to test'em, especiall=<br>
+y<br>
+since it also let you drop straight into DOS mode.  Though this was<br>
+als=<br>
+o about the time I realized that using floppy drives in projects<br>
+was a cra=<br>
+zy idea, when compact fash and SD were much easier to deal<br>
+with.  And CF i=<br>
+s basically 8-bit IDE even, so interfacing a full hard<br>
+drive would still b=<br>
+e easier than a floppy.<br>
+<br>
+!!  I<br>
+ort" guy.  Turns out they knew about it already.<br>
+t it for quite a while.  Like 3 or<br>
+cumented it, deep down<br>
+need to read.<br>
+<br>
+Yeah there's a level of disappointment to think that you've=<br>
+<br>
+discovered something only to find out that it was found long before.<br>
+Bu=<br>
+t in that case, it's even more disappointing to think the company<br>
+would si=<br>
+t on it that long without bothering to fix it.  Especially<br>
+when you pretty=<br>
+much need it to use their products!<br>
+<br>
+=<br>
+<br>
+Surprisingly so, after what you said.<br>
+<br>
+work if you paste the file in,<br>
+rence in handling<br>
+<br>
+It pretty much tells me "Redefi=<br>
+nition of label" for every label<br>
+following the included file.  It didn't u=<br>
+sed to do this though; it<br>
+wasn't till my main file got bigger that it comp=<br>
+lained.  It also<br>
+looks kind of odd, writing over some of the output text w=<br>
+hen it puts<br>
+out these errors.  Like how it'll say stuff like "Reading line=<br>
+500"<br>
+and whatnot, you know.  It starts spitting the error text out on top=<br>
+<br>
+of it, instead of under it like a legit error.<br>
+<br>
+I tried what you mentione=<br>
+d though, and strangely enough, it compiled<br>
+just fine when the data was ad=<br>
+ded into the main file.  I didn't<br>
+really have enough info to go on to repo=<br>
+rt this one to the fellow,<br>
+but I think this might be enough to help him tr=<br>
+ack it down to the<br>
+'include' option somehow.  I'll let him know the sympto=<br>
+ms.  I'm sure<br>
+he'll feel overjoyed to be hearing from me yet again.  ;)<br>
+<br>
+=<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">wrote=<br>
+:<br>
+<br>
+lol I haven't, in=<br>
+fact!  Should I take it that they weren't very<br>
+forgiving?<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Aug 7, 2007</p>
+<p class="formattedBody">On 8/7/07, Jeff &lt;fyberoptic1979@...> wrote:<br>
+<br>
+In Forth you just execute word after word. Either it's a number and it<br>
+goes on the stack, or it's a subroutine and it runs, consuming values<br>
+from the stack, possibly putting some back on.<br>
+<br>
+So a Forth assembler typically has constants that represent the<br>
+operands. These end up as values on the stack.<br>
+<br>
+SO<br>
+<br>
+H   L   MOV,<br>
+<br>
+MOV, pops the values pushed by H and L constants, Or's them together<br>
+with its base opcode, and appends the resulting instruction byte to<br>
+the dictionary.<br>
+<br>
+Try some random combination of operands that it doesn't expect, and<br>
+hilarity ensues. It will put something in the dictionary, probably not<br>
+the instruction you expect though...<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: AS80 Bug</h3>
+<a href="#0">(top)</a><p class="from">From: "Jeff" &lt;fyberoptic1979@...></p>
+<p class="date">Aug 14, 2007</p>
+<p class="formattedBody">The fellow took care of all the bugs I stumbled across and released<br>
+v1.42 =<br>
+on his site, for anyone that wants to grab the newest:  <a target="_blank" href="http://">(URL)</a><br>
+www.kingswo=<br>
+od-consulting.co.uk/assemblers/<br>
+<br>
+That includes the "ADD HL, IX" bug I menti=<br>
+oned in my initial post, a<br>
+bug that was occurring when 'include'ing files =<br>
+larger than 8KB, and<br>
+an 'align' issue which was adding in more padding byt=<br>
+es than<br>
+necessary.  It works like a charm for me now.<br>
+<br>
+He apparently suppo=<br>
+rts several other processor types too with<br>
+different versions of his assem=<br>
+bler, such as 6502, which is cool.  If<br>
+he made an 8052 version, I'd likely=<br>
+use it too!<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

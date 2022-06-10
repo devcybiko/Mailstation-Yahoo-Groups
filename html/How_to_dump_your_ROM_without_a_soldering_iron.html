@@ -1,0 +1,238 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">How to dump your ROM (without a soldering iron) (Jul 20, 2005)</h1><a href="index.html">(home)</a><hr><ol>
+</ol><hr>
+<hr><h3>Subject: How to dump your ROM (without a soldering iron)</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 20, 2005</p>
+<p class="formattedBody">I posted a file (Files>mailbug>Spew.txt) with<br>
+a mailstation app named "Spew", that sends<br>
+the mailstations firmware out the parallel port<br>
+when it is selected from mailstation menu.<br>
+<br>
+Spew.txt is really the assembly listing spew.lst,<br>
+I renamed it so it is viewable with web browsers.<br>
+I am posting the assembly listing rather than<br>
+spew.asm or spew.rom, because the listing has<br>
+the comments, the code, and the addresses in a<br>
+human readable form.  It needs to be entered<br>
+in hex on the mailstation keyboard (about 40-50 bytes).<br>
+<br>
+There are instructions in the file on how to<br>
+poke it into your mailstation dataflash with<br>
+the mailstations built in hex editor.<br>
+<br>
+I'm not posting the assembly listing here, because it<br>
+is too wide, and would get mangled by yahoo.  But<br>
+the source file is narrower, so I will paste it below.<br>
+If viewing on website, you can line columns up with<br>
+the "reply" button, without actually sending the reply.<br>
+<br>
+<br>
+<br>
+; NOTE: You can't dump the rom after mboot or sboot is flashed,<br>
+;       because most of the rom is gone by then.<br>
+;<br>
+; This is code to be poked into dataflash on unit with yahoo<br>
+; features active.<br>
+; HEY, it seems to work on units *without* yahoo feature, too!!!!<br>
+; (4.05E for instance.)<br>
+; It's purpose is to dump the coderom out of the parallel port,<br>
+; using the tribble code in page #01.<br>
+;<br>
+; *** One catch to using this is that it requires mailbug<br>
+; *** version > 0.0.3, with the "inhale" function, to catch<br>
+; *** the data.  And that version is not quite ready yet.<br>
+; *** But you do not need it to enter this app into your<br>
+; *** mailstation.  In fact, if you want to dump your rom,<br>
+; *** you *have to* enter this in hex on the mailstation<br>
+; *** keyboard.  That is because in order for mailbug to<br>
+; *** write anything to dataflash, mbug needs to be loaded,<br>
+; *** and loading mbug requires flashing sboot or mboot, and<br>
+; *** flashing anything (to codeflash) will erase your rom.<br>
+; ***   You have to do this BEFORE INSTALLING SBOOT!<br>
+<br>
+bsendbyte equ #802D ; raises busy & sends byte.<br>
+; We use the existing sendbyte from original update code.<br>
+; This means codeflash page #01 needs to be banked in to<br>
+; slot8000 before calling bsendbyte.<br>
+<br>
+done      equ #0000 ; Gotta go somewhere when done, we reboot.<br>
+; Mailstation will call eventhandler 3 or 4 times when you<br>
+; select the new application, and we only want to exec once,<br>
+; so we do not return at end, we reboot after first "event".<br>
+<br>
+; STEP 1)<br>
+; This is data from dataflash page #08, sector #00 (which<br>
+; translates to a raw address of 020000), of a mailstation<br>
+; with two apps:<br>
+;<br>
+; 020000  02 00 02 00 01 00 01 5e   1c 18 01 01 01 20 a7 19<br>
+;<br>
+; This is the key to enabling added apps!!!<br>
+; At least first byte above is needed, it seems to be count<br>
+; of apps (2 in this case).  You need to poke it into dataflash<br>
+; with hex editor at raw address 020000.<br>
+;<br>
+; Modify the first byte to match number of apps, including<br>
+; new one.  If your mailstation already has app(s), and you<br>
+; want to overwite one of them, you can leave this data as is,<br>
+; and skip this step.  I don't know what the rest are, but those<br>
+; 16 bytes are the only data in dataflash pg #08, sector #00.<br>
+;<br>
+; If you inc that first byte, without doing steps 2 or 3, you<br>
+; should enable blank (or giberish) icons in the menu (under<br>
+; yahoo, or extras).<br>
+;<br>
+; *** Enter Test mode with vulcan nerve pinch while booting:<br>
+;     &lt;func>&lt;shift>&lt;t>, or &lt;func>&lt;size>&lt;t> or on the newer<br>
+;     models, &lt;func>&lt;q>&lt;a> followed by "qa781206" without<br>
+;     the quotes, of course.<br>
+;<br>
+; *** Enter Hex Viewer mode with &lt;shift>&lt;f5>.<br>
+;<br>
+; *** Enable Hex Edit mode by entering "G710304x&lt;enter>" without<br>
+;     quotes of course.  This is a "go" to a nonexising sector,<br>
+;     and it will leave viewer on last sector of dataflash.<br>
+;<br>
+; *** Edit dataflash page #08 as described above. G020000 will<br>
+;     get you to the right sector. &lt;ctrl>&lt;s> will enter edit mode<br>
+;     for current sector.  Edit the data.  &lt;ctrl>&lt;s> will leave<br>
+;     edit mode and save to dataflash.  You need to leave edit<br>
+;     mode before moving to next sector.<br>
+<br>
+; STEP 2}<br>
+; This is the start of our new app.  If your mailstation has<br>
+; no existing "apps", then you would poke this into page #00<br>
+; of dataflash (raw address 000000).<br>
+;<br>
+; If you already have say 2 existing apps, they are probably<br>
+; in dataflash pages #00 & #01 respectively.  In that case you<br>
+; would put this in page #02 of dataflash (008000).<br>
+;<br>
+; When using dataflash page #00, this goes at raw address 000000.<br>
+; When using dataflash page #01, this goes at raw address 004000.<br>
+; When using dataflash page #02, this goes at raw address 008000.<br>
+;<br>
+; (iow, in raw addresses, first app is at 000000, second at 004000,<br>
+; and third at 008000.)<br>
+;<br>
+; The JP instruction is the only thing in this part that is<br>
+; absolutely necessary, if you can live with a captionless<br>
+; menu entry.  The icon is gonna be blank anyways.<br>
+;<br>
+; *** Use hex editor to "go" to your address (G000000 or G004000<br>
+;     or G008000).  This address corresponds to #4000 in the<br>
+;     following app, no matter what page you are using.<br>
+;<br>
+; *** Enter edit mode, enter at least the bytes for the JP of<br>
+;     the following code, and save the sector.  Goto step 3.<br>
+<br>
+ORG  #4000        ; This is *always* #4000, regardless of<br>
+; what page you use.<br>
+<br>
+JP   eventhandler<br>
+<br>
+DEFW  icon	       ; icon location (in this page)<br>
+DEFW  caption<br>
+DEFW  dunno<br>
+<br>
+dunno: DEFB #00<br>
+zip:   DEFW #0000<br>
+zilch: DEFW #0000<br>
+<br>
+caption:<br>
+DEFW  #0001             ; ?????<br>
+DEFW  endcap-caption-6  ; num of chars<br>
+DEFW  #0006             ; offset to first char<br>
+defm "Spew"             ; the caption string<br>
+endcap:<br>
+<br>
+icon:<br>
+; I haven't figured out the icon format yet, but it's not needed.<br>
+; Icon data would go here, followed by app data (news, weather,<br>
+; or tv).<br>
+; Just leave this data as it is, and we will skip ahead to the last<br>
+; sector in this same page.<br>
+<br>
+; STEP 3)<br>
+; I don't think it matters exactly where this next part<br>
+; sits in dataflash, as long as the JP in step two above can<br>
+; find it.  We will put it at the end of the page, 'coz that's<br>
+; where the mailstation apps put it.<br>
+;<br>
+; If using dataflash page #00, this goes at raw address 003f00.<br>
+; If using dataflash page #01, this goes at raw address 007f00.<br>
+; If using dataflash page #02, this goes at raw address 00bf00.<br>
+;<br>
+; *** Use "go" command with appropriate address matching address<br>
+;     used in step 2.<br>
+;<br>
+; *** Edit mode, enter the following 37 bytes of code, save.<br>
+;<br>
+; *** Quit Hex Editor with &lt;back> key.<br>
+;<br>
+; *** Leave Test mode with &lt;q> key.<br>
+;<br>
+; *** The mailstation will reboot, pick "no clear", and then<br>
+;     check if you have a new app listed in your menu under<br>
+;     "yahoo" or in "extras".<br>
+<br>
+org  #7f00     ; last sector of page, always #7F00,<br>
+; regardless of what page.<br>
+<br>
+eventhandler:<br>
+; This is the "event handler" for our new app.  It doesn't<br>
+; really handle any events, it just spews the rom contents<br>
+; over the laplink.<br>
+<br>
+xor  a           ; Set slot8000device = codeflash<br>
+out  (8),a<br>
+<br>
+ld   bc,#4000    ; b=count=64 pages, c=currentpage=0<br>
+<br>
+pgloop:<br>
+; for count = 64 downto 1 do<br>
+<br>
+ld   hl,#8000    ; start at begining of each pg<br>
+<br>
+byteloop:<br>
+; for i=#8000 to #BFFF do<br>
+<br>
+ld   a,c         ; bank currentpage into slot8000<br>
+out  (7),a<br>
+<br>
+ld   a,(hl)      ; get byte[i]<br>
+<br>
+push hl<br>
+push bc<br>
+<br>
+ld   h,a         ; h is byte<br>
+<br>
+ld   a,#01       ; bank bsendbyte into slot8000<br>
+out  (7),a<br>
+call bsendbyte   ; send byte(H)<br>
+<br>
+pop  bc<br>
+pop  hl<br>
+<br>
+inc  hl          ; i++   (next byte)<br>
+ld   a,h<br>
+cp   #C0<br>
+jr   nz,byteloop ; jump if i &lt; #C000<br>
+<br>
+inc  c	          ; currentpage++  (next page)<br>
+djnz pgloop<br>
+<br>
+jp   done<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

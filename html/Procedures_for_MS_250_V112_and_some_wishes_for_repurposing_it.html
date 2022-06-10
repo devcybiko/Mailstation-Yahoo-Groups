@@ -1,0 +1,689 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Procedures for MS 250 V1.12 and some wishes for repurposing it (Mar 29, 2012)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: waynem@... Mar 30, 2012</a></li>
+<li><a class="link" href="#2">From: Mark Burch <markmup@...> Mar 31, 2012</a></li>
+<li><a class="link" href="#3">From: "ebjoew" <jwatsjunk@...> Apr 1, 2012</a></li>
+</ol><hr>
+<hr><h3>Subject: Procedures for MS 250 V1.12 and some wishes for repurposing it</h3>
+<p class="from">From: "ebjoew" &lt;jwatsjunk@...></p>
+<p class="date">Mar 29, 2012</p>
+<p class="formattedBody">Hello All,<br>
+<br>
+I am a new arrival. I acquired a MailStation 250 at an auction =<br>
+for a grand total of $1. It did not include an AC adapter nor a base unit. =<br>
+It is a model DET2B with V1.12 firmware in a silvery grey case. I opened it=<br>
+up to find out what was inside and to consider hacking this gizmo.<br>
+<br>
+Since =<br>
+I do not have a base unit that communicates by RF with the MailStation itse=<br>
+lf, the first thing I did was remove the antenna and its connecting cable s=<br>
+ince it was useless. I rather expect to be doing some hardware work inside =<br>
+this thing and I felt removing the antenna and its cable from the board jus=<br>
+t simplified things a little.<br>
+<br>
+Thanks to the details scattered around in th=<br>
+e messages and files produced in past by this group, I have found out how t=<br>
+o get into those extra menus which let one "Restore Default Account" and en=<br>
+ter the Hex Viewer and Hex Editor. I also stumbled into what to do to cause=<br>
+it to let me bring up the "Please create a new user account" prompt where =<br>
+it lets me enter ALL the settings for a user account including the ISP Acco=<br>
+unt, ISP Password, Primary DNS, etc., etc.<br>
+<br>
+While I have no wish to use the=<br>
+MailStation for its usual email purpose, I have played with it enough and =<br>
+read enough messages here to know that this might be useful info for somebo=<br>
+dy else so I thought I should document it here for others. So here is how I=<br>
+go about it.<br>
+<br>
+1. Be sure the unit has power, either via AC adapter or bat=<br>
+teries.<br>
+<br>
+2. Start with the unit off.<br>
+<br>
+3. We will begin by removing any ol=<br>
+d existing user account settings and setting the unit to the default user a=<br>
+ccount. I have read in many places where all one has to do is hold down the=<br>
+"Function" and "D" keys while pressing the reset button but I have found t=<br>
+hat often does not work for me. Some experimenting has taught me that this =<br>
+slight variation on that procedure makes it work reliably for me. I turn th=<br>
+e unit on with the power button and let the unit come up into the main Mail=<br>
+Station 250 menu. Then, with it still in that screen, I hold down the "Func=<br>
+tion" and "D" keys and press the reset button and continue to hold down the=<br>
+"Function" and "D" keys during a pause of several seconds, followed by a b=<br>
+rief "Scanning memory data" progress bar, whereupon the unit presents the "=<br>
+Reset System Data" menu. At this point the "Function" and "D" keys may be r=<br>
+eleased. The "No Clear" menu item is highlighted. Press the down arrow key =<br>
+once to move the highlight to the "Restore Default Account" menu item and t=<br>
+hen press the "Enter" key to select it.<br>
+<br>
+4. The unit prompts with the ques=<br>
+tion "Are you sure to clear?" and the answer "Yes" is highlighted. Press th=<br>
+e "Enter" key. We end up in the main "MailStation 250" menu. Just below the=<br>
+"MailStation 250" text at the top of the screen, we see that the unit's em=<br>
+ail address now consists of the unit's serial number followed by "@mailstat=<br>
+ion.com". If one selects "Extras" and then "Settings", we can see that the =<br>
+user name has been set to "New Customer". In any case, press the power butt=<br>
+on to turn the unit off.<br>
+<br>
+5. Next we simultaneously hold down the "Functio=<br>
+n" key, the "Q" key, and the "A" key and momentarily press the power button=<br>
+. We can release all the keys when we then get a prompt that consists only =<br>
+of a wide empty rectangle in the middle of the screen.<br>
+<br>
+6. Type (without t=<br>
+he quotes) "qa781206" and press the "Enter" key. We arrive at the "DIAGNOST=<br>
+IC MAIN MENU" screen.<br>
+<br>
+7. Hold down either Shift key while you press the F=<br>
+5 key. The F5 key is the rightmost unlabeled button located just below the =<br>
+screen. You will arrive at the Hex Viewer screen. The Hex Viewer is not lab=<br>
+elled as such. It just appears as a screen full of hexadecimal digits with =<br>
+a wide column of alphanumeric and/or graphic characters on the right.<br>
+<br>
+The =<br>
+first three pairs of digits at the start of each line is a memory address. =<br>
+The first such address appearing on the top line of the screen will be 00 0=<br>
+0 00 followed by a colon (:) and then the hexadecimal contents of each of t=<br>
+he 16 bytes of memory starting at that address.  When I do this I see all z=<br>
+eros for those 16 bytes. In fact, I see all zeros for the hexadecimal conte=<br>
+nts all down this page.<br>
+<br>
+At this point you could use the arrow keys, the "P=<br>
+g up" key, and the "Pg dn" key to move around in memory to see its contents=<br>
+but we next need to change the contents of one particular memory cell.<br>
+<br>
+8=<br>
+. In order to be able to change any cells we must enable the Hex Viewer to =<br>
+enter its Hex Editor mode. That requires entering something of a special pa=<br>
+sscode. To do that, type in the following string (without the quotes) "g710=<br>
+304x" and then press the "Back" button. As soon as you press the "g" key, a=<br>
+small box will appear to allow you to enter the rest of the string. Do not=<br>
+worry that there is not enough room for the "x" at the end of the string i=<br>
+n that box. In fact, you will not even see the "x" on the screen but it is =<br>
+still important. When you press the "Back" button, the input box will simpl=<br>
+y disappear and things will look the same as they were before you typed in =<br>
+that special command.<br>
+<br>
+9. Type in this string (without the quotes) "g02290=<br>
+0" and press the "Enter" key. While typing it in, the input box will again =<br>
+appear momentarily to allow you to finish typing the command. When you pres=<br>
+s the "Enter" key, the Hex Viewer will begin displaying the data for the me=<br>
+mory cells beginning at address 022900. We can confirm this is where we are=<br>
+in memory by reading that the start of the first line reads like this: 02 =<br>
+29 00 : 01 00 4e 65 77 20 and so forth. If we look at the panel of alphanum=<br>
+eric/graphic characters on the right side of the screen, we see that the fi=<br>
+rst line contains the words "New Customer". Also, a few lines after that, w=<br>
+e see the default email address consisting of the unit's serial number foll=<br>
+owed by "@..." We can also note that the first digit (a zero) f=<br>
+ollowing that colon on the first line of the screen is highlighted. Press t=<br>
+he right arrow key one time to move the highlight to the very next characte=<br>
+r which is a "1".<br>
+<br>
+10. I suspect that this "1" indicates that there is one =<br>
+email account set up in the unit but that is just my best guess. In any cas=<br>
+e, I find that for me this next step gets me to where I want to go. Press t=<br>
+he "S" key. We see that the right part of the screen changes to indicate th=<br>
+at we have entered the Hex Editor. It shows us that we could press Ctrl+S t=<br>
+o Save & Exit, Back to Exit, Arrow to move the cursor, or 0-9,A-F for input=<br>
+. We also see that the highlight is still on that "1". (By the way, althoug=<br>
+h it says "Ctrl+S" is used to "Save & Exit", all that is really needed is j=<br>
+ust "S".)<br>
+<br>
+11. Press the "0" key (the zero key, not the alphabetic "O" key)=<br>
+. Now the two digit number following that colon near the start of the first=<br>
+line reads "00" instead of "01". Next press the "S" key to save this small=<br>
+memory change and return to the Hex Viewer display screen. I believe that =<br>
+we have just told the MailStation there are no email accounts currently set=<br>
+up.<br>
+<br>
+12. Press the "Back" button to exit the Hex Viewer and return to the =<br>
+"DIAGNOSTIC MAIN MENU" screen.<br>
+<br>
+13. Press the "Q" key to exit this screen. =<br>
+A "Test Over" message briefly appears on the screen and then we see a "Scan=<br>
+ning memory data" progress bar followed by the the "Reset System Data" menu=<br>
+again. This time, it does not include the "Restore Default Account" menu i=<br>
+tem. The "No Clear" menu item is highlighted. Press the "Enter" key. We now=<br>
+see a prompt for "Please create a new user account." with an "OK" response=<br>
+highlighted. Press the "Enter" key. We now see a "User Settings" screen wh=<br>
+ere we can input a response to each of the following prompts:<br>
+<br>
+User N=<br>
+ame:<br>
+Dial-Up No:<br>
+Reply-To:<br>
+____________________________________=<br>
+_________________<br>
+E-Mail Address:<br>
+E-Mail Password:<br>
+POP3 Server:<br>
+SM=<br>
+TP Server:<br>
+ISP Account:<br>
+ISP Password:<br>
+Primary DNS:<br>
+<br>
+Once we have=<br>
+assigned a value to each prompt, press the F1 key which is now labelled "S=<br>
+ave" at the bottom of the screen. The new user account data is saved and we=<br>
+are left in the main "MailStation 250" menu.<br>
+<br>
+For my own personal purpos=<br>
+es, I would like to see the MailStation be set up to run just about any typ=<br>
+e of operating system or other underlying system that then supports some ve=<br>
+rsion of Microsoft Basic. It could be MBasic under CP/M or it could be a Ba=<br>
+sic interpreter from one of the TRS-80 computers. I would even consider the=<br>
+very original Microsoft Basic interpreter, the one written for the Altair =<br>
+8800. I helped a friend build his Altair 8800 many years ago and we wrote m=<br>
+any programs on his system. I would at least want the version intended for =<br>
+8K because the 4k version did not really support character strings. So I am=<br>
+pretty easy to satisfy. I have become aware of FyberOptic and his FyOS ope=<br>
+rating system but have not had time to totally gage its current state, avai=<br>
+lability, and applicability. In any case, I congratulate Jeff, Cyrano, Don,=<br>
+and others who have contributed so much of their time and sweat to uncover=<br>
+the secrets of these neat little computers.<br>
+<br>
+Joe<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Procedures for MS 250 V1.12 and some wishes for      repurposing it</h3>
+<a href="#0">(top)</a><p class="from">From: waynem@...</p>
+<p class="date">Mar 30, 2012</p>
+<p class="formattedBody">Fantastic job !!!!<br>
+<br>
+Do you think this might also work with the model 350 ?<br>
+Wayne<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Procedures for MS 250 V1.12 and some wishes for      repurposing it</h3>
+<a href="#0">(top)</a><p class="from">From: Mark Burch &lt;markmup@...></p>
+<p class="date">Mar 31, 2012</p>
+<p class="formattedBody"><br>
+I bought one 4 years ago and stare at it lately. =A0I appreciate your shari=<br>
+ng.<br>
+=A0<br>
+Mark<br>
+<br>
+________________________________<br>
+From: "waynem@...=<br>
+t" &lt;waynem@...><br>
+To: mailstation@yahoogroups.com<br>
+Sent: Friday, Ma=<br>
+rch 30, 2012 10:28 PM<br>
+Subject: Re: [mailstation] Procedures for MS 250 V1.1=<br>
+2 and some wishes for      repurposing it<br>
+<br>
+Fantastic job !!!!<br>
+<br>
+Do you thin=<br>
+k this might also work with the model 350 ?<br>
+Wayne<br>
+<br>
+new arrival. I acquired a MailStation 250 at an auction for a grand<br>
+l of $1. It did not include an AC adapter nor a base unit. It is a<br>
+DET2B with V1.12 firmware in a silvery grey case. I opened it up to<br>
+out what was inside and to consider hacking this gizmo.<br>
+have a base unit that communicates by RF with the<br>
+first thing I did was remove the antenna and its<br>
+it was useless. I rather expect to be doing some<br>
+s thing and I felt removing the antenna and its<br>
+simplified things a little.<br>
+the messages and files produced<br>
+ow to get into those extra menus<br>
+and enter the Hex Viewer and Hex<br>
+to cause it to let me bring up the<br>
+mpt where it lets me enter ALL the<br>
+the ISP Account, ISP Password,<br>
+o wish to use the MailStation for its usual email purpose, I<br>
+with it enough and read enough messages here to know that this<br>
+seful info for somebody else so I thought I should document it<br>
+thers. So here is how I go about it.<br>
+either via AC adapter or batteries.<br>
+=A0 3. We will begin by removing any old existing user account settings and=<br>
+<br>
+<br>
+pressing the reset button but I have found that often does not work for<br>
+me. Some experimenting has taught me that this slight variation on that<br>
+rocedure makes it work reliably for me. I turn the unit on with the<br>
+button and let the unit come up into the main MailStation 250 menu.<br>
+, with it still in that screen, I hold down the "Function" and "D"<br>
+nd press the reset button and continue to hold down the "Function"<br>
+" keys during a pause of several seconds, followed by a brief<br>
+emory data" progress bar, whereupon the unit presents the<br>
+ata" menu. At this point the "Function" and "D" keys may<br>
+"No Clear" menu item is highlighted. Press the down<br>
+ve the highlight to the "Restore Default Account"<br>
+s the "Enter" key to select it.<br>
+n "Are you sure to clear?" and the<br>
+"Enter" key. We end up in the main<br>
+e "MailStation 250" text at the top<br>
+email address now consists of the<br>
+lstation.com". If one selects<br>
+at the user name has been set<br>
+ower button to turn the unit<br>
+own the "Function" key, the "Q" key, and<br>
+s the power button. We can release all<br>
+that consists only of a wide empty<br>
+.<br>
+We<br>
+er Shift key while you press the F5 key. The F5 key is<br>
+beled button located just below the screen. You will<br>
+ewer screen. The Hex Viewer is not labelled as such.<br>
+screen full of hexadecimal digits with a wide column<br>
+/or graphic characters on the right.<br>
+the start of each line is a memory<br>
+ring on the top line of the screen<br>
+:) and then the hexadecimal contents<br>
+arting at that address.=A0 When I do<br>
+tes. In fact, I see all zeros for the<br>
+page.<br>
+the "Pg<br>
+need to<br>
+rder to be able to change any cells we must enable the Hex Viewer<br>
+r its Hex Editor mode. That requires entering something of a<br>
+code. To do that, type in the following string (without the<br>
+304x" and then press the "Back" button. As soon as you press<br>
+a small box will appear to allow you to enter the rest of<br>
+not worry that there is not enough room for the "x" at the<br>
+ring in that box. In fact, you will not even see the "x" on<br>
+t it is still important. When you press the "Back" button,<br>
+will simply disappear and things will look the same as they<br>
+ou typed in that special command.<br>
+e quotes) "g022900" and press the<br>
+put box will again appear<br>
+ommand. When you press the<br>
+ing the data for the memory<br>
+firm this is where we are in<br>
+t line reads like this: 02 29<br>
+look at the panel of<br>
+the screen, we see<br>
+. Also, a few lines<br>
+ng of the unit's<br>
+note that the<br>
+e of the screen<br>
+e the highlight<br>
+ect that this "1" indicates that there is one email account set<br>
+unit but that is just my best guess. In any case, I find that<br>
+s next step gets me to where I want to go. Press the "S" key. We<br>
+the right part of the screen changes to indicate that we have<br>
+e Hex Editor. It shows us that we could press Ctrl+S to Save &<br>
+to Exit, Arrow to move the cursor, or 0-9,A-F for input. We<br>
+t the highlight is still on that "1". (By the way, although it<br>
++S" is used to "Save & Exit", all that is really needed is just<br>
+11. Press the "0" key (the zero key, not the alphabetic "O" key). Now the<br>
+=<br>
+reads "00" instead of "01". Next press the "S" key to save this small<br>
+ory change and return to the Hex Viewer display screen. I believe that<br>
+have just told the MailStation there are no email accounts currently<br>
+up.<br>
+he<br>
+screen. A "Test Over" message briefly<br>
+ee a "Scanning memory data" progress<br>
+m Data" menu again. This time, it does<br>
+ccount" menu item. The "No Clear" menu<br>
+ter" key. We now see a prompt for<br>
+h an "OK" response highlighted.<br>
+Settings" screen where we can<br>
+prompts:<br>
+=A0 Reply-To:<br>
+E-Mail Address:<br>
+rver:<br>
+=<br>
+<br>
+ta<br>
+or my own personal purposes, I would like to see the MailStation be set<br>
+p to run just about any type of operating system or other underlying<br>
+em that then supports some version of Microsoft Basic. It could be<br>
+under CP/M or it could be a Basic interpreter from one of the<br>
+puters. I would even consider the very original Microsoft Basic<br>
+er, the one written for the Altair 8800. I helped a friend build<br>
+ir 8800 many years ago and we wrote many programs on his system. I<br>
+at least want the version intended for 8K because the 4k version did<br>
+really support character strings. So I am pretty easy to satisfy. I<br>
+become aware of FyberOptic and his FyOS operating system but have not<br>
+time to totally gage its current state, availability, and<br>
+In any case, I congratulate Jeff, Cyrano, Don, and others<br>
+ibuted so much of their time and sweat to uncover the<br>
+at little computers.<br>
+<br>
+=<br>
+<br>
+Yahoo! Groups Links<br>
+<br>
+=A0 =A0 <a target="_blank" href="http://docs.yahoo.com/info/terms/">(URL)</a><br>
+<br>
+ial, helvetica, sans-serif;font-size:12pt">&lt;div>&lt;span>I bought one 4 years =<br>
+ago and stare at it lately. &nbsp;I appreciate your sharing.&lt;/span>&lt;/div>&lt;d=<br>
+iv>&nbsp;&lt;/div>&lt;div>&lt;h1>&lt;font color=3D"red">&lt;font color=3D"#0000bf" face=3D=<br>
+"comic sans ms" size=3D"1">Mark&lt;/font>&lt;/font>&lt;/h1>&lt;/div>&lt;div>&lt;br>&lt;/div>  &lt;d=<br>
+iv style=3D"font-size: 12pt; font-family: arial, helvetica, sans-serif; "> =<br>
+times, serif; "> &lt;div dir=3D"ltr"> &lt;font size=3D"2" face=3D"Arial"> &lt;hr siz=<br>
+e=3D"1">  &lt;b>&lt;span style=3D"font-weight:bold;">From:&lt;/span>&lt;/b> "waynem@han=<br>
+dypage.net" &lt;waynem@...>&lt;br> &lt;b>&lt;span style=3D"font-weight:=<br>
+bold;">To:&lt;/span>&lt;/b> mailstation@yahoogroups.com &lt;br> &lt;b>&lt;span style=3D"f=<br>
+ont-weight: bold;">Sent:&lt;/span>&lt;/b> Friday, March 30, 2012 10:28 PM&lt;br> &lt;b>=<br>
+ocedures for MS 250<br>
+V1.12 and some wishes for      repurposing it&lt;br> &lt;/fo=<br>
+nt> &lt;/div> &lt;br>Fantastic job !!!!&lt;br>&lt;br>Do you think this might also work =<br>
+with the model 350 ?&lt;br>Wayne&lt;br>&lt;br>&lt;br>> Hello All,&lt;br>>&lt;br>> I =<br>
+am a new arrival. I acquired a MailStation 250 at an auction for a grand&lt;br=<br>
+a&lt;br>> model DET2B with V1.12 firmware in a silvery grey case. I opened =<br>
+it up to&lt;br>> find out what was inside and to consider hacking this gizm=<br>
+o.&lt;br>>&lt;br>> Since I do not have a base unit that communicates by RF =<br>
+with the&lt;br>> MailStation itself, the first thing I did was remove the a=<br>
+ntenna and its&lt;br>> connecting cable since it was useless. I rather expe=<br>
+ct to be doing some&lt;br>> hardware work inside this thing and I felt remo=<br>
+ving the antenna and its&lt;br>> cable from the board just simplified thing=<br>
+s a little.&lt;br>>&lt;br>> Thanks to the details scattered around in the m=<br>
+essages and<br>
+files produced&lt;br>> in past by this group, I have found out=<br>
+how to get into those extra menus&lt;br>> which let one "Restore Default A=<br>
+ccount" and enter the Hex Viewer and Hex&lt;br>> Editor. I also stumbled in=<br>
+to what to do to cause it to let me bring up the&lt;br>> "Please create a n=<br>
+ew user account" prompt where it lets me enter ALL the&lt;br>> settings for=<br>
+a user account including the ISP Account, ISP Password,&lt;br>> Primary DN=<br>
+S, etc., etc.&lt;br>>&lt;br>> While I have no wish to use the MailStation f=<br>
+or its usual email purpose, I&lt;br>> have played with it enough and read e=<br>
+nough messages here to know that this&lt;br>> might be useful info for some=<br>
+body else so I thought I should document it&lt;br>> here for others. So her=<br>
+e is how I go about it.&lt;br>>&lt;br>>&nbsp; 1. Be sure the unit has power=<br>
+, either via AC adapter or batteries.&lt;br>>&lt;br>>&nbsp; 2. Start with t=<br>
+he unit off.&lt;br>>&lt;br>>&nbsp; 3. We will begin by removing any old exi=<br>
+sting<br>
+user account settings and&lt;br>> setting the unit to the default us=<br>
+er account. I have read in many places&lt;br>> where all one has to do is h=<br>
+old down the "Function" and "D" keys while&lt;br>> pressing the reset butto=<br>
+n but I have found that often does not work for&lt;br>> me. Some experiment=<br>
+ing has taught me that this slight variation on that&lt;br>> procedure make=<br>
+s it work reliably for me. I turn the unit on with the&lt;br>> power button=<br>
+and let the unit come up into the main MailStation 250 menu.&lt;br>> Then,=<br>
+with it still in that screen, I hold down the "Function" and "D"&lt;br>> k=<br>
+eys and press the reset button and continue to hold down the "Function"&lt;br>=<br>
+br>> "Reset System Data" menu. At this point the "Function" and "D" keys=<br>
+may&lt;br>> be released. The "No Clear" menu item is highlighted. Press<br>
+t=<br>
+he down&lt;br>> arrow key once to move the highlight to the "Restore Defaul=<br>
+t Account"&lt;br>> menu item and then press the "Enter" key to select it.&lt;b=<br>
+r>>&lt;br>>&nbsp; 4. The unit prompts with the question "Are you sure to=<br>
+clear?" and the&lt;br>> answer "Yes" is highlighted. Press the "Enter" key=<br>
+. We end up in the main&lt;br>> "MailStation 250" menu. Just below the "Mai=<br>
+lStation 250" text at the top&lt;br>> of the screen, we see that the unit's=<br>
+email address now consists of the&lt;br>> unit's serial number followed by=<br>
+"@...". If one selects&lt;br>> "Extras" and then "Settings", w=<br>
+e can see that the user name has been set&lt;br>> to "New Customer". In any=<br>
+case, press the power button to turn the unit&lt;br>> off.&lt;br>>&lt;br>>=<br>
+&nbsp; 5. Next we simultaneously hold down the "Function" key, the "Q" key,=<br>
+and&lt;br>> the "A" key and momentarily press the power button. We can rel=<br>
+ease all&lt;br>> the keys when we then get a prompt that consists<br>
+only of =<br>
+a wide empty&lt;br>> rectangle in the middle of the screen.&lt;br>>&lt;br>>=<br>
+&nbsp; 6. Type (without the quotes) "qa781206" and press the "Enter" key. W=<br>
+e&lt;br>> arrive at the "DIAGNOSTIC MAIN MENU" screen.&lt;br>>&lt;br>>&nbsp=<br>
+; 7. Hold down either Shift key while you press the F5 key. The F5 key is&lt;b=<br>
+r>> the rightmost unlabeled button located just below the screen. You wi=<br>
+ll&lt;br>> arrive at the Hex Viewer screen. The Hex Viewer is not labelled =<br>
+as such.&lt;br>> It just appears as a screen full of hexadecimal digits wit=<br>
+h a wide column&lt;br>> of alphanumeric and/or graphic characters on the ri=<br>
+ght.&lt;br>>&lt;br>> The first three pairs of digits at the start of each l=<br>
+ine is a memory&lt;br>> address. The first such address appearing on the to=<br>
+p line of the screen&lt;br>> will be 00 00 00 followed by a colon (:) and t=<br>
+hen the hexadecimal contents&lt;br>> of each of the 16 bytes of memory star=<br>
+ting at that address.&nbsp; When I do&lt;br>> this I see<br>
+all zeros for tho=<br>
+se 16 bytes. In fact, I see all zeros for the&lt;br>> hexadecimal contents =<br>
+all down this page.&lt;br>>&lt;br>> At this point you could use the arrow k=<br>
+eys, the "Pg up" key, and the "Pg&lt;br>> dn" key to move around in memory =<br>
+to see its contents but we next need to&lt;br>> change the contents of one =<br>
+particular memory cell.&lt;br>>&lt;br>>&nbsp; 8. In order to be able to cha=<br>
+nge any cells we must enable the Hex Viewer&lt;br>> to enter its Hex Editor=<br>
+mode. That requires entering something of a&lt;br>> special passcode. To d=<br>
+o that, type in the following string (without the&lt;br>> quotes) "g710304x=<br>
+" and then press the "Back" button. As soon as you press&lt;br>> the "g" ke=<br>
+y, a small box will appear to allow you to enter the rest of&lt;br>> the st=<br>
+ring. Do not worry that there is not enough room for the "x" at the&lt;br>>=<br>
+end of the string in that box. In fact, you will not even see the "x" on&lt;b=<br>
+r>> the screen but it is still important. When<br>
+you press the "Back" but=<br>
+ton,&lt;br>> the input box will simply disappear and things will look the s=<br>
+ame as they&lt;br>> were before you typed in that special command.&lt;br>>&lt;=<br>
+br>>&nbsp; 9. Type in this string (without the quotes) "g022900" and pre=<br>
+ss the&lt;br>> "Enter" key. While typing it in, the input box will again ap=<br>
+pear&lt;br>> momentarily to allow you to finish typing the command. When yo=<br>
+u press the&lt;br>> "Enter" key, the Hex Viewer will begin displaying the d=<br>
+ata for the memory&lt;br>> cells beginning at address 022900. We can confir=<br>
+m this is where we are in&lt;br>> memory by reading that the start of the f=<br>
+irst line reads like this: 02 29&lt;br>> 00 : 01 00 4e 65 77 20 and so fort=<br>
+h. If we look at the panel of&lt;br>> alphanumeric/graphic characters on th=<br>
+e right side of the screen, we see&lt;br>> that the first line contains the=<br>
+words "New Customer". Also, a few lines&lt;br>> after that, we see the def=<br>
+ault email address consisting of the<br>
+unit's&lt;br>> serial number followed=<br>
+by "@..." We can also note that the&lt;br>> first digit (a zer=<br>
+o) following that colon on the first line of the screen&lt;br>> is highligh=<br>
+ted. Press the right arrow key one time to move the highlight&lt;br>> to th=<br>
+e very next character which is a "1".&lt;br>>&lt;br>> 10. I suspect that th=<br>
+is "1" indicates that there is one email account set&lt;br>> up in the unit=<br>
+but that is just my best guess. In any case, I find that&lt;br>> for me th=<br>
+is next step gets me to where I want to go. Press the "S" key. We&lt;br>> s=<br>
+ee that the right part of the screen changes to indicate that we have&lt;br>&g=<br>
+t; entered the Hex Editor. It shows us that we could press Ctrl+S to Save &=<br>
+amp;&lt;br>> Exit, Back to Exit, Arrow to move the cursor, or 0-9,A-F for i=<br>
+nput. We&lt;br>> also see that the highlight is still on that "1". (By the =<br>
+way, although it&lt;br>> says "Ctrl+S" is used to "Save & Exit", all th=<br>
+at is really needed is<br>
+just&lt;br>> "S".)&lt;br>>&lt;br>> 11. Press the "0=<br>
+" key (the zero key, not the alphabetic "O" key). Now the&lt;br>> two digit=<br>
+number following that colon near the start of the first line&lt;br>> reads=<br>
+"00" instead of "01". Next press the "S" key to save this small&lt;br>> me=<br>
+mory change and return to the Hex Viewer display screen. I believe that&lt;br>=<br>
+y&lt;br>> set up.&lt;br>>&lt;br>> 12. Press the "Back" button to exit the H=<br>
+ex Viewer and return to the&lt;br>> "DIAGNOSTIC MAIN MENU" screen.&lt;br>>&lt;=<br>
+br>> 13. Press the "Q" key to exit this screen. A "Test Over" message br=<br>
+iefly&lt;br>> appears on the screen and then we see a "Scanning memory data=<br>
+" progress&lt;br>> bar followed by the the "Reset System Data" menu again. =<br>
+This time, it does&lt;br>> not include the "Restore Default Account" menu i=<br>
+tem. The "No Clear" menu&lt;br>> item is highlighted. Press the "Enter" key=<br>
+. We now see a<br>
+prompt for&lt;br>> "Please create a new user account." with=<br>
+an "OK" response highlighted.&lt;br>> Press the "Enter" key. We now see a =<br>
+"User Settings" screen where we can&lt;br>> input a response to each of the=<br>
+following prompts:&lt;br>>&lt;br>>&nbsp; &nbsp; &nbsp;  User Name:&lt;br>>=<br>
+&nbsp; &nbsp; &nbsp; Dial-Up No:&lt;br>>&nbsp; &nbsp; &nbsp; &nbsp; Reply-T=<br>
+o:&lt;br>> _____________________________________________________&lt;br>>&nb=<br>
+sp; E-Mail Address:&lt;br>> E-Mail Password:&lt;br>>&nbsp; &nbsp;  POP3 Ser=<br>
+ver:&lt;br>>&nbsp; &nbsp;  SMTP Server:&lt;br>>&nbsp; &nbsp;  ISP Account:&lt;=<br>
+br>>&nbsp; &nbsp; ISP Password:&lt;br>>&nbsp; &nbsp;  Primary DNS:&lt;br>&g=<br>
+t;&lt;br>> Once we have assigned a value to each prompt, press the F1 key w=<br>
+hich is&lt;br>> now labelled "Save" at the bottom of the screen. The new us=<br>
+er account data&lt;br>> is saved and we are left in the main "MailStation 2=<br>
+50" menu.&lt;br>>&lt;br>>&lt;br>>&lt;br>> For my own personal purposes, I w=<br>
+ould<br>
+like to see the MailStation be set&lt;br>> up to run just about any t=<br>
+ype of operating system or other underlying&lt;br>> system that then suppor=<br>
+ts some version of Microsoft Basic. It could be&lt;br>> MBasic under CP/M o=<br>
+r it could be a Basic interpreter from one of the&lt;br>> TRS-80 computers.=<br>
+I would even consider the very original Microsoft Basic&lt;br>> interprete=<br>
+r, the one written for the Altair 8800. I helped a friend build&lt;br>> his=<br>
+Altair 8800 many years ago and we wrote many programs on his system. I&lt;br>=<br>
+did&lt;br>> not really support character strings. So I am pretty easy to s=<br>
+atisfy. I&lt;br>> have become aware of FyberOptic and his FyOS operating sy=<br>
+stem but have not&lt;br>> had time to totally gage its current state, avail=<br>
+ability, and&lt;br>> applicability. In any case, I congratulate Jeff, Cyran=<br>
+o, Don, and others&lt;br>> who have contributed so much of their time and<br>
+=<br>
+sweat to uncover the&lt;br>> secrets of these neat little computers.&lt;br>&gt=<br>
+;&lt;br>> Joe&lt;br>>&lt;br>>&lt;br>>&lt;br>&lt;br>&lt;br>&lt;br>----------------------=<br>
+oup on the web, go to:<br>&nbsp; &nbsp; <a href=3D"<a target="_blank" href="http://groups.yahoo.com/=">(URL)</a><br>
+group/mailstation/" target=3D"_blank"><a target="_blank" href="http://groups.yahoo.com/group/mailsta=">(URL)</a><br>
+tion/&lt;/a>&lt;br>&lt;br>&lt;*> Your email settings:&lt;br>&nbsp; &nbsp; Individual=<br>
+Email | Traditional&lt;br>&lt;br>&lt;*> To change settings online go to:&lt;br>&=<br>
+nbsp; &nbsp; <a href=3D"<a target="_blank" href="http://groups.yahoo.com/">(URL)</a>group/mailstation/join" tar=<br>
+get=3D"_blank"><a target="_blank" href="http://groups.yahoo.com/group/mailstation/join</a><br>&nbsp;=">(URL)</a><br>
+&nbsp; (Yahoo! ID required)&lt;br>&lt;br>&lt;*> To change settings via email:=<br>
+href=3D"mailto:mailstation-digest@yahoogroups.com">mailstation-digest@yahoo=<br>
+groups.com&lt;/a> &lt;br>&nbsp; &nbsp; &lt;a<br>
+ymailto=3D"mailto:mailstation-fullfeat=<br>
+ured@yahoogroups.com" href=3D"mailto:mailstation-fullfeatured@yahoogroups.c=<br>
+om">mailstation-fullfeatured@yahoogroups.com&lt;/a>&lt;br>&lt;br>&lt;*> To unsubs=<br>
+cribe from this group, send an email to:&lt;br>&nbsp; &nbsp; &lt;a ymailto=3D"mai=<br>
+lto:mailstation-unsubscribe@yahoogroups.com" href=3D"mailto:mailstation-uns=<br>
+ubscribe@yahoogroups.com">mailstation-unsubscribe@yahoogroups.com&lt;/a>&lt;br>&lt;b=<br>
+r>&lt;*> Your use of Yahoo! Groups is subject to:&lt;br>&nbsp; &nbsp; &lt;a hr=<br>
+ef=3D"<a target="_blank" href="http://docs.yahoo.com/info/te">(URL)</a>rms/" target=3D"_blank">http://docs.yaho=<br>
+o.com/info/terms/&lt;/a>&lt;br>&lt;br>&lt;br>&lt;br> &lt;/div> &lt;/div>  &lt;/div>&lt;/body>&lt;/html><br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Procedures for MS 250 V1.12 and some wishes for repurposing it</h3>
+<a href="#0">(top)</a><p class="from">From: "ebjoew" &lt;jwatsjunk@...></p>
+<p class="date">Apr 1, 2012</p>
+<p class="formattedBody">Your guess is as good as mine about the 350 since I have never seen one. I =<br>
+do know from reading many of the messages in this group that the 350 does n=<br>
+ot use the same type of central processor chip and that means the firmware =<br>
+in its ROMs will likely be very different. Does that mean that the data in =<br>
+RAM is laid out the same? Well, it could be but I would bet against it. So =<br>
+I would expect that these procedures would not work exactly as I have writt=<br>
+en them but it is always possible that they might.<br>
+<br>
+Be careful. In my case,=<br>
+I was not too worried about messing up my 250 since I only had a dollar in=<br>
+vested in it and the only time I had invested was with reading hundreds of =<br>
+messages and a few files located in this group.<br>
+<br>
+Good Luck,<br>
+Joe<br>
+<br>
+lstation@yahoogroups.com, waynem@... wrote:<br>
+you think this might also work with the model 350 ?<br>
+All,<br>
+n for a grand<br>
+unit. It is a<br>
+opened it up to<br>
+gizmo.<br>
+the<br>
+nd its<br>
+ng some<br>
+and its<br>
+Thanks to the details scattered around in the messages and files produced<br>
+s<br>
+Hex<br>
+up the<br>
+r ALL the<br>
+ssword,<br>
+MailStation for its usual email purpose, I<br>
+and read enough messages here to know that this<br>
+r somebody else so I thought I should document it<br>
+ere is how I go about it.<br>
+a AC adapter or batteries.<br>
+We will begin by removing any old existing user account settings and<br>
+etting the unit to the default user account. I have read in many places<br>
+where all one has to do is hold down the "Function" and "D" keys while<br>
+pressing the reset button but I have found that often does not work for<br>
+power button and let the unit come up into the main MailStation 250 menu.<br>
+=<br>
+=<br>
+"<br>
+"Reset System Data" menu. At this point the "Function" and "D" keys may<br>
+arrow key once to move the highlight to the "Restore Default Account"<br>
+enu item and then press the "Enter" key to select it.<br>
+prompts with the question "Are you sure to clear?" and the<br>
+is highlighted. Press the "Enter" key. We end up in the main<br>
+ion 250" menu. Just below the "MailStation 250" text at the top<br>
+screen, we see that the unit's email address now consists of the<br>
+serial number followed by "@...". If one selects<br>
+and then "Settings", we can see that the user name has been set<br>
+Customer". In any case, press the power button to turn the unit<br>
+, and<br>
+e all<br>
+mpty<br>
+he quotes) "qa781206" and press the "Enter" key. We<br>
+NOSTIC MAIN MENU" screen.<br>
+press the F5 key. The F5 key is<br>
+just below the screen. You will<br>
+x Viewer is not labelled as such.<br>
+exadecimal digits with a wide column<br>
+racters on the right.<br>
+of each line is a memory<br>
+he top line of the screen<br>
+then the hexadecimal contents<br>
+g at that address.  When I do<br>
+In fact, I see all zeros for the<br>
+e.<br>
+the "Pg<br>
+xt need to<br>
+8. In order to be able to change any cells we must enable the Hex Viewer<br>
+pecial passcode. To do that, type in the following string (without the<br>
+quotes) "g710304x" and then press the "Back" button. As soon as you press<br>
+e<br>
+on<br>
+ton,<br>
+as they<br>
+in this string (without the quotes) "g022900" and press the<br>
+y. While typing it in, the input box will again appear<br>
+llow you to finish typing the command. When you press the<br>
+the Hex Viewer will begin displaying the data for the memory<br>
+nning at address 022900. We can confirm this is where we are in<br>
+by reading that the start of the first line reads like this: 02 29<br>
+01 00 4e 65 77 20 and so forth. If we look at the panel of<br>
+c/graphic characters on the right side of the screen, we see<br>
+irst line contains the words "New Customer". Also, a few lines<br>
+at, we see the default email address consisting of the unit's<br>
+mber followed by "@..." We can also note that the<br>
+it (a zero) following that colon on the first line of the screen<br>
+hlighted. Press the right arrow key one time to move the highlight<br>
+he very next character which is a "1".<br>
+indicates that there is one email account set<br>
+s just my best guess. In any case, I find that<br>
+ts me to where I want to go. Press the "S" key. We<br>
+art of the screen changes to indicate that we have<br>
+or. It shows us that we could press Ctrl+S to Save &<br>
+, Arrow to move the cursor, or 0-9,A-F for input. We<br>
+highlight is still on that "1". (By the way, although it<br>
+is used to "Save & Exit", all that is really needed is just<br>
+e<br>
+e<br>
+<br>
+hat<br>
+ntly<br>
+and return to the<br>
+"Q" key to exit this screen. A "Test Over" message briefly<br>
+the screen and then we see a "Scanning memory data" progress<br>
+ed by the the "Reset System Data" menu again. This time, it does<br>
+clude the "Restore Default Account" menu item. The "No Clear" menu<br>
+is highlighted. Press the "Enter" key. We now see a prompt for<br>
+create a new user account." with an "OK" response highlighted.<br>
+he "Enter" key. We now see a "User Settings" screen where we can<br>
+a response to each of the following prompts:<br>
+Dial-Up No:<br>
+___________________<br>
+Server:<br>
+Primary DNS:<br>
+s the F1 key which is<br>
+The new user account data<br>
+tion 250" menu.<br>
+to see the MailStation be set<br>
+g system or other underlying<br>
+Microsoft Basic. It could be<br>
+nterpreter from one of the<br>
+very original Microsoft Basic<br>
+ir 8800. I helped a friend build<br>
+wrote many programs on his system. I<br>
+tended for 8K because the 4k version did<br>
+trings. So I am pretty easy to satisfy. I<br>
+ic and his FyOS operating system but have not<br>
+its current state, availability, and<br>
+ratulate Jeff, Cyrano, Don, and others<br>
+their time and sweat to uncover the<br>
+ers.<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

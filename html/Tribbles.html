@@ -1,0 +1,279 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Tribbles (May 2, 2004)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "John R. Hogerhuis" <jhoger@...> May 2, 2004</a></li>
+<li><a class="link" href="#2">From: "donhamilton2002" <donhamilton2002@...> May 2, 2004</a></li>
+<li><a class="link" href="#3">From: "Cyrano Jones" <cyranojones_lalp@...> May 2, 2004</a></li>
+</ol><hr>
+<hr><h3>Subject: Tribbles</h3>
+<p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody">unit unit_tribbles;<br>
+<br>
+interface<br>
+<br>
+function  sendbyte_as_tribbles(b: byte): boolean;<br>
+function  receivebyte_as_tribbles: byte;<br>
+function  receivebyte_as_tribbles_blocking: byte;<br>
+function  mailstationbusy: boolean;<br>
+procedure resettribble;<br>
+procedure resetmailstation; //on ms with reset mod only!<br>
+<br>
+implementation<br>
+uses ports, crt, unit_globals; //globals is just for db flag<br>
+<br>
+var timer: cardinal;<br>
+const bsyout = $08;<br>
+stbout = $10;<br>
+bsyin = $40;<br>
+stbin = $80;<br>
+const tribmask: byte = $07;<br>
+dibmask: byte = $03;<br>
+<br>
+procedure e(code: integer);<br>
+begin<br>
+if code=1 then<br>
+writeln('timeout waiting for ms to drop busy.  ', code);<br>
+if code=2 then<br>
+writeln('timeout waiting for ms to ack.  ', code);<br>
+if code=3 then<br>
+writeln('timeout waiting for ms to strobe.  ', code);<br>
+if code=4 then<br>
+writeln('timeout waiting for ms to drop strobe.  ', code);<br>
+if code=5 then<br>
+writeln('timeout waiting for ms to drop busy/ack', code);<br>
+if code=6 then<br>
+writeln('aborted waiting for ms to send', code);<br>
+errcount:=errcount+1;<br>
+if errcount>20 then<br>
+begin<br>
+errcount:=0;<br>
+writeln('Too many errors? hit esc to bail, other to continue:');<br>
+repeat until keypressed; bail := (readkey = ^[);<br>
+//bail needs to get reset somewhere!<br>
+end;<br>
+end;<br>
+<br>
+function sendtribble(t: byte): boolean;<br>
+begin<br>
+timer:=250000; {arbitrary big number}<br>
+//timer is dependent on your cpu speed, but this should be big enough.<br>
+//timeouts should NOT happen, but if they do ('cause you forgot to hook<br>
+//up the laplink) and this is too big, you will be waiting several<br>
+//seconds or even weeks for the timeout error message.  I did it this<br>
+//seemingly crappy way because I wanted the delay waiting for these<br>
+//signal edges to be as short as possible.  I will leave it as an exercise<br>
+//for someone who cares more than I do to calculate an appropriate cpu<br>
+//speed dependent timeout value.<br>
+<br>
+portb[888] := bsyout;                     {raise our busy}<br>
+<br>
+repeat                                    {wait for ms to drop busy}<br>
+timer:=timer-1;<br>
+if timer=0 then begin e(1); exit(false); end;<br>
+until (portb[889] and bsyin) = 0;<br>
+//drop busy first, so won't trip reset<br>
+portb[888] := t and tribmask;             {send trib & no busy }<br>
+portb[888] := t and tribmask or stbout;   {send trib & strobe & no busy }<br>
+<br>
+repeat                                    {wait for ms to ack}<br>
+timer:=timer-1;<br>
+if timer=0 then begin e(2); exit(false); end;<br>
+until (portb[889] and bsyin) &lt;> 0;<br>
+<br>
+// drop strobe before raising busy, don't trip reset!!!<br>
+portb[888] := 0;                          {drop strobe}<br>
+portb[888] := bsyout;                     {drop strobe, raise busy}<br>
+// busy stays up, till we wanna hear something.<br>
+exit(true);<br>
+end;<br>
+<br>
+function receivetribble: byte;<br>
+var t: byte;<br>
+wastetime: cardinal;<br>
+begin<br>
+//if db then write('receivetribble-');<br>
+portb[888] := 0;  {drop our busy/ack}<br>
+<br>
+timer:=350000;    {arbitrary big number}<br>
+<br>
+repeat<br>
+timer:=timer-1;<br>
+if timer=0 then begin e(3); exit; end;<br>
+until (portb[889] and stbin) = 0;         {wait for *inv* strobe}<br>
+<br>
+//delay(1); //should we wait for data to settle??? doesn't seem neccesary!<br>
+t := portb[889] shr 3 and tribmask;       {grab trib}<br>
+portb[888] := bsyout;                     {raise busy/ack}<br>
+<br>
+repeat<br>
+timer:=timer-1;<br>
+if timer=0 then begin e(4); exit; end;<br>
+until (portb[889] and stbin) &lt;> 0;        {wait for *inv* UNstrobe}<br>
+//delay(1);//fudge, works, avoids false dataavail, but try in clearport instead<br>
+<br>
+//portb[888] := 0;  {drop busy/ack, so we're not sayin "I wanna send"}<br>
+//portb[888] := bsyout;//TRY THIS, maybe don't want ms to send if we not listening<br>
+// maybe busy means "I'm not listnen" rather than "I wanna talk"????<br>
+// busy is left set since acking trib<br>
+<br>
+// The following repeat loop seems to stop false dataavail on clearports<br>
+// (when clearport is called very close after here)<br>
+//// **** loop removed, to see if crud-catcher works instead<br>
+//repeat<br>
+//  timer:=timer-1;<br>
+//  if timer=0 then begin e(5); exit(t); end;<br>
+//until (portb[889] and bsyin) = 0;        {wait for UNbusy (done sendin)}<br>
+//TODO: CHECK IF MBUG SEND ALWAYS DROPS its busy when done sendin,<br>
+//      FERINST WHEN EXEC 'GO 0000'///////*********************<br>
+exit(t);<br>
+end;<br>
+<br>
+function sendbyte_as_tribbles(b: byte): boolean;<br>
+begin<br>
+if not sendtribble(b) then exit(false);<br>
+b:=b shr 3;<br>
+if not sendtribble(b) then exit(false);<br>
+b:=b shr 3;<br>
+if not sendtribble(b) then exit(false);<br>
+exit(true);<br>
+end;<br>
+<br>
+function receivebyte_as_tribbles: byte;<br>
+var newbyte: byte;<br>
+begin<br>
+//if db then write('receivebyte_as_tribbles---');<br>
+newbyte := receivetribble + receivetribble shl 3 + (receivetribble and dibmask) shl 6;<br>
+//if db then writeln;<br>
+exit(newbyte);<br>
+end;<br>
+<br>
+function receivebyte_as_tribbles_blocking: byte;<br>
+begin<br>
+// receivebyte_as_tribbles (above) will drop strobe (via receivetribble) and receive a byte, only if<br>
+// it comes within the timeout period.  Here we drop our busy before calling<br>
+// receivebyte_as_tribbles, and then wait for a strobe, avoiding the timeout<br>
+// that would occur if we just called receivebyte_as_tribbles directly.  When we see a<br>
+// strobe, we can hand off to the regular receivebyte_as_tribbles.<br>
+portb[888] := 0;  {drop our busy/ack}<br>
+<br>
+repeat<br>
+if keypressed then if readkey=^[ then begin e(6); exit($00); end;<br>
+until (portb[889] and stbin) = 0;         {wait for *inv* strobe}<br>
+<br>
+exit(receivebyte_as_tribbles);<br>
+end;<br>
+<br>
+function mailstationbusy: boolean;<br>
+begin<br>
+exit((portb[889] and bsyin) &lt;> 0);<br>
+end;<br>
+<br>
+procedure  resettribble;<br>
+begin<br>
+portb[888] := 0;<br>
+end;<br>
+<br>
+procedure  resetmailstation;<br>
+// This will only reset a mailstation with my reset mod!!!!!<br>
+// It raises both busy and strobe together, which is detected by the mod.<br>
+// This saves using an extra conductor in cable, so a standard par laplink<br>
+// cable can be used.<br>
+begin<br>
+portb[888] := stbout or bsyout;<br>
+delay(100);  //3ms is minimum that works<br>
+portb[888] := 0;<br>
+end;<br>
+<br>
+end.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: [mailstation] Tribbles</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody">With the name Cyrano Jones, I knew the mortal enemies of the Klingon<br>
+Empire were going to come into the picture sooner or later.<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: Tribbles</h3>
+<a href="#0">(top)</a><p class="from">From: "donhamilton2002" &lt;donhamilton2002@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody"><br>
+WOW !<br>
+<br>
+I have not seen pascal in years !!, or is this some pascal derivative.<br>
+<br>
+Anyway,<br>
+<br>
+Is there a schematic of the cable available ?<br>
+<br>
+What is this extra wire you mentioned.<br>
+<br>
+thanks<br>
+<br>
+hamilton<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Tribbles</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">May 2, 2004</p>
+<p class="formattedBody"><br>
+<a target="_blank" href="http://www.freepascal.org/">(URL)</a><br>
+<br>
+<br>
+There are almost as many different pinouts for this cable<br>
+as there are websites with a pinout.  But all of them<br>
+have in common the pins that are actually used by the<br>
+mailstation (pins 2, 3, 4, 5, 6, 15, 13, 12, 10, 11, and<br>
+at least one of the eight ground pins)<br>
+<br>
+You need to cross the low 5 data pins at "one" end, to<br>
+the status pins at the other.<br>
+D0  2  to  15<br>
+D1  3  to  13<br>
+D2  4  to  12<br>
+D3  5  to  10<br>
+D4  6  to  11<br>
+<br>
+And cross the 5 status lines at end "one" to the<br>
+low 5 data pins at the other.<br>
+/ACK 10  to  5<br>
+BUSY 11  to  6<br>
+PAPEROUT 12  to  4<br>
+SEL 13  to  3<br>
+/FAULT15  to  2<br>
+<br>
+And at least one ground.<br>
+GND 25 to 25<br>
+<br>
+<br>
+I used a Belkin F3D508-10.  IIRC, it did not<br>
+have any extra conductors, and I wanted to<br>
+be able to reset the mailstation from the PC.<br>
+So I added the logic to the mailstation<br>
+to reset whenever the PC asserted both<br>
+busy and strobe at the same time.<br>
+<br>
+NOTE!!!!! the "busy" and "strobe" signals refered<br>
+to in my code are NOT THE SAME as the<br>
+busy and strobe lines on your standard parallel port.<br>
+The signal names in the table above ARE the names<br>
+from the standard parallel port, just for reference.<br>
+<br>
+I may make up a better diagram sometime.<br>
+Also, I noticed that the web inteface to the list<br>
+mangled the pascal code (removed indents).<br>
+I uploaded a zip of the same file to the file section.<br>
+<br>
+Cyrano Jones<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>

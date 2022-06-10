@@ -1,0 +1,252 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<html>
+<body>
+<div class="container">
+
+<h1 id="0">Where to start ? (Mar 11, 2006)</h1><a href="index.html">(home)</a><hr><ol>
+<li><a class="link" href="#1">From: "Cyrano Jones" <cyranojones_lalp@...> Mar 12, 2006</a></li>
+<li><a class="link" href="#2">From: "John R. Hogerhuis" <jhoger@...> Mar 12, 2006</a></li>
+<li><a class="link" href="#3">From: "benjaminmaggi" <benjaminmaggi@...> Mar 12, 2006</a></li>
+<li><a class="link" href="#4">From: "Cyrano Jones" <cyranojones_lalp@...> Jul 31, 2006</a></li>
+<li><a class="link" href="#5">From: "John R." <jhoger@...> Aug 1, 2006</a></li>
+<li><a class="link" href="#6">From: Gary Clouse <niklaus37217@...> Aug 1, 2006</a></li>
+<li><a class="link" href="#7">From: "John R." <jhoger@...> Aug 3, 2006</a></li>
+</ol><hr>
+<hr><h3>Subject: Where to start ?</h3>
+<p class="from">From: "benjaminmaggi" &lt;benjaminmaggi@...></p>
+<p class="date">Mar 11, 2006</p>
+<p class="formattedBody">I've brought MailStation model DET1 with the hope to start puting my<br>
+own pr=<br>
+ograms in it, but i dont know where to start, what cable<br>
+conections i need =<br>
+to transfer the programs and data, how to show<br>
+hidden menues, or what progr=<br>
+ams do i need to send and compile my<br>
+programs for the mcu.<br>
+<br>
+</p>
+<hr><h3 id="1">1: Subject: Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Mar 12, 2006</p>
+<p class="formattedBody"><br>
+model DET1 with the hope to start puting my<br>
+t know where to start,<br>
+<br>
+Mailbug is a program I wrote that will let you loa=<br>
+d & run<br>
+your own code, in either the mailstation flash or ram.<br>
+<br>
+<a target="_blank" href="http://grou=">(URL)</a><br>
+ps.yahoo.com/group/mailstation/files/Mailbug/mailbug_0.0.3/<br>
+<br>
+onections i need to transfer the programs and data,<br>
+<br>
+A parallel-laplink ca=<br>
+ble.<br>
+<br>
+<br>
+On the older DET1 models, you power up=<br>
+while holding<br>
+down &lt;fn>&lt;sh>&lt;t> until you see the test mode menu.<br>
+<br>
+You don'=<br>
+t need this menu to install and use mailbug<br>
+version 0.0.3.<br>
+<br>
+Installing sb=<br>
+oot.rom (required with mailbug 0.0.3) will<br>
+wipe out most of the original f=<br>
+irmware in your mailstation.<br>
+If you would like to keep your original firmwa=<br>
+re intact,<br>
+you might want to wait for version 0.0.4 (hopefully<br>
+ready in jus=<br>
+t a few more days).<br>
+<br>
+programs for the mcu.<br>
+<br>
+There is no compiler yet.  Can you program in z80 as=<br>
+sembler?<br>
+<br>
+A free cross-assembler (as80) is in the file area, under mailbu=<br>
+g<br>
+directory.  There is also a "hello world" example.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="2">2: Subject: Re: [mailstation] Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R. Hogerhuis" &lt;jhoger@...></p>
+<p class="date">Mar 12, 2006</p>
+<p class="formattedBody">On Sun, 2006-03-12 at 11:29 +0000, Cyrano Jones wrote:<br>
+<br>
+<br>
+Well there are lots of C and Pascal compilers for Z80. Most of them need<br>
+to run under a CP/M emulator and target a CP/M environment, but whether<br>
+generated code is dependent on the environment is usually a function of<br>
+the nature of the code itself, not the compiler.<br>
+<br>
+There's also sdcc which comes with full source code.<br>
+<a target="_blank" href="http://sdcc.sourceforge.net/">(URL)</a><br>
+<br>
+To my knowledge no one has used these with Mailstation yet. If you want<br>
+to generate short swaths of code I think you wouldn't have to do<br>
+anything special. If you want to use the standard library they provide,<br>
+you'll need to modify them so that they use the built in I/O routines or<br>
+you need to write your own i/o routines.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="3">3: Subject: Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "benjaminmaggi" &lt;benjaminmaggi@...></p>
+<p class="date">Mar 12, 2006</p>
+<p class="formattedBody">rote:<br>
+ailStation model DET1 with the hope to start puting my<br>
+it, but i dont know where to start,<br>
+will let you load & run<br>
+r ram.<br>
+_0.0.3/<br>
+ta,<br>
+On the older DET1 models, you power up while holding<br>
+til you see the test mode menu.<br>
+d use mailbug<br>
+ailbug 0.0.3) will<br>
+ation.<br>
+ht want to wait for version 0.0.4 (hopefully<br>
+s).<br>
+or the mcu.<br>
+r?<br>
+=<br>
+<br>
+Thanks !=<br>
+<br>
+I've used parallax 8051 assembler to make my pic programs in the past<br>
+so =<br>
+im going to see if AS80 works for me, im not shure about the C or<br>
+pascal co=<br>
+mpilers.<br>
+So i hook up my laplink cable, then load mbug (in msdos) and then =<br>
+i<br>
+power on my DTE1, im i right thats the procedure ?<br>
+<br>
+</p>
+<hr><h3 id="4">4: Subject: Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "Cyrano Jones" &lt;cyranojones_lalp@...></p>
+<p class="date">Jul 31, 2006</p>
+<p class="formattedBody">2006-03-12 at 11:29 +0000, Cyrano Jones wrote:<br>
+njaminmaggi@> wrote:<br>
+e hope to start puting my<br>
+o start,<br>
+r?<br>
+bug<br>
+re are lots of C and Pascal compilers for Z80. Most of them need<br>
+nder a CP/M emulator and target a CP/M environment, but whether<br>
+code is dependent on the environment is usually a function of<br>
+of the code itself, not the compiler.<br>
+ith full source code.<br>
+o one has used these with Mailstation yet. If you want<br>
+swaths of code I think you wouldn't have to do<br>
+ant to use the standard library they provide,<br>
+so that they use the built in I/O routines or<br>
+i/o routines.<br>
+<br>
+What you said finally sunk in to my brain toda=<br>
+y.  I don't think we would<br>
+need the putchar or getchar routines at all, as =<br>
+long as we are not writing<br>
+an old-fashioned-user-interface style program.  =<br>
+(O-FUI????)  &lt;lmao><br>
+<br>
+If you are writing an event-driven GUI style app, you =<br>
+don't ever<br>
+do any input yourself.  The OS receives the input, and packages=<br>
+up the<br>
+keystrokes from the keyboard (and input from other devices) and<br>
+pa=<br>
+sses them to your program as *parameters* in calls to your apps<br>
+event-handl=<br>
+er.  You would never call getchar.<br>
+<br>
+This is the format for the mailstations=<br>
+event records:<br>
+(who, signal, this, that)<br>
+<br>
+"who" is the app number tha=<br>
+t the event is for.<br>
+"signal" is the event type (such as keydown, keyup, etc=<br>
+).<br>
+"this" and "that" are the data payload that go with the particular event=<br>
+.<br>
+In the case of key events, "this" is scancode, and "that" is ascii.<br>
+<br>
+A ma=<br>
+ilstation app is basically an event handler.  The mailstation<br>
+OS passes the=<br>
+se parameters to your apps event handler:<br>
+handleevent(who, state, sign=<br>
+al, this, that);<br>
+<br>
+"state" is a single byte state variable that the OS keeps=<br>
+track of<br>
+for your app, between calls to handleevent.  (handleevent returns=<br>
+<br>
+this "state" on exit as the function result.)<br>
+The other four parameters =<br>
+are the event.<br>
+<br>
+<br>
+</p>
+<hr><h3 id="5">5: Subject: Re: [mailstation] Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R." &lt;jhoger@...></p>
+<p class="date">Aug 1, 2006</p>
+<p class="formattedBody">On 7/31/06, Cyrano Jones &lt;cyranojones_lalp@...><br>
+<br>
+CLI (command line interface)<br>
+<br>
+<br>
+True.<br>
+<br>
+<br>
+Come to think of it, what program isn't? ;-)<br>
+<br>
+<br>
+I typically call this state a "cookie" or "(execution) context." The<br>
+server/kernel/OS lets you register it with the system and it just<br>
+returns it to the client application as-is. I would guess it is fairly<br>
+easy to trade the cookie for a memory pointer which holds the rest of<br>
+the application's state (object oriented types would call this memory<br>
+"Self" or "This").<br>
+<br>
+<br>
+</p>
+<hr><h3 id="6">6: Subject: Re: [mailstation] Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: Gary Clouse &lt;niklaus37217@...></p>
+<p class="date">Aug 1, 2006</p>
+<p class="formattedBody">There are a few cross-compiler versions of small-C<br>
+that run under dos and output target code for various<br>
+8 bit cpus. Have to look around for one.<br>
+<br>
+<br>
+<br>
+__________________________________________________<br>
+Do You Yahoo!?<br>
+Tired of spam?  Yahoo! Mail has the best spam protection around<br>
+<a target="_blank" href="http://mail.yahoo.com">(URL)</a><br>
+<br>
+</p>
+<hr><h3 id="7">7: Subject: Re: [mailstation] Re: Where to start ?</h3>
+<a href="#0">(top)</a><p class="from">From: "John R." &lt;jhoger@...></p>
+<p class="date">Aug 3, 2006</p>
+<p class="formattedBody">On 8/1/06, Gary Clouse &lt;niklaus37217@...> wrote:<br>
+<br>
+SDCC, a C compiler, : <a target="_blank" href="http://sdcc.sourceforge.net/">(URL)</a><br>
+<br>
+It already targets Z80.<br>
+<br>
+<br>
+</p>
+
+</div>
+</body>
+</html>
